@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>昇揚展覽 · 中控中心</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;
+  --surface:#ffffff;
+  --surface2:#f2efe8;
+  --border:rgba(0,0,0,0.08);
+  --border2:rgba(0,0,0,0.14);
+  --text:#1a1a18;
+  --muted:#888680;
+  --muted2:#c5c3bc;
+  --gold:#b8902a;
+  --gold-light:#f5edd8;
+  --gold-border:rgba(184,144,42,0.3);
+  --gold-deep:#8a6a1a;
+  --gold-ultra:#6b5015;
+  --green:#2a7a55;
+  --green-light:#e8f5ee;
+  --red:#c0392b;
+  --red-light:#fdf0ee;
+  --amber:#b86a10;
+  --amber-light:#fef3e2;
+  --sans:'Noto Sans TC',sans-serif;
+  --serif:'Cormorant Garamond',serif;
+  --mono:'DM Mono',monospace;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+  padding:0 0 60px;
+}
+
+/* 細緻的紋理背景 */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(184,144,42,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(184,144,42,0.03) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 20px}
+
+/* ── Header ── */
+.header{
+  position:relative;
+  margin:0 -20px 32px;
+}
+.header-bg{
+  background:linear-gradient(150deg,#fffef9 0%,#fdf8ea 50%,#f8eccc 100%);
+  padding:28px 28px 26px;
+  position:relative;
+  border-radius:0 0 28px 28px;
+  overflow:hidden;
+  border-bottom:1.5px solid var(--gold-border);
+  box-shadow:0 6px 28px rgba(184,144,42,0.1),0 1px 0 rgba(184,144,42,0.15);
+}
+.header-bg::before{
+  content:'';
+  position:absolute;
+  top:-100px;right:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(184,144,42,0.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.header-bg::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,#d4a843 50%,var(--gold) 70%,transparent 100%);
+  opacity:0.6;
+}
+.header-inner{
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:16px;
+}
+.header-left{}
+.header-company{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.22em;
+  color:var(--gold);
+  text-transform:uppercase;
+  opacity:0.7;
+  margin-bottom:7px;
+}
+.header-cname{
+  font-family:var(--serif);
+  font-size:34px;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--gold-deep);
+  line-height:1.15;
+}
+.header-cname em{
+  font-style:normal;
+  font-weight:300;
+  color:var(--gold);
+  font-size:26px;
+  letter-spacing:.1em;
+  display:block;
+  margin-top:1px;
+}
+.header-tagline{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+  letter-spacing:.02em;
+}
+.header-right{
+  text-align:right;
+  border-left:1px solid var(--gold-border);
+  padding-left:18px;
+  min-width:90px;
+}
+.header-ctrl-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  opacity:0.65;
+  margin-bottom:4px;
+}
+.header-ctrl-title{
+  font-family:var(--serif);
+  font-size:20px;
+  font-weight:600;
+  color:var(--gold-deep);
+  letter-spacing:.06em;
+  line-height:1.2;
+}
+.header-date{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--gold-deep);
+  letter-spacing:.04em;
+  line-height:1.9;
+  text-align:right;
+  font-weight:500;
+}
+
+
+/* ── 表單提交 ── */
+.form-strip{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 18px;
+  margin-bottom:32px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+.form-strip-title{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.12em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.form-strip-title span{
+  color:var(--green);
+  font-size:9px;
+  background:var(--green-light);
+  padding:2px 8px;
+  border-radius:20px;
+  border:1px solid rgba(42,122,85,0.2);
+}
+.form-entry{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:start;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:0.5px solid var(--border);
+}
+.form-entry:last-child{border-bottom:none;padding-bottom:0}
+.form-entry-name{font-size:13px;font-weight:500;color:var(--text)}
+.form-entry-expo{font-size:11px;color:var(--gold);margin-top:2px}
+.form-entry-contact{font-size:11px;color:var(--muted);margin-top:1px}
+.form-entry-time{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
+  text-align:right;
+}
+.form-new{
+  display:inline-block;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:4px;
+  vertical-align:middle;
+}
+
+/* ── Section label ── */
+.sec-label{
+  font-size:10px;
+  letter-spacing:.18em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sec-label::after{
+  content:'';
+  flex:1;
+  height:0.5px;
+  background:var(--gold-border);
+}
+
+/* ── Module grid ── */
+.module-grid{display:grid;gap:12px;margin-bottom:32px}
+.module-grid.cols2{grid-template-columns:1fr 1fr}
+.module-grid.cols3{grid-template-columns:repeat(3,1fr)}
+
+/* ── Module card ── */
+.module{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px 20px 18px;
+  text-decoration:none;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  transition:border-color .2s, box-shadow .2s, transform .15s;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.module::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-border),transparent);
+  opacity:0;
+  transition:opacity .2s;
+}
+.module:hover{
+  border-color:var(--gold-border);
+  box-shadow:0 4px 16px rgba(184,144,42,0.1);
+  transform:translateY(-1px);
+}
+.module:hover::before{opacity:1}
+
+.module.primary{
+  border-color:var(--gold-border);
+  background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%);
+}
+.module.primary::before{opacity:1}
+
+.module.alert{border-color:rgba(192,57,43,0.25);background:var(--red-light)}
+.module.warn{border-color:rgba(184,106,16,0.25);background:var(--amber-light)}
+
+.module-icon{font-size:22px;margin-bottom:2px}
+.module-name{font-size:14px;font-weight:600;color:var(--text)}
+.module-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.module-badge{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:9px;
+  padding:2px 7px;
+  border-radius:20px;
+  margin-top:4px;
+  align-self:flex-start;
+}
+.badge-live{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.25)}
+.badge-new{background:var(--gold-light);color:var(--gold-deep);border:1px solid var(--gold-border)}
+.badge-soon{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,106,16,0.25)}
+.badge-ext{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+
+/* ── 外部工具小格 ── */
+.tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px}
+.tool{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 10px 12px;
+  text-align:center;
+  text-decoration:none;
+  color:var(--text);
+  transition:border-color .2s, box-shadow .15s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.03);
+}
+.tool:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.tool-icon{font-size:20px;display:block;margin-bottom:6px}
+.tool-name{font-size:11px;color:var(--muted);font-weight:500}
+
+/* ── 展覽倒數 ── */
+.expo-strip{
+  background:var(--surface);
+  border:1px solid var(--gold-border);
+  border-radius:14px;
+  padding:16px 18px;
+  margin-bottom:32px;
+  background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%);
+}
+.expo-strip-title{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.12em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.expo-countdown-list{display:flex;flex-direction:column;gap:8px}
+.expo-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:12px;
+  padding:8px 0;
+  border-bottom:0.5px solid var(--gold-border);
+}
+.expo-row:last-child{border-bottom:none;padding-bottom:0}
+.expo-row-name{font-size:13px;font-weight:500}
+.expo-row-date{font-size:11px;color:var(--muted);margin-top:1px}
+.expo-days{
+  font-family:var(--mono);
+  font-size:13px;
+  font-weight:500;
+  padding:4px 10px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.days-urg{background:var(--red-light);color:var(--red);border:1px solid rgba(192,57,43,0.2)}
+.days-warn{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,106,16,0.2)}
+.days-ok{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.2)}
+.days-far{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+
+/* ── Footer ── */
+.footer{
+  text-align:center;
+  padding:24px 0 0;
+  border-top:0.5px solid var(--gold-border);
+  font-size:11px;
+  color:var(--muted2);
+  font-family:var(--mono);
+  letter-spacing:.05em;
+}
+
+@media(max-width:480px){
+  .module-grid.cols2{grid-template-columns:1fr}
+  .module-grid.cols3{grid-template-columns:1fr 1fr}
+  .tool-grid{grid-template-columns:repeat(4,1fr)}
+  .header-title{font-size:30px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-bg">
+      <div class="header-inner">
+        <div class="header-left">
+          <div class="header-company">Sunrise Expo Corporation</div>
+          <div class="header-cname">昇揚展覽<em>Sunrise Expo</em></div>
+        </div>
+        <div class="header-right">
+          <div class="header-date" id="now"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 展覽倒數 -->
+  <div class="expo-strip">
+    <div class="expo-strip-title">近期展覽倒數</div>
+    <div class="expo-countdown-list" id="expoList">
+      <div style="font-size:12px;color:var(--muted)">載入中...</div>
+    </div>
+  </div>
+
+
+  <!-- 最新表單提交 -->
+  <div class="form-strip">
+    <div class="form-strip-title">
+      最新官網報名
+      <span id="formCount">載入中</span>
+    </div>
+    <div id="formList">
+      <div style="font-size:12px;color:var(--muted)">載入中...</div>
+    </div>
+  </div>
+
+  <!-- 核心系統 -->
+  <div class="sec-label">核心系統</div>
+  <div class="module-grid cols2" style="margin-bottom:12px">
+    <a class="module primary" href="./finance/">
+      <div class="module-icon">💰</div>
+      <div class="module-name">財務儀表板</div>
+      <div class="module-desc">各展利潤、待收待付、帳戶餘額</div>
+      <span class="module-badge badge-live">已上線</span>
+    </a>
+    <a class="module" href="https://camille8960.github.io/sunrise-edm-tracker/">
+      <div class="module-icon">📅</div>
+      <div class="module-name">EDM 發送追蹤</div>
+      <div class="module-desc">年度 EDM 排程、打勾記錄已發</div>
+      <span class="module-badge badge-live">已上線</span>
+    </a>
+  </div>
+  <div class="module-grid cols2">
+    <a class="module" href="https://camille8960.github.io/sunrise-crm/">
+      <div class="module-icon">👥</div>
+      <div class="module-name">昇揚 CRM</div>
+      <div class="module-desc">名片掃描、展覽聯絡人管理</div>
+      <span class="module-badge badge-live">已上線</span>
+    </a>
+    <a class="module" href="./performance/" style="opacity:.5;pointer-events:none">
+      <div class="module-icon">📊</div>
+      <div class="module-name">業績報表</div>
+      <div class="module-desc">目標達成率、展覽業績預估</div>
+      <span class="module-badge badge-soon">建置中</span>
+    </a>
+  </div>
+
+  <!-- 內容與行銷 -->
+  <div class="sec-label" style="margin-top:28px">內容與行銷</div>
+  <div class="module-grid cols3">
+    <a class="module" href="https://sunriseexpo.com/wp-admin/" target="_blank">
+      <div class="module-icon">✍️</div>
+      <div class="module-name">WordPress</div>
+      <div class="module-desc">文章、展覽頁面管理</div>
+      <span class="module-badge badge-ext">外部</span>
+    </a>
+    <a class="module" href="https://app.brevo.com/" target="_blank">
+      <div class="module-icon">📧</div>
+      <div class="module-name">Brevo EDM</div>
+      <div class="module-desc">郵件發送、名單管理</div>
+      <span class="module-badge badge-ext">外部</span>
+    </a>
+    <a class="module" href="https://github.com/camille8960/sunrise-auto-blog/actions" target="_blank">
+      <div class="module-icon">🤖</div>
+      <div class="module-name">Auto Blog</div>
+      <div class="module-desc">AI 文章自動發佈狀態</div>
+      <span class="module-badge badge-ext">GitHub</span>
+    </a>
+  </div>
+
+  <!-- 快速工具 -->
+  <div class="sec-label" style="margin-top:28px">快速工具</div>
+  <div class="tool-grid">
+    <a class="tool" href="https://analytics.google.com/" target="_blank">
+      <span class="tool-icon">📈</span>
+      <span class="tool-name">GA4</span>
+    </a>
+    <a class="tool" href="https://www.canva.com/" target="_blank">
+      <span class="tool-icon">🎨</span>
+      <span class="tool-name">Canva</span>
+    </a>
+    <a class="tool" href="https://hunter.io/" target="_blank">
+      <span class="tool-icon">🔍</span>
+      <span class="tool-name">Hunter</span>
+    </a>
+    <a class="tool" href="https://line.me/R/ti/p/@225imowp" target="_blank">
+      <span class="tool-icon">💬</span>
+      <span class="tool-name">LINE</span>
+    </a>
+    <a class="tool" href="https://www.facebook.com/sunriseexpo" target="_blank">
+      <span class="tool-icon">📘</span>
+      <span class="tool-name">Facebook</span>
+    </a>
+    <a class="tool" href="https://www.instagram.com/sunriseexpo/" target="_blank">
+      <span class="tool-icon">📷</span>
+      <span class="tool-name">Instagram</span>
+    </a>
+    <a class="tool" href="https://app.calendly.com/" target="_blank">
+      <span class="tool-icon">📆</span>
+      <span class="tool-name">Calendly</span>
+    </a>
+    <a class="tool" href="https://sunriseexpo.com/" target="_blank">
+      <span class="tool-icon">🌐</span>
+      <span class="tool-name">官網</span>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">SUNRISE EXPO · <span id="footerDate"></span></div>
+
+</div>
+
+<script>
+// 今天日期
+const now = new Date();
+const days = ['日','一','二','三','四','五','六'];
+document.getElementById('now').textContent =
+  `${now.getFullYear()} 年 ${now.getMonth()+1} 月 ${now.getDate()} 日　週${days[now.getDay()]}`;
+document.getElementById('footerDate').textContent =
+  `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+
+// 展覽倒數 — 從 WordPress API 抓
+async function loadExpos() {
+  const el = document.getElementById('expoList');
+  try {
+    const res = await fetch('https://sunriseexpo.com/wp-json/tribe/events/v1/events?per_page=10&start_date=' + now.toISOString().split('T')[0]);
+    const data = await res.json();
+    const events = (data.events || []).slice(0, 5);
+    if (!events.length) { el.innerHTML = '<div style="font-size:12px;color:var(--muted)">目前無近期展覽</div>'; return; }
+    el.innerHTML = events.map(e => {
+      const start = new Date(e.start_date);
+      const diff = Math.ceil((start - now) / 86400000);
+      let cls = 'days-far', label = `${diff} 天後`;
+      if (diff <= 0) { cls = 'days-urg'; label = '進行中'; }
+      else if (diff <= 14) { cls = 'days-urg'; label = `${diff} 天`; }
+      else if (diff <= 60) { cls = 'days-warn'; label = `${diff} 天`; }
+      else { cls = 'days-ok'; label = `${diff} 天`; }
+      const dateStr = `${start.getFullYear()}/${start.getMonth()+1}/${start.getDate()}`;
+      return `<div class="expo-row">
+        <div>
+          <div class="expo-row-name">${e.title}</div>
+          <div class="expo-row-date">${dateStr}</div>
+        </div>
+        <div class="expo-days ${cls}">${label}</div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    // fallback: 手動列幾個已知展覽
+    const expos = [
+      {name:'AI Expo Korea 2026', date:'2026-05-06'},
+      {name:'TFBO 泰國加盟展 2026', date:'2026-06-04'},
+    ];
+    el.innerHTML = expos.map(e => {
+      const start = new Date(e.date);
+      const diff = Math.ceil((start - now) / 86400000);
+      let cls = diff <= 14 ? 'days-urg' : diff <= 60 ? 'days-warn' : 'days-ok';
+      return `<div class="expo-row">
+        <div>
+          <div class="expo-row-name">${e.name}</div>
+          <div class="expo-row-date">${e.date}</div>
+        </div>
+        <div class="expo-days ${cls}">${diff} 天</div>
+      </div>`;
+    }).join('');
+  }
+}
+loadExpos();
+
+// 最新表單提交 — Gravity Forms API
+async function loadForms() {
+  const el = document.getElementById('formList');
+  const countEl = document.getElementById('formCount');
+  try {
+    const res = await fetch('https://sunriseexpo.com/wp-json/sunrise/v1/entries');
+    const data = await res.json();
+    const entries = Array.isArray(data) ? data : [];
+    if (!entries.length) {
+      el.innerHTML = '<div style="font-size:12px;color:var(--muted)">尚無表單提交</div>';
+      countEl.textContent = '0 筆';
+      return;
+    }
+    countEl.textContent = `最新 ${entries.length} 筆`;
+    const now2 = new Date();
+    el.innerHTML = entries.map(e => {
+      const created = new Date(e.date_created + '+08:00');
+      const diffH = Math.floor((now2 - created) / 3600000);
+      let timeStr = diffH < 1 ? '剛剛' : diffH < 24 ? `${diffH} 小時前` : `${Math.floor(diffH/24)} 天前`;
+      const isNew = diffH < 24;
+      const email = e.field_2 || e.field_1 || '';
+      // 從 source_url 抓展覽名稱
+      const srcUrl = e.source_url || '';
+      const expoMatch = srcUrl.match(/\/event\/([^\/]+)\//);
+      const expoSlug = expoMatch ? expoMatch[1].replace(/-/g,' ') : `表單 #${e.form_id}`;
+      return `<div class="form-entry">
+        <div>
+          <div class="form-entry-name">${isNew ? '<span class="form-new"></span>' : ''}${email || '（未填 email）'}</div>
+          <div class="form-entry-expo">${expoSlug}</div>
+        </div>
+        <div class="form-entry-time">${timeStr}</div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--muted)">無法載入，請確認 API 設定</div>';
+    countEl.textContent = '—';
+  }
+}
+loadForms();
+
+</script>
+</body>
+</html>
