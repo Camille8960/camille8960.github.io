@@ -371,6 +371,27 @@ body::before{
   letter-spacing:.05em;
 }
 
+/* venue row with buttons */
+.venue-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:9px 0;border-bottom:0.5px solid var(--gold-border)}
+.venue-row:last-child{border-bottom:none;padding-bottom:0}
+.venue-row-info{}
+.venue-row-name{font-size:13px;font-weight:500}
+.venue-row-date{font-size:11px;color:var(--muted);margin-top:1px}
+.btn-cal{
+  font-size:10px;padding:4px 10px;border-radius:20px;
+  background:var(--green-light);color:var(--green);
+  border:1px solid var(--green-border);
+  text-decoration:none;white-space:nowrap;font-weight:500;
+  cursor:pointer;display:inline-block;
+}
+.btn-hide{
+  font-size:10px;padding:4px 8px;border-radius:20px;
+  background:var(--surface2);color:var(--muted);
+  border:1px solid var(--border);
+  cursor:pointer;white-space:nowrap;font-family:var(--sans);
+}
+.btn-hide:hover{background:var(--red-light);color:var(--red);border-color:var(--red-border)}
+
 @media(max-width:480px){
   .module-grid.cols2{grid-template-columns:1fr}
   .module-grid.cols3{grid-template-columns:1fr 1fr}
@@ -419,89 +440,46 @@ body::before{
 
   <!-- 核心系統 -->
   <div class="sec-label">核心系統</div>
-  <div class="module-grid cols2" style="margin-bottom:12px">
+  <div class="module-grid cols3">
     <a class="module primary" href="./finance/">
       <div class="module-icon">💰</div>
       <div class="module-name">財務儀表板</div>
-      <div class="module-desc">各展利潤、待收待付、帳戶餘額</div>
+      <div class="module-desc">各展利潤、待收待付</div>
       <span class="module-badge badge-live">已上線</span>
     </a>
     <a class="module" href="https://camille8960.github.io/sunrise-edm-tracker/">
       <div class="module-icon">📅</div>
-      <div class="module-name">EDM 發送追蹤</div>
-      <div class="module-desc">年度 EDM 排程、打勾記錄已發</div>
+      <div class="module-name">EDM 追蹤</div>
+      <div class="module-desc">排程、打勾記錄已發</div>
       <span class="module-badge badge-live">已上線</span>
     </a>
-  </div>
-  <div class="module-grid cols2">
     <a class="module" href="https://camille8960.github.io/sunrise-crm/">
       <div class="module-icon">👥</div>
       <div class="module-name">昇揚 CRM</div>
-      <div class="module-desc">名片掃描、展覽聯絡人管理</div>
+      <div class="module-desc">名片掃描、聯絡人管理</div>
       <span class="module-badge badge-live">已上線</span>
-    </a>
-    <a class="module" href="./performance/" style="opacity:.5;pointer-events:none">
-      <div class="module-icon">📊</div>
-      <div class="module-name">業績報表</div>
-      <div class="module-desc">目標達成率、展覽業績預估</div>
-      <span class="module-badge badge-soon">建置中</span>
     </a>
   </div>
 
-  <!-- 內容與行銷 -->
-  <div class="sec-label" style="margin-top:28px">內容與行銷</div>
-  <div class="module-grid cols3">
-    <a class="module" href="https://sunriseexpo.com/wp-admin/" target="_blank">
-      <div class="module-icon">✍️</div>
-      <div class="module-name">WordPress</div>
-      <div class="module-desc">文章、展覽頁面管理</div>
-      <span class="module-badge badge-ext">外部</span>
-    </a>
-    <a class="module" href="https://app.brevo.com/" target="_blank">
-      <div class="module-icon">📧</div>
-      <div class="module-name">Brevo EDM</div>
-      <div class="module-desc">郵件發送、名單管理</div>
-      <span class="module-badge badge-ext">外部</span>
-    </a>
-    <a class="module" href="https://github.com/camille8960/sunrise-auto-blog/actions" target="_blank">
-      <div class="module-icon">🤖</div>
-      <div class="module-name">Auto Blog</div>
-      <div class="module-desc">AI 文章自動發佈狀態</div>
-      <span class="module-badge badge-ext">GitHub</span>
-    </a>
+  <!-- 台灣展館檔期 -->
+  <div class="sec-label" style="margin-top:28px">台灣展館近期檔期</div>
+
+  <div class="expo-strip" style="margin-bottom:12px">
+    <div class="expo-strip-title">南港展覽館</div>
+    <div class="expo-countdown-list" id="venue-nangang"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
+  </div>
+  <div class="expo-strip" style="margin-bottom:12px">
+    <div class="expo-strip-title">世貿一館</div>
+    <div class="expo-countdown-list" id="venue-twtc"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
+  </div>
+  <div class="expo-strip" style="margin-bottom:28px">
+    <div class="expo-strip-title">花博爭艷館</div>
+    <div class="expo-countdown-list" id="venue-expo"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
   </div>
 
   <!-- 快速工具 -->
-  <div class="sec-label" style="margin-top:28px">快速工具</div>
-  <div class="tool-grid">
-    <a class="tool" href="https://analytics.google.com/" target="_blank">
-      <span class="tool-icon">📈</span>
-      <span class="tool-name">GA4</span>
-    </a>
-    <a class="tool" href="https://www.canva.com/" target="_blank">
-      <span class="tool-icon">🎨</span>
-      <span class="tool-name">Canva</span>
-    </a>
-    <a class="tool" href="https://hunter.io/" target="_blank">
-      <span class="tool-icon">🔍</span>
-      <span class="tool-name">Hunter</span>
-    </a>
-    <a class="tool" href="https://line.me/R/ti/p/@225imowp" target="_blank">
-      <span class="tool-icon">💬</span>
-      <span class="tool-name">LINE</span>
-    </a>
-    <a class="tool" href="https://www.facebook.com/sunriseexpo" target="_blank">
-      <span class="tool-icon">📘</span>
-      <span class="tool-name">Facebook</span>
-    </a>
-    <a class="tool" href="https://www.instagram.com/sunriseexpo/" target="_blank">
-      <span class="tool-icon">📷</span>
-      <span class="tool-name">Instagram</span>
-    </a>
-    <a class="tool" href="https://app.calendly.com/" target="_blank">
-      <span class="tool-icon">📆</span>
-      <span class="tool-name">Calendly</span>
-    </a>
+  <div class="sec-label">快速工具</div>
+  <div class="tool-grid" style="grid-template-columns:1fr">
     <a class="tool" href="https://sunriseexpo.com/" target="_blank">
       <span class="tool-icon">🌐</span>
       <span class="tool-name">官網</span>
@@ -568,6 +546,87 @@ async function loadExpos() {
   }
 }
 loadExpos();
+
+// 展館檔期 - 讀取 schedules.json
+async function loadVenues() {
+  const hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const future = new Date(today);
+  future.setDate(today.getDate() + 60);
+
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/Camille8960/camille8960.github.io/main/schedules.json');
+    const all = await res.json();
+
+    const categories = {
+      nangang: { id: 'venue-nangang', label: '南港展覽館' },
+      twtc:    { id: 'venue-twtc',    label: '世貿一館' },
+      expo:    { id: 'venue-expo',    label: '花博爭艷館' },
+    };
+
+    Object.entries(categories).forEach(([cat, info]) => {
+      const el = document.getElementById(info.id);
+      const events = all.filter(e => {
+        if (hidden.includes(e.name + e.start)) return false;
+        if (e.category !== cat) return false;
+        const start = new Date(e.start);
+        const end = new Date(e.end);
+        return end >= today && start <= future;
+      });
+
+      if (!events.length) {
+        el.innerHTML = '<div style="font-size:12px;color:var(--muted)">未來60天內無排程</div>';
+        return;
+      }
+
+      el.innerHTML = events.map(e => {
+        const start = new Date(e.start);
+        const end = new Date(e.end);
+        const diff = Math.ceil((start - today) / 86400000);
+        let cls = 'days-far', label = diff + ' 天';
+        if (diff <= 0 && end >= today) { cls = 'days-urg'; label = '進行中'; }
+        else if (diff <= 7) { cls = 'days-urg'; label = diff + ' 天'; }
+        else if (diff <= 30) { cls = 'days-warn'; label = diff + ' 天'; }
+        else { cls = 'days-ok'; label = diff + ' 天'; }
+
+        const ds = e.start.replace(/-/g,'/').slice(5) + '–' + e.end.replace(/-/g,'/').slice(5);
+        const calStart = e.start.replace(/-/g,'');
+        const calEndDate = new Date(e.end);
+        calEndDate.setDate(calEndDate.getDate() + 1);
+        const calEnd = calEndDate.toISOString().slice(0,10).replace(/-/g,'');
+        const calUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+          '&text=' + encodeURIComponent(e.name) +
+          '&dates=' + calStart + '/' + calEnd +
+          '&details=' + encodeURIComponent(e.venue) +
+          '&location=' + encodeURIComponent(e.venue);
+        const key = e.name + e.start;
+
+        return '<div class="venue-row">' +
+          '<div class="venue-row-info">' +
+            '<div class="venue-row-name">' + e.name + '</div>' +
+            '<div class="venue-row-date">' + ds + '　' + e.venue + '</div>' +
+          '</div>' +
+          '<a class="btn-cal" href="' + calUrl + '" target="_blank">+ 行事曆</a>' +
+          '<button class="btn-hide" onclick="hideVenue('' + key.replace(/'/g,"\'") + '')">隱藏</button>' +
+        '</div>';
+      }).join('');
+    });
+  } catch(err) {
+    ['venue-nangang','venue-twtc','venue-expo'].forEach(id => {
+      document.getElementById(id).innerHTML = '<div style="font-size:12px;color:var(--muted)">無法載入</div>';
+    });
+  }
+}
+
+function hideVenue(key) {
+  const hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
+  if (!hidden.includes(key)) hidden.push(key);
+  localStorage.setItem('hiddenVenues', JSON.stringify(hidden));
+  loadVenues();
+}
+
+loadVenues();
 
 // 最新表單提交 — Gravity Forms API
 async function loadForms() {
