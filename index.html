@@ -418,14 +418,24 @@ body::before{
     </div>
   </div>
 
-  <!-- 展覽倒數 -->
-  <div class="expo-strip">
-    <div class="expo-strip-title">近期展覽倒數</div>
-    <div class="expo-countdown-list" id="expoList">
-      <div style="font-size:12px;color:var(--muted)">載入中...</div>
+  <!-- 展覽倒數 折疊卡片 -->
+  <div class="module" style="margin-bottom:12px">
+    <div onclick="toggleSection('expo-body','expo-chevron')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="module-icon" style="margin-bottom:0">📆</div>
+        <div>
+          <div class="module-name">近期展覽倒數</div>
+          <div class="module-desc" id="expo-summary">點擊展開</div>
+        </div>
+      </div>
+      <div id="expo-chevron" style="font-size:13px;color:var(--muted2);transition:transform .25s">▾</div>
+    </div>
+    <div id="expo-body" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+      <div class="expo-countdown-list" id="expoList">
+        <div style="font-size:12px;color:var(--muted)">載入中...</div>
+      </div>
     </div>
   </div>
-
 
   <!-- 最新表單提交 -->
   <div class="form-strip">
@@ -461,23 +471,35 @@ body::before{
     </a>
   </div>
 
-  <!-- 台灣展館檔期 -->
-  <div class="sec-label" style="margin-top:28px">台灣展館近期檔期</div>
+  <!-- 台灣展館折疊卡片 -->
+  <div class="module" style="margin-bottom:12px">
+    <div onclick="toggleSection('venue-body','venue-chevron')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="module-icon" style="margin-bottom:0">🏛️</div>
+        <div>
+          <div class="module-name">台灣展館近期檔期</div>
+          <div class="module-desc">南港・世貿・花博爭艷館</div>
+        </div>
+      </div>
+      <div id="venue-chevron" style="font-size:13px;color:var(--muted2);transition:transform .25s">▾</div>
+    </div>
+    <div id="venue-body" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px" onclick="event.stopPropagation()">
+      <div style="margin-bottom:14px">
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;font-weight:500">南港展覽館</div>
+        <div id="venue-nangang"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;font-weight:500">世貿一館</div>
+        <div id="venue-twtc"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;font-weight:500">花博爭艷館</div>
+        <div id="venue-expo"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
+      </div>
+    </div>
+  </div>
 
-  <div class="expo-strip" style="margin-bottom:12px">
-    <div class="expo-strip-title">南港展覽館</div>
-    <div class="expo-countdown-list" id="venue-nangang"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
-  </div>
-  <div class="expo-strip" style="margin-bottom:12px">
-    <div class="expo-strip-title">世貿一館</div>
-    <div class="expo-countdown-list" id="venue-twtc"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
-  </div>
-  <div class="expo-strip" style="margin-bottom:28px">
-    <div class="expo-strip-title">花博爭艷館</div>
-    <div class="expo-countdown-list" id="venue-expo"><div style="font-size:12px;color:var(--muted)">載入中...</div></div>
-  </div>
-
-  <!-- 快速工具 -->
+    <!-- 快速工具 -->
   <div class="sec-label">快速工具</div>
   <div class="tool-grid" style="grid-template-columns:1fr">
     <a class="tool" href="https://sunriseexpo.com/" target="_blank">
@@ -492,6 +514,15 @@ body::before{
 </div>
 
 <script>
+// 折疊展開
+function toggleSection(bodyId, chevronId) {
+  var body = document.getElementById(bodyId);
+  var chevron = document.getElementById(chevronId);
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
 // 今天日期
 const now = new Date();
 const days = ['日','一','二','三','四','五','六'];
