@@ -1,0 +1,32 @@
+name: 更新展館年度檔期
+
+on:
+  schedule:
+    - cron: '0 2 1 1 *'  # 每年1月1日台灣時間10:00
+  workflow_dispatch:       # 可手動觸發
+
+jobs:
+  update-schedules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Fetch venue schedules
+        run: python scripts/fetch_schedules.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add schedules.json
+          git diff --staged --quiet || git commit -m "自動更新展館年度檔期 $(date '+%Y-%m-%d')"
+          git push
