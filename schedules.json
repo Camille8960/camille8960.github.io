@@ -1,0 +1,93 @@
+[
+  {
+    "name": "台北國際汽機車零配件展 / 智慧移動展 / 車用電子展",
+    "start": "2026-04-14",
+    "end": "2026-04-17",
+    "venue": "南港展覽館1館",
+    "category": "nangang"
+  },
+  {
+    "name": "ATLife 臺灣輔具暨長期照護大展",
+    "start": "2026-05-14",
+    "end": "2026-05-17",
+    "venue": "南港展覽館1館",
+    "category": "nangang"
+  },
+  {
+    "name": "台北國際電腦展 COMPUTEX",
+    "start": "2026-06-02",
+    "end": "2026-06-05",
+    "venue": "南港展覽館1館&2館",
+    "category": "nangang"
+  },
+  {
+    "name": "台北國際潮流玩具、授權展",
+    "start": "2026-05-29",
+    "end": "2026-06-01",
+    "venue": "南港展覽館2館",
+    "category": "nangang"
+  },
+  {
+    "name": "台北國際飯店設備用品展",
+    "start": "2026-06-24",
+    "end": "2026-06-27",
+    "venue": "南港展覽館2館",
+    "category": "nangang"
+  },
+  {
+    "name": "亞洲生技大展 BIO Asia",
+    "start": "2026-07-16",
+    "end": "2026-07-19",
+    "venue": "南港展覽館1館",
+    "category": "nangang"
+  },
+  {
+    "name": "台北國際寵物用品展",
+    "start": "2026-07-03",
+    "end": "2026-07-06",
+    "venue": "南港展覽館1館",
+    "category": "nangang"
+  },
+  {
+    "name": "台灣國際創意禮品文具展 DG Taiwan",
+    "start": "2026-04-16",
+    "end": "2026-04-19",
+    "venue": "世貿一館",
+    "category": "twtc"
+  },
+  {
+    "name": "台北國際酒展",
+    "start": "2026-04-17",
+    "end": "2026-04-20",
+    "venue": "世貿一館",
+    "category": "twtc"
+  },
+  {
+    "name": "亞太區農業技術展覽暨會議",
+    "start": "2026-05-06",
+    "end": "2026-05-08",
+    "venue": "世貿展覽大樓",
+    "category": "twtc"
+  },
+  {
+    "name": "台北國際電腦展 COMPUTEX",
+    "start": "2026-06-02",
+    "end": "2026-06-05",
+    "venue": "世貿展覽大樓",
+    "category": "twtc"
+  },
+  {
+    "name": "台灣永續發展及低碳綠建築展",
+    "start": "2026-05-28",
+    "end": "2026-05-31",
+    "venue": "臺中國際會展中心",
+    "category": "twtc"
+  },
+  {
+    "name": "2026 台灣國際觀光旅遊展",
+    "start": "2026-04-17",
+    "end": "2026-04-20",
+    "venue": "圓山花博爭艷館",
+    "category": "expo"
+  }
+]
