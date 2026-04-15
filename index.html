@@ -549,86 +549,66 @@ loadExpos();
 
 // 展館檔期 - 讀取 schedules.json
 async function loadVenues() {
-  const hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const future = new Date(today);
-  future.setDate(today.getDate() + 60);
-
+  var hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
+  var today = new Date(); today.setHours(0,0,0,0);
+  var future = new Date(today); future.setDate(today.getDate() + 60);
+  var cats = {nangang:'venue-nangang', twtc:'venue-twtc', expo:'venue-expo'};
   try {
-    const res = await fetch('https://raw.githubusercontent.com/Camille8960/camille8960.github.io/main/schedules.json');
-    const all = await res.json();
-
-    const categories = {
-      nangang: { id: 'venue-nangang', label: '南港展覽館' },
-      twtc:    { id: 'venue-twtc',    label: '世貿一館' },
-      expo:    { id: 'venue-expo',    label: '花博爭艷館' },
-    };
-
-    Object.entries(categories).forEach(([cat, info]) => {
-      const el = document.getElementById(info.id);
-      const events = all.filter(e => {
-        if (hidden.includes(e.name + e.start)) return false;
+    var res = await fetch('https://raw.githubusercontent.com/Camille8960/camille8960.github.io/main/schedules.json');
+    var all = await res.json();
+    Object.keys(cats).forEach(function(cat) {
+      var el = document.getElementById(cats[cat]);
+      var events = all.filter(function(e) {
+        if (hidden.indexOf(e.name + '|' + e.start) >= 0) return false;
         if (e.category !== cat) return false;
-        const start = new Date(e.start);
-        const end = new Date(e.end);
-        return end >= today && start <= future;
+        var s = new Date(e.start), en = new Date(e.end);
+        return en >= today && s <= future;
       });
-
-      if (!events.length) {
-        el.innerHTML = '<div style="font-size:12px;color:var(--muted)">未來60天內無排程</div>';
-        return;
-      }
-
-      el.innerHTML = events.map(e => {
-        const start = new Date(e.start);
-        const end = new Date(e.end);
-        const diff = Math.ceil((start - today) / 86400000);
-        let cls = 'days-far', label = diff + ' 天';
-        if (diff <= 0 && end >= today) { cls = 'days-urg'; label = '進行中'; }
-        else if (diff <= 7) { cls = 'days-urg'; label = diff + ' 天'; }
-        else if (diff <= 30) { cls = 'days-warn'; label = diff + ' 天'; }
-        else { cls = 'days-ok'; label = diff + ' 天'; }
-
-        const ds = e.start.replace(/-/g,'/').slice(5) + '–' + e.end.replace(/-/g,'/').slice(5);
-        const calStart = e.start.replace(/-/g,'');
-        const calEndDate = new Date(e.end);
-        calEndDate.setDate(calEndDate.getDate() + 1);
-        const calEnd = calEndDate.toISOString().slice(0,10).replace(/-/g,'');
-        const calUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-          '&text=' + encodeURIComponent(e.name) +
-          '&dates=' + calStart + '/' + calEnd +
-          '&details=' + encodeURIComponent(e.venue) +
-          '&location=' + encodeURIComponent(e.venue);
-        const key = e.name + e.start;
-
-        return '<div class="venue-row">' +
-          '<div class="venue-row-info">' +
-            '<div class="venue-row-name">' + e.name + '</div>' +
-            '<div class="venue-row-date">' + ds + '　' + e.venue + '</div>' +
-          '</div>' +
-          '<a class="btn-cal" href="' + calUrl + '" target="_blank">+ 行事曆</a>' +
-          '<button class="btn-hide" onclick="hideVenue('' + key.replace(/'/g,"\'") + '')">隱藏</button>' +
-        '</div>';
-      }).join('');
+      if (!events.length) { el.innerHTML = '<div style="font-size:12px;color:var(--muted)">未來60天內無排程</div>'; return; }
+      var html = '';
+      events.forEach(function(e) {
+        var s = new Date(e.start), en = new Date(e.end);
+        var diff = Math.ceil((s - today) / 86400000);
+        var cls = 'days-ok', lbl = diff + ' 天';
+        if (diff <= 0 && en >= today) { cls = 'days-urg'; lbl = '進行中'; }
+        else if (diff <= 7) { cls = 'days-urg'; lbl = diff + ' 天'; }
+        else if (diff <= 30) { cls = 'days-warn'; lbl = diff + ' 天'; }
+        var ds = e.start.slice(5).replace(/-/g,'/') + '–' + e.end.slice(5).replace(/-/g,'/');
+        var cs = e.start.replace(/-/g,'');
+        var ced = new Date(e.end); ced.setDate(ced.getDate()+1);
+        var ce = ced.toISOString().slice(0,10).replace(/-/g,'');
+        var cu = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(e.name) + '&dates=' + cs + '/' + ce + '&location=' + encodeURIComponent(e.venue);
+        html += '<div class="venue-row">';
+        html += '<div class="venue-row-info"><div class="venue-row-name">' + e.name + '</div>';
+        html += '<div class="venue-row-date">' + ds + '　' + e.venue + '</div></div>';
+        html += '<a class="btn-cal" href="' + cu + '" target="_blank">+ 行事曆</a>';
+        html += '<button class="btn-hide" data-key="' + (e.name + '|' + e.start).replace(/"/g,'&quot;') + '">隱藏</button>';
+        html += '<div class="expo-days ' + cls + '" style="min-width:56px;text-align:center">' + lbl + '</div>';
+        html += '</div>';
+      });
+      el.innerHTML = html;
+      el.querySelectorAll('.btn-hide').forEach(function(btn) {
+        btn.addEventListener('click', function() { hideVenue(this.getAttribute('data-key')); });
+      });
     });
   } catch(err) {
-    ['venue-nangang','venue-twtc','venue-expo'].forEach(id => {
-      document.getElementById(id).innerHTML = '<div style="font-size:12px;color:var(--muted)">無法載入</div>';
+    Object.values(cats).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = '<div style="font-size:12px;color:var(--muted)">無法載入展館資料</div>';
     });
   }
 }
 
 function hideVenue(key) {
-  const hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
-  if (!hidden.includes(key)) hidden.push(key);
+  var hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
+  if (hidden.indexOf(key) < 0) hidden.push(key);
   localStorage.setItem('hiddenVenues', JSON.stringify(hidden));
   loadVenues();
 }
 
 loadVenues();
 
-// 最新表單提交 — Gravity Forms API
+// 最新表單提交// 最新表單提交 — Gravity Forms API
 async function loadForms() {
   const el = document.getElementById('formList');
   const countEl = document.getElementById('formCount');
