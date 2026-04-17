@@ -8,55 +8,60 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f7f5f0;
-  --surface:#ffffff;
-  --surface2:#f2efe8;
-  --border:rgba(0,0,0,0.08);
-  --border2:rgba(0,0,0,0.14);
-  --text:#1a1a18;
-  --muted:#888680;
-  --muted2:#bbb9b3;
-  --gold:#b8902a;
-  --gold-light:#f5edd8;
-  --gold-border:rgba(184,144,42,0.3);
-  --gold-deep:#8a6a1a;
-  --green:#2a7a55;
-  --green-light:#e8f5ee;
-  --green-border:rgba(42,122,85,0.25);
-  --red:#c0392b;
-  --red-light:#fdf0ee;
-  --red-border:rgba(192,57,43,0.2);
-  --amber:#b86a10;
-  --amber-light:#fef3e2;
-  --amber-border:rgba(184,106,16,0.25);
-  --blue:#2255a4;
-  --blue-light:#edf2fc;
-  --sans:'Noto Sans TC',sans-serif;
-  --mono:'DM Mono',monospace;
+  --bg:#f7f5f0;--surface:#ffffff;--surface2:#f2efe8;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a1a18;--muted:#888680;--muted2:#bbb9b3;
+  --gold:#b8902a;--gold-light:#f5edd8;--gold-border:rgba(184,144,42,0.3);--gold-deep:#8a6a1a;
+  --green:#2a7a55;--green-light:#e8f5ee;--green-border:rgba(42,122,85,0.25);
+  --red:#c0392b;--red-light:#fdf0ee;--red-border:rgba(192,57,43,0.2);
+  --amber:#b86a10;--amber-light:#fef3e2;--amber-border:rgba(184,106,16,0.25);
+  --blue:#2255a4;--blue-light:#edf2fc;
+  --sans:'Noto Sans TC',sans-serif;--mono:'DM Mono',monospace;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;padding:28px 20px 60px}
 
 /* Header */
 .header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:18px;border-bottom:1.5px solid var(--gold-border)}
 .logo{font-size:10px;letter-spacing:.18em;color:var(--gold);margin-bottom:4px;font-weight:500}
-.header-title{font-size:22px;font-weight:300;letter-spacing:-.02em;color:var(--text)}
+.header-title{font-size:22px;font-weight:300;letter-spacing:-.02em}
 .header-title strong{font-weight:700;color:var(--gold-deep)}
 .updated{font-family:var(--mono);font-size:11px;color:var(--muted)}
 
 /* KPI */
-.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.kpi-row{display:grid;gap:12px;margin-bottom:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .kpi.highlight{border-color:var(--gold-border);background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%)}
-.kpi-label{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;font-weight:500}
-.kpi-val{font-family:var(--mono);font-size:24px;font-weight:500;line-height:1}
+.kpi-label{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.kpi-val{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1}
 .kpi-val.gold{color:var(--gold-deep)}
+.kpi-val.blue{color:var(--blue)}
 .kpi-val.amber{color:var(--amber)}
 .kpi-val.red{color:var(--red)}
-.kpi-sub{font-size:11px;color:var(--muted);margin-top:7px}
+.kpi-val.green{color:var(--green)}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:5px}
 
 /* Alert */
 .alert-strip{background:var(--red-light);border:1px solid var(--red-border);border-radius:10px;padding:11px 15px;margin-bottom:22px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--red)}
 .alert-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* 固定費用區塊 */
+.fixed-cost-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:22px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.fixed-cost-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:var(--surface2)}
+.fixed-cost-title{font-size:12px;font-weight:600;color:var(--text)}
+.fixed-cost-summary{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.fixed-cost-body{display:none;padding:14px 18px;border-top:1px solid var(--border)}
+.fixed-cost-body.open{display:block}
+.cost-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.cost-item:last-child{border-bottom:none}
+.cost-name{color:var(--text)}
+.cost-monthly{color:var(--muted);font-family:var(--mono);font-size:11px}
+.cost-annual{font-family:var(--mono);color:var(--text);font-weight:500}
+.cost-input{font-family:var(--mono);font-size:12px;border:1px solid var(--border2);border-radius:6px;padding:3px 8px;width:110px;text-align:right;background:var(--bg);color:var(--text)}
+.cost-total-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding-top:10px;margin-top:6px;border-top:1px solid var(--gold-border);font-weight:600}
+.cost-total-label{font-size:12px;color:var(--gold-deep)}
+.cost-total-val{font-family:var(--mono);font-size:13px;color:var(--gold-deep)}
+.add-cost-btn{margin-top:10px;font-size:11px;padding:6px 14px;border-radius:20px;border:1px dashed var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans)}
+.add-cost-btn:hover{border-color:var(--gold-border);color:var(--gold)}
 
 .sec-label{font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;margin-top:24px;font-weight:500}
 
@@ -65,33 +70,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .expo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .expo-card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,0.08)}
 .expo-card.warn{border-color:var(--amber-border)}
-
 .expo-summary{display:grid;grid-template-columns:10px 1fr auto auto;gap:14px;align-items:center;padding:16px 20px}
 .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .s-green{background:var(--green)}
 .s-amber{background:var(--amber)}
-.s-gray{background:var(--muted2)}
-
-.expo-name{font-size:14px;font-weight:600;margin-bottom:2px;color:var(--text)}
+.expo-name{font-size:14px;font-weight:600;margin-bottom:2px}
 .expo-meta{font-size:11px;color:var(--muted)}
-
 .expo-profit{text-align:right;min-width:100px}
 .profit-val{font-family:var(--mono);font-size:17px;font-weight:500}
 .profit-val.hi{color:var(--green)}
 .profit-val.lo{color:var(--amber)}
+.profit-val.zero{color:var(--muted)}
 .profit-pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .expand-icon{font-size:11px;color:var(--muted2);transition:transform .25s;user-select:none;min-width:16px;text-align:center}
 .expo-card.open .expand-icon{transform:rotate(180deg)}
 
-/* Bar */
-.bar-row{display:grid;grid-template-columns:52px 1fr 76px;gap:5px 10px;padding:0 20px 14px;align-items:center}
-.bar-lbl{font-size:11px;color:var(--muted);text-align:right}
-.bar-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px}
-.b-rev{background:var(--blue)}
-.b-exp{background:var(--red);opacity:.5}
-.b-pft{background:var(--green)}
-.bar-num{font-family:var(--mono);font-size:11px;color:var(--muted)}
+/* 三層利潤條 */
+.profit-layers{padding:0 20px 16px;display:flex;flex-direction:column;gap:6px}
+.layer{display:grid;grid-template-columns:90px 1fr 90px;gap:8px;align-items:center;font-size:11px}
+.layer-label{color:var(--muted);text-align:right}
+.layer-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.layer-fill{height:100%;border-radius:3px}
+.lb-rev{background:var(--blue)}
+.lb-cost{background:var(--red);opacity:.5}
+.lb-trip{background:var(--amber);opacity:.6}
+.lb-gross{background:var(--green)}
+.lb-net{background:var(--gold)}
+.layer-num{font-family:var(--mono);font-size:11px;color:var(--muted)}
 
 /* Flags */
 .flag-row{display:flex;gap:6px;padding:0 20px 14px;flex-wrap:wrap}
@@ -103,13 +108,24 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 /* Detail panel */
 .detail-panel{display:none;border-top:1px solid var(--border);padding:18px 20px 20px;background:var(--bg)}
 .expo-card.open .detail-panel{display:block}
-
 .detail-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
 .tab{flex:1;padding:8px 0;font-size:12px;text-align:center;color:var(--muted);cursor:pointer;background:transparent;border:none;font-family:var(--sans);transition:background .15s,color .15s;font-weight:500}
 .tab.active{background:var(--surface);color:var(--text)}
-
 .tab-content{display:none}
 .tab-content.active{display:block}
+
+/* 損益三層表 */
+.pnl-table{width:100%;font-size:12px;border-collapse:collapse}
+.pnl-table td{padding:8px 10px;border-bottom:0.5px solid var(--border)}
+.pnl-table tr:last-child td{border-bottom:none}
+.pnl-label{color:var(--muted)}
+.pnl-val{font-family:var(--mono);text-align:right;font-weight:500}
+.pnl-section{background:var(--surface2);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.pnl-total{font-weight:600;border-top:1px solid var(--border2)!important}
+.pnl-total td{color:var(--green)}
+.pnl-subtotal td{color:var(--text);font-weight:600}
+.pnl-neg{color:var(--red)!important}
+.pnl-amber{color:var(--amber)!important}
 
 /* Tables */
 .ex-table,.cost-table{width:100%;border-collapse:collapse;font-size:12px}
@@ -117,27 +133,36 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .ex-table td,.cost-table td{padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
 .ex-table tr:last-child td,.cost-table tr:last-child td{border-bottom:none}
 .mono{font-family:var(--mono)}
-
 .pay-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-weight:500}
 .pay-full{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
 .pay-part{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
 .pay-none{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
-
 .cost-total td{background:var(--gold-light);color:var(--gold-deep);font-weight:600;border-top:1px solid var(--gold-border)!important}
+
+/* 出差費輸入 */
+.trip-input-row{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px}
+.trip-input-label{font-size:12px;color:var(--amber);flex:1}
+.trip-input{font-family:var(--mono);font-size:13px;border:1px solid var(--amber-border);border-radius:6px;padding:4px 10px;width:130px;text-align:right;background:var(--surface);color:var(--text)}
+.trip-save-btn{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--amber-border);background:var(--amber-light);color:var(--amber);cursor:pointer;font-family:var(--sans);font-weight:500}
+.trip-save-btn:hover{background:var(--amber);color:white}
 
 /* Summary boxes */
 .summary-box{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .sbox{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
 .sbox-label{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:500}
-.sbox-val{font-family:var(--mono);font-size:14px;font-weight:500}
+.sbox-val{font-family:var(--mono);font-size:13px;font-weight:500}
 
-/* Info note */
+/* 帳戶 */
+.account-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+
+/* Note */
 .note{margin-top:24px;padding:12px 16px;background:var(--gold-light);border:1px solid var(--gold-border);border-radius:10px;font-size:12px;color:var(--gold-deep);line-height:1.8}
 
 @media(max-width:580px){
   .kpi-row{grid-template-columns:1fr 1fr}
-  .kpi:first-child{grid-column:span 2}
   .summary-box{grid-template-columns:1fr 1fr}
+  .account-row{grid-template-columns:1fr 1fr}
+  .layer{grid-template-columns:70px 1fr 80px}
 }
 </style>
 </head>
@@ -148,51 +173,90 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
     <div class="logo">昇揚展覽有限公司</div>
     <div class="header-title">財務儀表板 <strong>2026</strong></div>
   </div>
-  <div class="updated">2026.04.13</div>
+  <div class="updated" id="today"></div>
 </div>
 
-<div class="kpi-row">
+<!-- KPI 四格 -->
+<div class="kpi-row" style="grid-template-columns:1fr 1fr">
   <div class="kpi highlight">
-    <div class="kpi-label">年度總利潤（含預估）</div>
-    <div class="kpi-val gold">NT$1,543,428</div>
-    <div class="kpi-sub">利潤率 32.8%　·　總收入 NT$4,832,139</div>
+    <div class="kpi-label">公司真實淨利潤</div>
+    <div class="kpi-val gold" id="kpi-net">計算中...</div>
+    <div class="kpi-sub" id="kpi-net-sub"></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">展覽淨利合計</div>
+    <div class="kpi-val green" id="kpi-expo-net">計算中...</div>
+    <div class="kpi-sub">已收收入扣大會費及出差費</div>
+  </div>
+</div>
+<div class="kpi-row" style="grid-template-columns:1fr 1fr 1fr">
+  <div class="kpi">
+    <div class="kpi-label">已收營業額</div>
+    <div class="kpi-val blue" id="kpi-revenue">NT$3,158,497</div>
+    <div class="kpi-sub">不含未收款項</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待收款項</div>
     <div class="kpi-val amber">NT$1,485,952</div>
-    <div class="kpi-sub">TFBO US$42,372（4/17到期）· INTI US$5,600</div>
+    <div class="kpi-sub">TFBO US$42,372 · INTI US$5,600</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待付帳款</div>
     <div class="kpi-val red">NT$1,061,241</div>
-    <div class="kpi-sub">TFBO US$29,406（4/30到期）· INTI US$4,843</div>
+    <div class="kpi-sub">TFBO US$29,406 · INTI US$4,843</div>
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">NTD 台幣帳戶</div>
-    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">NT$248</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">國內帳戶餘額</div>
-  </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">USD 美金帳戶</div>
-    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">US$464.61</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">≈ NT$14,403　（匯率 31）</div>
-  </div>
-  <div style="background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04);background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%)">
-    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">帳戶合計</div>
-    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--gold-deep)">NT$14,651</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">實際手上現金</div>
-  </div>
-</div>
-
+<!-- Alert -->
 <div class="alert-strip">
   <div class="alert-dot"></div>
-  <span>TFBO：TAITRA 款項 <strong>US$42,372</strong> 截止日 <strong>4/17（本週四）</strong>，請優先確認收款。INTI 華誠尾款 US$5,600 亦未收。</span>
+  <span>TFBO：TAITRA 款項 <strong>US$42,372</strong> 已逾期，請立即追收。INTI 華誠尾款 US$5,600 亦未收。</span>
 </div>
 
-<div class="sec-label">各展明細</div>
+<!-- 帳戶餘額 -->
+<div class="account-row">
+  <div class="kpi">
+    <div class="kpi-label">NTD 台幣帳戶</div>
+    <div class="kpi-val" style="font-size:18px">NT$248</div>
+    <div class="kpi-sub">國內帳戶餘額</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">USD 美金帳戶</div>
+    <div class="kpi-val" style="font-size:18px">US$464.61</div>
+    <div class="kpi-sub">≈ NT$14,403（匯率 31）</div>
+  </div>
+  <div class="kpi" style="border-color:var(--gold-border);background:linear-gradient(135deg,#fffdf7,#fdf6e3)">
+    <div class="kpi-label">帳戶合計</div>
+    <div class="kpi-val gold" style="font-size:18px">NT$14,651</div>
+    <div class="kpi-sub">實際手上現金</div>
+  </div>
+</div>
+
+<!-- 固定費用管理 -->
+<div class="fixed-cost-panel">
+  <div class="fixed-cost-header" onclick="toggleFixedCost()">
+    <div class="fixed-cost-title">⚙️ 公司固定費用管理</div>
+    <div class="fixed-cost-summary" id="fixed-summary">NT$21,161/月　·　NT$253,930/年</div>
+  </div>
+  <div class="fixed-cost-body" id="fixed-body">
+    <div id="cost-list">
+      <!-- 動態生成 -->
+    </div>
+    <div class="cost-total-row">
+      <div class="cost-total-label">月合計</div>
+      <div class="cost-total-val" id="cost-total-monthly">NT$21,161</div>
+    </div>
+    <div class="cost-total-row" style="margin-top:4px">
+      <div class="cost-total-label">年合計</div>
+      <div class="cost-total-val" id="cost-total-annual">NT$253,930</div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+      如需修改費用，請告知 Claude 更新。
+    </div>
+  </div>
+</div>
+
+<div class="sec-label">各展損益明細</div>
 <div class="expo-list">
 
   <!-- Cybersec Asia -->
@@ -204,109 +268,87 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
         <div class="expo-meta">72 sqm · 8 攤 · 泰國曼谷 · 2026/02/04–05</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val hi">US$17,529</div>
-        <div class="profit-pct">利潤率 34.9%</div>
+        <div class="profit-val hi">NT$473,635</div>
+        <div class="profit-pct">展覽淨利</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
-    <div class="bar-row">
-      <div class="bar-lbl">收入</div>
-      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$50,088</div>
-      <div class="bar-lbl">支出</div>
-      <div class="bar-track"><div class="bar-fill b-exp" style="width:65.1%"></div></div>
-      <div class="bar-num">US$32,559</div>
-      <div class="bar-lbl">利潤</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:34.9%"></div></div>
-      <div class="bar-num" style="color:var(--green)">US$17,529</div>
+    <!-- 三層利潤條 -->
+    <div class="profit-layers">
+      <div class="layer">
+        <div class="layer-label">已收收入</div>
+        <div class="layer-bar"><div class="layer-fill lb-rev" style="width:100%"></div></div>
+        <div class="layer-num">NT$1,552,728</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">大會費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-cost" style="width:65%"></div></div>
+        <div class="layer-num" style="color:var(--red)">−NT$1,009,329</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">展覽毛利</div>
+        <div class="layer-bar"><div class="layer-fill lb-gross" style="width:35%"></div></div>
+        <div class="layer-num" style="color:var(--green)">NT$543,399</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">出差費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-trip" style="width:6%"></div></div>
+        <div class="layer-num" style="color:var(--amber)">−NT$34,382</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label" style="font-weight:600;color:var(--text)">展覽淨利</div>
+        <div class="layer-bar"><div class="layer-fill lb-net" style="width:30%"></div></div>
+        <div class="layer-num" style="color:var(--gold-deep);font-weight:600">NT$509,017</div>
+      </div>
     </div>
     <div class="flag-row">
       <span class="flag f-ok">全數已收</span>
       <span class="flag f-ok">全數已付大會</span>
+      <span class="flag f-ok">出差費已填</span>
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
-        <button class="tab active" onclick="switchTab('cyber','exhibitors')">展商收款</button>
+        <button class="tab active" onclick="switchTab('cyber','pnl')">損益明細</button>
+        <button class="tab" onclick="switchTab('cyber','exhibitors')">展商收款</button>
         <button class="tab" onclick="switchTab('cyber','costs')">大會成本</button>
-        <button class="tab" onclick="switchTab('cyber','summary')">損益摘要</button>
       </div>
-      <div class="tab-content active" id="cyber-exhibitors">
+      <div class="tab-content active" id="cyber-pnl">
+        <table class="pnl-table">
+          <tr><td colspan="2" class="pnl-section">收入</td></tr>
+          <tr><td class="pnl-label">NTCA 新北電腦公會</td><td class="pnl-val">NT$1,241,370</td></tr>
+          <tr><td class="pnl-label">Openfind</td><td class="pnl-val">NT$139,314</td></tr>
+          <tr><td class="pnl-label">SkyCloud Computing</td><td class="pnl-val">NT$139,314</td></tr>
+          <tr><td class="pnl-label pnl-total">已收收入小計</td><td class="pnl-val pnl-total">NT$1,552,728</td></tr>
+          <tr><td colspan="2" class="pnl-section">大會成本</td></tr>
+          <tr><td class="pnl-label">VNU 攤位費</td><td class="pnl-val pnl-neg">−NT$947,335</td></tr>
+          <tr><td class="pnl-label">NCC 費用</td><td class="pnl-val pnl-neg">−NT$62,000</td></tr>
+          <tr><td class="pnl-label pnl-subtotal">展覽毛利</td><td class="pnl-val pnl-subtotal" style="color:var(--green)">NT$543,393</td></tr>
+          <tr><td colspan="2" class="pnl-section">出差費用</td></tr>
+          <tr><td class="pnl-label">機票</td><td class="pnl-val pnl-neg">−NT$8,450</td></tr>
+          <tr><td class="pnl-label">酒店</td><td class="pnl-val pnl-neg">−NT$5,932</td></tr>
+          <tr><td class="pnl-label">當地雜費</td><td class="pnl-val pnl-neg">−NT$20,000</td></tr>
+          <tr><td class="pnl-label pnl-total">展覽淨利</td><td class="pnl-val pnl-total">NT$509,011</td></tr>
+        </table>
+      </div>
+      <div class="tab-content" id="cyber-exhibitors">
         <table class="ex-table">
-          <thead><tr><th>展商</th><th>平米</th><th>Invoice No.</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
+          <thead><tr><th>展商</th><th>Invoice</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>NTCA 新北電腦公會</td>
-              <td class="mono">54</td>
-              <td class="mono" style="color:var(--muted)">TH260102-1</td>
-              <td class="mono">US$28,890</td>
-              <td class="mono">US$28,890</td>
-              <td><span class="pay-badge pay-full">全額</span></td>
-            </tr>
-            <tr>
-              <td>NTCA 附加服務</td>
-              <td class="mono">—</td>
-              <td class="mono" style="color:var(--muted)">TH260102-2</td>
-              <td class="mono">US$12,210</td>
-              <td class="mono">US$12,210</td>
-              <td><span class="pay-badge pay-full">全額</span></td>
-            </tr>
-            <tr>
-              <td>Openfind</td>
-              <td class="mono">9</td>
-              <td class="mono" style="color:var(--muted)">TH251128</td>
-              <td class="mono">US$4,494</td>
-              <td class="mono">US$4,494</td>
-              <td><span class="pay-badge pay-full">全額</span></td>
-            </tr>
-            <tr>
-              <td>SkyCloud Computing</td>
-              <td class="mono">9</td>
-              <td class="mono" style="color:var(--muted)">TH251125</td>
-              <td class="mono">US$4,494</td>
-              <td class="mono">US$4,494</td>
-              <td><span class="pay-badge pay-full">全額</span></td>
-            </tr>
-            <tr style="background:var(--surface2)">
-              <td style="font-weight:600">合計</td>
-              <td class="mono">72</td>
-              <td></td>
-              <td class="mono" style="font-weight:600">US$50,088</td>
-              <td class="mono" style="font-weight:600;color:var(--green)">US$50,088</td>
-              <td></td>
-            </tr>
+            <tr><td>NTCA 新北電腦公會</td><td class="mono" style="color:var(--muted)">TH260102-1+2</td><td class="mono">US$41,100</td><td class="mono">US$41,100</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>Openfind</td><td class="mono" style="color:var(--muted)">TH251128</td><td class="mono">US$4,494</td><td class="mono">US$4,494</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>SkyCloud Computing</td><td class="mono" style="color:var(--muted)">TH251125</td><td class="mono">US$4,494</td><td class="mono">US$4,494</td><td><span class="pay-badge pay-full">全額</span></td></tr>
           </tbody>
         </table>
       </div>
       <div class="tab-content" id="cyber-costs">
         <table class="cost-table">
-          <thead><tr><th>項目</th><th>Invoice No.</th><th>金額</th><th>狀態</th></tr></thead>
+          <thead><tr><th>項目</th><th>金額</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>Exhibition Space Bronze Package（VNU）</td>
-              <td class="mono" style="color:var(--muted)">IN125120040</td>
-              <td class="mono">US$30,559.20</td>
-              <td><span class="pay-badge pay-full">已付</span></td>
-            </tr>
-            <tr>
-              <td>NCC 費用</td>
-              <td class="mono" style="color:var(--muted)">—</td>
-              <td class="mono">US$2,000</td>
-              <td><span class="pay-badge pay-full">已付</span></td>
-            </tr>
-            <tr class="cost-total"><td>合計</td><td></td><td class="mono">US$32,559.20</td><td></td></tr>
+            <tr><td>VNU 攤位費（含 VAT）</td><td class="mono">US$30,559</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>NCC 費用</td><td class="mono">US$2,000</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr class="cost-total"><td>合計</td><td class="mono">US$32,559</td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">大會：VNU Exhibitions Asia Pacific · Swift: KASITHBK · Kasikorn Bank</div>
-      </div>
-      <div class="tab-content" id="cyber-summary">
-        <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$50,088</div></div>
-          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$32,559</div></div>
-          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$17,529</div></div>
-          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">34.9%</div></div>
-          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
-          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
-        </div>
       </div>
     </div>
   </div>
@@ -320,71 +362,83 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
         <div class="expo-meta">108 sqm · 12 攤 · 韓國首爾 Coex · 2026/05/06–08</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val hi">US$17,780</div>
-        <div class="profit-pct">利潤率 38.5%</div>
+        <div class="profit-val hi">NT$434,340</div>
+        <div class="profit-pct">展覽淨利</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
-    <div class="bar-row">
-      <div class="bar-lbl">收入</div>
-      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$46,200</div>
-      <div class="bar-lbl">支出</div>
-      <div class="bar-track"><div class="bar-fill b-exp" style="width:61.5%"></div></div>
-      <div class="bar-num">US$28,420</div>
-      <div class="bar-lbl">利潤</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:38.5%"></div></div>
-      <div class="bar-num" style="color:var(--green)">US$17,780</div>
+    <div class="profit-layers">
+      <div class="layer">
+        <div class="layer-label">已收收入</div>
+        <div class="layer-bar"><div class="layer-fill lb-rev" style="width:100%"></div></div>
+        <div class="layer-num">NT$1,432,200</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">大會費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-cost" style="width:61.5%"></div></div>
+        <div class="layer-num" style="color:var(--red)">−NT$881,020</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">展覽毛利</div>
+        <div class="layer-bar"><div class="layer-fill lb-gross" style="width:38.5%"></div></div>
+        <div class="layer-num" style="color:var(--green)">NT$551,180</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">出差費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-trip" style="width:8%"></div></div>
+        <div class="layer-num" style="color:var(--amber)">−NT$58,420</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label" style="font-weight:600;color:var(--text)">展覽淨利</div>
+        <div class="layer-bar"><div class="layer-fill lb-net" style="width:34%"></div></div>
+        <div class="layer-num" style="color:var(--gold-deep);font-weight:600">NT$492,760</div>
+      </div>
     </div>
     <div class="flag-row">
       <span class="flag f-ok">TAITRA 全額已收</span>
       <span class="flag f-ok">SeoulMESSE 全額已付</span>
+      <span class="flag f-ok">出差費已填</span>
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
-        <button class="tab active" onclick="switchTab('ai','exhibitors')">展商收款</button>
+        <button class="tab active" onclick="switchTab('ai','pnl')">損益明細</button>
+        <button class="tab" onclick="switchTab('ai','exhibitors')">展商收款</button>
         <button class="tab" onclick="switchTab('ai','costs')">大會成本</button>
-        <button class="tab" onclick="switchTab('ai','summary')">損益摘要</button>
       </div>
-      <div class="tab-content active" id="ai-exhibitors">
+      <div class="tab-content active" id="ai-pnl">
+        <table class="pnl-table">
+          <tr><td colspan="2" class="pnl-section">收入</td></tr>
+          <tr><td class="pnl-label">TAITRA</td><td class="pnl-val">NT$1,432,200</td></tr>
+          <tr><td class="pnl-label pnl-total">已收收入小計</td><td class="pnl-val pnl-total">NT$1,432,200</td></tr>
+          <tr><td colspan="2" class="pnl-section">大會成本</td></tr>
+          <tr><td class="pnl-label">SeoulMESSE 攤位費</td><td class="pnl-val pnl-neg">−NT$851,100</td></tr>
+          <tr><td class="pnl-label">退款扣除</td><td class="pnl-val" style="color:var(--green)">+NT$49,910</td></tr>
+          <tr><td class="pnl-label pnl-subtotal">展覽毛利</td><td class="pnl-val pnl-subtotal" style="color:var(--green)">NT$551,180</td></tr>
+          <tr><td colspan="2" class="pnl-section">出差費用</td></tr>
+          <tr><td class="pnl-label">機票</td><td class="pnl-val pnl-neg">−NT$13,255</td></tr>
+          <tr><td class="pnl-label">酒店</td><td class="pnl-val pnl-neg">−NT$25,165</td></tr>
+          <tr><td class="pnl-label">當地雜費</td><td class="pnl-val pnl-neg">−NT$20,000</td></tr>
+          <tr><td class="pnl-label pnl-total">展覽淨利</td><td class="pnl-val pnl-total">NT$492,760</td></tr>
+        </table>
+      </div>
+      <div class="tab-content" id="ai-exhibitors">
         <table class="ex-table">
-          <thead><tr><th>展商</th><th>平米</th><th>Invoice No.</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
+          <thead><tr><th>展商</th><th>Invoice</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>TAITRA</td>
-              <td class="mono">108</td>
-              <td class="mono" style="color:var(--muted)">KO241119</td>
-              <td class="mono">US$46,200</td>
-              <td class="mono">US$46,200</td>
-              <td><span class="pay-badge pay-full">全額</span></td>
-            </tr>
+            <tr><td>TAITRA</td><td class="mono" style="color:var(--muted)">KO241119</td><td class="mono">US$46,200</td><td class="mono">US$46,200</td><td><span class="pay-badge pay-full">全額</span></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px;padding:8px 10px;background:var(--surface2);border-radius:6px">
-          攤位費 US$42,000 + VAT 10% US$4,200 = US$46,200　·　截止日 2026/02/26（已收）
-        </div>
       </div>
       <div class="tab-content" id="ai-costs">
         <table class="cost-table">
           <thead><tr><th>項目</th><th>金額</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr><td>Raw Space 12攤（SeoulMESSE）</td><td class="mono">US$27,300</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>SeoulMESSE 攤位費</td><td class="mono">US$27,300</td><td><span class="pay-badge pay-full">已付</span></td></tr>
             <tr><td>VAT 10%</td><td class="mono">US$2,730</td><td><span class="pay-badge pay-full">已付</span></td></tr>
-            <tr><td>退款扣除</td><td class="mono" style="color:var(--green)">−US$1,610</td><td><span class="pay-badge pay-full">已扣</span></td></tr>
+            <tr><td>退款</td><td class="mono" style="color:var(--green)">−US$1,610</td><td><span class="pay-badge pay-full">已扣</span></td></tr>
             <tr class="cost-total"><td>實付合計</td><td class="mono">US$28,420</td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">付款銀行：Woori Bank · Swift: HVBKKRSE · A/C: SEOULMESSE CO., LTD.</div>
-      </div>
-      <div class="tab-content" id="ai-summary">
-        <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$46,200</div></div>
-          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$28,420</div></div>
-          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$17,780</div></div>
-          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">38.5%</div></div>
-          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
-          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
-        </div>
       </div>
     </div>
   </div>
@@ -398,89 +452,60 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
         <div class="expo-meta">90 sqm · 10 攤 · 泰國曼谷 BITEC · 2026/06/04–07</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val hi">US$12,966</div>
-        <div class="profit-pct">利潤率 30.6%　（預估）</div>
+        <div class="profit-val zero">NT$0</div>
+        <div class="profit-pct">待收款後計入</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
-    <div class="bar-row">
-      <div class="bar-lbl">收入</div>
-      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$42,372</div>
-      <div class="bar-lbl">支出</div>
-      <div class="bar-track"><div class="bar-fill b-exp" style="width:69.4%"></div></div>
-      <div class="bar-num">US$29,406</div>
-      <div class="bar-lbl">利潤</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:30.6%"></div></div>
-      <div class="bar-num" style="color:var(--green)">US$12,966</div>
-    </div>
     <div class="flag-row">
-      <span class="flag f-urg">待收 US$42,372（TAITRA，4/17 到期）</span>
-      <span class="flag f-warn">待付 US$29,406（Kavin，4/30 到期）</span>
+      <span class="flag f-urg">待收 US$42,372（TAITRA 已逾期）</span>
+      <span class="flag f-warn">待付 US$29,406（Kavin 4/30）</span>
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
-        <button class="tab active" onclick="switchTab('tfbo','exhibitors')">展商收款</button>
+        <button class="tab active" onclick="switchTab('tfbo','pnl')">損益明細</button>
+        <button class="tab" onclick="switchTab('tfbo','exhibitors')">展商收款</button>
         <button class="tab" onclick="switchTab('tfbo','costs')">大會成本</button>
-        <button class="tab" onclick="switchTab('tfbo','summary')">損益摘要</button>
       </div>
-      <div class="tab-content active" id="tfbo-exhibitors">
+      <div class="tab-content active" id="tfbo-pnl">
+        <table class="pnl-table">
+          <tr><td colspan="2" class="pnl-section">收入</td></tr>
+          <tr><td class="pnl-label">TAITRA（未收）</td><td class="pnl-val pnl-amber">US$42,372 ※未收</td></tr>
+          <tr><td class="pnl-label pnl-total">已收收入小計</td><td class="pnl-val pnl-total" style="color:var(--muted)">NT$0</td></tr>
+          <tr><td colspan="2" class="pnl-section">大會成本</td></tr>
+          <tr><td class="pnl-label">Kavin Intertrade（未付）</td><td class="pnl-val pnl-amber">US$29,406 ※待付</td></tr>
+          <tr><td class="pnl-label pnl-subtotal">展覽毛利</td><td class="pnl-val pnl-subtotal" style="color:var(--muted)">待收款後計算</td></tr>
+          <tr><td colspan="2" class="pnl-section">出差費用</td></tr>
+          <tr><td class="pnl-label">預估（泰國）</td><td class="pnl-val pnl-amber">NT$34,382 ※預估</td></tr>
+          <tr><td class="pnl-label pnl-total">展覽淨利</td><td class="pnl-val pnl-total" style="color:var(--muted)">待收款後計算</td></tr>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:12px;color:var(--amber)">
+          收到 TAITRA 款項後，請在展商收款頁更新狀態，系統自動計入利潤。
+        </div>
+        <!-- 出差費輸入 -->
+        <div class="trip-input-row">
+          <div class="trip-input-label">實際出差費用（收款後填入）</div>
+          <input class="trip-input" type="number" placeholder="34,382" id="trip-tfbo">
+          <button class="trip-save-btn" onclick="saveTrip('tfbo')">儲存</button>
+        </div>
+      </div>
+      <div class="tab-content" id="tfbo-exhibitors">
         <table class="ex-table">
-          <thead><tr><th>展商</th><th>平米</th><th>Invoice No.</th><th>合約金額</th><th>已收</th><th>未收</th><th>截止日</th><th>狀態</th></tr></thead>
+          <thead><tr><th>展商</th><th>Invoice</th><th>合約金額</th><th>已收</th><th>截止日</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>TAITRA</td>
-              <td class="mono">90</td>
-              <td class="mono" style="color:var(--muted)">TH260408</td>
-              <td class="mono">US$42,372</td>
-              <td class="mono">US$0</td>
-              <td class="mono" style="color:var(--red)">US$42,372</td>
-              <td class="mono" style="color:var(--red);font-weight:600">2026/04/17</td>
-              <td><span class="pay-badge pay-none">未收</span></td>
-            </tr>
+            <tr><td>TAITRA</td><td class="mono" style="color:var(--muted)">TH260408</td><td class="mono">US$42,372</td><td class="mono">US$0</td><td class="mono" style="color:var(--red);font-weight:600">已逾期</td><td><span class="pay-badge pay-none">未收</span></td></tr>
           </tbody>
         </table>
-        <div style="margin-top:10px;padding:10px 12px;background:var(--red-light);border:1px solid var(--red-border);border-radius:8px;font-size:12px;color:var(--red)">
-          收款明細：攤位費 US$36,000 + 角位費 US$3,600 + VAT 7% US$2,772 = US$42,372
-        </div>
       </div>
       <div class="tab-content" id="tfbo-costs">
         <table class="cost-table">
-          <thead><tr><th>項目</th><th>Invoice No.</th><th>金額</th><th>已付</th><th>截止日</th><th>狀態</th></tr></thead>
+          <thead><tr><th>項目</th><th>金額</th><th>截止日</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>Raw Space 90sqm（Kavin Intertrade）</td>
-              <td class="mono" style="color:var(--muted)">Inv.690134</td>
-              <td class="mono">US$27,481.88</td>
-              <td class="mono">US$0</td>
-              <td class="mono" style="color:var(--amber)">2026/04/30</td>
-              <td><span class="pay-badge pay-none">未付</span></td>
-            </tr>
-            <tr>
-              <td>VAT 7%</td>
-              <td class="mono" style="color:var(--muted)">Inv.690134</td>
-              <td class="mono">US$1,923.73</td>
-              <td class="mono">US$0</td>
-              <td class="mono" style="color:var(--amber)">2026/04/30</td>
-              <td><span class="pay-badge pay-none">未付</span></td>
-            </tr>
-            <tr class="cost-total"><td>合計</td><td></td><td class="mono">US$29,405.61</td><td class="mono">US$0</td><td></td><td></td></tr>
+            <tr><td>Raw Space（Kavin）</td><td class="mono">US$27,482</td><td class="mono" style="color:var(--amber)">4/30</td><td><span class="pay-badge pay-none">未付</span></td></tr>
+            <tr><td>VAT 7%</td><td class="mono">US$1,924</td><td class="mono" style="color:var(--amber)">4/30</td><td><span class="pay-badge pay-none">未付</span></td></tr>
+            <tr class="cost-total"><td>合計</td><td class="mono">US$29,406</td><td></td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">付款銀行：Kasikorn Bank · Swift: KASITHBK · A/C: Kavin Intertrade Co.,Ltd.</div>
-      </div>
-      <div class="tab-content" id="tfbo-summary">
-        <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$42,372</div></div>
-          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$29,406</div></div>
-          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$12,966</div></div>
-          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">30.6%</div></div>
-          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--red)">US$42,372</div></div>
-          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--amber)">US$29,406</div></div>
-        </div>
-        <div style="margin-top:10px;padding:8px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:11px;color:var(--amber)">
-          展覽尚未開幕（2026/06/04），數字為預估值。收款後更新為確認值。
-        </div>
       </div>
     </div>
   </div>
@@ -494,21 +519,37 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
         <div class="expo-meta">18 sqm · 2 攤 · 印尼雅加達</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val lo">US$1,513</div>
-        <div class="profit-pct">利潤率 13.5%</div>
+        <div class="profit-val lo">NT$3,436</div>
+        <div class="profit-pct">展覽淨利（部份）</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
-    <div class="bar-row">
-      <div class="bar-lbl">收入</div>
-      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$11,199</div>
-      <div class="bar-lbl">支出</div>
-      <div class="bar-track"><div class="bar-fill b-exp" style="width:86.5%"></div></div>
-      <div class="bar-num">US$9,686</div>
-      <div class="bar-lbl">利潤</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:13.5%"></div></div>
-      <div class="bar-num" style="color:var(--amber)">US$1,513</div>
+    <div class="profit-layers">
+      <div class="layer">
+        <div class="layer-label">已收收入</div>
+        <div class="layer-bar"><div class="layer-fill lb-rev" style="width:100%"></div></div>
+        <div class="layer-num">NT$173,569</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">大會費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-cost" style="width:86.5%"></div></div>
+        <div class="layer-num" style="color:var(--red)">−NT$150,133</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">展覽毛利</div>
+        <div class="layer-bar"><div class="layer-fill lb-gross" style="width:13.5%"></div></div>
+        <div class="layer-num" style="color:var(--green)">NT$23,436</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">出差費用</div>
+        <div class="layer-bar"><div class="layer-fill lb-trip" style="width:12%"></div></div>
+        <div class="layer-num" style="color:var(--amber)">−NT$20,000</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label" style="font-weight:600;color:var(--text)">展覽淨利</div>
+        <div class="layer-bar"><div class="layer-fill lb-net" style="width:2%"></div></div>
+        <div class="layer-num" style="color:var(--amber);font-weight:600">NT$3,436</div>
+      </div>
     </div>
     <div class="flag-row">
       <span class="flag f-urg">待收 US$5,600（華誠尾款）</span>
@@ -516,27 +557,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
-        <button class="tab active" onclick="switchTab('inti','exhibitors')">展商收款</button>
+        <button class="tab active" onclick="switchTab('inti','pnl')">損益明細</button>
+        <button class="tab" onclick="switchTab('inti','exhibitors')">展商收款</button>
         <button class="tab" onclick="switchTab('inti','costs')">大會成本</button>
-        <button class="tab" onclick="switchTab('inti','summary')">損益摘要</button>
       </div>
-      <div class="tab-content active" id="inti-exhibitors">
+      <div class="tab-content active" id="inti-pnl">
+        <table class="pnl-table">
+          <tr><td colspan="2" class="pnl-section">收入</td></tr>
+          <tr><td class="pnl-label">華誠（已收 50%）</td><td class="pnl-val">NT$173,569</td></tr>
+          <tr><td class="pnl-label pnl-amber">華誠尾款（未收）</td><td class="pnl-val pnl-amber">US$5,600 ※未收</td></tr>
+          <tr><td class="pnl-label pnl-total">已收收入小計</td><td class="pnl-val pnl-total">NT$173,569</td></tr>
+          <tr><td colspan="2" class="pnl-section">大會成本</td></tr>
+          <tr><td class="pnl-label">已付大會費</td><td class="pnl-val pnl-neg">−NT$150,133</td></tr>
+          <tr><td class="pnl-label pnl-amber">待付大會費</td><td class="pnl-val pnl-amber">US$4,843 ※待付</td></tr>
+          <tr><td class="pnl-label pnl-subtotal">展覽毛利（已收部份）</td><td class="pnl-val pnl-subtotal" style="color:var(--green)">NT$23,436</td></tr>
+          <tr><td colspan="2" class="pnl-section">出差費用</td></tr>
+          <tr><td class="pnl-label">預估雜費</td><td class="pnl-val pnl-neg">−NT$20,000</td></tr>
+          <tr><td class="pnl-label pnl-total">展覽淨利（已收部份）</td><td class="pnl-val pnl-total" style="color:var(--amber)">NT$3,436</td></tr>
+        </table>
+      </div>
+      <div class="tab-content" id="inti-exhibitors">
         <table class="ex-table">
-          <thead><tr><th>展商</th><th>平米</th><th>合約金額</th><th>已收</th><th>未收</th><th>狀態</th></tr></thead>
+          <thead><tr><th>展商</th><th>合約金額</th><th>已收</th><th>未收</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr>
-              <td>華誠</td>
-              <td class="mono">18</td>
-              <td class="mono">US$11,199</td>
-              <td class="mono">US$5,599</td>
-              <td class="mono" style="color:var(--red)">US$5,600</td>
-              <td><span class="pay-badge pay-part">50%</span></td>
-            </tr>
+            <tr><td>華誠</td><td class="mono">US$11,199</td><td class="mono">US$5,599</td><td class="mono" style="color:var(--red)">US$5,600</td><td><span class="pay-badge pay-part">50%</span></td></tr>
           </tbody>
         </table>
-        <div style="margin-top:12px;padding:10px 12px;background:var(--red-light);border:1px solid var(--red-border);border-radius:8px;font-size:12px;color:var(--red)">
-          建議先追回華誠 US$5,600 尾款，再匯付大會 US$4,843。
-        </div>
       </div>
       <div class="tab-content" id="inti-costs">
         <table class="cost-table">
@@ -546,37 +592,117 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
             <tr class="cost-total"><td>合計</td><td class="mono">US$9,686</td><td class="mono">US$4,843</td><td class="mono">US$4,843</td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">佣金比率 20%</div>
-      </div>
-      <div class="tab-content" id="inti-summary">
-        <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$11,199</div></div>
-          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$9,686</div></div>
-          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--amber)">US$1,513</div></div>
-          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">13.5%</div></div>
-          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--red)">US$5,600</div></div>
-          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--amber)">US$4,843</div></div>
-        </div>
       </div>
     </div>
   </div>
 
 </div>
 
-<div class="note">
-  <strong>更新方式：</strong>收到客戶匯款或大會 invoice，直接截圖或 PDF 上傳給 Claude，說明是哪個展 → 我解析後告訴你數字變化，並輸出新版報表。<br>
-  <strong>匯率：</strong>USD 1 = NT$31　·　SGD 1 = NT$23
+<!-- 年度固定費用分攤 -->
+<div class="sec-label" style="margin-top:28px">年度費用分攤說明</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;font-size:12px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div>
+      <div style="color:var(--muted);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:.08em">固定費用/月</div>
+      <div style="font-family:var(--mono);font-size:16px;font-weight:500">NT$21,161</div>
+    </div>
+    <div>
+      <div style="color:var(--muted);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:.08em">年度固定費用（全年扣除）</div>
+      <div style="font-family:var(--mono);font-size:16px;font-weight:500;color:var(--red)">NT$253,930</div>
+    </div>
+  </div>
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto">
+    <div style="color:var(--text);font-weight:600">展覽淨利合計</div>
+    <div style="font-family:var(--mono);font-weight:600;color:var(--green)">NT$1,005,207</div>
+  </div>
+  <div style="margin-top:6px;display:grid;grid-template-columns:1fr auto">
+    <div style="color:var(--muted)">扣除年度固定費用</div>
+    <div style="font-family:var(--mono);color:var(--red)">−NT$253,930</div>
+  </div>
+  <div style="margin-top:8px;padding-top:10px;border-top:1.5px solid var(--gold-border);display:grid;grid-template-columns:1fr auto">
+    <div style="color:var(--gold-deep);font-weight:700;font-size:14px">公司真實淨利潤</div>
+    <div style="font-family:var(--mono);font-weight:700;font-size:18px;color:var(--gold-deep)">NT$751,277</div>
+  </div>
+</div>
+
+<div class="note" style="margin-top:16px">
+  <strong>匯率：</strong>USD 1 = NT$31　·　<strong>更新：</strong>上傳 invoice 或告知收款狀況，我更新報表
 </div>
 
 <script>
-function toggle(id){
+// 今天日期
+const now = new Date();
+const days = ['日','一','二','三','四','五','六'];
+document.getElementById('today').textContent = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+
+// 計算 KPI
+const expoNets = [509011, 492760, 3436, 0];
+const totalExpoNet = expoNets.reduce((a,b)=>a+b,0);
+const annualFixed = 253930;
+const trueNet = totalExpoNet - annualFixed;
+
+document.getElementById('kpi-expo-net').textContent = 'NT$' + totalExpoNet.toLocaleString();
+document.getElementById('kpi-net').textContent = 'NT$' + trueNet.toLocaleString();
+document.getElementById('kpi-net-sub').textContent = '展覽淨利 NT$' + totalExpoNet.toLocaleString() + ' − 年度固定費用 NT$' + annualFixed.toLocaleString();
+
+// 固定費用資料
+const defaultCosts = [
+  {name:'房租', monthly:10000},
+  {name:'會計費', monthly:2217},
+  {name:'境外帳戶', monthly:2067},
+  {name:'勞健保', monthly:4487},
+  {name:'Claude', monthly:620},
+  {name:'Canva Pro', monthly:310},
+  {name:'Google Drive', monthly:90},
+  {name:'Google Workspace', monthly:434},
+  {name:'Cloudways', monthly:899},
+  {name:'域名', monthly:38},
+];
+
+function renderCosts() {
+  const list = document.getElementById('cost-list');
+  let totalM = 0;
+  list.innerHTML = defaultCosts.map((c) => {
+    totalM += c.monthly;
+    return '<div class="cost-item"><div class="cost-name">' + c.name + '</div><div class="cost-monthly">NT$' + c.monthly.toLocaleString() + '/月</div><div class="cost-annual">NT$' + (c.monthly*12).toLocaleString() + '/年</div></div>';
+  }).join('');
+  const totalA = totalM * 12;
+  document.getElementById('cost-total-monthly').textContent = 'NT$' + totalM.toLocaleString();
+  document.getElementById('cost-total-annual').textContent = 'NT$' + totalA.toLocaleString();
+  document.getElementById('fixed-summary').textContent = 'NT$' + totalM.toLocaleString() + '/月　·　NT$' + totalA.toLocaleString() + '/年';
+}
+renderCosts();
+
+function toggleFixedCost() {
+  document.getElementById('fixed-body').classList.toggle('open');
+}
+
+function addCostItem() {
+  const name = prompt('費用名稱（例如：Brevo）');
+  if (!name) return;
+  const monthly = parseInt(prompt('月費金額（NT$）'));
+  if (isNaN(monthly)) return;
+  const costs = JSON.parse(localStorage.getItem('fixedCosts') || JSON.stringify(defaultCosts));
+  costs.push({name, monthly});
+  localStorage.setItem('fixedCosts', JSON.stringify(costs));
+  renderCosts();
+}
+
+function saveTrip(expoId) {
+  const val = parseInt(document.getElementById('trip-' + expoId).value);
+  if (isNaN(val)) return;
+  alert('出差費用 NT$' + val.toLocaleString() + ' 已記錄，請告知 Claude 更新報表數字。');
+}
+
+function toggle(id) {
   document.getElementById(id).classList.toggle('open');
 }
-function switchTab(expo,tab){
-  const panel=document.getElementById('card-'+expo).querySelector('.detail-panel');
-  const tabs=['exhibitors','costs','summary'];
-  panel.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===tab)});
-  panel.querySelectorAll('.tab-content').forEach(c=>{c.classList.toggle('active',c.id===expo+'-'+tab)});
+
+function switchTab(expo, tab) {
+  const panel = document.getElementById('card-' + expo).querySelector('.detail-panel');
+  const tabs = ['pnl','exhibitors','costs'];
+  panel.querySelectorAll('.tab').forEach((t,i) => { t.classList.toggle('active', tabs[i]===tab); });
+  panel.querySelectorAll('.tab-content').forEach(c => { c.classList.toggle('active', c.id===expo+'-'+tab); });
 }
 </script>
 </body>
