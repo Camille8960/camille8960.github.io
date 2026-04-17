@@ -239,20 +239,28 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
     <div class="fixed-cost-summary" id="fixed-summary">NT$21,161/月　·　NT$253,930/年</div>
   </div>
   <div class="fixed-cost-body" id="fixed-body">
-    <div id="cost-list">
-      <!-- 動態生成 -->
+    <div class="cost-item" style="font-size:10px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.08em;padding-bottom:6px">
+      <div>項目</div><div style="text-align:right">月費</div><div style="text-align:right">年費</div>
     </div>
-    <div class="cost-total-row">
+    <div class="cost-item"><div class="cost-name">房租</div><div class="cost-monthly">NT$10,000</div><div class="cost-annual">NT$120,000</div></div>
+    <div class="cost-item"><div class="cost-name">會計費</div><div class="cost-monthly">NT$2,217</div><div class="cost-annual">NT$26,600</div></div>
+    <div class="cost-item"><div class="cost-name">境外帳戶維護費</div><div class="cost-monthly">NT$2,067</div><div class="cost-annual">NT$24,800</div></div>
+    <div class="cost-item"><div class="cost-name">勞健保</div><div class="cost-monthly">NT$4,487</div><div class="cost-annual">NT$53,844</div></div>
+    <div class="cost-item"><div class="cost-name">Claude Pro</div><div class="cost-monthly">NT$620</div><div class="cost-annual">NT$7,440</div></div>
+    <div class="cost-item"><div class="cost-name">Canva Pro</div><div class="cost-monthly">NT$310</div><div class="cost-annual">NT$3,720</div></div>
+    <div class="cost-item"><div class="cost-name">Google Drive</div><div class="cost-monthly">NT$90</div><div class="cost-annual">NT$1,080</div></div>
+    <div class="cost-item"><div class="cost-name">Google Workspace（2帳號）</div><div class="cost-monthly">NT$434</div><div class="cost-annual">NT$5,208</div></div>
+    <div class="cost-item"><div class="cost-name">Cloudways 主機</div><div class="cost-monthly">NT$899</div><div class="cost-annual">NT$10,788</div></div>
+    <div class="cost-item"><div class="cost-name">域名（sunriseexpo.com）</div><div class="cost-monthly">NT$38</div><div class="cost-annual">NT$450</div></div>
+    <div class="cost-total-row" style="margin-top:10px">
       <div class="cost-total-label">月合計</div>
-      <div class="cost-total-val" id="cost-total-monthly">NT$21,161</div>
+      <div class="cost-total-val">NT$21,162</div>
     </div>
     <div class="cost-total-row" style="margin-top:4px">
       <div class="cost-total-label">年合計</div>
-      <div class="cost-total-val" id="cost-total-annual">NT$253,930</div>
+      <div class="cost-total-val">NT$253,930</div>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--muted)">
-      如需修改費用，請告知 Claude 更新。
-    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">如需修改費用，請告知 Claude 更新。</div>
   </div>
 </div>
 
@@ -645,33 +653,9 @@ document.getElementById('kpi-expo-net').textContent = 'NT$' + totalExpoNet.toLoc
 document.getElementById('kpi-net').textContent = 'NT$' + trueNet.toLocaleString();
 document.getElementById('kpi-net-sub').textContent = '展覽淨利 NT$' + totalExpoNet.toLocaleString() + ' − 年度固定費用 NT$' + annualFixed.toLocaleString();
 
-// 固定費用資料
-const defaultCosts = [
-  {name:'房租', monthly:10000},
-  {name:'會計費', monthly:2217},
-  {name:'境外帳戶', monthly:2067},
-  {name:'勞健保', monthly:4487},
-  {name:'Claude', monthly:620},
-  {name:'Canva Pro', monthly:310},
-  {name:'Google Drive', monthly:90},
-  {name:'Google Workspace', monthly:434},
-  {name:'Cloudways', monthly:899},
-  {name:'域名', monthly:38},
-];
 
-function renderCosts() {
-  const list = document.getElementById('cost-list');
-  let totalM = 0;
-  list.innerHTML = defaultCosts.map((c) => {
-    totalM += c.monthly;
-    return '<div class="cost-item"><div class="cost-name">' + c.name + '</div><div class="cost-monthly">NT$' + c.monthly.toLocaleString() + '/月</div><div class="cost-annual">NT$' + (c.monthly*12).toLocaleString() + '/年</div></div>';
-  }).join('');
-  const totalA = totalM * 12;
-  document.getElementById('cost-total-monthly').textContent = 'NT$' + totalM.toLocaleString();
-  document.getElementById('cost-total-annual').textContent = 'NT$' + totalA.toLocaleString();
-  document.getElementById('fixed-summary').textContent = 'NT$' + totalM.toLocaleString() + '/月　·　NT$' + totalA.toLocaleString() + '/年';
-}
-renderCosts();
+
+// 固定費用已靜態列出，無需動態生成
 
 function toggleFixedCost() {
   document.getElementById('fixed-body').classList.toggle('open');
