@@ -42,7 +42,6 @@ body{
   padding:0 0 60px;
 }
 
-/* 細緻的紋理背景 */
 body::before{
   content:'';
   position:fixed;
@@ -56,11 +55,7 @@ body::before{
 
 .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 20px}
 
-/* ── Header ── */
-.header{
-  position:relative;
-  margin:0 -20px 32px;
-}
+.header{position:relative;margin:0 -20px 32px;}
 .header-bg{
   background:linear-gradient(150deg,#fffef9 0%,#fdf8ea 50%,#f8eccc 100%);
   padding:28px 28px 26px;
@@ -93,7 +88,6 @@ body::before{
   align-items:center;
   gap:16px;
 }
-.header-left{}
 .header-company{
   font-family:var(--mono);
   font-size:10px;
@@ -122,34 +116,11 @@ body::before{
   margin-top:3px;
   white-space:nowrap;
 }
-.header-tagline{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:8px;
-  letter-spacing:.02em;
-}
 .header-right{
   text-align:right;
   border-left:1px solid var(--gold-border);
   padding-left:18px;
   min-width:90px;
-}
-.header-ctrl-label{
-  font-family:var(--mono);
-  font-size:9px;
-  letter-spacing:.2em;
-  color:var(--gold);
-  text-transform:uppercase;
-  opacity:0.65;
-  margin-bottom:4px;
-}
-.header-ctrl-title{
-  font-family:var(--serif);
-  font-size:20px;
-  font-weight:600;
-  color:var(--gold-deep);
-  letter-spacing:.06em;
-  line-height:1.2;
 }
 .header-date{
   font-family:var(--mono);
@@ -161,14 +132,12 @@ body::before{
   font-weight:500;
 }
 
-
-/* ── 表單提交 ── */
 .form-strip{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:14px;
   padding:16px 18px;
-  margin-bottom:32px;
+  margin-bottom:12px;
   box-shadow:0 1px 4px rgba(0,0,0,0.04);
 }
 .form-strip-title{
@@ -218,7 +187,6 @@ body::before{
   vertical-align:middle;
 }
 
-/* ── Section label ── */
 .sec-label{
   font-size:10px;
   letter-spacing:.18em;
@@ -237,12 +205,9 @@ body::before{
   background:var(--gold-border);
 }
 
-/* ── Module grid ── */
 .module-grid{display:grid;gap:12px;margin-bottom:32px}
 .module-grid.cols2{grid-template-columns:1fr 1fr}
-.module-grid.cols3{grid-template-columns:repeat(3,1fr)}
 
-/* ── Module card ── */
 .module{
   background:var(--surface);
   border:1px solid var(--border);
@@ -274,15 +239,11 @@ body::before{
   transform:translateY(-1px);
 }
 .module:hover::before{opacity:1}
-
 .module.primary{
   border-color:var(--gold-border);
   background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%);
 }
 .module.primary::before{opacity:1}
-
-.module.alert{border-color:rgba(192,57,43,0.25);background:var(--red-light)}
-.module.warn{border-color:rgba(184,106,16,0.25);background:var(--amber-light)}
 
 .module-icon{font-size:22px;margin-bottom:2px}
 .module-name{font-size:14px;font-weight:600;color:var(--text)}
@@ -297,11 +258,7 @@ body::before{
   align-self:flex-start;
 }
 .badge-live{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.25)}
-.badge-new{background:var(--gold-light);color:var(--gold-deep);border:1px solid var(--gold-border)}
-.badge-soon{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,106,16,0.25)}
-.badge-ext{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
 
-/* ── 外部工具小格 ── */
 .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px}
 .tool{
   background:var(--surface);
@@ -318,7 +275,6 @@ body::before{
 .tool-icon{font-size:20px;display:block;margin-bottom:6px}
 .tool-name{font-size:11px;color:var(--muted);font-weight:500}
 
-/* ── 展覽倒數 ── */
 .expo-strip{
   background:var(--surface);
   border:1px solid var(--gold-border);
@@ -326,14 +282,6 @@ body::before{
   padding:16px 18px;
   margin-bottom:32px;
   background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%);
-}
-.expo-strip-title{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:.12em;
-  color:var(--gold);
-  text-transform:uppercase;
-  margin-bottom:12px;
 }
 .expo-countdown-list{display:flex;flex-direction:column;gap:8px}
 .expo-row{
@@ -360,7 +308,6 @@ body::before{
 .days-ok{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.2)}
 .days-far{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
 
-/* ── Footer ── */
 .footer{
   text-align:center;
   padding:24px 0 0;
@@ -371,16 +318,14 @@ body::before{
   letter-spacing:.05em;
 }
 
-/* venue row with buttons */
-.venue-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:9px 0;border-bottom:0.5px solid var(--gold-border)}
+.venue-row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:8px;padding:9px 0;border-bottom:0.5px solid var(--gold-border)}
 .venue-row:last-child{border-bottom:none;padding-bottom:0}
-.venue-row-info{}
 .venue-row-name{font-size:13px;font-weight:500}
 .venue-row-date{font-size:11px;color:var(--muted);margin-top:1px}
 .btn-cal{
   font-size:10px;padding:4px 10px;border-radius:20px;
   background:var(--green-light);color:var(--green);
-  border:1px solid var(--green-border);
+  border:1px solid rgba(42,122,85,0.2);
   text-decoration:none;white-space:nowrap;font-weight:500;
   cursor:pointer;display:inline-block;
 }
@@ -390,13 +335,11 @@ body::before{
   border:1px solid var(--border);
   cursor:pointer;white-space:nowrap;font-family:var(--sans);
 }
-.btn-hide:hover{background:var(--red-light);color:var(--red);border-color:var(--red-border)}
+.btn-hide:hover{background:var(--red-light);color:var(--red);}
 
 @media(max-width:480px){
   .module-grid.cols2{grid-template-columns:1fr}
-  .module-grid.cols3{grid-template-columns:1fr 1fr}
   .tool-grid{grid-template-columns:repeat(4,1fr)}
-  .header-title{font-size:30px}
 }
 </style>
 </head>
@@ -437,30 +380,35 @@ body::before{
     </div>
   </div>
 
-  <!-- 最新表單提交 -->
+  <!-- 官網下載展會資料 -->
   <div class="form-strip">
     <div class="form-strip-title">
-      最新官網報名
-      <span id="formCount">載入中</span>
+      📥 官網下載展會資料
+      <span id="downloadCount">載入中</span>
     </div>
-    <div id="formList">
+    <div id="downloadList">
+      <div style="font-size:12px;color:var(--muted)">載入中...</div>
+    </div>
+  </div>
+
+  <!-- 最新參展報名 -->
+  <div class="form-strip" style="margin-bottom:32px">
+    <div class="form-strip-title">
+      📋 最新參展報名
+      <span id="regCount">載入中</span>
+    </div>
+    <div id="regList">
       <div style="font-size:12px;color:var(--muted)">載入中...</div>
     </div>
   </div>
 
   <!-- 核心系統 -->
   <div class="sec-label">核心系統</div>
-  <div class="module-grid cols3">
+  <div class="module-grid cols2">
     <a class="module primary" href="./finance/">
       <div class="module-icon">💰</div>
       <div class="module-name">財務儀表板</div>
       <div class="module-desc">各展利潤、待收待付</div>
-      <span class="module-badge badge-live">已上線</span>
-    </a>
-    <a class="module" href="https://camille8960.github.io/sunrise-edm-tracker/">
-      <div class="module-icon">📅</div>
-      <div class="module-name">EDM 追蹤</div>
-      <div class="module-desc">排程、打勾記錄已發</div>
       <span class="module-badge badge-live">已上線</span>
     </a>
     <a class="module" href="https://camille8960.github.io/sunrise-crm/">
@@ -472,7 +420,7 @@ body::before{
   </div>
 
   <!-- 台灣展館折疊卡片 -->
-  <div class="module" style="margin-bottom:12px">
+  <div class="module" style="margin-bottom:32px">
     <div onclick="toggleSection('venue-body','venue-chevron')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
       <div style="display:flex;align-items:center;gap:10px">
         <div class="module-icon" style="margin-bottom:0">🏛️</div>
@@ -499,7 +447,7 @@ body::before{
     </div>
   </div>
 
-    <!-- 快速工具 -->
+  <!-- 快速工具 -->
   <div class="sec-label">快速工具</div>
   <div class="tool-grid" style="grid-template-columns:1fr">
     <a class="tool" href="https://sunriseexpo.com/" target="_blank">
@@ -514,7 +462,6 @@ body::before{
 </div>
 
 <script>
-// 折疊展開
 function toggleSection(bodyId, chevronId) {
   var body = document.getElementById(bodyId);
   var chevron = document.getElementById(chevronId);
@@ -523,7 +470,6 @@ function toggleSection(bodyId, chevronId) {
   if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
 
-// 今天日期
 const now = new Date();
 const days = ['日','一','二','三','四','五','六'];
 document.getElementById('now').textContent =
@@ -531,7 +477,7 @@ document.getElementById('now').textContent =
 document.getElementById('footerDate').textContent =
   `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
 
-// 展覽倒數 — 從 WordPress API 抓
+// 展覽倒數
 async function loadExpos() {
   const el = document.getElementById('expoList');
   try {
@@ -557,7 +503,6 @@ async function loadExpos() {
       </div>`;
     }).join('');
   } catch(err) {
-    // fallback: 手動列幾個已知展覽
     const expos = [
       {name:'AI Expo Korea 2026', date:'2026-05-06'},
       {name:'TFBO 泰國加盟展 2026', date:'2026-06-04'},
@@ -578,7 +523,7 @@ async function loadExpos() {
 }
 loadExpos();
 
-// 展館檔期 - 讀取 schedules.json
+// 展館檔期
 async function loadVenues() {
   var hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
   var today = new Date(); today.setHours(0,0,0,0);
@@ -636,37 +581,35 @@ function hideVenue(key) {
   localStorage.setItem('hiddenVenues', JSON.stringify(hidden));
   loadVenues();
 }
-
 loadVenues();
 
-// 最新表單提交// 最新表單提交 — Gravity Forms API
-async function loadForms() {
-  const el = document.getElementById('formList');
-  const countEl = document.getElementById('formCount');
+// 官網下載展會資料 — WordPress API
+async function loadDownloads() {
+  const el = document.getElementById('downloadList');
+  const countEl = document.getElementById('downloadCount');
   try {
     const res = await fetch('https://sunriseexpo.com/wp-json/sunrise/v1/entries');
     const data = await res.json();
     const entries = Array.isArray(data) ? data : [];
     if (!entries.length) {
-      el.innerHTML = '<div style="font-size:12px;color:var(--muted)">尚無表單提交</div>';
+      el.innerHTML = '<div style="font-size:12px;color:var(--muted)">尚無下載記錄</div>';
       countEl.textContent = '0 筆';
       return;
     }
-    countEl.textContent = `最新 ${entries.length} 筆`;
+    countEl.textContent = `最新 ${Math.min(entries.length,5)} 筆`;
     const now2 = new Date();
-    el.innerHTML = entries.map(e => {
+    el.innerHTML = entries.slice(0,5).map(e => {
       const created = new Date(e.date_created + '+08:00');
       const diffH = Math.floor((now2 - created) / 3600000);
-      let timeStr = diffH < 1 ? '剛剛' : diffH < 24 ? `${diffH} 小時前` : `${Math.floor(diffH/24)} 天前`;
+      const timeStr = diffH < 1 ? '剛剛' : diffH < 24 ? `${diffH} 小時前` : `${Math.floor(diffH/24)} 天前`;
       const isNew = diffH < 24;
-      const email = e.field_2 || e.field_1 || '';
-      // 從 source_url 抓展覽名稱
+      const email = e.field_2 || e.field_1 || '（未填 email）';
       const srcUrl = e.source_url || '';
       const expoMatch = srcUrl.match(/\/event\/([^\/]+)\//);
       const expoSlug = expoMatch ? expoMatch[1].replace(/-/g,' ') : `表單 #${e.form_id}`;
       return `<div class="form-entry">
         <div>
-          <div class="form-entry-name">${isNew ? '<span class="form-new"></span>' : ''}${email || '（未填 email）'}</div>
+          <div class="form-entry-name">${isNew ? '<span class="form-new"></span>' : ''}${email}</div>
           <div class="form-entry-expo">${expoSlug}</div>
         </div>
         <div class="form-entry-time">${timeStr}</div>
@@ -677,8 +620,52 @@ async function loadForms() {
     countEl.textContent = '—';
   }
 }
-loadForms();
 
+// 最新參展報名 — Google Master Sheet
+async function loadRegistrations() {
+  const el = document.getElementById('regList');
+  const countEl = document.getElementById('regCount');
+  const SHEET_ID = '1429Sq4g0k79RsAy41CFb4IxEA7HvP-t6345VgigWEy4';
+  const API_KEY = 'AIzaSyD_rY7wYdOz3iruJttK0pzz4I3z07abPkY'; // ← 填入你的 Google API Key
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:J?key=${API_KEY}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const rows = (data.values || []).slice(1);
+    if (!rows.length) {
+      el.innerHTML = '<div style="font-size:12px;color:var(--muted)">尚無報名資料</div>';
+      countEl.textContent = '0 筆';
+      return;
+    }
+    const latest = rows.slice(-5).reverse();
+    countEl.textContent = `最新 ${latest.length} 筆`;
+    const now2 = new Date();
+    el.innerHTML = latest.map(r => {
+      const timestamp = new Date(r[0]);
+      const diffH = Math.floor((now2 - timestamp) / 3600000);
+      const timeStr = diffH < 1 ? '剛剛' : diffH < 24 ? `${diffH} 小時前` : `${Math.floor(diffH/24)} 天前`;
+      const isNew = diffH < 24;
+      const expo    = r[1] || '—';
+      const company = r[2] || '—';
+      const contact = r[5] || '—';
+      const booth   = r[8] || '—';
+      return `<div class="form-entry">
+        <div>
+          <div class="form-entry-name">${isNew ? '<span class="form-new"></span>' : ''}${company}</div>
+          <div class="form-entry-expo">${expo}　${booth}</div>
+          <div class="form-entry-contact">${contact}</div>
+        </div>
+        <div class="form-entry-time">${timeStr}</div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--muted)">無法載入報名資料</div>';
+    countEl.textContent = '—';
+  }
+}
+
+loadDownloads();
+loadRegistrations();
 </script>
 </body>
 </html>
