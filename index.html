@@ -634,7 +634,7 @@ async function loadRegistrations() {
   const countEl = document.getElementById('regCount');
   const SHEET_ID = '1429Sq4g0k79RsAy41CFb4IxEA7HvP-t6345VgigWEy4';
   const API_KEY = 'AIzaSyD_rY7wYdOz3iruJttK0pzz4I3z07abPkY'; // ← 填入你的 Google API Key
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:J?key=${API_KEY}`;
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/工作表1!A:Jey=${API_KEY}`;
   try {
     const res = await fetch(url);
     const data = await res.json();
