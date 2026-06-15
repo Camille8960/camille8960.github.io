@@ -9,6 +9,1286 @@
 <meta name="theme-color" content="#1a1a2e">
 <link rel="manifest" href="manifest.json">
 <title>我的年曆</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --cream: #f9f6f0;
+    --warm: #e8e0d0;
+    --gold: #c9a84c;
+    --gold-light: #f0d98a;
+    --rose: #c47a7a;
+    --sage: #7a9e87;
+    --lavender: #8a7aad;
+    --sky: #6a9ec4;
+    --amber: #d4824a;
+    --shadow: rgba(26,26,46,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── HEADER / CALENDAR ── */
+  .app-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: max(20px, env(safe-area-inset-top)) 20px 0;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .app-header.collapsed { padding-bottom: 12px; }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .app-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+  }
+  .header-btns { display: flex; gap: 8px; }
+  .hbtn {
+    background: rgba(255,255,255,0.12);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 16px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: background 0.2s;
+  }
+  .hbtn:hover { background: rgba(255,255,255,0.2); }
+  .hbtn.gold { background: var(--gold); color: var(--ink); }
+
+  .cal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .cal-nav button {
+    background: none; border: none;
+    color: var(--gold-light);
+    font-size: 22px; cursor: pointer;
+    padding: 2px 10px; border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .cal-nav button:hover { background: rgba(255,255,255,0.1); }
+  .cal-month {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: #fff;
+    cursor: pointer; user-select: none;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 2px; padding-bottom: 12px;
+  }
+  .cal-dow {
+    text-align: center; font-size: 10px;
+    font-weight: 700; color: rgba(255,255,255,0.35);
+    padding: 3px 0; letter-spacing: 1px;
+  }
+  .cal-day {
+    text-align: center; padding: 4px 2px;
+    font-size: 12px; border-radius: 10px;
+    cursor: pointer; position: relative;
+    transition: all 0.15s;
+    color: rgba(255,255,255,0.85);
+    min-height: 36px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start; gap: 2px;
+  }
+  .cal-day:hover { background: rgba(255,255,255,0.1); }
+  .cal-day.other-month { color: rgba(255,255,255,0.2); }
+  .cal-day.today .day-num {
+    background: var(--gold); color: var(--ink);
+    border-radius: 50%; width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .cal-day.selected { background: rgba(201,168,76,0.3); }
+  .day-num-row { display: flex; align-items: center; justify-content: center; gap: 2px; }
+  .day-num { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .todo-sym {
+    font-size: 9px; font-weight: 900;
+    line-height: 1; margin-top: -6px;
+  }
+  .todo-sym.pending { color: var(--sky); }
+  .todo-sym.done    { color: var(--sage); }
+  .day-dots { display: flex; gap: 2px; justify-content: center; flex-wrap: wrap; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; }
+  .dot-ann  { background: var(--rose); }
+  .dot-rec  { background: var(--sky); }
+  .dot-note { background: var(--amber); }
+
+  /* ── BOTTOM TABS ── */
+  .tab-bar {
+    display: flex;
+    background: var(--warm);
+    border-bottom: 2px solid rgba(26,26,46,0.08);
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1; min-width: 60px;
+    padding: 10px 4px;
+    border: none; background: none;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 11px; font-weight: 500;
+    color: rgba(26,26,46,0.4);
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 2px;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; white-space: nowrap;
+  }
+  .tab-btn .icon { font-size: 17px; }
+  .tab-btn.active { color: var(--ink); border-bottom-color: var(--gold); background: var(--cream); }
+
+  /* ── PANELS ── */
+  .panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+  .panel.active { display: flex; }
+  .panel-inner {
+    flex: 1; overflow-y: auto;
+    padding: 14px 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .panel-inner::-webkit-scrollbar { width: 3px; }
+  .panel-inner::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 4px; }
+
+  .date-label {
+    font-size: 12px; font-weight: 700;
+    color: rgba(26,26,46,0.38);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  /* ── TODO ── */
+  .todo-input-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .todo-input {
+    flex: 1; border: 2px solid var(--warm);
+    border-radius: 12px; padding: 10px 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; background: #fff; outline: none;
+    transition: border-color 0.2s;
+  }
+  .todo-input:focus { border-color: var(--gold); }
+  .add-btn {
+    background: var(--ink); color: var(--gold-light);
+    border: none; border-radius: 12px;
+    width: 42px; font-size: 22px;
+    cursor: pointer; flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+  .add-btn:active { transform: scale(0.92); }
+
+  .todo-section-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px;
+    color: rgba(26,26,46,0.35);
+    margin: 12px 0 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .todo-section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(26,26,46,0.1);
+  }
+
+  .todo-item {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border-radius: 12px;
+    padding: 11px 13px; margin-bottom: 7px;
+    box-shadow: 0 2px 6px var(--shadow);
+    animation: slideIn 0.2s ease;
+  }
+  .todo-item.done-item { background: rgba(122,158,135,0.08); box-shadow: none; }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+  .todo-check {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--warm);
+    cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; background: none;
+  }
+  .todo-check.done { background: var(--sage); border-color: var(--sage); color: #fff; font-size: 12px; }
+  .todo-text { flex: 1; font-size: 14px; line-height: 1.4; }
+  .todo-text.done { text-decoration: line-through; color: rgba(26,26,46,0.35); }
+  .todo-date-tag {
+    font-size: 10px; color: rgba(26,26,46,0.3);
+    background: var(--warm); border-radius: 6px;
+    padding: 2px 6px; flex-shrink: 0;
+  }
+
+  /* ── MONTHLY SUMMARY ── */
+  .summary-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 14px;
+  }
+  .summary-title { font-family: 'DM Serif Display', serif; font-size: 18px; }
+  .summary-month-nav { display: flex; gap: 6px; align-items: center; }
+  .summary-month-nav button {
+    background: none; border: 1px solid var(--warm);
+    border-radius: 8px; padding: 4px 10px;
+    cursor: pointer; font-size: 16px; color: var(--ink);
+  }
+  .summary-month-label { font-size: 13px; font-weight: 700; min-width: 70px; text-align: center; }
+
+  .summary-card {
+    background: #fff; border-radius: 14px;
+    padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .summary-card h3 {
+    font-size: 13px; font-weight: 700;
+    color: rgba(26,26,46,0.45); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .summary-stat {
+    display: flex; justify-content: space-between;
+    padding: 7px 0; border-bottom: 1px solid rgba(26,26,46,0.06);
+    font-size: 14px;
+  }
+  .summary-stat:last-child { border-bottom: none; }
+  .summary-stat .val { font-weight: 700; color: var(--sage); }
+  .summary-done-list { list-style: none; }
+  .summary-done-list li {
+    padding: 7px 0; border-bottom: 1px solid rgba(26,26,46,0.06);
+    font-size: 13px; display: flex; align-items: flex-start; gap: 8px;
+  }
+  .summary-done-list li:last-child { border-bottom: none; }
+  .summary-done-list .chk { color: var(--sage); font-weight: 700; flex-shrink: 0; }
+  .summary-done-list .dtag { font-size: 11px; color: rgba(26,26,46,0.35); margin-left: auto; flex-shrink: 0; }
+  .progress-bar-wrap {
+    background: var(--warm); border-radius: 99px;
+    height: 8px; overflow: hidden; margin-top: 8px;
+  }
+  .progress-bar {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--sage), var(--sky));
+    transition: width 0.6s ease;
+  }
+
+  /* ── NOTES ── */
+  .note-textarea {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 12px; padding: 12px 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; line-height: 1.7;
+    background: #fff; outline: none;
+    resize: none; min-height: 130px;
+    transition: border-color 0.2s; margin-bottom: 10px;
+  }
+  .note-textarea:focus { border-color: var(--gold); }
+  .note-actions { display: flex; gap: 8px; margin-bottom: 14px; }
+  .note-btn {
+    flex: 1; padding: 10px; border-radius: 10px;
+    border: 2px solid var(--warm); background: #fff;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px; cursor: pointer; transition: all 0.2s; font-weight: 500;
+  }
+  .note-btn.primary { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+  .note-btn:hover:not(.primary) { border-color: var(--gold); }
+  .photo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px; }
+  .photo-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; }
+  .photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+  .photo-del {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(0,0,0,0.55); color: #fff;
+    border: none; border-radius: 50%;
+    width: 22px; height: 22px; font-size: 12px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  #photo-input { display: none; }
+
+  /* ── QUOTES ── */
+  .quote-input-area {
+    background: #fff; border-radius: 14px;
+    padding: 14px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .quote-textarea {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 10px; padding: 11px 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; line-height: 1.7;
+    background: var(--cream); outline: none;
+    resize: none; min-height: 90px;
+    transition: border-color 0.2s; margin-bottom: 10px;
+  }
+  .quote-textarea:focus { border-color: var(--gold); }
+  .quote-meta-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .quote-meta-input {
+    flex: 1; border: 2px solid var(--warm);
+    border-radius: 10px; padding: 9px 12px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px; background: var(--cream); outline: none;
+    transition: border-color 0.2s;
+  }
+  .quote-meta-input:focus { border-color: var(--gold); }
+  .tag-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tag-pill {
+    padding: 4px 12px; border-radius: 99px;
+    border: 2px solid var(--warm); background: #fff;
+    font-size: 12px; cursor: pointer; font-weight: 600;
+    transition: all 0.15s; color: rgba(26,26,46,0.5);
+  }
+  .tag-pill.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+  .save-quote-btn {
+    width: 100%; background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: #fff; border: none; border-radius: 10px;
+    padding: 11px; font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .save-quote-btn:hover { opacity: 0.88; }
+
+  .quote-filter-bar {
+    display: flex; gap: 6px; overflow-x: auto;
+    padding-bottom: 10px; margin-bottom: 4px;
+  }
+  .quote-filter-bar::-webkit-scrollbar { display: none; }
+  .qf-pill {
+    padding: 5px 14px; border-radius: 99px;
+    border: 2px solid var(--warm); background: #fff;
+    font-size: 12px; cursor: pointer; white-space: nowrap;
+    font-weight: 600; color: rgba(26,26,46,0.5);
+    transition: all 0.15s; flex-shrink: 0;
+  }
+  .qf-pill.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+
+  .quote-item {
+    background: #fff; border-radius: 14px;
+    padding: 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 8px var(--shadow);
+    animation: slideIn 0.2s ease;
+    position: relative;
+    border-left: 4px solid var(--gold);
+  }
+  .quote-text {
+    font-size: 15px; line-height: 1.75;
+    margin-bottom: 10px; color: var(--ink);
+    font-style: italic;
+  }
+  .quote-bottom { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .quote-source { font-size: 12px; color: rgba(26,26,46,0.45); }
+  .quote-tag {
+    font-size: 11px; font-weight: 700;
+    padding: 2px 9px; border-radius: 99px; color: #fff;
+  }
+  .qt-life    { background: var(--sage); }
+  .qt-work    { background: var(--sky); }
+  .qt-love    { background: var(--rose); }
+  .qt-wisdom  { background: var(--lavender); }
+  .qt-other   { background: var(--warm); color: var(--ink); }
+  .quote-date { font-size: 11px; color: rgba(26,26,46,0.3); margin-left: auto; }
+  .quote-del {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: none;
+    color: rgba(26,26,46,0.2); font-size: 16px;
+    cursor: pointer; padding: 2px 5px; border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .quote-del:hover { color: var(--rose); background: #fee; }
+
+  /* ── ANNIVERSARIES ── */
+  .ann-form {
+    background: #fff; border-radius: 14px;
+    padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .ann-form h3 { font-size: 12px; font-weight: 700; color: rgba(26,26,46,0.4); margin-bottom: 12px; letter-spacing: 0.5px; }
+  .form-row { margin-bottom: 10px; }
+  .form-label { font-size: 11px; font-weight: 700; color: rgba(26,26,46,0.45); margin-bottom: 4px; display: block; }
+  .form-input {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 10px; padding: 9px 12px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; background: var(--cream); outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .save-ann-btn {
+    width: 100%; background: var(--rose); color: #fff;
+    border: none; border-radius: 10px; padding: 11px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .save-ann-btn:hover { opacity: 0.85; }
+  .ann-item {
+    background: #fff; border-radius: 12px; padding: 14px 16px;
+    margin-bottom: 8px; box-shadow: 0 2px 8px var(--shadow);
+    display: flex; align-items: center; gap: 12px;
+    animation: slideIn 0.2s ease;
+  }
+  .ann-emoji { font-size: 26px; flex-shrink: 0; }
+  .ann-info { flex: 1; }
+  .ann-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .ann-date-txt { font-size: 12px; color: rgba(26,26,46,0.4); margin-bottom: 5px; }
+  .ann-years {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--rose), var(--lavender));
+    color: #fff; border-radius: 20px;
+    padding: 2px 10px; font-size: 12px; font-weight: 700;
+  }
+  .toggle-row { display: flex; gap: 6px; }
+  .toggle-opt {
+    flex: 1; padding: 8px 6px; border-radius: 10px;
+    border: 2px solid var(--warm); background: #fff;
+    font-family: 'Noto Sans TC', sans-serif; font-size: 12px;
+    font-weight: 600; cursor: pointer; color: rgba(26,26,46,0.5);
+    transition: all 0.15s;
+  }
+  .toggle-opt.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+  .rec-item {
+    background: #fff; border-radius: 12px; padding: 13px 15px;
+    margin-bottom: 8px; box-shadow: 0 2px 8px var(--shadow);
+    display: flex; align-items: center; gap: 12px;
+    border-left: 4px solid var(--sky);
+    animation: slideIn 0.2s ease;
+  }
+  .rec-emoji { font-size: 22px; flex-shrink: 0; }
+  .rec-info { flex: 1; }
+  .rec-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .rec-desc { font-size: 12px; color: rgba(26,26,46,0.4); }
+  .rec-del { background: none; border: none; color: rgba(26,26,46,0.2); font-size: 18px; cursor: pointer; padding: 4px; }
+  .rec-del:hover { color: var(--rose); }
+  .rec-section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    color: rgba(26,26,46,0.35); margin: 14px 0 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .rec-section-label::after { content:''; flex:1; height:1px; background:rgba(26,26,46,0.1); }
+  .ann-del { background: none; border: none; color: rgba(26,26,46,0.2); font-size: 18px; cursor: pointer; padding: 4px; }
+  .ann-del:hover { color: var(--rose); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 100;
+    align-items: flex-end; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--cream); border-radius: 24px 24px 0 0;
+    padding: 24px 20px 36px; width: 100%; max-width: 480px;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 12px; }
+  .modal-hint { font-size: 13px; color: rgba(26,26,46,0.5); margin-bottom: 14px; line-height: 1.6; }
+  .modal-input {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 12px; padding: 12px 14px;
+    font-size: 16px; font-family: 'Noto Sans TC', sans-serif;
+    background: #fff; outline: none; margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .modal-input:focus { border-color: var(--gold); }
+  .modal-btns { display: flex; gap: 8px; }
+  .modal-btn {
+    flex: 1; padding: 13px; border-radius: 12px; border: none;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+  }
+  .modal-btn.cancel { background: var(--warm); color: var(--ink); }
+  .modal-btn.confirm { background: var(--rose); color: #fff; }
+
+  /* ── PHOTO VIEWER ── */
+  .photo-viewer {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.9); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .photo-viewer.open { display: flex; }
+  .photo-viewer img { max-width: 95vw; max-height: 95vh; border-radius: 8px; }
+  .photo-viewer-close {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(255,255,255,0.15); border: none;
+    color: #fff; font-size: 24px; width: 40px; height: 40px;
+    border-radius: 50%; cursor: pointer;
+  }
+
+  /* ── EMPTY ── */
+  .empty-state { text-align: center; padding: 36px 20px; color: rgba(26,26,46,0.3); }
+  .empty-state .big { font-size: 38px; margin-bottom: 8px; }
+  .empty-state p { font-size: 13px; line-height: 1.6; }
+</style>
 </head>
-<body>TEST</body>
+<body>
+<div class="app-shell">
+
+  <!-- HEADER -->
+  <div class="app-header" id="app-header">
+    <div class="header-top">
+      <div class="app-title">我的年曆 ✦</div>
+      <div class="header-btns">
+        <button class="hbtn" onclick="goToday()">回今日</button>
+      </div>
+    </div>
+    <div class="cal-nav">
+      <button onclick="changeMonth(-1)">‹</button>
+      <div class="cal-month" id="cal-month-label"></div>
+      <button onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('todo')" id="tab-todo">
+      <span class="icon">✅</span>待辦
+    </button>
+    <button class="tab-btn" onclick="switchTab('summary')" id="tab-summary">
+      <span class="icon">📊</span>月總結
+    </button>
+    <button class="tab-btn" onclick="switchTab('note')" id="tab-note">
+      <span class="icon">📓</span>日記
+    </button>
+    <button class="tab-btn" onclick="switchTab('quotes')" id="tab-quotes">
+      <span class="icon">✨</span>金句
+    </button>
+    <button class="tab-btn" onclick="switchTab('ann')" id="tab-ann">
+      <span class="icon">🎉</span>紀念日
+    </button>
+  </div>
+
+  <!-- TODO PANEL -->
+  <div class="panel active" id="panel-todo">
+    <div class="panel-inner">
+      <div class="date-label" id="todo-date-label"></div>
+      <div class="todo-input-row">
+        <input class="todo-input" id="todo-input" placeholder="新增待辦事項…" onkeydown="if(event.key==='Enter') addTodo()">
+        <button class="add-btn" onclick="addTodo()">+</button>
+      </div>
+      <div id="todo-list"></div>
+    </div>
+  </div>
+
+  <!-- MONTHLY SUMMARY PANEL -->
+  <div class="panel" id="panel-summary">
+    <div class="panel-inner">
+      <div class="summary-header">
+        <div class="summary-title">月份總結</div>
+        <div class="summary-month-nav">
+          <button onclick="changeSummaryMonth(-1)">‹</button>
+          <div class="summary-month-label" id="summary-month-label"></div>
+          <button onclick="changeSummaryMonth(1)">›</button>
+        </div>
+      </div>
+      <div id="summary-content"></div>
+    </div>
+  </div>
+
+  <!-- NOTE PANEL -->
+  <div class="panel" id="panel-note">
+    <div class="panel-inner">
+      <div class="date-label" id="note-date-label"></div>
+      <textarea class="note-textarea" id="note-textarea" placeholder="今天的心情、想法…" oninput="saveNote()"></textarea>
+      <div class="note-actions">
+        <button class="note-btn" onclick="document.getElementById('photo-input').click()">📷 加入照片</button>
+        <button class="note-btn primary" onclick="saveNote(); showToast('日記已儲存 ✓')">儲存</button>
+      </div>
+      <input type="file" id="photo-input" accept="image/*" multiple onchange="addPhotos(this)">
+      <div class="photo-grid" id="photo-grid"></div>
+    </div>
+  </div>
+
+  <!-- QUOTES PANEL -->
+  <div class="panel" id="panel-quotes">
+    <div class="panel-inner">
+      <div class="quote-input-area">
+        <textarea class="quote-textarea" id="quote-textarea" placeholder="記下讓你心動的句子…"></textarea>
+        <div class="quote-meta-row">
+          <input class="quote-meta-input" id="quote-source" placeholder="來源（書名、人名，可留空）">
+        </div>
+        <div class="tag-pills">
+          <span class="tag-pill active" data-tag="life" onclick="selectQuoteTag(this)">🌱 生活</span>
+          <span class="tag-pill" data-tag="work" onclick="selectQuoteTag(this)">💼 工作</span>
+          <span class="tag-pill" data-tag="love" onclick="selectQuoteTag(this)">💗 情感</span>
+          <span class="tag-pill" data-tag="wisdom" onclick="selectQuoteTag(this)">🔮 智慧</span>
+          <span class="tag-pill" data-tag="other" onclick="selectQuoteTag(this)">📌 其他</span>
+        </div>
+        <button class="save-quote-btn" onclick="saveQuote()">✨ 儲存金句</button>
+      </div>
+      <div class="quote-filter-bar" id="quote-filter-bar">
+        <span class="qf-pill active" data-tag="all" onclick="filterQuotes(this)">全部</span>
+        <span class="qf-pill" data-tag="life" onclick="filterQuotes(this)">🌱 生活</span>
+        <span class="qf-pill" data-tag="work" onclick="filterQuotes(this)">💼 工作</span>
+        <span class="qf-pill" data-tag="love" onclick="filterQuotes(this)">💗 情感</span>
+        <span class="qf-pill" data-tag="wisdom" onclick="filterQuotes(this)">🔮 智慧</span>
+        <span class="qf-pill" data-tag="other" onclick="filterQuotes(this)">📌 其他</span>
+      </div>
+      <div id="quote-list"></div>
+    </div>
+  </div>
+
+  <!-- ANNIVERSARY PANEL -->
+  <div class="panel" id="panel-ann">
+    <div class="panel-inner">
+
+      <div class="ann-form">
+        <h3>🎉 新增紀念日</h3>
+        <div class="form-row">
+          <label class="form-label">名稱</label>
+          <input class="form-input" id="ann-name" placeholder="例：童童的生日 🐱">
+        </div>
+        <div class="form-row">
+          <label class="form-label">日期</label>
+          <div style="display:flex;gap:8px">
+            <select class="form-input" id="ann-month" style="flex:1">
+              <option value="">月份</option>
+              <option>1月</option><option>2月</option><option>3月</option><option>4月</option>
+              <option>5月</option><option>6月</option><option>7月</option><option>8月</option>
+              <option>9月</option><option>10月</option><option>11月</option><option>12月</option>
+            </select>
+            <select class="form-input" id="ann-day" style="flex:1">
+              <option value="">日期</option>
+              <option>1日</option><option>2日</option><option>3日</option><option>4日</option><option>5日</option>
+              <option>6日</option><option>7日</option><option>8日</option><option>9日</option><option>10日</option>
+              <option>11日</option><option>12日</option><option>13日</option><option>14日</option><option>15日</option>
+              <option>16日</option><option>17日</option><option>18日</option><option>19日</option><option>20日</option>
+              <option>21日</option><option>22日</option><option>23日</option><option>24日</option><option>25日</option>
+              <option>26日</option><option>27日</option><option>28日</option><option>29日</option><option>30日</option>
+              <option>31日</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">表情符號</label>
+          <input class="form-input" id="ann-emoji" placeholder="🎂 💑 🐣 🏠" maxlength="2" value="🎉">
+        </div>
+        <div class="form-row">
+          <label class="form-label">要追蹤周年嗎？</label>
+          <div class="toggle-row">
+            <button class="toggle-opt active" id="ann-track-no"  onclick="setAnnTrack(false)">不用，每年提醒就好</button>
+            <button class="toggle-opt"        id="ann-track-yes" onclick="setAnnTrack(true)">是，要計算第幾年</button>
+          </div>
+        </div>
+        <div id="ann-year-fields" style="display:none">
+          <div class="form-row">
+            <label class="form-label">起始年份（例：出生年、結婚年）</label>
+            <input class="form-input" type="number" id="ann-start-year" placeholder="例：2018">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label">標注幾年？</label>
+          <div class="toggle-row">
+            <button class="toggle-opt active" id="ann-rep-forever" onclick="setAnnRepeat('forever')">永久</button>
+            <button class="toggle-opt"        id="ann-rep-custom"  onclick="setAnnRepeat('custom')">指定年數</button>
+          </div>
+        </div>
+        <div id="ann-repeat-fields" style="display:none">
+          <div class="form-row">
+            <label class="form-label">從今年起標注幾年</label>
+            <input class="form-input" type="number" id="ann-repeat-count" placeholder="例：10">
+          </div>
+        </div>
+        <button class="save-ann-btn" onclick="addAnniversary()">＋ 標注紀念日</button>
+      </div>
+
+      <div id="ann-list"></div>
+
+      <div class="ann-form" style="margin-top:8px">
+        <h3>🔁 新增循環事件</h3>
+        <div class="form-row">
+          <label class="form-label">事件名稱</label>
+          <input class="form-input" id="rec-name" placeholder="例：申報營業額給國稅局">
+        </div>
+        <div class="form-row">
+          <label class="form-label">循環類型</label>
+          <select class="form-input" id="rec-type" onchange="onRecTypeChange()">
+            <option value="monthly">每月（指定幾號）</option>
+            <option value="quarterly">每季（指定月份＋日）</option>
+            <option value="yearly">每年（指定月日）</option>
+            <option value="custom_months">自訂月份（例：1、4、7、10月）</option>
+          </select>
+        </div>
+        <div id="rec-fields"></div>
+        <div class="form-row">
+          <label class="form-label">表情符號</label>
+          <input class="form-input" id="rec-emoji" placeholder="📋 💰 📊" maxlength="2" value="📋">
+        </div>
+        <button class="save-ann-btn" style="background:var(--sky)" onclick="addRecurring()">＋ 新增循環事件</button>
+      </div>
+
+      <div id="rec-list"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ann modal removed -->
+
+<!-- PHOTO VIEWER -->
+<div class="photo-viewer" id="photo-viewer" onclick="closePhotoViewer()">
+  <img id="photo-viewer-img" src="" alt="">
+  <button class="photo-viewer-close" onclick="closePhotoViewer()">✕</button>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--gold-light);padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+
+<script>
+// ── STATE ──
+let currentDate = new Date();
+let selectedDate = new Date();
+let pendingAnn = null;
+let activeQuoteTag = 'life';
+let activeQuoteFilter = 'all';
+let summaryDate = new Date();
+
+const today = new Date();
+today.setHours(0,0,0,0);
+
+// ── STORAGE ──
+const KEY = k => `mycal_${k}`;
+function load(k, def) {
+  try { const v = localStorage.getItem(KEY(k)); return v !== null ? JSON.parse(v) : def; } catch { return def; }
+}
+function save(k, v) { localStorage.setItem(KEY(k), JSON.stringify(v)); }
+function dateKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function fmtDateLabel(d) {
+  const weeks = ['日','一','二','三','四','五','六'];
+  return `${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日（週${weeks[d.getDay()]}）`;
+}
+
+// ── CALENDAR ──
+function renderCalendar() {
+  const y = currentDate.getFullYear(), m = currentDate.getMonth();
+  document.getElementById('cal-month-label').textContent = `${y} 年 ${m+1} 月`;
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+  ['日','一','二','三','四','五','六'].forEach(d => {
+    const el = document.createElement('div'); el.className='cal-dow'; el.textContent=d; grid.appendChild(el);
+  });
+  const firstDay = new Date(y, m, 1).getDay();
+  const dim = new Date(y, m+1, 0).getDate();
+  const prevDim = new Date(y, m, 0).getDate();
+  const todos = load('todos', {}), notes = load('notes', {}), photos = load('photos', {});
+  const anns = load('anniversaries', []);
+  const annMDs = new Set(anns.map(a => a.date.length<=5 ? a.date : (()=>{ const d=new Date(a.date); return String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })()));
+
+  for (let i = 0; i < 42; i++) {
+    const cell = document.createElement('div'); cell.className = 'cal-day';
+    let dayNum, cellDate;
+    if (i < firstDay) { dayNum = prevDim - firstDay + i + 1; cellDate = new Date(y, m-1, dayNum); cell.classList.add('other-month'); }
+    else if (i - firstDay < dim) { dayNum = i - firstDay + 1; cellDate = new Date(y, m, dayNum); }
+    else { dayNum = i - firstDay - dim + 1; cellDate = new Date(y, m+1, dayNum); cell.classList.add('other-month'); }
+
+    const dk = dateKey(cellDate);
+    if (dk === dateKey(today)) cell.classList.add('today');
+    if (dk === dateKey(selectedDate)) cell.classList.add('selected');
+
+    const dayTodos = todos[dk] || [];
+    const hasPending = dayTodos.some(t=>!t.done);
+    const hasDone    = dayTodos.some(t=>t.done);
+    const numRow = document.createElement('div'); numRow.className='day-num-row';
+    const numDiv = document.createElement('div'); numDiv.className='day-num'; numDiv.textContent=dayNum;
+    numRow.appendChild(numDiv);
+    if (hasPending || hasDone) {
+      const sym = document.createElement('span');
+      sym.className = hasPending ? 'todo-sym pending' : 'todo-sym done';
+      sym.textContent = hasPending ? '✦' : '✓';
+      numRow.appendChild(sym);
+    }
+    cell.appendChild(numRow);
+    const dots = document.createElement('div'); dots.className='day-dots';
+    if ((notes[dk]&&notes[dk].trim()) || photos[dk]?.length) { const d=document.createElement('div'); d.className='dot dot-note'; dots.appendChild(d); }
+    const md = `${String(cellDate.getMonth()+1).padStart(2,'0')}-${String(cellDate.getDate()).padStart(2,'0')}`;
+    if (annMDs.has(md) && anns.some(a=>{ const md2=a.date.length<=5?a.date:(()=>{const d2=new Date(a.date);return String(d2.getMonth()+1).padStart(2,'0')+'-'+String(d2.getDate()).padStart(2,'0');})(); return md2===md && annIsActiveYear(a, cellDate.getFullYear()); })) {
+      const d=document.createElement('div'); d.className='dot dot-ann'; dots.appendChild(d);
+    }
+    if (getRecurringForDate(dk).length) { const d=document.createElement('div'); d.className='dot dot-rec'; dots.appendChild(d); }
+    if (dots.children.length) cell.appendChild(dots);
+    cell.addEventListener('click', () => selectDate(cellDate));
+    grid.appendChild(cell);
+  }
+}
+
+function selectDate(d) { selectedDate = new Date(d); renderCalendar(); renderCurrentPanel(); }
+function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth()+delta); renderCalendar(); }
+function goToday() { currentDate = new Date(); selectedDate = new Date(); renderCalendar(); renderCurrentPanel(); }
+
+// ── TABS ──
+let activeTab = 'todo';
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  renderCurrentPanel();
+}
+function renderCurrentPanel() {
+  if (activeTab==='todo') renderTodos();
+  else if (activeTab==='summary') renderSummary();
+  else if (activeTab==='note') renderNote();
+  else if (activeTab==='quotes') renderQuotes();
+  else renderAnniversaries();
+}
+
+// ── TODOS ──
+function renderTodos() {
+  const dk = dateKey(selectedDate);
+  document.getElementById('todo-date-label').textContent = fmtDateLabel(selectedDate);
+  const todos = load('todos', {});
+  const list = todos[dk] || [];
+  const el = document.getElementById('todo-list');
+  const recs = getRecurringForDate(dk);
+  if (!list.length && !recs.length) { el.innerHTML=`<div class="empty-state"><div class="big">📋</div><p>這天還沒有待辦事項<br>新增一個吧！</p></div>`; return; }
+  if (recs.length) {
+    const recHtml = recs.map(r=>`<div class="todo-item" style="border-left:3px solid var(--sky);background:#f0f8ff"><span style="font-size:18px;flex-shrink:0">${r.emoji}</span><span class="todo-text" style="color:var(--sky);font-weight:600">${escHtml(r.name)}</span><span style="font-size:11px;color:rgba(26,26,46,0.35)">循環</span></div>`).join('');
+    if (!list.length) { el.innerHTML=recHtml; return; }
+    el.innerHTML = recHtml + '<div class="todo-section-label">待辦事項</div>';
+  } else {
+    el.innerHTML = '';
+  }
+  if (!list.length) return;
+
+  const pending = list.filter(t=>!t.done);
+  const done    = list.filter((t,i)=>t.done ? (t._i=i, true) : false);
+  // rebuild with original indices
+  let html = '';
+  list.forEach((t,i) => {
+    if (!t.done) html += todoHTML(t, i, false);
+  });
+  if (done.length) {
+    html += `<div class="todo-section-label">已完成 ${done.length} 項</div>`;
+    list.forEach((t,i) => { if (t.done) html += todoHTML(t, i, true); });
+  }
+  el.innerHTML = html;
+}
+function todoHTML(t, i, isDone) {
+  return `<div class="todo-item ${isDone?'done-item':''}">
+    <button class="todo-check ${isDone?'done':''}" onclick="toggleTodo(${i})">${isDone?'✓':''}</button>
+    <span class="todo-text ${isDone?'done':''}">${escHtml(t.text)}</span>
+  </div>`;
+}
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  const text = input.value.trim(); if (!text) return;
+  const dk = dateKey(selectedDate);
+  const todos = load('todos', {});
+  if (!todos[dk]) todos[dk] = [];
+  todos[dk].unshift({ text, done: false });
+  save('todos', todos);
+  input.value = '';
+  renderTodos(); renderCalendar();
+}
+function toggleTodo(i) {
+  const dk = dateKey(selectedDate);
+  const todos = load('todos', {});
+  todos[dk][i].done = !todos[dk][i].done;
+  if (todos[dk][i].done) todos[dk][i].doneAt = dateKey(today);
+  save('todos', todos);
+  renderTodos(); renderCalendar();
+}
+
+// ── MONTHLY SUMMARY ──
+function changeSummaryMonth(delta) {
+  summaryDate.setMonth(summaryDate.getMonth()+delta);
+  renderSummary();
+}
+function renderSummary() {
+  const y = summaryDate.getFullYear(), m = summaryDate.getMonth();
+  document.getElementById('summary-month-label').textContent = `${y}/${m+1}`;
+  const dim = new Date(y, m+1, 0).getDate();
+  const todos = load('todos', {});
+  const notes = load('notes', {});
+  const photos = load('photos', {});
+
+  let totalTasks = 0, doneTasks = 0, noteDays = 0;
+  const doneItems = [];
+
+  for (let d = 1; d <= dim; d++) {
+    const dk = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const list = todos[dk] || [];
+    totalTasks += list.length;
+    list.forEach(t => {
+      if (t.done) {
+        doneTasks++;
+        doneItems.push({ text: t.text, date: `${m+1}/${d}` });
+      }
+    });
+    if ((notes[dk]&&notes[dk].trim()) || photos[dk]?.length) noteDays++;
+  }
+
+  const pct = totalTasks ? Math.round(doneTasks/totalTasks*100) : 0;
+  const el = document.getElementById('summary-content');
+
+  if (totalTasks === 0 && noteDays === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="big">🌙</div><p>這個月還沒有記錄<br>快去新增待辦和日記吧！</p></div>`;
+    return;
+  }
+
+  const doneListHTML = doneItems.length
+    ? `<ul class="summary-done-list">${doneItems.map(it=>`
+        <li><span class="chk">✓</span><span>${escHtml(it.text)}</span><span class="dtag">${it.date}</span></li>
+      `).join('')}</ul>`
+    : `<p style="font-size:13px;color:rgba(26,26,46,0.35);padding:8px 0">還沒有完成的事項</p>`;
+
+  el.innerHTML = `
+    <div class="summary-card">
+      <h3>📊 待辦統計</h3>
+      <div class="summary-stat"><span>總共新增</span><span class="val">${totalTasks} 項</span></div>
+      <div class="summary-stat"><span>已完成</span><span class="val" style="color:var(--sage)">${doneTasks} 項</span></div>
+      <div class="summary-stat"><span>未完成</span><span class="val" style="color:var(--rose)">${totalTasks-doneTasks} 項</span></div>
+      <div class="summary-stat"><span>完成率</span><span class="val">${pct}%</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+    </div>
+    <div class="summary-card">
+      <h3>✅ 這個月完成的事</h3>
+      ${doneListHTML}
+    </div>
+    <div class="summary-card">
+      <h3>📓 日記記錄</h3>
+      <div class="summary-stat"><span>有寫日記的天數</span><span class="val">${noteDays} 天</span></div>
+    </div>
+  `;
+}
+
+// ── NOTES ──
+function renderNote() {
+  const dk = dateKey(selectedDate);
+  document.getElementById('note-date-label').textContent = fmtDateLabel(selectedDate);
+  const notes = load('notes', {});
+  document.getElementById('note-textarea').value = notes[dk] || '';
+  renderPhotos();
+}
+function saveNote() {
+  const dk = dateKey(selectedDate);
+  const notes = load('notes', {});
+  const val = document.getElementById('note-textarea').value;
+  if (val.trim()) notes[dk] = val; else delete notes[dk];
+  save('notes', notes); renderCalendar();
+}
+function addPhotos(input) {
+  const dk = dateKey(selectedDate);
+  const photos = load('photos', {});
+  if (!photos[dk]) photos[dk] = [];
+  const files = Array.from(input.files);
+  let loaded = 0;
+  files.forEach(file => {
+    const r = new FileReader();
+    r.onload = e => {
+      photos[dk].push(e.target.result); loaded++;
+      if (loaded===files.length) { save('photos', photos); renderPhotos(); renderCalendar(); }
+    };
+    r.readAsDataURL(file);
+  });
+  input.value = '';
+}
+function renderPhotos() {
+  const dk = dateKey(selectedDate);
+  const photos = load('photos', {});
+  const list = photos[dk] || [];
+  document.getElementById('photo-grid').innerHTML = list.map((src,i)=>`
+    <div class="photo-item">
+      <img src="${src}" onclick="openPhoto('${dk}',${i})" alt="照片">
+      <button class="photo-del" onclick="deletePhoto('${dk}',${i})">✕</button>
+    </div>`).join('');
+}
+function openPhoto(dk, i) {
+  const photos = load('photos', {});
+  document.getElementById('photo-viewer-img').src = photos[dk][i];
+  document.getElementById('photo-viewer').classList.add('open');
+}
+function closePhotoViewer() { document.getElementById('photo-viewer').classList.remove('open'); }
+function deletePhoto(dk, i) {
+  const photos = load('photos', {});
+  photos[dk].splice(i,1); if (!photos[dk].length) delete photos[dk];
+  save('photos', photos); renderPhotos(); renderCalendar();
+}
+
+// ── QUOTES ──
+const TAG_LABELS = { life:'🌱 生活', work:'💼 工作', love:'💗 情感', wisdom:'🔮 智慧', other:'📌 其他' };
+const TAG_CLASS  = { life:'qt-life', work:'qt-work', love:'qt-love', wisdom:'qt-wisdom', other:'qt-other' };
+
+function selectQuoteTag(el) {
+  document.querySelectorAll('.tag-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeQuoteTag = el.dataset.tag;
+}
+function filterQuotes(el) {
+  document.querySelectorAll('.qf-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeQuoteFilter = el.dataset.tag;
+  renderQuotes();
+}
+function saveQuote() {
+  const text = document.getElementById('quote-textarea').value.trim();
+  if (!text) { showToast('請輸入金句內容'); return; }
+  const source = document.getElementById('quote-source').value.trim();
+  const quotes = load('quotes', []);
+  quotes.unshift({ id: Date.now(), text, source, tag: activeQuoteTag, date: dateKey(today) });
+  save('quotes', quotes);
+  document.getElementById('quote-textarea').value = '';
+  document.getElementById('quote-source').value = '';
+  renderQuotes();
+  showToast('金句已收藏 ✨');
+}
+function renderQuotes() {
+  const quotes = load('quotes', []);
+  const filtered = activeQuoteFilter === 'all' ? quotes : quotes.filter(q=>q.tag===activeQuoteFilter);
+  const el = document.getElementById('quote-list');
+  if (!filtered.length) {
+    el.innerHTML=`<div class="empty-state"><div class="big">✨</div><p>還沒有${activeQuoteFilter==='all'?'':'這個分類的'}金句<br>把喜歡的句子記下來吧！</p></div>`;
+    return;
+  }
+  el.innerHTML = filtered.map(q=>`
+    <div class="quote-item">
+      <button class="quote-del" onclick="deleteQuote(${q.id})">✕</button>
+      <div class="quote-text">「${escHtml(q.text)}」</div>
+      <div class="quote-bottom">
+        ${q.source ? `<span class="quote-source">— ${escHtml(q.source)}</span>` : ''}
+        <span class="quote-tag ${TAG_CLASS[q.tag]||'qt-other'}">${TAG_LABELS[q.tag]||'其他'}</span>
+        <span class="quote-date">${q.date||''}</span>
+      </div>
+    </div>`).join('');
+}
+function deleteQuote(id) {
+  let quotes = load('quotes', []);
+  quotes = quotes.filter(q=>q.id!==id);
+  save('quotes', quotes); renderQuotes();
+}
+
+// ── ANNIVERSARIES ──
+let annTrack = false;
+let annRepeat = 'forever';
+
+function setAnnTrack(val) {
+  annTrack = val;
+  document.getElementById('ann-track-no').classList.toggle('active', !val);
+  document.getElementById('ann-track-yes').classList.toggle('active', val);
+  document.getElementById('ann-year-fields').style.display = val ? 'block' : 'none';
+}
+function setAnnRepeat(val) {
+  annRepeat = val;
+  document.getElementById('ann-rep-forever').classList.toggle('active', val==='forever');
+  document.getElementById('ann-rep-custom').classList.toggle('active', val==='custom');
+  document.getElementById('ann-repeat-fields').style.display = val==='custom' ? 'block' : 'none';
+}
+function addAnniversary() {
+  const name = document.getElementById('ann-name').value.trim();
+  const mSel = document.getElementById('ann-month').value;
+  const dSel = document.getElementById('ann-day').value;
+  const emoji = document.getElementById('ann-emoji').value.trim() || '🎉';
+  if (!name||!mSel||!dSel) { showToast('請填寫名稱和日期'); return; }
+  const month = parseInt(mSel);
+  const day = parseInt(dSel);
+  const date = String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+  let startYear = null;
+  if (annTrack) {
+    startYear = parseInt(document.getElementById('ann-start-year').value);
+    if (isNaN(startYear)) { showToast('請填寫起始年份'); return; }
+  }
+  let repeatCount = null;
+  if (annRepeat === 'custom') {
+    repeatCount = parseInt(document.getElementById('ann-repeat-count').value);
+    if (isNaN(repeatCount)||repeatCount<1) { showToast('請填寫標注年數'); return; }
+  }
+  const anns = load('anniversaries', []);
+  anns.push({ id: Date.now(), name, date, emoji, startYear, repeatCount, addedYear: today.getFullYear() });
+  save('anniversaries', anns);
+  document.getElementById('ann-name').value=''; document.getElementById('ann-month').value=''; document.getElementById('ann-day').value=''; document.getElementById('ann-emoji').value='🎉';
+  document.getElementById('ann-start-year').value=''; document.getElementById('ann-repeat-count').value='';
+  setAnnTrack(false); setAnnRepeat('forever');
+  renderAnniversaries(); renderCalendar(); showToast('紀念日已儲存 🎉');
+}
+function annIsActiveThisYear(ann) {
+  if (!ann.repeatCount) return true;
+  return today.getFullYear() <= ann.addedYear + ann.repeatCount - 1;
+}
+function annIsActiveYear(ann, y) {
+  if (!ann.repeatCount) return true;
+  return y <= ann.addedYear + ann.repeatCount - 1;
+}
+function renderAnniversaries() {
+  const anns = load('anniversaries', []);
+  const el = document.getElementById('ann-list');
+  if (anns.length) {
+    const thisYear = today.getFullYear();
+    const todayMD = String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+    el.innerHTML = '<div class="rec-section-label">紀念日</div>' + anns.slice().sort((a,b)=>a.date.slice(5).localeCompare(b.date.slice(5))).map(ann=>{
+      const md = ann.date.length <= 5 ? ann.date : (()=>{ const d=new Date(ann.date); return String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })();
+      const [mm, dd] = md.split('-').map(Number);
+      let badge = '';
+      if (ann.startYear !== null && ann.startYear !== undefined) {
+        const yrs = thisYear - ann.startYear;
+        if (md===todayMD) badge=`🎊 今天！第${yrs}周年`;
+        else if (md>todayMD) badge=`今年將屆第${yrs}周年`;
+        else badge=`今年已過第${yrs}周年`;
+      }
+      const repeatLabel = ann.repeatCount ? `標注至 ${ann.addedYear+ann.repeatCount-1} 年` : '永久';
+      const inactive = !annIsActiveThisYear(ann);
+      return `<div class="ann-item" style="${inactive?'opacity:0.45':''}">
+        <div class="ann-emoji">${ann.emoji}</div>
+        <div class="ann-info">
+          <div class="ann-name">${escHtml(ann.name)}${inactive?' <span style="font-size:11px;color:var(--rose)">(已到期)</span>':''}</div>
+          <div class="ann-date-txt">每年 ${mm}/${dd} · ${repeatLabel}</div>
+          ${badge ? `<span class="ann-years">${badge}</span>` : ''}
+        </div>
+        <button class="ann-del" onclick="deleteAnn(${ann.id})">✕</button>
+      </div>`;
+    }).join('');
+  } else {
+    el.innerHTML='<div class="empty-state"><div class="big">🎗️</div><p>還沒有紀念日<br>標注一個重要的日子！</p></div>';
+  }
+  renderRecurringList();
+}
+function deleteAnn(id) {
+  let anns = load('anniversaries', []);
+  anns = anns.filter(a=>a.id!==id);
+  save('anniversaries', anns); renderAnniversaries(); renderCalendar();
+}
+
+// ── RECURRING EVENTS ──
+function onRecTypeChange() {
+  const type = document.getElementById('rec-type').value;
+  const el = document.getElementById('rec-fields');
+  if (type==='monthly') {
+    el.innerHTML=`<div class="form-row"><label class="form-label">每月幾號</label><input class="form-input" type="number" id="rec-day" min="1" max="31" placeholder="例：15"></div>`;
+  } else if (type==='quarterly') {
+    el.innerHTML=`<div class="form-row"><label class="form-label">季度月份（每季第幾月）和日</label>
+      <div style="display:flex;gap:8px">
+        <input class="form-input" type="number" id="rec-qmonth" min="1" max="3" placeholder="第幾月（1-3）" style="flex:1">
+        <input class="form-input" type="number" id="rec-day" min="1" max="31" placeholder="幾號" style="flex:1">
+      </div></div>`;
+  } else if (type==='yearly') {
+    el.innerHTML=`<div class="form-row"><label class="form-label">月份和日期</label>
+      <div style="display:flex;gap:8px">
+        <input class="form-input" type="number" id="rec-month" min="1" max="12" placeholder="月" style="flex:1">
+        <input class="form-input" type="number" id="rec-day" min="1" max="31" placeholder="日" style="flex:1">
+      </div></div>`;
+  } else if (type==='custom_months') {
+    el.innerHTML=`<div class="form-row"><label class="form-label">哪幾月（用逗號分隔）</label>
+      <input class="form-input" id="rec-months" placeholder="例：1,4,7,10"></div>
+      <div class="form-row"><label class="form-label">每次是幾號</label>
+      <input class="form-input" type="number" id="rec-day" min="1" max="31" placeholder="例：15"></div>`;
+  }
+}
+function addRecurring() {
+  const name = document.getElementById('rec-name').value.trim();
+  const type = document.getElementById('rec-type').value;
+  const emoji = document.getElementById('rec-emoji').value.trim() || '📋';
+  if (!name) { showToast('請填寫事件名稱'); return; }
+  const dayEl = document.getElementById('rec-day');
+  const day = dayEl ? parseInt(dayEl.value) : null;
+  let config = { type };
+  if (type==='monthly') {
+    if (!day||day<1||day>31) { showToast('請填寫正確日期'); return; }
+    config.day = day;
+    config.desc = `每月 ${day} 號`;
+  } else if (type==='quarterly') {
+    const qm = parseInt(document.getElementById('rec-qmonth').value);
+    if (!qm||qm<1||qm>3||!day) { showToast('請填寫完整'); return; }
+    config.qmonth = qm; config.day = day;
+    const qMonths = [1,4,7,10].map(m=>m+qm-1);
+    config.desc = `每季第${qm}月 ${day} 號（${qMonths.join('、')}月）`;
+    config.months = qMonths;
+  } else if (type==='yearly') {
+    const month = parseInt(document.getElementById('rec-month').value);
+    if (!month||!day) { showToast('請填寫完整'); return; }
+    config.month = month; config.day = day;
+    config.desc = `每年 ${month} 月 ${day} 號`;
+  } else if (type==='custom_months') {
+    const mStr = document.getElementById('rec-months').value;
+    const months = mStr.split(/[,，、\s]+/).map(s=>parseInt(s)).filter(n=>n>=1&&n<=12);
+    if (!months.length||!day) { showToast('請填寫完整'); return; }
+    config.months = months; config.day = day;
+    config.desc = `每年 ${months.join('、')} 月的 ${day} 號`;
+  }
+  const recs = load('recurring', []);
+  recs.push({ id: Date.now(), name, emoji, config });
+  save('recurring', recs);
+  document.getElementById('rec-name').value=''; document.getElementById('rec-emoji').value='📋';
+  document.getElementById('rec-fields').innerHTML='';
+  document.getElementById('rec-type').value='monthly'; onRecTypeChange();
+  renderRecurringList(); renderCalendar(); showToast('循環事件已新增 🔁');
+}
+function renderRecurringList() {
+  const recs = load('recurring', []);
+  const el = document.getElementById('rec-list');
+  if (!recs.length) { el.innerHTML=''; return; }
+  el.innerHTML = '<div class="rec-section-label">循環事件</div>' + recs.map(r=>`
+    <div class="rec-item">
+      <div class="rec-emoji">${r.emoji}</div>
+      <div class="rec-info">
+        <div class="rec-name">${escHtml(r.name)}</div>
+        <div class="rec-desc">${r.config.desc||''}</div>
+      </div>
+      <button class="rec-del" onclick="deleteRecurring(${r.id})">✕</button>
+    </div>`).join('');
+}
+function deleteRecurring(id) {
+  let recs = load('recurring', []);
+  recs = recs.filter(r=>r.id!==id);
+  save('recurring', recs); renderRecurringList(); renderCalendar();
+}
+// Check if a dateKey has recurring events
+function getRecurringForDate(dk) {
+  const recs = load('recurring', []);
+  const d = new Date(dk);
+  const m = d.getMonth()+1, day = d.getDate();
+  return recs.filter(r=>{
+    const c = r.config;
+    if (c.type==='monthly') return c.day===day;
+    if (c.type==='quarterly') return (c.months||[]).includes(m) && c.day===day;
+    if (c.type==='yearly') return c.month===m && c.day===day;
+    if (c.type==='custom_months') return (c.months||[]).includes(m) && c.day===day;
+    return false;
+  });
+}
+
+// ── UTILS ──
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.style.display='block';
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>el.style.display='none', 2200);
+}
+
+// ── INIT ──
+summaryDate = new Date(today);
+onRecTypeChange();
+renderCalendar();
+renderTodos();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
 </html>
