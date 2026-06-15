@@ -1,0 +1,17 @@
+  "name": "我的年曆",
+  "short_name": "年曆",
+  "description": "個人年曆、待辦、日記、金句收藏",
+  "start_url": "/calendar/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a1a2e'/><text y='68' x='50' text-anchor='middle' font-size='60'>📅</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
