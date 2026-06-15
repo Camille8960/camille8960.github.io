@@ -1,6 +1,6 @@
 {
-  "name": "計畫",
-  "short_name": "計畫",
+  "name": "年度計畫",
+  "short_name": "年度計畫",
   "description": "個人年曆、待辦、日記、金句收藏",
   "start_url": "/calendar/",
   "display": "standalone",
