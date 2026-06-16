@@ -391,12 +391,12 @@
     border-left: 4px solid var(--gold);
   }
   .quote-text {
-    font-size: 15px; line-height: 1.75;
+    font-size: 18px; line-height: 1.8;
     margin-bottom: 10px; color: var(--ink);
     font-style: italic;
   }
   .quote-bottom { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .quote-source { font-size: 12px; color: rgba(26,26,46,0.45); }
+  .quote-source { font-size: 14px; color: rgba(26,26,46,0.45); }
   .quote-tag {
     font-size: 11px; font-weight: 700;
     padding: 2px 9px; border-radius: 99px; color: #fff;
@@ -406,7 +406,7 @@
   .qt-love    { background: var(--rose); }
   .qt-wisdom  { background: var(--lavender); }
   .qt-other   { background: var(--warm); color: var(--ink); }
-  .quote-date { font-size: 11px; color: rgba(26,26,46,0.3); margin-left: auto; }
+  .quote-date { font-size: 13px; color: rgba(26,26,46,0.3); margin-left: auto; }
   .quote-del {
     position: absolute; top: 10px; right: 10px;
     background: none; border: none;
@@ -535,6 +535,76 @@
     border-radius: 50%; cursor: pointer;
   }
 
+  /* ── PLANS ── */
+  .plan-input-area {
+    background: #fff; border-radius: 14px;
+    padding: 14px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .plan-title-input {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 10px; padding: 10px 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; font-weight: 700;
+    background: var(--cream); outline: none;
+    transition: border-color 0.2s; margin-bottom: 10px;
+  }
+  .plan-title-input:focus { border-color: var(--gold); }
+  .plan-textarea {
+    width: 100%; border: 2px solid var(--warm);
+    border-radius: 10px; padding: 11px 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; line-height: 1.7;
+    background: var(--cream); outline: none;
+    resize: none; min-height: 120px;
+    transition: border-color 0.2s; margin-bottom: 10px;
+  }
+  .plan-textarea:focus { border-color: var(--gold); }
+  .save-plan-btn {
+    width: 100%; background: linear-gradient(135deg, var(--lavender), var(--sky));
+    color: #fff; border: none; border-radius: 10px;
+    padding: 11px; font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .save-plan-btn:hover { opacity: 0.88; }
+  .plan-item {
+    background: #fff; border-radius: 14px;
+    padding: 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 8px var(--shadow);
+    animation: slideIn 0.2s ease;
+    position: relative;
+    border-left: 4px solid var(--lavender);
+  }
+  .plan-item-title {
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 8px; color: var(--ink);
+  }
+  .plan-item-body {
+    font-size: 14px; line-height: 1.7;
+    color: rgba(26,26,46,0.7);
+    white-space: pre-wrap;
+  }
+  .plan-item-footer {
+    display: flex; align-items: center;
+    margin-top: 10px; gap: 8px;
+  }
+  .plan-item-date { font-size: 11px; color: rgba(26,26,46,0.3); }
+  .plan-del {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: none;
+    color: rgba(26,26,46,0.2); font-size: 16px;
+    cursor: pointer; padding: 2px 5px; border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .plan-del:hover { color: var(--rose); background: #fee; }
+  .plan-edit-btn {
+    font-size: 11px; color: var(--lavender);
+    background: none; border: 1px solid var(--lavender);
+    border-radius: 6px; padding: 2px 8px;
+    cursor: pointer; font-family: 'Noto Sans TC', sans-serif;
+  }
+
   /* ── EMPTY ── */
   .empty-state { text-align: center; padding: 36px 20px; color: rgba(26,26,46,0.3); }
   .empty-state .big { font-size: 38px; margin-bottom: 8px; }
@@ -576,6 +646,9 @@
     </button>
     <button class="tab-btn" onclick="switchTab('ann')" id="tab-ann">
       <span class="icon">🎉</span>紀念日
+    </button>
+    <button class="tab-btn" onclick="switchTab('plans')" id="tab-plans">
+      <span class="icon">🎯</span>年度計畫
     </button>
   </div>
 
@@ -745,6 +818,18 @@
 
 </div>
 
+<!-- PLANS PANEL -->
+  <div class="panel" id="panel-plans">
+    <div class="panel-inner">
+      <div class="plan-input-area">
+        <input class="plan-title-input" id="plan-title" placeholder="計畫標題（例：2026 年目標）">
+        <textarea class="plan-textarea" id="plan-textarea" placeholder="寫下你的計畫內容…"></textarea>
+        <button class="save-plan-btn" onclick="savePlan()">＋ 新增計畫</button>
+      </div>
+      <div id="plan-list"></div>
+    </div>
+  </div>
+
 <!-- ann modal removed -->
 
 <!-- PHOTO VIEWER -->
@@ -854,6 +939,7 @@ function renderCurrentPanel() {
   else if (activeTab==='summary') renderSummary();
   else if (activeTab==='note') renderNote();
   else if (activeTab==='quotes') renderQuotes();
+  else if (activeTab==='plans') renderPlans();
   else renderAnniversaries();
 }
 
@@ -957,6 +1043,20 @@ function renderSummary() {
       `).join('')}</ul>`
     : `<p style="font-size:13px;color:rgba(26,26,46,0.35);padding:8px 0">還沒有完成的事項</p>`;
 
+  const pendingItems = [];
+  for (let d2 = 1; d2 <= dim; d2++) {
+    const dk2 = `${y}-${String(m+1).padStart(2,'0')}-${String(d2).padStart(2,'0')}`;
+    const list2 = todos[dk2] || [];
+    list2.forEach(t => {
+      if (!t.done) pendingItems.push({ text: t.text, date: `${m+1}/${d2}` });
+    });
+  }
+  const pendingListHTML = pendingItems.length
+    ? `<ul class="summary-done-list">${pendingItems.map(it=>`
+        <li><span class="chk" style="color:var(--rose)">✗</span><span>${escHtml(it.text)}</span><span class="dtag">${it.date}</span></li>
+      `).join('')}</ul>`
+    : `<p style="font-size:13px;color:var(--sage);padding:8px 0">🎉 這個月全部完成了！</p>`;
+
   el.innerHTML = `
     <div class="summary-card">
       <h3>📊 待辦統計</h3>
@@ -967,8 +1067,12 @@ function renderSummary() {
       <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
     </div>
     <div class="summary-card">
-      <h3>✅ 這個月完成的事</h3>
-      ${doneListHTML}
+      <h3 style="cursor:pointer" onclick="toggleSection('pending-section')">❌ 未完成的事（${totalTasks-doneTasks} 項）<span id="pending-arrow" style="float:right">▼</span></h3>
+      <div id="pending-section">${pendingListHTML}</div>
+    </div>
+    <div class="summary-card">
+      <h3 style="cursor:pointer" onclick="toggleSection('done-section')">✅ 這個月完成的事（${doneTasks} 項）<span id="done-arrow" style="float:right">▼</span></h3>
+      <div id="done-section">${doneListHTML}</div>
     </div>
     <div class="summary-card">
       <h3>📓 日記記錄</h3>
@@ -1270,7 +1374,56 @@ function getRecurringForDate(dk) {
   });
 }
 
+// ── PLANS ──
+function savePlan() {
+  const title = document.getElementById('plan-title').value.trim();
+  const body = document.getElementById('plan-textarea').value.trim();
+  if (!title && !body) { showToast('請輸入計畫內容'); return; }
+  const plans = load('plans', []);
+  plans.unshift({ id: Date.now(), title: title||'（無標題）', body, date: dateKey(today) });
+  save('plans', plans);
+  document.getElementById('plan-title').value = '';
+  document.getElementById('plan-textarea').value = '';
+  renderPlans();
+  showToast('計畫已儲存 🎯');
+}
+function renderPlans() {
+  const plans = load('plans', []);
+  const el = document.getElementById('plan-list');
+  if (!plans.length) {
+    el.innerHTML=`<div class="empty-state"><div class="big">🎯</div><p>還沒有年度計畫<br>寫下你的目標吧！</p></div>`;
+    return;
+  }
+  el.innerHTML = plans.map(p=>`
+    <div class="plan-item">
+      <button class="plan-del" onclick="deletePlan(${p.id})">✕</button>
+      <div class="plan-item-title">${escHtml(p.title)}</div>
+      <div class="plan-item-body">${escHtml(p.body)}</div>
+      <div class="plan-item-footer">
+        <span class="plan-item-date">${p.date||''}</span>
+      </div>
+    </div>`).join('');
+}
+function deletePlan(id) {
+  let plans = load('plans', []);
+  plans = plans.filter(p=>p.id!==id);
+  save('plans', plans); renderPlans();
+}
+
 // ── UTILS ──
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  const arrowId = id === 'pending-section' ? 'pending-arrow' : 'done-arrow';
+  const arrow = document.getElementById(arrowId);
+  if (!el) return;
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    if (arrow) arrow.textContent = '▼';
+  } else {
+    el.style.display = 'none';
+    if (arrow) arrow.textContent = '▶';
+  }
+}
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 let toastTimer;
 function showToast(msg) {
