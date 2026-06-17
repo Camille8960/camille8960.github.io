@@ -552,6 +552,7 @@
       <div class="app-title">年度計畫 ✦</div>
       <div class="header-btns">
         <button class="hbtn" onclick="goToday()">回今日</button>
+        <button class="hbtn" onclick="showBackupModal()">備份</button>
       </div>
     </div>
     <div class="cal-nav">
@@ -786,6 +787,23 @@
   </div>
 </div>
 <!-- ann modal removed -->
+
+<!-- BACKUP MODAL -->
+<div id="backup-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:flex-end;justify-content:center">
+  <div style="background:#f9f6f0;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:480px">
+    <div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px">📦 備份與還原</div>
+    <p style="font-size:13px;color:rgba(26,26,46,0.5);margin-bottom:16px;line-height:1.6">換手機前先匯出資料，新手機貼上還原即可。</p>
+
+    <button onclick="exportData()" style="width:100%;background:#1a1a2e;color:#f0d98a;border:none;border-radius:12px;padding:13px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px">📤 匯出資料（複製到剪貼簿）</button>
+
+    <div style="margin-bottom:10px">
+      <label style="font-size:12px;font-weight:700;color:rgba(26,26,46,0.45);display:block;margin-bottom:6px">貼上備份資料還原：</label>
+      <textarea id="import-textarea" placeholder="把備份的文字貼在這裡…" style="width:100%;height:100px;border:2px solid #e8e0d0;border-radius:12px;padding:10px 14px;font-family:'Noto Sans TC',sans-serif;font-size:13px;background:#fff;outline:none;resize:none"></textarea>
+    </div>
+    <button onclick="importData()" style="width:100%;background:#7a9e87;color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px">📥 還原資料</button>
+    <button onclick="closeBackupModal()" style="width:100%;background:#e8e0d0;color:#1a1a2e;border:none;border-radius:12px;padding:13px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer">關閉</button>
+  </div>
+</div>
 
 <!-- PHOTO VIEWER -->
 <div class="photo-viewer" id="photo-viewer" onclick="closePhotoViewer()">
@@ -1124,16 +1142,22 @@ function renderQuotes() {
     el.innerHTML=`<div class="empty-state"><div class="big">✨</div><p>還沒有${activeQuoteFilter==='all'?'':'這個分類的'}金句<br>把喜歡的句子記下來吧！</p></div>`;
     return;
   }
-  el.innerHTML = filtered.map(q=>`
-    <div class="quote-item">
+  el.innerHTML = filtered.map(q=>{
+    const preview = q.text.length > 20 ? q.text.slice(0,20)+'…' : q.text;
+    return `<div class="quote-item">
       <button class="quote-del" onclick="deleteQuote(${q.id})">✕</button>
-      <div class="quote-text">「${escHtml(q.text)}」</div>
+      <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;padding-right:20px;cursor:pointer" onclick="toggleQuote(${q.id})">「${escHtml(preview)}」</div>
+      <div id="qbody-${q.id}" style="display:none">
+        <div class="quote-text" style="margin-bottom:10px">「${escHtml(q.text)}」</div>
+      </div>
       <div class="quote-bottom">
         ${q.source ? `<span class="quote-source">— ${escHtml(q.source)}</span>` : ''}
         <span class="quote-tag ${TAG_CLASS[q.tag]||'qt-other'}">${TAG_LABELS[q.tag]||'其他'}</span>
         <span class="quote-date">${q.date||''}</span>
+        <button onclick="toggleQuote(${q.id})" id="qtoggle-${q.id}" style="margin-left:auto;font-size:12px;color:var(--gold);background:none;border:1px solid var(--gold);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">展開 ▼</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function deleteQuote(id) {
   let quotes = load('quotes', []);
@@ -1399,6 +1423,63 @@ function deletePlan(id) {
   let plans = load('plans', []);
   plans = plans.filter(p=>p.id!==id);
   save('plans', plans); renderPlans();
+}
+
+// ── BACKUP ──
+function showBackupModal() {
+  document.getElementById('backup-modal').style.display = 'flex';
+}
+function closeBackupModal() {
+  document.getElementById('backup-modal').style.display = 'none';
+  document.getElementById('import-textarea').value = '';
+}
+function exportData() {
+  const keys = ['todos','notes','photos','anniversaries','recurring','quotes','plans'];
+  const data = {};
+  keys.forEach(k => {
+    const v = localStorage.getItem('mycal_'+k);
+    if (v) data[k] = JSON.parse(v);
+  });
+  const json = JSON.stringify(data);
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(json).then(() => {
+      showToast('已複製到剪貼簿！貼到記事本儲存 ✓');
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = json;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('已複製到剪貼簿！貼到記事本儲存 ✓');
+  }
+}
+function importData() {
+  const raw = document.getElementById('import-textarea').value.trim();
+  if (!raw) { showToast('請貼上備份資料'); return; }
+  try {
+    const data = JSON.parse(raw);
+    const keys = ['todos','notes','photos','anniversaries','recurring','quotes','plans'];
+    keys.forEach(k => {
+      if (data[k] !== undefined) localStorage.setItem('mycal_'+k, JSON.stringify(data[k]));
+    });
+    closeBackupModal();
+    renderCalendar();
+    renderCurrentPanel();
+    showToast('資料還原成功 🎉');
+  } catch(e) {
+    showToast('格式錯誤，請確認備份資料是否完整');
+  }
+}
+
+function toggleQuote(id) {
+  const body = document.getElementById('qbody-'+id);
+  const btn = document.getElementById('qtoggle-'+id);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (btn) btn.innerHTML = isOpen ? '展開 ▼' : '收起 ▲';
 }
 
 // ── UTILS ──
