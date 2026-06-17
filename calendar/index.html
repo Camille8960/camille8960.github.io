@@ -173,10 +173,12 @@
   /* ── PANELS ── */
   .panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
   .panel.active { display: flex; }
+  #panel-plans.active { display: flex; flex-direction: column; flex: 1; }
   .panel-inner {
     flex: 1; overflow-y: auto;
     padding: 14px 16px;
     -webkit-overflow-scrolling: touch;
+    min-height: 0;
   }
   .panel-inner::-webkit-scrollbar { width: 3px; }
   .panel-inner::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 4px; }
@@ -535,86 +537,6 @@
     border-radius: 50%; cursor: pointer;
   }
 
-  /* ── PLANS ── */
-  .plan-input-area {
-    background: #fff; border-radius: 14px;
-    padding: 14px; margin-bottom: 14px;
-    box-shadow: 0 2px 8px var(--shadow);
-  }
-  .plan-title-input {
-    width: 100%; border: 2px solid var(--warm);
-    border-radius: 10px; padding: 10px 13px;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 16px; font-weight: 700;
-    background: #fff; outline: none;
-    transition: border-color 0.2s; margin-bottom: 10px;
-    -webkit-appearance: none; appearance: none;
-    color: var(--ink);
-  }
-  .plan-title-input:focus { border-color: var(--gold); }
-  .plan-textarea {
-    width: 100%; border: 2px solid var(--warm);
-    border-radius: 10px; padding: 11px 13px;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 16px; line-height: 1.7;
-    background: #fff; outline: none;
-    resize: none; min-height: 120px;
-    transition: border-color 0.2s; margin-bottom: 10px;
-    -webkit-appearance: none; appearance: none;
-    color: var(--ink);
-  }
-  .plan-textarea:focus { border-color: var(--gold); }
-  .save-plan-btn {
-    width: 100%; background: linear-gradient(135deg, var(--lavender), var(--sky));
-    color: #fff; border: none; border-radius: 10px;
-    padding: 11px; font-family: 'Noto Sans TC', sans-serif;
-    font-size: 14px; font-weight: 700; cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .save-plan-btn:hover { opacity: 0.88; }
-  .plan-item {
-    background: #fff; border-radius: 14px;
-    padding: 14px 16px; margin-bottom: 10px;
-    box-shadow: 0 2px 8px var(--shadow);
-    animation: slideIn 0.2s ease;
-    position: relative;
-    border-left: 4px solid var(--lavender);
-    cursor: pointer;
-  }
-  .plan-item-header {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .plan-item-title {
-    font-size: 17px; font-weight: 700;
-    color: var(--ink); flex: 1; padding-right: 24px;
-  }
-  .plan-item-arrow {
-    font-size: 12px; color: rgba(26,26,46,0.35);
-    flex-shrink: 0; transition: transform 0.2s;
-  }
-  .plan-item-arrow.open { transform: rotate(180deg); }
-  .plan-item-body {
-    display: none;
-    font-size: 18px; line-height: 1.8;
-    color: rgba(26,26,46,0.75);
-    white-space: pre-wrap;
-    margin-top: 12px; padding-top: 12px;
-    border-top: 1px solid rgba(26,26,46,0.07);
-  }
-  .plan-item-body.open { display: block; }
-  .plan-item-date {
-    font-size: 12px; color: rgba(26,26,46,0.3);
-    margin-top: 8px;
-  }
-  .plan-del {
-    position: absolute; top: 10px; right: 10px;
-    background: none; border: none;
-    color: rgba(26,26,46,0.2); font-size: 16px;
-    cursor: pointer; padding: 2px 5px; border-radius: 6px;
-    transition: all 0.15s; z-index: 1;
-  }
-  .plan-del:hover { color: var(--rose); background: #fee; }
-
   /* ── EMPTY ── */
   .empty-state { text-align: center; padding: 36px 20px; color: rgba(26,26,46,0.3); }
   .empty-state .big { font-size: 38px; margin-bottom: 8px; }
@@ -826,31 +748,31 @@
     </div>
   </div>
 
-</div>
 
-<!-- PLANS PANEL -->
+  <!-- PLANS PANEL -->
   <div class="panel" id="panel-plans">
     <div class="panel-inner">
-      <div style="background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(26,26,46,0.12)">
+      <div style="background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;border:1px solid #e8e0d0">
         <input type="text" id="plan-title" placeholder="計畫標題"
           style="box-sizing:border-box;width:100%;display:block;margin-bottom:10px;
                  font-size:16px;font-weight:700;border:2px solid #e8e0d0;border-radius:10px;
-                 padding:10px 13px;font-family:inherit;background:#fff;color:#1a1a2e;
-                 outline:none;-webkit-appearance:none;appearance:none">
+                 padding:10px 13px;background:#fff;color:#1a1a2e;outline:none">
         <textarea id="plan-textarea" placeholder="寫下你的計畫內容…"
           style="box-sizing:border-box;width:100%;display:block;min-height:120px;
                  font-size:16px;line-height:1.7;border:2px solid #e8e0d0;border-radius:10px;
-                 padding:11px 13px;font-family:inherit;background:#fff;color:#1a1a2e;
-                 outline:none;resize:none;margin-bottom:10px;
-                 -webkit-appearance:none;appearance:none"></textarea>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="plan-tag-pills">
-          <span class="tag-pill active" data-tag="yearly" onclick="selectPlanTag(this)">🎯 年度計畫</span>
-          <span class="tag-pill" data-tag="monthly" onclick="selectPlanTag(this)">📅 月計畫</span>
-          <span class="tag-pill" data-tag="life" onclick="selectPlanTag(this)">🌟 人生計畫</span>
+                 padding:11px 13px;background:#fff;color:#1a1a2e;
+                 outline:none;resize:none;margin-bottom:10px"></textarea>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+          <span id="ptag-yearly" data-tag="yearly" onclick="selectPlanTag('yearly')"
+            style="padding:4px 12px;border-radius:99px;border:2px solid #1a1a2e;background:#1a1a2e;color:#f0d98a;font-size:12px;cursor:pointer;font-weight:600">🎯 年度計畫</span>
+          <span id="ptag-monthly" data-tag="monthly" onclick="selectPlanTag('monthly')"
+            style="padding:4px 12px;border-radius:99px;border:2px solid #e8e0d0;background:#fff;color:rgba(26,26,46,0.5);font-size:12px;cursor:pointer;font-weight:600">📅 月計畫</span>
+          <span id="ptag-life" data-tag="life" onclick="selectPlanTag('life')"
+            style="padding:4px 12px;border-radius:99px;border:2px solid #e8e0d0;background:#fff;color:rgba(26,26,46,0.5);font-size:12px;cursor:pointer;font-weight:600">🌟 人生計畫</span>
         </div>
         <button onclick="savePlan()"
-          style="width:100%;background:linear-gradient(135deg,#8a7aad,#6a9ec4);color:#fff;
-                 border:none;border-radius:10px;padding:11px;font-family:inherit;
+          style="box-sizing:border-box;width:100%;background:#8a7aad;color:#fff;
+                 border:none;border-radius:10px;padding:11px;
                  font-size:14px;font-weight:700;cursor:pointer">＋ 新增計畫</button>
       </div>
       <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:4px">
@@ -862,7 +784,7 @@
       <div id="plan-list"></div>
     </div>
   </div>
-
+</div>
 <!-- ann modal removed -->
 
 <!-- PHOTO VIEWER -->
@@ -1413,10 +1335,17 @@ let activePlanFilter = 'all';
 const PLAN_LABELS = { yearly:'🎯 年度計畫', monthly:'📅 月計畫', life:'🌟 人生計畫' };
 const PLAN_COLORS = { yearly:'var(--lavender)', monthly:'var(--sky)', life:'var(--gold)' };
 
-function selectPlanTag(el) {
-  document.querySelectorAll('#plan-tag-pills .tag-pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  activePlanTag = el.dataset.tag;
+function selectPlanTag(tag) {
+  activePlanTag = tag;
+  ['yearly','monthly','life'].forEach(t => {
+    const el = document.getElementById('ptag-'+t);
+    if (!el) return;
+    if (t === tag) {
+      el.style.background='#1a1a2e'; el.style.color='#f0d98a'; el.style.borderColor='#1a1a2e';
+    } else {
+      el.style.background='#fff'; el.style.color='rgba(26,26,46,0.5)'; el.style.borderColor='#e8e0d0';
+    }
+  });
 }
 function filterPlans(el) {
   document.querySelectorAll('#panel-plans .qf-pill').forEach(p=>p.classList.remove('active'));
