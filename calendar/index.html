@@ -545,19 +545,23 @@
     width: 100%; border: 2px solid var(--warm);
     border-radius: 10px; padding: 10px 13px;
     font-family: 'Noto Sans TC', sans-serif;
-    font-size: 14px; font-weight: 700;
-    background: var(--cream); outline: none;
+    font-size: 16px; font-weight: 700;
+    background: #fff; outline: none;
     transition: border-color 0.2s; margin-bottom: 10px;
+    -webkit-appearance: none; appearance: none;
+    color: var(--ink);
   }
   .plan-title-input:focus { border-color: var(--gold); }
   .plan-textarea {
     width: 100%; border: 2px solid var(--warm);
     border-radius: 10px; padding: 11px 13px;
     font-family: 'Noto Sans TC', sans-serif;
-    font-size: 14px; line-height: 1.7;
-    background: var(--cream); outline: none;
+    font-size: 16px; line-height: 1.7;
+    background: #fff; outline: none;
     resize: none; min-height: 120px;
     transition: border-color 0.2s; margin-bottom: 10px;
+    -webkit-appearance: none; appearance: none;
+    color: var(--ink);
   }
   .plan-textarea:focus { border-color: var(--gold); }
   .save-plan-btn {
@@ -570,40 +574,46 @@
   .save-plan-btn:hover { opacity: 0.88; }
   .plan-item {
     background: #fff; border-radius: 14px;
-    padding: 16px; margin-bottom: 10px;
+    padding: 14px 16px; margin-bottom: 10px;
     box-shadow: 0 2px 8px var(--shadow);
     animation: slideIn 0.2s ease;
     position: relative;
     border-left: 4px solid var(--lavender);
+    cursor: pointer;
+  }
+  .plan-item-header {
+    display: flex; align-items: center; justify-content: space-between;
   }
   .plan-item-title {
-    font-size: 15px; font-weight: 700;
-    margin-bottom: 8px; color: var(--ink);
+    font-size: 17px; font-weight: 700;
+    color: var(--ink); flex: 1; padding-right: 24px;
   }
+  .plan-item-arrow {
+    font-size: 12px; color: rgba(26,26,46,0.35);
+    flex-shrink: 0; transition: transform 0.2s;
+  }
+  .plan-item-arrow.open { transform: rotate(180deg); }
   .plan-item-body {
-    font-size: 14px; line-height: 1.7;
-    color: rgba(26,26,46,0.7);
+    display: none;
+    font-size: 18px; line-height: 1.8;
+    color: rgba(26,26,46,0.75);
     white-space: pre-wrap;
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid rgba(26,26,46,0.07);
   }
-  .plan-item-footer {
-    display: flex; align-items: center;
-    margin-top: 10px; gap: 8px;
+  .plan-item-body.open { display: block; }
+  .plan-item-date {
+    font-size: 12px; color: rgba(26,26,46,0.3);
+    margin-top: 8px;
   }
-  .plan-item-date { font-size: 11px; color: rgba(26,26,46,0.3); }
   .plan-del {
     position: absolute; top: 10px; right: 10px;
     background: none; border: none;
     color: rgba(26,26,46,0.2); font-size: 16px;
     cursor: pointer; padding: 2px 5px; border-radius: 6px;
-    transition: all 0.15s;
+    transition: all 0.15s; z-index: 1;
   }
   .plan-del:hover { color: var(--rose); background: #fee; }
-  .plan-edit-btn {
-    font-size: 11px; color: var(--lavender);
-    background: none; border: 1px solid var(--lavender);
-    border-radius: 6px; padding: 2px 8px;
-    cursor: pointer; font-family: 'Noto Sans TC', sans-serif;
-  }
 
   /* ── EMPTY ── */
   .empty-state { text-align: center; padding: 36px 20px; color: rgba(26,26,46,0.3); }
@@ -821,10 +831,33 @@
 <!-- PLANS PANEL -->
   <div class="panel" id="panel-plans">
     <div class="panel-inner">
-      <div class="plan-input-area">
-        <input class="plan-title-input" id="plan-title" placeholder="計畫標題（例：2026 年目標）">
-        <textarea class="plan-textarea" id="plan-textarea" placeholder="寫下你的計畫內容…"></textarea>
-        <button class="save-plan-btn" onclick="savePlan()">＋ 新增計畫</button>
+      <div style="background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(26,26,46,0.12)">
+        <input type="text" id="plan-title" placeholder="計畫標題"
+          style="box-sizing:border-box;width:100%;display:block;margin-bottom:10px;
+                 font-size:16px;font-weight:700;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:10px 13px;font-family:inherit;background:#fff;color:#1a1a2e;
+                 outline:none;-webkit-appearance:none;appearance:none">
+        <textarea id="plan-textarea" placeholder="寫下你的計畫內容…"
+          style="box-sizing:border-box;width:100%;display:block;min-height:120px;
+                 font-size:16px;line-height:1.7;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:11px 13px;font-family:inherit;background:#fff;color:#1a1a2e;
+                 outline:none;resize:none;margin-bottom:10px;
+                 -webkit-appearance:none;appearance:none"></textarea>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="plan-tag-pills">
+          <span class="tag-pill active" data-tag="yearly" onclick="selectPlanTag(this)">🎯 年度計畫</span>
+          <span class="tag-pill" data-tag="monthly" onclick="selectPlanTag(this)">📅 月計畫</span>
+          <span class="tag-pill" data-tag="life" onclick="selectPlanTag(this)">🌟 人生計畫</span>
+        </div>
+        <button onclick="savePlan()"
+          style="width:100%;background:linear-gradient(135deg,#8a7aad,#6a9ec4);color:#fff;
+                 border:none;border-radius:10px;padding:11px;font-family:inherit;
+                 font-size:14px;font-weight:700;cursor:pointer">＋ 新增計畫</button>
+      </div>
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:4px">
+        <span class="qf-pill active" data-tag="all" onclick="filterPlans(this)">全部</span>
+        <span class="qf-pill" data-tag="yearly" onclick="filterPlans(this)">🎯 年度</span>
+        <span class="qf-pill" data-tag="monthly" onclick="filterPlans(this)">📅 月計畫</span>
+        <span class="qf-pill" data-tag="life" onclick="filterPlans(this)">🌟 人生</span>
       </div>
       <div id="plan-list"></div>
     </div>
@@ -1375,12 +1408,28 @@ function getRecurringForDate(dk) {
 }
 
 // ── PLANS ──
+let activePlanTag = 'yearly';
+let activePlanFilter = 'all';
+const PLAN_LABELS = { yearly:'🎯 年度計畫', monthly:'📅 月計畫', life:'🌟 人生計畫' };
+const PLAN_COLORS = { yearly:'var(--lavender)', monthly:'var(--sky)', life:'var(--gold)' };
+
+function selectPlanTag(el) {
+  document.querySelectorAll('#plan-tag-pills .tag-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activePlanTag = el.dataset.tag;
+}
+function filterPlans(el) {
+  document.querySelectorAll('#panel-plans .qf-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activePlanFilter = el.dataset.tag;
+  renderPlans();
+}
 function savePlan() {
   const title = document.getElementById('plan-title').value.trim();
   const body = document.getElementById('plan-textarea').value.trim();
   if (!title && !body) { showToast('請輸入計畫內容'); return; }
   const plans = load('plans', []);
-  plans.unshift({ id: Date.now(), title: title||'（無標題）', body, date: dateKey(today) });
+  plans.unshift({ id: Date.now(), title: title||'（無標題）', body, tag: activePlanTag, date: dateKey(today) });
   save('plans', plans);
   document.getElementById('plan-title').value = '';
   document.getElementById('plan-textarea').value = '';
@@ -1389,20 +1438,33 @@ function savePlan() {
 }
 function renderPlans() {
   const plans = load('plans', []);
+  const filtered = activePlanFilter==='all' ? plans : plans.filter(p=>p.tag===activePlanFilter);
   const el = document.getElementById('plan-list');
-  if (!plans.length) {
-    el.innerHTML=`<div class="empty-state"><div class="big">🎯</div><p>還沒有年度計畫<br>寫下你的目標吧！</p></div>`;
+  if (!filtered.length) {
+    el.innerHTML=`<div class="empty-state"><div class="big">🎯</div><p>還沒有${activePlanFilter==='all'?'':'這個分類的'}計畫<br>寫下你的目標吧！</p></div>`;
     return;
   }
-  el.innerHTML = plans.map(p=>`
-    <div class="plan-item">
-      <button class="plan-del" onclick="deletePlan(${p.id})">✕</button>
-      <div class="plan-item-title">${escHtml(p.title)}</div>
-      <div class="plan-item-body">${escHtml(p.body)}</div>
-      <div class="plan-item-footer">
-        <span class="plan-item-date">${p.date||''}</span>
+  el.innerHTML = filtered.map(p=>`
+    <div class="quote-item" style="border-left-color:${PLAN_COLORS[p.tag]||'var(--lavender)'}">
+      <button class="quote-del" onclick="deletePlan(${p.id})">✕</button>
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px;padding-right:20px">${escHtml(p.title)}</div>
+      <div class="plan-body-wrap" id="body-wrap-${p.id}" style="display:none">
+        <div style="font-size:18px;line-height:1.8;color:rgba(26,26,46,0.75);white-space:pre-wrap;margin-bottom:10px">${escHtml(p.body)}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="quote-tag" style="background:${PLAN_COLORS[p.tag]||'var(--lavender)'}">${PLAN_LABELS[p.tag]||''}</span>
+        <span style="font-size:12px;color:rgba(26,26,46,0.3)">${p.date||''}</span>
+        ${p.body ? `<button onclick="togglePlanBody(${p.id})" id="toggle-btn-${p.id}" style="margin-left:auto;font-size:12px;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">展開 ▼</button>` : ''}
       </div>
     </div>`).join('');
+}
+function togglePlanBody(id) {
+  const wrap = document.getElementById('body-wrap-'+id);
+  const btn = document.getElementById('toggle-btn-'+id);
+  if (!wrap) return;
+  const isOpen = wrap.style.display !== 'none';
+  wrap.style.display = isOpen ? 'none' : 'block';
+  if (btn) btn.innerHTML = isOpen ? '展開 ▼' : '收起 ▲';
 }
 function deletePlan(id) {
   let plans = load('plans', []);
