@@ -1400,14 +1400,38 @@ function renderPlans() {
   el.innerHTML = filtered.map(p=>`
     <div class="quote-item" style="border-left-color:${PLAN_COLORS[p.tag]||'var(--lavender)'}">
       <button class="quote-del" onclick="deletePlan(${p.id})">✕</button>
-      <div style="font-size:15px;font-weight:700;margin-bottom:6px;padding-right:20px">${escHtml(p.title)}</div>
-      <div class="plan-body-wrap" id="body-wrap-${p.id}" style="display:none">
-        <div style="font-size:18px;line-height:1.8;color:rgba(26,26,46,0.75);white-space:pre-wrap;margin-bottom:10px">${escHtml(p.body)}</div>
+      <div id="view-${p.id}">
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px;padding-right:20px">${escHtml(p.title)}</div>
+        <div id="body-wrap-${p.id}" style="display:none">
+          <div style="font-size:18px;line-height:1.8;color:rgba(26,26,46,0.75);white-space:pre-wrap;margin-bottom:10px">${escHtml(p.body)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="quote-tag" style="background:${PLAN_COLORS[p.tag]||'var(--lavender)'}">${PLAN_LABELS[p.tag]||''}</span>
+          <span style="font-size:12px;color:rgba(26,26,46,0.3)">${p.date||''}</span>
+          <button onclick="togglePlanBody(${p.id})" id="toggle-btn-${p.id}" style="font-size:12px;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">${p.body?'展開 ▼':'（無內容）'}</button>
+          <button onclick="editPlan(${p.id})" style="font-size:12px;color:var(--sky);background:none;border:1px solid var(--sky);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">✏️ 編輯</button>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span class="quote-tag" style="background:${PLAN_COLORS[p.tag]||'var(--lavender)'}">${PLAN_LABELS[p.tag]||''}</span>
-        <span style="font-size:12px;color:rgba(26,26,46,0.3)">${p.date||''}</span>
-        ${p.body ? `<button onclick="togglePlanBody(${p.id})" id="toggle-btn-${p.id}" style="margin-left:auto;font-size:12px;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">展開 ▼</button>` : ''}
+      <div id="edit-${p.id}" style="display:none">
+        <input type="text" id="edit-title-${p.id}" value="${escHtml(p.title)}"
+          style="box-sizing:border-box;width:100%;display:block;margin-bottom:8px;
+                 font-size:15px;font-weight:700;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:8px 12px;background:#fff;color:#1a1a2e;outline:none">
+        <textarea id="edit-body-${p.id}"
+          style="box-sizing:border-box;width:100%;display:block;min-height:120px;
+                 font-size:16px;line-height:1.7;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:10px 12px;background:#fff;color:#1a1a2e;outline:none;
+                 resize:none;margin-bottom:8px">${escHtml(p.body)}</textarea>
+        <div style="display:flex;gap:8px">
+          <button onclick="savePlanEdit(${p.id})"
+            style="flex:1;background:#7a9e87;color:#fff;border:none;border-radius:10px;
+                   padding:10px;font-family:'Noto Sans TC',sans-serif;font-size:14px;
+                   font-weight:700;cursor:pointer">儲存</button>
+          <button onclick="cancelPlanEdit(${p.id})"
+            style="flex:1;background:#e8e0d0;color:#1a1a2e;border:none;border-radius:10px;
+                   padding:10px;font-family:'Noto Sans TC',sans-serif;font-size:14px;
+                   font-weight:700;cursor:pointer">取消</button>
+        </div>
       </div>
     </div>`).join('');
 }
@@ -1418,6 +1442,28 @@ function togglePlanBody(id) {
   const isOpen = wrap.style.display !== 'none';
   wrap.style.display = isOpen ? 'none' : 'block';
   if (btn) btn.innerHTML = isOpen ? '展開 ▼' : '收起 ▲';
+}
+function editPlan(id) {
+  document.getElementById('view-'+id).style.display = 'none';
+  document.getElementById('edit-'+id).style.display = 'block';
+}
+function cancelPlanEdit(id) {
+  document.getElementById('edit-'+id).style.display = 'none';
+  document.getElementById('view-'+id).style.display = 'block';
+}
+function savePlanEdit(id) {
+  const title = document.getElementById('edit-title-'+id).value.trim();
+  const body = document.getElementById('edit-body-'+id).value.trim();
+  if (!title && !body) { showToast('請填寫內容'); return; }
+  let plans = load('plans', []);
+  const idx = plans.findIndex(p=>p.id===id);
+  if (idx > -1) {
+    plans[idx].title = title || '（無標題）';
+    plans[idx].body = body;
+    save('plans', plans);
+  }
+  renderPlans();
+  showToast('計畫已更新 ✓');
 }
 function deletePlan(id) {
   let plans = load('plans', []);
