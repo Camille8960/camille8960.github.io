@@ -1146,15 +1146,39 @@ function renderQuotes() {
     const preview = q.text.length > 20 ? q.text.slice(0,20)+'…' : q.text;
     return `<div class="quote-item">
       <button class="quote-del" onclick="deleteQuote(${q.id})">✕</button>
-      <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;padding-right:20px;cursor:pointer" onclick="toggleQuote(${q.id})">「${escHtml(preview)}」</div>
-      <div id="qbody-${q.id}" style="display:none">
-        <div class="quote-text" style="margin-bottom:10px">「${escHtml(q.text)}」</div>
+      <div id="qview-${q.id}">
+        <div style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:6px;padding-right:20px;cursor:pointer" onclick="toggleQuote(${q.id})">「${escHtml(preview)}」</div>
+        <div id="qbody-${q.id}" style="display:none">
+          <div class="quote-text" style="margin-bottom:10px">「${escHtml(q.text)}」</div>
+        </div>
+        <div class="quote-bottom">
+          ${q.source ? `<span class="quote-source">— ${escHtml(q.source)}</span>` : ''}
+          <span class="quote-tag ${TAG_CLASS[q.tag]||'qt-other'}">${TAG_LABELS[q.tag]||'其他'}</span>
+          <span class="quote-date">${q.date||''}</span>
+          <button onclick="toggleQuote(${q.id})" id="qtoggle-${q.id}" style="font-size:12px;color:var(--gold);background:none;border:1px solid var(--gold);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">展開 ▼</button>
+          <button onclick="editQuote(${q.id})" style="font-size:12px;color:var(--sky);background:none;border:1px solid var(--sky);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">✏️ 編輯</button>
+        </div>
       </div>
-      <div class="quote-bottom">
-        ${q.source ? `<span class="quote-source">— ${escHtml(q.source)}</span>` : ''}
-        <span class="quote-tag ${TAG_CLASS[q.tag]||'qt-other'}">${TAG_LABELS[q.tag]||'其他'}</span>
-        <span class="quote-date">${q.date||''}</span>
-        <button onclick="toggleQuote(${q.id})" id="qtoggle-${q.id}" style="margin-left:auto;font-size:12px;color:var(--gold);background:none;border:1px solid var(--gold);border-radius:6px;padding:2px 10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif">展開 ▼</button>
+      <div id="qedit-${q.id}" style="display:none">
+        <textarea id="qedit-text-${q.id}"
+          style="box-sizing:border-box;width:100%;display:block;min-height:90px;
+                 font-size:16px;line-height:1.7;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:10px 12px;background:#fff;color:#1a1a2e;outline:none;
+                 resize:none;margin-bottom:8px">${escHtml(q.text)}</textarea>
+        <input type="text" id="qedit-source-${q.id}" value="${escHtml(q.source||'')}" placeholder="來源（可留空）"
+          style="box-sizing:border-box;width:100%;display:block;margin-bottom:8px;
+                 font-size:13px;border:2px solid #e8e0d0;border-radius:10px;
+                 padding:8px 12px;background:#fff;color:#1a1a2e;outline:none">
+        <div style="display:flex;gap:8px">
+          <button onclick="saveQuoteEdit(${q.id})"
+            style="flex:1;background:#7a9e87;color:#fff;border:none;border-radius:10px;
+                   padding:10px;font-family:'Noto Sans TC',sans-serif;font-size:14px;
+                   font-weight:700;cursor:pointer">儲存</button>
+          <button onclick="cancelQuoteEdit(${q.id})"
+            style="flex:1;background:#e8e0d0;color:#1a1a2e;border:none;border-radius:10px;
+                   padding:10px;font-family:'Noto Sans TC',sans-serif;font-size:14px;
+                   font-weight:700;cursor:pointer">取消</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -1526,6 +1550,28 @@ function toggleQuote(id) {
   const isOpen = body.style.display !== 'none';
   body.style.display = isOpen ? 'none' : 'block';
   if (btn) btn.innerHTML = isOpen ? '展開 ▼' : '收起 ▲';
+}
+function editQuote(id) {
+  document.getElementById('qview-'+id).style.display = 'none';
+  document.getElementById('qedit-'+id).style.display = 'block';
+}
+function cancelQuoteEdit(id) {
+  document.getElementById('qedit-'+id).style.display = 'none';
+  document.getElementById('qview-'+id).style.display = 'block';
+}
+function saveQuoteEdit(id) {
+  const text = document.getElementById('qedit-text-'+id).value.trim();
+  const source = document.getElementById('qedit-source-'+id).value.trim();
+  if (!text) { showToast('請輸入金句內容'); return; }
+  let quotes = load('quotes', []);
+  const idx = quotes.findIndex(q=>q.id===id);
+  if (idx > -1) {
+    quotes[idx].text = text;
+    quotes[idx].source = source;
+    save('quotes', quotes);
+  }
+  renderQuotes();
+  showToast('金句已更新 ✓');
 }
 
 // ── UTILS ──
