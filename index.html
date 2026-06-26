@@ -11,7 +11,7 @@
 :root{
   --bg:#f7f5f0;
   --surface:#ffffff;
-  --surface2:#f2efe8;h
+  --surface2:#f2efe8;
   --border:rgba(0,0,0,0.08);
   --border2:rgba(0,0,0,0.14);
   --text:#1a1a18;
@@ -32,7 +32,6 @@
   --serif:'Cormorant Garamond',serif;
   --mono:'DM Mono',monospace;
 }
-
 body{
   background:var(--bg);
   color:var(--text);
@@ -42,7 +41,6 @@ body{
   min-height:100vh;
   padding:0 0 60px;
 }
-
 body::before{
   content:'';
   position:fixed;
@@ -53,9 +51,7 @@ body::before{
   pointer-events:none;
   z-index:0;
 }
-
 .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 20px}
-
 .header{position:relative;margin:0 -20px 32px;}
 .header-bg{
   background:linear-gradient(150deg,#fffef9 0%,#fdf8ea 50%,#f8eccc 100%);
@@ -132,7 +128,6 @@ body::before{
   text-align:right;
   font-weight:500;
 }
-
 .form-strip{
   background:var(--surface);
   border:1px solid var(--border);
@@ -187,7 +182,6 @@ body::before{
   margin-right:4px;
   vertical-align:middle;
 }
-
 .sec-label{
   font-size:10px;
   letter-spacing:.18em;
@@ -205,10 +199,8 @@ body::before{
   height:0.5px;
   background:var(--gold-border);
 }
-
 .module-grid{display:grid;gap:12px;margin-bottom:32px}
 .module-grid.cols2{grid-template-columns:1fr 1fr}
-
 .module{
   background:var(--surface);
   border:1px solid var(--border);
@@ -245,7 +237,6 @@ body::before{
   background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%);
 }
 .module.primary::before{opacity:1}
-
 .module-icon{font-size:22px;margin-bottom:2px}
 .module-name{font-size:14px;font-weight:600;color:var(--text)}
 .module-desc{font-size:11px;color:var(--muted);line-height:1.5}
@@ -259,7 +250,6 @@ body::before{
   align-self:flex-start;
 }
 .badge-live{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.25)}
-
 .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px}
 .tool{
   background:var(--surface);
@@ -275,7 +265,6 @@ body::before{
 .tool:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .tool-icon{font-size:20px;display:block;margin-bottom:6px}
 .tool-name{font-size:11px;color:var(--muted);font-weight:500}
-
 .expo-strip{
   background:var(--surface);
   border:1px solid var(--gold-border);
@@ -308,7 +297,6 @@ body::before{
 .days-warn{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,106,16,0.2)}
 .days-ok{background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.2)}
 .days-far{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
-
 .footer{
   text-align:center;
   padding:24px 0 0;
@@ -318,7 +306,6 @@ body::before{
   font-family:var(--mono);
   letter-spacing:.05em;
 }
-
 .venue-row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:8px;padding:9px 0;border-bottom:0.5px solid var(--gold-border)}
 .venue-row:last-child{border-bottom:none;padding-bottom:0}
 .venue-row-name{font-size:13px;font-weight:500}
@@ -337,7 +324,6 @@ body::before{
   cursor:pointer;white-space:nowrap;font-family:var(--sans);
 }
 .btn-hide:hover{background:var(--red-light);color:var(--red);}
-
 @media(max-width:480px){
   .module-grid.cols2{grid-template-columns:1fr}
   .tool-grid{grid-template-columns:repeat(4,1fr)}
@@ -346,7 +332,6 @@ body::before{
 </head>
 <body>
 <div class="wrap">
-
   <!-- Header -->
   <div class="header">
     <div class="header-bg">
@@ -361,7 +346,6 @@ body::before{
       </div>
     </div>
   </div>
-
   <!-- 展覽倒數 折疊卡片 -->
   <div class="module" style="margin-bottom:12px">
     <div onclick="toggleSection('expo-body','expo-chevron')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
@@ -380,7 +364,6 @@ body::before{
       </div>
     </div>
   </div>
-
   <!-- 官網下載展會資料 -->
   <div class="form-strip">
     <div class="form-strip-title">
@@ -391,7 +374,6 @@ body::before{
       <div style="font-size:12px;color:var(--muted)">載入中...</div>
     </div>
   </div>
-
   <!-- 最新參展報名 -->
   <div class="form-strip" style="margin-bottom:32px">
     <div class="form-strip-title">
@@ -402,7 +384,6 @@ body::before{
       <div style="font-size:12px;color:var(--muted)">載入中...</div>
     </div>
   </div>
-
   <!-- 核心系統 -->
   <div class="sec-label">核心系統</div>
   <div class="module-grid cols2">
@@ -425,7 +406,6 @@ body::before{
     <span class="module-badge badge-live">已上線</span>
   </a>
   </div>
-
   <!-- 台灣展館折疊卡片 -->
   <div class="module" style="margin-bottom:32px">
     <div onclick="toggleSection('venue-body','venue-chevron')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
@@ -453,7 +433,6 @@ body::before{
       </div>
     </div>
   </div>
-
   <!-- 快速工具 -->
   <div class="sec-label">快速工具</div>
   <div class="tool-grid" style="grid-template-columns:1fr">
@@ -462,12 +441,9 @@ body::before{
       <span class="tool-name">官網</span>
     </a>
   </div>
-
   <!-- Footer -->
   <div class="footer">SUNRISE EXPO · <span id="footerDate"></span></div>
-
 </div>
-
 <script>
 function toggleSection(bodyId, chevronId) {
   var body = document.getElementById(bodyId);
@@ -476,14 +452,12 @@ function toggleSection(bodyId, chevronId) {
   body.style.display = isOpen ? 'none' : 'block';
   if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
-
 const now = new Date();
 const days = ['日','一','二','三','四','五','六'];
 document.getElementById('now').textContent =
   `${now.getFullYear()} 年 ${now.getMonth()+1} 月 ${now.getDate()} 日　週${days[now.getDay()]}`;
 document.getElementById('footerDate').textContent =
   `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
-
 // 展覽倒數
 async function loadExpos() {
   const el = document.getElementById('expoList');
@@ -529,7 +503,6 @@ async function loadExpos() {
   }
 }
 loadExpos();
-
 // 展館檔期
 async function loadVenues() {
   var hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
@@ -581,7 +554,6 @@ async function loadVenues() {
     });
   }
 }
-
 function hideVenue(key) {
   var hidden = JSON.parse(localStorage.getItem('hiddenVenues') || '[]');
   if (hidden.indexOf(key) < 0) hidden.push(key);
@@ -589,7 +561,6 @@ function hideVenue(key) {
   loadVenues();
 }
 loadVenues();
-
 // 官網下載展會資料 — WordPress API
 async function loadDownloads() {
   const el = document.getElementById('downloadList');
@@ -627,14 +598,13 @@ async function loadDownloads() {
     countEl.textContent = '—';
   }
 }
-
 // 最新參展報名 — Google Master Sheet
 async function loadRegistrations() {
   const el = document.getElementById('regList');
   const countEl = document.getElementById('regCount');
   const SHEET_ID = '1429Sq4g0k79RsAy41CFb4IxEA7HvP-t6345VgigWEy4';
-  const API_KEY = 'AIzaSyD_rY7wYdOz3iruJttK0pzz4I3z07abPkY'; // ← 填入你的 Google API Key
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/工作表1!A:Jey=${API_KEY}`;
+  const API_KEY = 'AIzaSyD_rY7wYdOz3iruJttK0pzz4I3z07abPkY';
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/工作表1!A:J?key=${API_KEY}`;
   try {
     const res = await fetch(url);
     const data = await res.json();
@@ -670,7 +640,6 @@ async function loadRegistrations() {
     countEl.textContent = '—';
   }
 }
-
 loadDownloads();
 loadRegistrations();
 </script>
