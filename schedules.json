@@ -1,93 +1,65 @@
 [
-  {
-    "name": "台北國際汽機車零配件展 / 智慧移動展 / 車用電子展",
-    "start": "2026-04-14",
-    "end": "2026-04-17",
-    "venue": "南港展覽館1館",
-    "category": "nangang"
-  },
-  {
-    "name": "ATLife 臺灣輔具暨長期照護大展",
-    "start": "2026-05-14",
-    "end": "2026-05-17",
-    "venue": "南港展覽館1館",
-    "category": "nangang"
-  },
-  {
-    "name": "台北國際電腦展 COMPUTEX",
-    "start": "2026-06-02",
-    "end": "2026-06-05",
-    "venue": "南港展覽館1館&2館",
-    "category": "nangang"
-  },
-  {
-    "name": "台北國際潮流玩具、授權展",
-    "start": "2026-05-29",
-    "end": "2026-06-01",
-    "venue": "南港展覽館2館",
-    "category": "nangang"
-  },
-  {
-    "name": "台北國際飯店設備用品展",
-    "start": "2026-06-24",
-    "end": "2026-06-27",
-    "venue": "南港展覽館2館",
-    "category": "nangang"
-  },
-  {
-    "name": "亞洲生技大展 BIO Asia",
-    "start": "2026-07-16",
-    "end": "2026-07-19",
-    "venue": "南港展覽館1館",
-    "category": "nangang"
-  },
-  {
-    "name": "台北國際寵物用品展",
-    "start": "2026-07-03",
-    "end": "2026-07-06",
-    "venue": "南港展覽館1館",
-    "category": "nangang"
-  },
-  {
-    "name": "台灣國際創意禮品文具展 DG Taiwan",
-    "start": "2026-04-16",
-    "end": "2026-04-19",
-    "venue": "世貿一館",
-    "category": "twtc"
-  },
-  {
-    "name": "台北國際酒展",
-    "start": "2026-04-17",
-    "end": "2026-04-20",
-    "venue": "世貿一館",
-    "category": "twtc"
-  },
-  {
-    "name": "亞太區農業技術展覽暨會議",
-    "start": "2026-05-06",
-    "end": "2026-05-08",
-    "venue": "世貿展覽大樓",
-    "category": "twtc"
-  },
-  {
-    "name": "台北國際電腦展 COMPUTEX",
-    "start": "2026-06-02",
-    "end": "2026-06-05",
-    "venue": "世貿展覽大樓",
-    "category": "twtc"
-  },
-  {
-    "name": "台灣永續發展及低碳綠建築展",
-    "start": "2026-05-28",
-    "end": "2026-05-31",
-    "venue": "臺中國際會展中心",
-    "category": "twtc"
-  },
-  {
-    "name": "2026 台灣國際觀光旅遊展",
-    "start": "2026-04-17",
-    "end": "2026-04-20",
-    "venue": "圓山花博爭艷館",
-    "category": "expo"
-  }
+{"name": "2026亞洲生技大展", "start": "2026-07-16", "end": "2026-07-19", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026亞洲美容保養生技保健大展", "start": "2026-07-16", "end": "2026-07-19", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "第56屆全國技能競賽", "start": "2026-07-30", "end": "2026-08-01", "venue": "南港展覽館1館2館", "category": "nangang"},
+{"name": "2026臺灣文化創意博覽會", "start": "2026-08-06", "end": "2026-08-12", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026台北國際自動化工業大展／2026台北國際數位化機械要素展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026臺灣機器人與智慧自動化展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館1館2館", "category": "nangang"},
+{"name": "台北國際冷鏈科技展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台北國際物流暨物聯網展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台北國際流體傳動與智能控制展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台北國際模具暨智慧成型設備展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台灣3D列印暨積層製造設備展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台灣國際雷射展", "start": "2026-08-19", "end": "2026-08-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "國際半導體展", "start": "2026-09-02", "end": "2026-09-04", "venue": "南港展覽館1館2館", "category": "nangang"},
+{"name": "臺灣智慧農漁週", "start": "2026-09-08", "end": "2026-09-10", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台北國際塑橡膠工業展", "start": "2026-09-15", "end": "2026-09-19", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "Cares Expo 2026台北國際照顧博覽會", "start": "2026-10-01", "end": "2026-10-03", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台北攝影器材暨影音創作設備展", "start": "2026-10-02", "end": "2026-10-05", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台灣戶外用品展", "start": "2026-10-02", "end": "2026-10-05", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台灣世界連鎖加盟大展", "start": "2026-10-02", "end": "2026-10-05", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "2026年台北紡織展", "start": "2026-10-06", "end": "2026-10-08", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台灣國際水週", "start": "2026-10-14", "end": "2026-10-16", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台灣國際智慧能源週與台灣國際淨零永續展", "start": "2026-10-14", "end": "2026-10-16", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台北國際電子產業科技展、台灣國際人工智慧暨物聯網展", "start": "2026-10-20", "end": "2026-10-22", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "台灣五金展", "start": "2026-10-20", "end": "2026-10-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台灣金屬材料暨精密加工設備展", "start": "2026-10-20", "end": "2026-10-22", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "台灣電路板產業國際展覽會", "start": "2026-10-20", "end": "2026-10-22", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "旅展", "start": "2026-11-06", "end": "2026-11-09", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026臺灣茶業博覽會", "start": "2026-11-13", "end": "2026-11-16", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026臺灣國際咖啡展", "start": "2026-11-13", "end": "2026-11-16", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026臺灣國際食品暨設備展", "start": "2026-11-13", "end": "2026-11-16", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026台北國際酒展", "start": "2026-11-13", "end": "2026-11-16", "venue": "南港展覽館2館", "category": "nangang"},
+{"name": "2026台灣醫療科技展", "start": "2026-12-03", "end": "2026-12-06", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "2026台北國際建築建材暨產品展", "start": "2026-12-10", "end": "2026-12-13", "venue": "南港展覽館1館", "category": "nangang"},
+{"name": "第39屆台北國際婦幼(孕、嬰、童)用品展(夏季)", "start": "2026-07-10", "end": "2026-07-13", "venue": "世貿一館", "category": "twtc"},
+{"name": "台北國際兒童書展、台北城市書展", "start": "2026-07-10", "end": "2026-07-13", "venue": "世貿一館", "category": "twtc"},
+{"name": "台北進口內銷家具大展", "start": "2026-07-10", "end": "2026-07-13", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台北國際咖啡暨飲品展", "start": "2026-07-17", "end": "2026-07-20", "venue": "世貿一館", "category": "twtc"},
+{"name": "FUN!嗜100", "start": "2026-07-17", "end": "2026-07-19", "venue": "世貿一館", "category": "twtc"},
+{"name": "第11屆台北國際夏季旅展、台灣伴手禮觀光特產展", "start": "2026-07-17", "end": "2026-07-20", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026年第25屆漫畫博覽會", "start": "2026-07-23", "end": "2026-07-27", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026年第六屆台北國際娛樂數位內容整合展", "start": "2026-07-23", "end": "2026-07-27", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026秋冬季台北鞋展", "start": "2026-07-29", "end": "2026-07-31", "venue": "世貿一館", "category": "twtc"},
+{"name": "AI WAVE SHOW - WORLD AI VISION EXHIBITION 2026", "start": "2026-07-30", "end": "2026-08-01", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台灣美食展", "start": "2026-07-31", "end": "2026-08-03", "venue": "世貿一館", "category": "twtc"},
+{"name": "第三屆高齡健康產業博覽會", "start": "2026-08-07", "end": "2026-08-09", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026上聯台北國際美容美甲美髮展、2026韓國美容展", "start": "2026-08-14", "end": "2026-08-17", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026第十一屆台灣藝術博覽會", "start": "2026-08-14", "end": "2026-08-17", "venue": "世貿一館", "category": "twtc"},
+{"name": "第32屆福爾摩莎家具展暨家設計用品採購節", "start": "2026-08-14", "end": "2026-08-17", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台北國際精緻酒展(夏季)", "start": "2026-08-21", "end": "2026-08-24", "venue": "世貿一館", "category": "twtc"},
+{"name": "第14屆台灣國際旅遊展(秋季)/2026台北兩岸旅展", "start": "2026-08-21", "end": "2026-08-24", "venue": "世貿一館", "category": "twtc"},
+{"name": "第19屆台北國際蔬食養生．佛事用品工藝品展（秋季）", "start": "2026-08-21", "end": "2026-08-24", "venue": "世貿一館", "category": "twtc"},
+{"name": "第19屆台北新世代健康展", "start": "2026-08-21", "end": "2026-08-24", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026第五屆亞太永續博覽會", "start": "2026-08-27", "end": "2026-08-29", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026 Build for NextGen 國際永續智慧建築暨智慧建材展", "start": "2026-09-01", "end": "2026-09-04", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026上聯台北寵物用品博覽會(秋季)", "start": "2026-09-04", "end": "2026-09-07", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台北兩棲爬蟲展", "start": "2026-09-04", "end": "2026-09-07", "venue": "世貿一館", "category": "twtc"},
+{"name": "第22屆台北3C電腦電器空調影音展", "start": "2026-09-04", "end": "2026-09-07", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台北國際室內設計家具名床大展暨居家生活用品展", "start": "2026-09-11", "end": "2026-09-14", "venue": "世貿一館", "category": "twtc"},
+{"name": "台灣創新技術博覽會", "start": "2026-09-17", "end": "2026-09-19", "venue": "世貿一館", "category": "twtc"},
+{"name": "日本留學展", "start": "2026-09-19", "end": "2026-09-20", "venue": "世貿一館", "category": "twtc"},
+{"name": "WIRFORCE 2026", "start": "2026-09-24", "end": "2026-09-27", "venue": "世貿一館", "category": "twtc"},
+{"name": "2026台北樂器大展", "start": "2026-07-31", "end": "2026-08-03", "venue": "花博爭艷館", "category": "expo"},
+{"name": "2026台北專業影音系統大展", "start": "2026-07-31", "end": "2026-08-03", "venue": "花博爭艷館", "category": "expo"}
 ]
