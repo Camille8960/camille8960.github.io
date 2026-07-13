@@ -93,6 +93,23 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold)}
 .result-text{background:var(--surface2);border-radius:10px;padding:12px;font-size:12.5px;line-height:1.7;white-space:pre-wrap;max-height:220px;overflow-y:auto}
 .copy-btn{margin-top:6px;font-size:10px;padding:4px 10px;border-radius:20px;background:var(--green-light);color:var(--green);border:1px solid rgba(42,122,85,0.2);cursor:pointer}
 .wp-link{display:inline-block;margin-top:10px;font-size:12px;color:var(--gold-deep);font-weight:600;text-decoration:none}
+.notes-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:16px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.notes-title{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.notes-btn{
+  width:100%;padding:11px;border:1px solid var(--border2);border-radius:10px;
+  background:var(--surface2);color:var(--text);font-family:var(--sans);
+  font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:10px;
+}
+.note-item{padding:10px 0;border-bottom:0.5px solid var(--border);font-size:12.5px}
+.note-item:last-child{border-bottom:none}
+.note-meta{color:var(--muted);font-size:10.5px;margin-bottom:3px;display:flex;gap:8px}
+.note-content{line-height:1.5;margin-bottom:6px}
+.note-actions{display:flex;gap:8px}
+.note-actions button{
+  font-size:10px;padding:3px 10px;border-radius:20px;cursor:pointer;
+  background:var(--surface2);border:1px solid var(--border2);color:var(--muted);
+}
+.note-actions button.del{color:var(--red);border-color:rgba(192,57,43,0.25)}
 </style>
 </head>
 <body>
@@ -160,6 +177,12 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold)}
       <div class="generate-title">✨ 一鍵生成文章＋FB＋IG</div>
       <button class="generate-btn" id="genBtn" onclick="generateContent()">用「展會名稱」欄位的展會 一鍵生成</button>
       <div id="genResult"></div>
+    </div>
+
+    <div class="notes-box">
+      <div class="notes-title">📋 查看／管理筆記</div>
+      <button class="notes-btn" id="viewBtn" onclick="viewNotes()">查看「展會名稱」欄位這個展的筆記</button>
+      <div id="notesList"></div>
     </div>
   </div>
 
@@ -287,6 +310,72 @@ async function generateContent() {
 function copyText(id) {
   const text = $(id).textContent;
   navigator.clipboard.writeText(text).then(() => toast('已複製 ✓', true));
+}
+
+async function viewNotes() {
+  const show = $('show').value.trim();
+  if (!show) { toast('請先在上面「展會名稱」欄位打上展會名稱', false); return; }
+  const listEl = $('notesList');
+  const btn = $('viewBtn');
+  btn.disabled = true;
+  listEl.innerHTML = '<div style="font-size:12px;color:var(--muted)">載入中...</div>';
+  try {
+    const res = await fetch(GAS_URL + '?token=' + TOKEN + '&show=' + encodeURIComponent(show));
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error);
+    if (!d.entries.length) {
+      listEl.innerHTML = '<div style="font-size:12px;color:var(--muted)">還沒有「' + show + '」的筆記</div>';
+    } else {
+      listEl.innerHTML = d.entries.slice().reverse().map(n => `
+        <div class="note-item" id="note-${n.row}">
+          <div class="note-meta"><span>${n.date}</span><span>${n.category}</span>${n.source ? `<span>${n.source}</span>` : ''}</div>
+          <div class="note-content">${n.content}</div>
+          <div class="note-actions">
+            <button onclick="editNote(${n.row})">編輯</button>
+            <button class="del" onclick="deleteNote(${n.row})">刪除</button>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch (err) {
+    listEl.innerHTML = '<div style="font-size:12px;color:var(--red)">載入失敗：' + err.message + '</div>';
+  }
+  btn.disabled = false;
+}
+
+async function deleteNote(row) {
+  if (!confirm('確定要刪除這筆嗎？')) return;
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ token: TOKEN, action: 'delete', row })
+    });
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error);
+    toast('已刪除 ✓', true);
+    viewNotes();
+  } catch (err) {
+    toast('刪除失敗：' + err.message, false);
+  }
+}
+
+async function editNote(row) {
+  const el = document.querySelector(`#note-${row} .note-content`);
+  const current = el.textContent;
+  const updated = prompt('修改內容：', current);
+  if (updated === null || updated.trim() === current.trim()) return;
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ token: TOKEN, action: 'update', row, content: updated.trim() })
+    });
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error);
+    toast('已更新 ✓', true);
+    viewNotes();
+  } catch (err) {
+    toast('更新失敗：' + err.message, false);
+  }
 }
 </script>
 </body>
