@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>昇揚展覽 · 知識庫</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0; --surface:#ffffff; --surface2:#f2efe8;
+  --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.14);
+  --text:#1a1a18; --muted:#888680; --muted2:#c5c3bc;
+  --gold:#b8902a; --gold-light:#f5edd8; --gold-border:rgba(184,144,42,0.3);
+  --gold-deep:#8a6a1a; --green:#2a7a55; --green-light:#e8f5ee;
+  --red:#c0392b; --red-light:#fdf0ee;
+  --sans:'Noto Sans TC',sans-serif; --serif:'Cormorant Garamond',serif; --mono:'DM Mono',monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;padding:0 0 60px}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px}
+.header{margin:0 -20px 24px}
+.header-bg{
+  background:linear-gradient(150deg,#fffef9 0%,#fdf8ea 50%,#f8eccc 100%);
+  padding:26px 24px 22px;border-radius:0 0 24px 24px;
+  border-bottom:1.5px solid var(--gold-border);
+  box-shadow:0 6px 24px rgba(184,144,42,0.1);
+  text-align:center;
+}
+.header-company{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.header-cname{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--gold-deep)}
+.header-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.sun-box{display:flex;flex-direction:column;align-items:center;gap:8px;margin:8px 0 22px}
+.sun-track{width:100%;max-width:280px;height:60px;position:relative;border-bottom:1px solid var(--gold-border);overflow:hidden}
+.sun{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#f5cf6b 0%,var(--gold) 100%);box-shadow:0 0 14px rgba(184,144,42,0.5);transition:bottom .5s ease}
+.sun-label{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.sun-label b{color:var(--gold-deep)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;font-weight:500}
+input[type=text],input[list],textarea{width:100%;padding:11px 12px;border:1px solid var(--border2);border-radius:10px;font-family:var(--sans);font-size:14px;background:var(--surface2);color:var(--text)}
+textarea{min-height:88px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border-radius:20px;border:1px solid var(--border2);font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;background:var(--surface2);transition:all .15s;user-select:none}
+.chip.active{background:var(--gold-light);color:var(--gold-deep);border-color:var(--gold-border)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.submit-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold) 0%,#a07d24 100%);color:#fff;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.08em;cursor:pointer;margin-top:6px}
+.submit-btn:disabled{opacity:.6}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:10px 18px;border-radius:20px;font-size:12px;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;z-index:10}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red)}
+.footer{text-align:center;padding:20px 0 0;font-size:11px;color:var(--muted2);font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="header-bg">
+      <div class="header-company">Sunrise Expo Corporation</div>
+      <div class="header-cname">展覽知識庫</div>
+      <div class="header-sub">30 秒記一筆，AI 之後幫你寫文章</div>
+    </div>
+  </div>
+  <div class="sun-box">
+    <div class="sun-track"><div class="sun" id="sun" style="bottom:-6px"></div></div>
+    <div class="sun-label">今日已記 <b id="todayCount">0</b> 筆</div>
+  </div>
+  <div class="card">
+    <form id="f">
+      <div class="field">
+        <label>展會名稱</label>
+        <input type="text" id="show" list="showList" placeholder="例如：AI EXPO KOREA">
+        <datalist id="showList">
+          <option value="AI EXPO KOREA">
+          <option value="Cybersec Asia">
+          <option value="TFBO 泰國加盟展">
+          <option value="INTI 印尼科技創新展">
+          <option value="GISEC">
+          <option value="GITEX">
+        </datalist>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>年份</label>
+          <input type="text" id="year" placeholder="2027">
+        </div>
+        <div class="field">
+          <label>來源</label>
+          <input type="text" id="source" placeholder="主辦方Email／Alexander…">
+        </div>
+      </div>
+      <div class="field">
+        <label>類別</label>
+        <div class="chips" id="catChips">
+          <div class="chip" data-v="數據">📊 數據</div>
+          <div class="chip" data-v="權益">🎟️ 權益</div>
+          <div class="chip active" data-v="情報">📰 情報</div>
+          <div class="chip" data-v="客戶">👤 客戶</div>
+          <div class="chip" data-v="經驗">💡 經驗</div>
+          <div class="chip" data-v="題材">🎬 題材</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>內容</label>
+        <textarea id="content" placeholder="例如：2027 AI Expo Korea 預計超過 55,000 名觀眾" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="saveBtn">存 入 知 識 庫</button>
+    </form>
+  </div>
+  <div class="footer">SUNRISE EXPO KB</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwypGZLXmPKusxGxYudb4jrShNBm9WkY-Fmsg3CPycGaTppn2_bWxOfook-k8WvUa-pnA/exec';
+const TOKEN = 'sunrise2026';
+const $ = id => document.getElementById(id);
+let category = '情報';
+document.querySelectorAll('#catChips .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#catChips .chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    category = chip.dataset.v;
+  });
+});
+function setSun(count) {
+  const pct = Math.min(count / 8, 1);
+  const trackH = 60, sunH = 26;
+  const bottom = -6 + pct * (trackH - sunH + 6);
+  $('sun').style.bottom = bottom + 'px';
+}
+function toast(msg, ok) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (ok ? '' : ' err');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+$('f').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const btn = $('saveBtn');
+  btn.disabled = true; btn.textContent = '儲存中…';
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        token: TOKEN,
+        show: $('show').value.trim(),
+        year: $('year').value.trim(),
+        category,
+        content: $('content').value.trim(),
+        source: $('source').value.trim()
+      })
+    });
+    const d = await res.json();
+    if (!d.ok) throw new Error(d.error);
+    $('todayCount').textContent = d.todayCount;
+    setSun(d.todayCount);
+    toast('已存入 ✓ 知識庫累計 ' + d.total + ' 筆', true);
+    $('content').value = ''; $('content').focus();
+  } catch (err) {
+    toast('儲存失敗：' + err.message, false);
+  }
+  btn.disabled = false; btn.textContent = '存 入 知 識 庫';
+});
+(async () => {
+  if (GAS_URL.startsWith('PASTE')) return;
+  try {
+    const today = new Date().toLocaleDateString('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).replace(/-/g,'/');
+    const res = await fetch(GAS_URL + '?token=' + TOKEN + '&since=' + encodeURIComponent(today));
+    const d = await res.json();
+    if (d.ok){ $('todayCount').textContent = d.count; setSun(d.count); }
+  } catch(e){}
+})();
+</script>
+</body>
+</html>
