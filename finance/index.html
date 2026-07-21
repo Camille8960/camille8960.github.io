@@ -8,83 +8,140 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f7f5f0;--surface:#ffffff;--surface2:#f2efe8;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
-  --text:#1a1a18;--muted:#888680;--muted2:#bbb9b3;
-  --gold:#b8902a;--gold-light:#f5edd8;--gold-border:rgba(184,144,42,0.3);--gold-deep:#8a6a1a;
-  --green:#2a7a55;--green-light:#e8f5ee;--green-border:rgba(42,122,85,0.25);
-  --red:#c0392b;--red-light:#fdf0ee;--red-border:rgba(192,57,43,0.2);
-  --amber:#b86a10;--amber-light:#fef3e2;--amber-border:rgba(184,106,16,0.25);
-  --blue:#2255a4;--blue-light:#edf2fc;
-  --sans:'Noto Sans TC',sans-serif;--mono:'DM Mono',monospace;
+  --bg:#f7f5f0;
+  --surface:#ffffff;
+  --surface2:#f2efe8;
+  --border:rgba(0,0,0,0.08);
+  --border2:rgba(0,0,0,0.14);
+  --text:#1a1a18;
+  --muted:#888680;
+  --muted2:#bbb9b3;
+  --gold:#b8902a;
+  --gold-light:#f5edd8;
+  --gold-border:rgba(184,144,42,0.3);
+  --gold-deep:#8a6a1a;
+  --green:#2a7a55;
+  --green-light:#e8f5ee;
+  --green-border:rgba(42,122,85,0.25);
+  --red:#c0392b;
+  --red-light:#fdf0ee;
+  --red-border:rgba(192,57,43,0.2);
+  --amber:#b86a10;
+  --amber-light:#fef3e2;
+  --amber-border:rgba(184,106,16,0.25);
+  --blue:#2255a4;
+  --blue-light:#edf2fc;
+  --sans:'Noto Sans TC',sans-serif;
+  --mono:'DM Mono',monospace;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;padding:28px 20px 60px}
+
+/* Header */
 .header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:18px;border-bottom:1.5px solid var(--gold-border)}
 .logo{font-size:10px;letter-spacing:.18em;color:var(--gold);margin-bottom:4px;font-weight:500}
-.header-title{font-size:22px;font-weight:300;letter-spacing:-.02em}
+.header-title{font-size:22px;font-weight:300;letter-spacing:-.02em;color:var(--text)}
 .header-title strong{font-weight:700;color:var(--gold-deep)}
 .updated{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-.kpi.highlight{border-color:var(--gold-border);background:linear-gradient(135deg,#fffdf7,#fdf6e3)}
+.kpi.highlight{border-color:var(--gold-border);background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%)}
 .kpi-label{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;font-weight:500}
 .kpi-val{font-family:var(--mono);font-size:24px;font-weight:500;line-height:1}
 .kpi-val.gold{color:var(--gold-deep)}
 .kpi-val.amber{color:var(--amber)}
 .kpi-val.red{color:var(--red)}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:7px}
-.alert-strip{background:var(--red-light);border:1px solid var(--red-border);border-radius:10px;padding:11px 15px;margin-bottom:22px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--red)}
-.alert-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* Alert */
+.alert-strip{background:var(--red-light);border:1px solid var(--red-border);border-radius:10px;padding:11px 15px;margin-bottom:22px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--red);line-height:1.7}
+.alert-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px}
+
 .sec-label{font-size:10px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;margin-top:24px;font-weight:500}
+
+/* Expo cards */
 .expo-list{display:flex;flex-direction:column;gap:10px}
-.expo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s,box-shadow .2s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.expo-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .expo-card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,0.08)}
 .expo-card.warn{border-color:var(--amber-border)}
-.expo-summary{display:grid;grid-template-columns:10px 1fr auto auto;gap:14px;align-items:center;padding:16px 20px;cursor:pointer}
+.expo-card.urgent{border-color:var(--red-border)}
+
+.expo-summary{display:grid;grid-template-columns:10px 1fr auto auto;gap:14px;align-items:center;padding:16px 20px}
 .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.s-green{background:var(--green)}.s-amber{background:var(--amber)}
-.expo-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.s-green{background:var(--green)}
+.s-amber{background:var(--amber)}
+.s-red{background:var(--red)}
+.s-gray{background:var(--muted2)}
+
+.expo-name{font-size:14px;font-weight:600;margin-bottom:2px;color:var(--text)}
 .expo-meta{font-size:11px;color:var(--muted)}
+
 .expo-profit{text-align:right;min-width:100px}
 .profit-val{font-family:var(--mono);font-size:17px;font-weight:500}
-.profit-val.hi{color:var(--green)}.profit-val.lo{color:var(--amber)}
+.profit-val.hi{color:var(--green)}
+.profit-val.lo{color:var(--amber)}
 .profit-pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .expand-icon{font-size:11px;color:var(--muted2);transition:transform .25s;user-select:none;min-width:16px;text-align:center}
 .expo-card.open .expand-icon{transform:rotate(180deg)}
+
+/* Bar */
 .bar-row{display:grid;grid-template-columns:52px 1fr 76px;gap:5px 10px;padding:0 20px 14px;align-items:center}
 .bar-lbl{font-size:11px;color:var(--muted);text-align:right}
 .bar-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px}
-.b-rev{background:var(--blue)}.b-exp{background:var(--red);opacity:.5}.b-pft{background:var(--green)}
+.b-rev{background:var(--blue)}
+.b-exp{background:var(--red);opacity:.5}
+.b-pft{background:var(--green)}
 .bar-num{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* Flags */
 .flag-row{display:flex;gap:6px;padding:0 20px 14px;flex-wrap:wrap}
 .flag{font-size:10px;padding:3px 9px;border-radius:20px;font-family:var(--mono);font-weight:500}
 .f-ok{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
 .f-warn{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
 .f-urg{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+
+/* Detail panel */
 .detail-panel{display:none;border-top:1px solid var(--border);padding:18px 20px 20px;background:var(--bg)}
 .expo-card.open .detail-panel{display:block}
-.detail-tabs{display:flex;margin-bottom:16px;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+
+.detail-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
 .tab{flex:1;padding:8px 0;font-size:12px;text-align:center;color:var(--muted);cursor:pointer;background:transparent;border:none;font-family:var(--sans);transition:background .15s,color .15s;font-weight:500}
 .tab.active{background:var(--surface);color:var(--text)}
-.tab-content{display:none}.tab-content.active{display:block}
-.tbl{width:100%;border-collapse:collapse;font-size:12px}
-.tbl th{font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:7px 8px;text-align:left;border-bottom:1px solid var(--border2);background:var(--surface2);font-weight:500}
-.tbl td{padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
-.tbl tr:last-child td{border-bottom:none}
-.tbl .total td{background:var(--gold-light);color:var(--gold-deep);font-weight:600;border-top:1px solid var(--gold-border)!important}
+
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Tables */
+.ex-table,.cost-table{width:100%;border-collapse:collapse;font-size:12px}
+.ex-table th,.cost-table th{font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:7px 8px;text-align:left;border-bottom:1px solid var(--border2);background:var(--surface2);font-weight:500}
+.ex-table td,.cost-table td{padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ex-table tr:last-child td,.cost-table tr:last-child td{border-bottom:none}
 .mono{font-family:var(--mono)}
-.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-weight:500}
-.b-full{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
-.b-part{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
-.b-none{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
-.sbox-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+
+.pay-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-weight:500}
+.pay-full{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
+.pay-part{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
+.pay-none{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+
+.cost-total td{background:var(--gold-light);color:var(--gold-deep);font-weight:600;border-top:1px solid var(--gold-border)!important}
+.cost-deduct td{color:var(--green)}
+
+/* Summary boxes */
+.summary-box{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .sbox{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
 .sbox-label{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:500}
 .sbox-val{font-family:var(--mono);font-size:14px;font-weight:500}
-.note{margin-top:24px;padding:14px 16px;background:var(--gold-light);border:1px solid var(--gold-border);border-radius:10px;font-size:12px;color:var(--gold-deep);line-height:2}
-.acct-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.acct{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px}
-.acct.hi{border-color:var(--gold-border);background:linear-gradient(135deg,#fffdf7,#fdf6e3)}
+
+/* Info note */
+.note{margin-top:24px;padding:12px 16px;background:var(--gold-light);border:1px solid var(--gold-border);border-radius:10px;font-size:12px;color:var(--gold-deep);line-height:1.8}
+
+@media(max-width:580px){
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .kpi:first-child{grid-column:span 2}
+  .summary-box{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -94,311 +151,525 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
     <div class="logo">昇揚展覽有限公司</div>
     <div class="header-title">財務儀表板 <strong>2026</strong></div>
   </div>
-  <div class="updated">2026.06.16</div>
+  <div class="updated">2026.07.21</div>
 </div>
-
-<!--
-已結清利潤：Cybersec US$17,528 + AI Expo US$15,470 + TFBO US$12,966 = US$45,964
-進行中佣金：INTI 2026 TAITRA US$8,115 + INTI 2026 Fortune Electric US$1,513.50 = US$9,628.50
-年度總利潤 = US$55,592.50 × 31 = NT$1,723,368
-
-待收：TAITRA US$60,051 + Fortune Electric 第二期 US$5,599.95 = US$65,650.95 × 31 = NT$2,035,179
-待付：TAITRA大會 US$51,936 + Fortune Electric 大會第二期 US$4,843.20 = US$56,779.20 × 31 = NT$1,760,155
--->
 
 <div class="kpi-row">
   <div class="kpi highlight">
     <div class="kpi-label">年度總利潤（含預估）</div>
-    <div class="kpi-val gold">NT$1,723,368</div>
-    <div class="kpi-sub">已結清 US$45,964 + 進行中佣金 US$9,629</div>
+    <div class="kpi-val gold">NT$1,824,517</div>
+    <div class="kpi-sub">利潤率 27.0%　·　總收入 NT$6,765,793</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待收款項</div>
-    <div class="kpi-val amber">NT$2,035,179</div>
-    <div class="kpi-sub">TAITRA US$60,051 · Fortune Electric US$5,600</div>
+    <div class="kpi-val amber">NT$695,420</div>
+    <div class="kpi-sub">INTI2026 Fortune US$9,102 · 廣告 US$7,731（7/27到期）· INTI(2025) US$5,600　·　TFBO已結清</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待付帳款</div>
-    <div class="kpi-val red">NT$1,760,155</div>
-    <div class="kpi-sub">待收款項入帳後匯出</div>
+    <div class="kpi-val red">NT$1,767,428</div>
+    <div class="kpi-sub">INTI2026大會 US$52,171（TAITRA+Fortune+廣告製作費）· INTI(2025) US$4,843　·　TFBO已結清</div>
   </div>
 </div>
 
-<div class="acct-row">
-  <div class="acct"><div class="kpi-label">NTD 台幣帳戶</div><div class="kpi-val" style="font-size:20px">NT$248</div></div>
-  <div class="acct"><div class="kpi-label">USD 美金帳戶</div><div class="kpi-val" style="font-size:20px">US$464.61</div><div class="kpi-sub">≈ NT$14,403</div></div>
-  <div class="acct hi"><div class="kpi-label">帳戶合計</div><div class="kpi-val gold" style="font-size:20px">NT$14,651</div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">NTD 台幣帳戶</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">NT$248</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">國內帳戶餘額（未含本次更新款項，待對帳）</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">USD 美金帳戶</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">US$464.61</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">≈ NT$14,403　（匯率 31，未含本次更新款項）</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04);background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%)">
+    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">帳戶合計</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--gold-deep)">NT$14,651</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">實際手上現金（帳戶餘額尚未反映 INTI2026 已收款）</div>
+  </div>
 </div>
 
 <div class="alert-strip">
   <div class="alert-dot"></div>
-  <span><strong>6/30 到期：</strong>TAITRA US$60,051 + Fortune Electric 第二期 US$5,599.95，共 US$65,650.95 待收</span>
+  <span><strong>INTI2026：</strong>大會（CNG）尾款 <strong>US$44,592.00</strong>（TAITRA攤位）依合約應於 <strong>7/11 前付清，已逾期</strong>；<strong>Fortune Electric</strong>（A3-55A，18sqm）大會款尚欠 <strong>US$3,028.80</strong>（第二期）；廣告製作費 <strong>US$4,550.00</strong> 全額未付，均請儘速確認匯款。廣告加購收款 <strong>US$7,730.89</strong>（TAITRA）將於 <strong>7/27 到期</strong>；Fortune Electric 攤位費差價 US$9,102.00 待收。另外 <strong>INTI(2025)</strong> 華誠尾款 US$5,600 仍未收，建議一併確認最新狀態。（TFBO已結案，款項全數收付完成）</span>
 </div>
 
 <div class="sec-label">各展明細</div>
 <div class="expo-list">
 
-<!-- ① Cybersec Asia -->
-<div class="expo-card" id="c-cyber">
-  <div class="expo-summary" onclick="toggle('c-cyber')">
-    <div class="status-dot s-green"></div>
-    <div><div class="expo-name">Cybersec Asia 2026</div><div class="expo-meta">72 sqm · 泰國曼谷 · 已結清</div></div>
-    <div class="expo-profit"><div class="profit-val hi">US$17,528</div><div class="profit-pct">利潤率 35.0%</div></div>
-    <div class="expand-icon">▾</div>
-  </div>
-  <div class="bar-row">
-    <div class="bar-lbl">收入</div><div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div><div class="bar-num">US$50,088</div>
-    <div class="bar-lbl">支出</div><div class="bar-track"><div class="bar-fill b-exp" style="width:65%"></div></div><div class="bar-num">US$32,560</div>
-    <div class="bar-lbl">利潤</div><div class="bar-track"><div class="bar-fill b-pft" style="width:35%"></div></div><div class="bar-num" style="color:var(--green)">US$17,528</div>
-  </div>
-  <div class="flag-row"><span class="flag f-ok">全數已收</span><span class="flag f-ok">全數已付大會</span></div>
-  <div class="detail-panel">
-    <div class="detail-tabs"><button class="tab active" onclick="switchTab('cyber','s')">損益摘要</button></div>
-    <div class="tab-content active" id="cyber-s">
-      <div class="sbox-grid">
-        <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$50,088</div></div>
-        <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$32,560</div></div>
-        <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$17,528</div></div>
-        <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">35.0%</div></div>
-        <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
-        <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
+  <!-- Cybersec Asia -->
+  <div class="expo-card" id="card-cyber">
+    <div class="expo-summary" onclick="toggle('card-cyber')">
+      <div class="status-dot s-green"></div>
+      <div>
+        <div class="expo-name">Cybersec Asia 2026</div>
+        <div class="expo-meta">72 sqm · 8 攤 · 泰國曼谷</div>
+      </div>
+      <div class="expo-profit">
+        <div class="profit-val hi">US$17,528</div>
+        <div class="profit-pct">利潤率 35.0%</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl">收入</div>
+      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
+      <div class="bar-num">US$50,088</div>
+      <div class="bar-lbl">支出</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:65%"></div></div>
+      <div class="bar-num">US$32,560</div>
+      <div class="bar-lbl">利潤</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:35%"></div></div>
+      <div class="bar-num" style="color:var(--green)">US$17,528</div>
+    </div>
+    <div class="flag-row">
+      <span class="flag f-ok">全數已收</span>
+      <span class="flag f-ok">全數已付大會</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-tabs">
+        <button class="tab active" onclick="switchTab('cyber','exhibitors')">展商收款</button>
+        <button class="tab" onclick="switchTab('cyber','costs')">大會成本</button>
+        <button class="tab" onclick="switchTab('cyber','summary')">損益摘要</button>
+      </div>
+      <div class="tab-content active" id="cyber-exhibitors">
+        <table class="ex-table">
+          <thead><tr><th>展商</th><th>平米</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>n partner</td><td class="mono">9</td><td class="mono">US$4,494</td><td class="mono">US$4,494</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>公信</td><td class="mono">9</td><td class="mono">US$4,494</td><td class="mono">US$4,494</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>UPAS</td><td class="mono">9</td><td class="mono">—</td><td class="mono">—</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>n partner (2)</td><td class="mono">9</td><td class="mono">—</td><td class="mono">—</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>Heartbot</td><td class="mono">9</td><td class="mono">—</td><td class="mono">—</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>系統自由</td><td class="mono">9</td><td class="mono">—</td><td class="mono">—</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+            <tr><td>公會</td><td class="mono">—</td><td class="mono">NT$41,100</td><td class="mono">NT$0</td><td><span class="pay-badge pay-none">未收</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-content" id="cyber-costs">
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>金額</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>攤位租金（一般攤位）</td><td class="mono">US$30,560</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>NCC 費用</td><td class="mono">US$2,000</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr class="cost-total"><td>合計</td><td class="mono">US$32,560</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-content" id="cyber-summary">
+        <div class="summary-box">
+          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$50,088</div></div>
+          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$32,560</div></div>
+          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$17,528</div></div>
+          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">35.0%</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ② AI Expo Taiwan -->
-<div class="expo-card" id="c-ai">
-  <div class="expo-summary" onclick="toggle('c-ai')">
-    <div class="status-dot s-green"></div>
-    <div><div class="expo-name">AI Expo Taiwan 2025</div><div class="expo-meta">108 sqm · 台灣台北 · 已結清</div></div>
-    <div class="expo-profit"><div class="profit-val hi">US$15,470</div><div class="profit-pct">利潤率 33.5%</div></div>
-    <div class="expand-icon">▾</div>
-  </div>
-  <div class="bar-row">
-    <div class="bar-lbl">收入</div><div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div><div class="bar-num">US$46,200</div>
-    <div class="bar-lbl">支出</div><div class="bar-track"><div class="bar-fill b-exp" style="width:67%"></div></div><div class="bar-num">US$30,730</div>
-    <div class="bar-lbl">利潤</div><div class="bar-track"><div class="bar-fill b-pft" style="width:33.5%"></div></div><div class="bar-num" style="color:var(--green)">US$15,470</div>
-  </div>
-  <div class="flag-row"><span class="flag f-ok">全額已收</span><span class="flag f-ok">全數已付大會</span></div>
-  <div class="detail-panel">
-    <div class="detail-tabs"><button class="tab active" onclick="switchTab('ai','s')">損益摘要</button></div>
-    <div class="tab-content active" id="ai-s">
-      <div class="sbox-grid">
-        <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$46,200</div></div>
-        <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$30,730</div></div>
-        <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$15,470</div></div>
-        <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">33.5%</div></div>
-        <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
-        <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
+  <!-- AI Expo -->
+  <div class="expo-card" id="card-ai">
+    <div class="expo-summary" onclick="toggle('card-ai')">
+      <div class="status-dot s-green"></div>
+      <div>
+        <div class="expo-name">AI Expo Taiwan 2025</div>
+        <div class="expo-meta">108 sqm · 12 攤 · 台灣台北</div>
+      </div>
+      <div class="expo-profit">
+        <div class="profit-val hi">US$15,470</div>
+        <div class="profit-pct">利潤率 33.5%</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl">收入</div>
+      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
+      <div class="bar-num">US$46,200</div>
+      <div class="bar-lbl">支出</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:67%"></div></div>
+      <div class="bar-num">US$14,560</div>
+      <div class="bar-lbl">利潤</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:33.5%"></div></div>
+      <div class="bar-num" style="color:var(--green)">US$15,470</div>
+    </div>
+    <div class="flag-row">
+      <span class="flag f-ok">TAITRA 全額已收</span>
+      <span class="flag f-ok">全數已付大會</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-tabs">
+        <button class="tab active" onclick="switchTab('ai','exhibitors')">展商收款</button>
+        <button class="tab" onclick="switchTab('ai','costs')">大會成本</button>
+        <button class="tab" onclick="switchTab('ai','summary')">損益摘要</button>
+      </div>
+      <div class="tab-content active" id="ai-exhibitors">
+        <table class="ex-table">
+          <thead><tr><th>展商</th><th>平米</th><th>合約金額</th><th>已收</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>TAITRA</td><td class="mono">108</td><td class="mono">US$46,200</td><td class="mono">US$46,200</td><td><span class="pay-badge pay-full">全額</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-content" id="ai-costs">
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>金額</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>攤位租金費</td><td class="mono">US$30,030</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>增租費用</td><td class="mono">US$1,610</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr class="cost-total"><td>合計</td><td class="mono">US$14,560</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-content" id="ai-summary">
+        <div class="summary-box">
+          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$46,200</div></div>
+          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$14,560</div></div>
+          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$15,470</div></div>
+          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">33.5%</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ③ TFBO -->
-<div class="expo-card" id="c-tfbo">
-  <div class="expo-summary" onclick="toggle('c-tfbo')">
-    <div class="status-dot s-green"></div>
-    <div><div class="expo-name">TFBO 泰國加盟展 2026</div><div class="expo-meta">90 sqm · 泰國曼谷 BITEC · 2026/06/04–07 · 已結清</div></div>
-    <div class="expo-profit"><div class="profit-val hi">US$12,966</div><div class="profit-pct">利潤率 30.6%</div></div>
-    <div class="expand-icon">▾</div>
-  </div>
-  <div class="bar-row">
-    <div class="bar-lbl">收入</div><div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div><div class="bar-num">US$42,372</div>
-    <div class="bar-lbl">支出</div><div class="bar-track"><div class="bar-fill b-exp" style="width:69.4%"></div></div><div class="bar-num">US$29,406</div>
-    <div class="bar-lbl">利潤</div><div class="bar-track"><div class="bar-fill b-pft" style="width:30.6%"></div></div><div class="bar-num" style="color:var(--green)">US$12,966</div>
-  </div>
-  <div class="flag-row"><span class="flag f-ok">TAITRA 全額已收</span><span class="flag f-ok">Kavin 全數已付</span></div>
-  <div class="detail-panel">
-    <div class="detail-tabs"><button class="tab active" onclick="switchTab('tfbo','s')">損益摘要</button></div>
-    <div class="tab-content active" id="tfbo-s">
-      <div class="sbox-grid">
-        <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$42,372</div></div>
-        <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$29,406</div></div>
-        <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$12,966</div></div>
-        <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">30.6%</div></div>
-        <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
-        <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
+  <!-- TFBO -->
+  <div class="expo-card" id="card-tfbo">
+    <div class="expo-summary" onclick="toggle('card-tfbo')">
+      <div class="status-dot s-green"></div>
+      <div>
+        <div class="expo-name">TFBO 泰國加盟展 2026</div>
+        <div class="expo-meta">90 sqm · 10 攤 · 泰國曼谷 BITEC · 2026/06/04–07</div>
+      </div>
+      <div class="expo-profit">
+        <div class="profit-val hi">US$12,966</div>
+        <div class="profit-pct">利潤率 30.6%</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl">收入</div>
+      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
+      <div class="bar-num">US$42,372</div>
+      <div class="bar-lbl">支出</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:69.4%"></div></div>
+      <div class="bar-num">US$29,406</div>
+      <div class="bar-lbl">利潤</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:30.6%"></div></div>
+      <div class="bar-num" style="color:var(--green)">US$12,966</div>
+    </div>
+    <div class="flag-row">
+      <span class="flag f-ok">全數已收</span>
+      <span class="flag f-ok">全數已付大會</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-tabs">
+        <button class="tab active" onclick="switchTab('tfbo','exhibitors')">展商收款</button>
+        <button class="tab" onclick="switchTab('tfbo','costs')">大會成本</button>
+        <button class="tab" onclick="switchTab('tfbo','summary')">損益摘要</button>
+      </div>
+      <div class="tab-content active" id="tfbo-exhibitors">
+        <table class="ex-table">
+          <thead><tr><th>展商</th><th>平米</th><th>Invoice No.</th><th>合約金額</th><th>已收</th><th>未收</th><th>截止日</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>TAITRA</td>
+              <td class="mono">90</td>
+              <td class="mono" style="color:var(--muted)">TH260408</td>
+              <td class="mono">US$42,372</td>
+              <td class="mono">US$42,372</td>
+              <td class="mono">US$0</td>
+              <td class="mono">2026/04/17</td>
+              <td><span class="pay-badge pay-full">已收</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--green-light);border:1px solid var(--green-border);border-radius:8px;font-size:12px;color:var(--green)">
+          收款明細：攤位費 US$36,000 + 角位費 US$3,600 + VAT 7% US$2,772 = US$42,372　·　已結案，全額收訖
+        </div>
+      </div>
+      <div class="tab-content" id="tfbo-costs">
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>Invoice No.</th><th>金額</th><th>已付</th><th>截止日</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Raw Space 90sqm（Kavin Intertrade）</td>
+              <td class="mono" style="color:var(--muted)">Inv.690134</td>
+              <td class="mono">US$27,481.88</td>
+              <td class="mono">US$27,481.88</td>
+              <td class="mono">2026/04/30</td>
+              <td><span class="pay-badge pay-full">已付</span></td>
+            </tr>
+            <tr>
+              <td>VAT 7%</td>
+              <td class="mono" style="color:var(--muted)">Inv.690134</td>
+              <td class="mono">US$1,923.73</td>
+              <td class="mono">US$1,923.73</td>
+              <td class="mono">2026/04/30</td>
+              <td><span class="pay-badge pay-full">已付</span></td>
+            </tr>
+            <tr class="cost-total"><td>合計</td><td></td><td class="mono">US$29,405.61</td><td class="mono">US$29,405.61</td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">付款銀行：Kasikorn Bank · Swift: KASITHBK · A/C: Kavin Intertrade Co.,Ltd.</div>
+      </div>
+      <div class="tab-content" id="tfbo-summary">
+        <div class="summary-box">
+          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$42,372</div></div>
+          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$29,406</div></div>
+          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$12,966</div></div>
+          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">30.6%</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+        </div>
+        <div style="margin-top:10px;padding:8px 12px;background:var(--green-light);border:1px solid var(--green-border);border-radius:8px;font-size:11px;color:var(--green)">
+          展覽已於 2026/06/04–07 舉行，客戶款與大會款均已結清，本展已結案。
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ④ INTI 2026 — TAITRA 126sqm -->
-<div class="expo-card warn" id="c-inti26t">
-  <div class="expo-summary" onclick="toggle('c-inti26t')">
-    <div class="status-dot s-amber"></div>
-    <div>
-      <div class="expo-name">INTI Indonesia 2026 — TAITRA</div>
-      <div class="expo-meta">126 sqm · A2-60B–A2-67A · JIExpo 雅加達 · 2026/08/11–13</div>
-    </div>
-    <div class="expo-profit"><div class="profit-val hi">US$8,115</div><div class="profit-pct">佣金 13.5%</div></div>
-    <div class="expand-icon">▾</div>
-  </div>
-  <div class="bar-row">
-    <div class="bar-lbl">收入</div><div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div><div class="bar-num">US$60,051</div>
-    <div class="bar-lbl">支出</div><div class="bar-track"><div class="bar-fill b-exp" style="width:86.5%"></div></div><div class="bar-num">US$51,936</div>
-    <div class="bar-lbl">佣金</div><div class="bar-track"><div class="bar-fill b-pft" style="width:13.5%"></div></div><div class="bar-num" style="color:var(--green)">US$8,115</div>
-  </div>
-  <div class="flag-row">
-    <span class="flag f-urg">待收 US$60,051（6/30 到期）</span>
-    <span class="flag f-warn">待付大會 US$51,936（收款後匯出）</span>
-  </div>
-  <div class="detail-panel">
-    <div class="detail-tabs">
-      <button class="tab active" onclick="switchTab('inti26t','r')">收款</button>
-      <button class="tab" onclick="switchTab('inti26t','p')">付款</button>
-      <button class="tab" onclick="switchTab('inti26t','s')">損益</button>
-    </div>
-    <div class="tab-content active" id="inti26t-r">
-      <table class="tbl">
-        <thead><tr><th>客戶</th><th>Invoice No.</th><th>總金額</th><th>已收</th><th>待收</th><th>截止日</th><th>狀態</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>TAITRA</td><td class="mono">IN260615</td><td class="mono">US$60,051</td>
-            <td class="mono">US$0</td>
-            <td class="mono" style="color:var(--red)">US$60,051</td>
-            <td class="mono" style="color:var(--red);font-weight:600">2026/06/30</td>
-            <td><span class="badge b-none">未收</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="margin-top:8px;font-size:11px;color:var(--muted)">126sqm × US$425 = US$53,550 + Mandatory Fee US$550 + VAT 11% US$5,951 = US$60,051（100% 一次付清）</div>
-    </div>
-    <div class="tab-content" id="inti26t-p">
-      <table class="tbl">
-        <thead><tr><th>項目</th><th>Invoice No.</th><th>金額</th><th>已付</th><th>待付</th><th>截止日</th><th>狀態</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>第一期 50%</td><td class="mono">023.02.2026/VIII/INTI/HK.U</td>
-            <td class="mono">US$25,968</td><td class="mono">US$0</td>
-            <td class="mono" style="color:var(--red)">US$25,968</td>
-            <td class="mono" style="color:var(--red)">收款後7天內</td>
-            <td><span class="badge b-none">待付</span></td>
-          </tr>
-          <tr>
-            <td>第二期 50%</td><td class="mono">023.02.2026/VIII/INTI/HK.U</td>
-            <td class="mono">US$25,968</td><td class="mono">US$0</td>
-            <td class="mono" style="color:var(--amber)">US$25,968</td>
-            <td class="mono" style="color:var(--amber)">2026/07/11</td>
-            <td><span class="badge b-none">待付</span></td>
-          </tr>
-          <tr class="total"><td>合計</td><td></td><td class="mono">US$51,936</td><td class="mono">US$0</td><td class="mono">US$51,936</td><td></td><td></td></tr>
-        </tbody>
-      </table>
-      <div style="margin-top:8px;font-size:11px;color:var(--muted)">PT Hidup Inti Karya · BCA · A/C: 277-888-107-7 · Swift: CENAIDJA</div>
-    </div>
-    <div class="tab-content" id="inti26t-s">
-      <div class="sbox-grid">
-        <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$60,051</div></div>
-        <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$51,936</div></div>
-        <div class="sbox"><div class="sbox-label">佣金利潤</div><div class="sbox-val" style="color:var(--green)">US$8,115</div></div>
-        <div class="sbox"><div class="sbox-label">佣金率</div><div class="sbox-val" style="color:var(--gold-deep)">13.5%</div></div>
-        <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--red)">US$60,051</div></div>
-        <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--amber)">US$51,936</div></div>
+  <!-- INTI 2026 (NEW) -->
+  <div class="expo-card warn" id="card-inti26">
+    <div class="expo-summary" onclick="toggle('card-inti26')">
+      <div class="status-dot s-amber"></div>
+      <div>
+        <div class="expo-name">2026 INTI 印尼台灣館（Indonesia Technology &amp; Innovation）</div>
+        <div class="expo-meta">2展商：TAITRA 126sqm(台灣館A2-60B–A2-67A) + Fortune Electric 18sqm(A3-55A) · 印尼雅加達 JIExpo · 2026/08/11–13</div>
       </div>
+      <div class="expo-profit">
+        <div class="profit-val hi">US$11,378</div>
+        <div class="profit-pct">利潤率 16.6%　（利潤＝跟客戶收的金額－付大會的金額）</div>
+      </div>
+      <div class="expand-icon">▾</div>
     </div>
-  </div>
-</div>
+    <div class="bar-row">
+      <div class="bar-lbl">收入</div>
+      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
+      <div class="bar-num">US$68,392</div>
+      <div class="bar-lbl">支出</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:83.4%"></div></div>
+      <div class="bar-num">US$57,014</div>
+      <div class="bar-lbl">利潤</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:16.6%"></div></div>
+      <div class="bar-num" style="color:var(--green)">US$11,378</div>
+    </div>
+    <div class="flag-row">
+      <span class="flag f-ok">TAITRA攤位費已收 US$51,559.50</span>
+      <span class="flag f-urg">TAITRA廣告款未收 US$7,730.89（7/27到期）</span>
+      <span class="flag f-warn">Fortune攤位費差價未收 US$9,102.00</span>
+      <span class="flag f-urg">TAITRA大會尾款未付 US$44,592.00（已逾期）</span>
+      <span class="flag f-warn">Fortune大會款未付 US$3,028.80（第二期）</span>
+      <span class="flag f-urg">廣告製作費未付 US$4,550.00</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-tabs">
+        <button class="tab active" onclick="switchTab('inti26','exhibitors')">展商收款</button>
+        <button class="tab" onclick="switchTab('inti26','costs')">大會成本</button>
+        <button class="tab" onclick="switchTab('inti26','summary')">損益摘要</button>
+      </div>
+      <div class="tab-content active" id="inti26-exhibitors">
+        <table class="ex-table">
+          <thead><tr><th>展商</th><th>項目</th><th>Invoice No.</th><th>金額</th><th>已收</th><th>未收</th><th>截止日</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>TAITRA</td>
+              <td>攤位費（126sqm）</td>
+              <td class="mono" style="color:var(--muted)">IN260707</td>
+              <td class="mono">US$51,559.50</td>
+              <td class="mono">US$51,559.50</td>
+              <td class="mono">US$0</td>
+              <td class="mono">—</td>
+              <td><span class="pay-badge pay-full">已收（7/15）</span></td>
+            </tr>
+            <tr>
+              <td>TAITRA</td>
+              <td>展場廣告加購（看板/布條/指標/施作）</td>
+              <td class="mono" style="color:var(--muted)">IN260714</td>
+              <td class="mono">US$7,730.89</td>
+              <td class="mono">US$0</td>
+              <td class="mono" style="color:var(--red)">US$7,730.89</td>
+              <td class="mono" style="color:var(--amber);font-weight:600">2026/07/27</td>
+              <td><span class="pay-badge pay-none">未收</span></td>
+            </tr>
+            <tr>
+              <td>Fortune Electric Value</td>
+              <td>攤位費（18sqm，A3-55A）</td>
+              <td class="mono" style="color:var(--muted)">比照CNG#001</td>
+              <td class="mono">US$9,102.00</td>
+              <td class="mono">US$0</td>
+              <td class="mono" style="color:var(--amber)">US$9,102.00</td>
+              <td class="mono">—</td>
+              <td><span class="pay-badge pay-none">未收</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--green-light);border:1px solid var(--green-border);border-radius:8px;font-size:12px;color:var(--green)">
+          攤位費 US$51,559.50 已於 2026/07/15 收訖（收據已開立給 TAITRA）。
+        </div>
+        <div style="margin-top:8px;padding:10px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:12px;color:var(--amber)">
+          Fortune Electric 的收款金額比照CNG大會invoice算法：跟客戶收含稅總額 US$9,102.00，付CNG淨額 US$7,872.00，差價 US$1,230.00 就是利潤（不論CNG的invoice抬頭寫誰，錢一律算昇揚收付）。目前尚未收到這筆款項。
+        </div>
+      </div>
+      <div class="tab-content" id="inti26-costs">
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>Invoice No.</th><th>金額</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>Space Only（大會 CNG Trade Events）</td><td class="mono" style="color:var(--muted)">023.02.2026/VIII/INTI/HK.U</td><td class="mono">US$45,900.00</td><td></td></tr>
+            <tr><td>Mandatory Fee</td><td class="mono" style="color:var(--muted)">同上</td><td class="mono">US$550.00</td><td></td></tr>
+            <tr><td>VAT 11%</td><td class="mono" style="color:var(--muted)">同上</td><td class="mono">US$5,109.50</td><td></td></tr>
+            <tr><td>小計（大會應收，含稅）</td><td></td><td class="mono">US$51,559.50</td><td></td></tr>
+            <tr class="cost-deduct"><td>減：代理佣金 15%（Space+Mandatory）</td><td></td><td class="mono">−US$6,967.50</td><td></td></tr>
+            <tr class="cost-total"><td>應付大會淨額（TAITRA攤位）</td><td></td><td class="mono">US$44,592.00</td><td><span class="pay-badge pay-none">未付（已逾期）</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--red-light);border:1px solid var(--red-border);border-radius:8px;font-size:12px;color:var(--red)">
+          合約付款條件：簽約後7天內付50%訂金，尾款須於 2026/07/11 前付清；逾期未通知取消，全額100%需付。目前尚無付款證明，請確認是否已匯款給 CNG（PT Hidup Inti Karya, BCA Bank, A/C 277-888-107-7）。
+        </div>
 
-<!-- ⑤ INTI 2026 — Fortune Electric 18sqm -->
-<div class="expo-card warn" id="c-inti26f">
-  <div class="expo-summary" onclick="toggle('c-inti26f')">
-    <div class="status-dot s-amber"></div>
-    <div>
-      <div class="expo-name">INTI Indonesia 2026 — Fortune Electric</div>
-      <div class="expo-meta">18 sqm · A3-55A · JIExpo 雅加達 · 2026/08/11–13 · EV Charging Solutions</div>
-    </div>
-    <div class="expo-profit"><div class="profit-val hi">US$1,514</div><div class="profit-pct">佣金 13.5%</div></div>
-    <div class="expand-icon">▾</div>
-  </div>
-  <div class="bar-row">
-    <div class="bar-lbl">收入</div><div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div><div class="bar-num">US$11,200</div>
-    <div class="bar-lbl">支出</div><div class="bar-track"><div class="bar-fill b-exp" style="width:86.5%"></div></div><div class="bar-num">US$9,686</div>
-    <div class="bar-lbl">佣金</div><div class="bar-track"><div class="bar-fill b-pft" style="width:13.5%"></div></div><div class="bar-num" style="color:var(--green)">US$1,514</div>
-  </div>
-  <div class="flag-row">
-    <span class="flag f-ok">第一期 US$5,600 已收</span>
-    <span class="flag f-warn">待收第二期 US$5,600（6/30 到期）</span>
-    <span class="flag f-ok">大會第一期 US$4,843 已付</span>
-    <span class="flag f-warn">待付大會第二期 US$4,843（7/11前）</span>
-  </div>
-  <div class="detail-panel">
-    <div class="detail-tabs">
-      <button class="tab active" onclick="switchTab('inti26f','r')">收款</button>
-      <button class="tab" onclick="switchTab('inti26f','p')">付款</button>
-      <button class="tab" onclick="switchTab('inti26f','s')">損益</button>
-    </div>
-    <div class="tab-content active" id="inti26f-r">
-      <table class="tbl">
-        <thead><tr><th>客戶</th><th>Invoice No.</th><th>總金額</th><th>已收</th><th>待收</th><th>截止日</th><th>狀態</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Fortune Electric Value Co., Ltd.</td><td class="mono">TH260113</td>
-            <td class="mono">US$11,199.90</td>
-            <td class="mono" style="color:var(--green)">US$5,599.95</td>
-            <td class="mono" style="color:var(--amber)">US$5,599.95</td>
-            <td class="mono" style="color:var(--amber);font-weight:600">2026/06/30</td>
-            <td><span class="badge b-part">50%</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="tab-content" id="inti26f-p">
-      <table class="tbl">
-        <thead><tr><th>項目</th><th>金額</th><th>已付</th><th>待付</th><th>截止日</th><th>狀態</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>第一期 50%（CNG / PT Hidup Inti Karya）</td>
-            <td class="mono">US$4,843.20</td>
-            <td class="mono" style="color:var(--green)">US$4,843.20</td>
-            <td class="mono">—</td><td class="mono">—</td>
-            <td><span class="badge b-full">已付</span></td>
-          </tr>
-          <tr>
-            <td>第二期 50%</td>
-            <td class="mono">US$4,843.20</td>
-            <td class="mono">—</td>
-            <td class="mono" style="color:var(--amber)">US$4,843.20</td>
-            <td class="mono" style="color:var(--amber)">2026/07/11</td>
-            <td><span class="badge b-none">待付</span></td>
-          </tr>
-          <tr class="total"><td>合計</td><td class="mono">US$9,686.40</td><td class="mono">US$4,843.20</td><td class="mono">US$4,843.20</td><td></td><td></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="tab-content" id="inti26f-s">
-      <div class="sbox-grid">
-        <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$11,200</div></div>
-        <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$9,686</div></div>
-        <div class="sbox"><div class="sbox-label">佣金利潤</div><div class="sbox-val" style="color:var(--green)">US$1,514</div></div>
-        <div class="sbox"><div class="sbox-label">佣金率</div><div class="sbox-val" style="color:var(--gold-deep)">13.5%</div></div>
-        <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--amber)">US$5,600</div></div>
-        <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--amber)">US$4,843</div></div>
+        <table class="cost-table" style="margin-top:16px">
+          <thead><tr><th>項目（Fortune Electric 攤位，18sqm A3-55A）</th><th>Invoice No.</th><th>金額</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>Space Only（18sqm × US$425/sqm）</td><td class="mono" style="color:var(--muted)">001.01.2026/VIII/INTI/HK.U</td><td class="mono">US$7,650.00</td><td></td></tr>
+            <tr><td>Mandatory Fee</td><td class="mono" style="color:var(--muted)">同上</td><td class="mono">US$550.00</td><td></td></tr>
+            <tr><td>VAT 11%</td><td class="mono" style="color:var(--muted)">同上</td><td class="mono">US$902.00</td><td></td></tr>
+            <tr><td>小計（大會應收，含稅）</td><td></td><td class="mono">US$9,102.00</td><td></td></tr>
+            <tr class="cost-deduct"><td>減：代理佣金 15%（Space+Mandatory）</td><td></td><td class="mono">−US$1,230.00</td><td></td></tr>
+            <tr class="cost-total"><td>應付大會淨額（Fortune攤位）</td><td></td><td class="mono">US$7,872.00</td><td></td></tr>
+            <tr><td>　已付（第一期）</td><td></td><td class="mono" style="color:var(--green)">US$4,843.20</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>　待付（第二期）</td><td></td><td class="mono" style="color:var(--amber)">US$3,028.80</td><td><span class="pay-badge pay-part">未付</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:12px;color:var(--amber)">
+          CNG Invoice 001.01.2026/VIII/INTI/HK.U（2026/07/02）。第一期US$4,843.20已付，第二期US$3,028.80尚未付，發票未載明第二期截止日，建議跟催確認。（此invoice抬頭是Fortune Electric，但比照一般作法，款項統一算昇揚收付、賺15%佣金差價）
+        </div>
+
+        <table class="cost-table" style="margin-top:16px">
+          <thead><tr><th>項目（展場廣告製作費 — 對應TAITRA廣告加購）</th><th>Invoice No.</th><th>金額</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>Entrance 300×244、Hanging Banner 100×400×3、Directional Sign 100×244×3、T Banner 100×400×2（小計）</td><td class="mono" style="color:var(--muted)">003/Add.Item/HK.U</td><td class="mono">US$4,505.00</td><td></td></tr>
+            <tr><td>VAT 11%</td><td class="mono" style="color:var(--muted)">同上</td><td class="mono">US$495.00</td><td></td></tr>
+            <tr><td>小計（大會應收，含稅）</td><td></td><td class="mono">US$5,000.00</td><td></td></tr>
+            <tr class="cost-deduct"><td>減：代理佣金 10%</td><td></td><td class="mono">−US$450.00</td><td></td></tr>
+            <tr class="cost-total"><td>應付大會淨額（Full Payment 100%）</td><td></td><td class="mono">US$4,550.00</td><td><span class="pay-badge pay-none">未付</span></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;padding:10px 12px;background:var(--red-light);border:1px solid var(--red-border);border-radius:8px;font-size:12px;color:var(--red)">
+          CNG Invoice 003/Add.Item/HK.U（2026/07/13）開給昇揚，是TAITRA廣告加購（Invoice IN260714，US$7,730.89）中看板/布條/指標項目的實際製作成本。注意此invoice僅涵蓋Entrance/Hanging Banner/Directional Sign/T Banner，不含Artwork Design Fee US$301.80與On-site Installation US$1,829.09，這兩項成本尚未取得單據，實際利潤可能再低。要求全額付清（無分期）。
+        </div>
+      </div>
+      <div class="tab-content" id="inti26-summary">
+        <div class="summary-box">
+          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$68,392.39</div></div>
+          <div class="sbox"><div class="sbox-label">總支出（大會，3筆）</div><div class="sbox-val" style="color:var(--red)">US$57,014.00</div></div>
+          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--green)">US$11,378.39</div></div>
+          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">16.6%</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--amber)">US$16,832.89</div></div>
+          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--red)">US$52,170.80</div></div>
+        </div>
+        <div style="margin-top:10px;padding:8px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:11px;color:var(--amber)">
+          利潤 = 跟客戶收的金額 − 付大會的金額，逐筆算差價：TAITRA攤位 US$6,967.50 + TAITRA廣告 US$3,180.89 + Fortune Electric攤位 US$1,230.00 = US$11,378.39。廣告項下的Artwork Design（US$301.80）與現場安裝費（US$1,829.09）尚無對應成本單據，若之後補上會再扣減。
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- INTI Indonesia 2025 -->
+  <div class="expo-card warn" id="card-inti">
+    <div class="expo-summary" onclick="toggle('card-inti')">
+      <div class="status-dot s-amber"></div>
+      <div>
+        <div class="expo-name">INTI Indonesia 2025</div>
+        <div class="expo-meta">18 sqm · 2 攤 · 印尼雅加達</div>
+      </div>
+      <div class="expo-profit">
+        <div class="profit-val lo">US$1,513</div>
+        <div class="profit-pct">利潤率 13.5%</div>
+      </div>
+      <div class="expand-icon">▾</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-lbl">收入</div>
+      <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
+      <div class="bar-num">US$11,199</div>
+      <div class="bar-lbl">支出</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:86.5%"></div></div>
+      <div class="bar-num">US$9,686</div>
+      <div class="bar-lbl">利潤</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:13.5%"></div></div>
+      <div class="bar-num" style="color:var(--amber)">US$1,513</div>
+    </div>
+    <div class="flag-row">
+      <span class="flag f-urg">待收 US$5,600（華誠尾款，已逾期）</span>
+      <span class="flag f-warn">待付 US$4,843（大會）</span>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-tabs">
+        <button class="tab active" onclick="switchTab('inti','exhibitors')">展商收款</button>
+        <button class="tab" onclick="switchTab('inti','costs')">大會成本</button>
+        <button class="tab" onclick="switchTab('inti','summary')">損益摘要</button>
+      </div>
+      <div class="tab-content active" id="inti-exhibitors">
+        <table class="ex-table">
+          <thead><tr><th>展商</th><th>平米</th><th>合約金額</th><th>已收</th><th>未收</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>華誠</td>
+              <td class="mono">18</td>
+              <td class="mono">US$11,199</td>
+              <td class="mono">US$5,599</td>
+              <td class="mono" style="color:var(--red)">US$5,600</td>
+              <td><span class="pay-badge pay-part">50%</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;padding:10px 12px;background:var(--red-light);border:1px solid var(--red-border);border-radius:8px;font-size:12px;color:var(--red)">
+          建議先追回華誠 US$5,600 尾款，再匯付大會 US$4,843。
+        </div>
+      </div>
+      <div class="tab-content" id="inti-costs">
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>金額</th><th>已付</th><th>待付</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>攤位租金費</td><td class="mono">US$9,686</td><td class="mono">US$4,843</td><td class="mono" style="color:var(--amber)">US$4,843</td><td><span class="pay-badge pay-part">50%</span></td></tr>
+            <tr class="cost-total"><td>合計</td><td class="mono">US$9,686</td><td class="mono">US$4,843</td><td class="mono">US$4,843</td><td></td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">佣金比率 20%</div>
+      </div>
+      <div class="tab-content" id="inti-summary">
+        <div class="summary-box">
+          <div class="sbox"><div class="sbox-label">總收入</div><div class="sbox-val" style="color:var(--blue)">US$11,199</div></div>
+          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--red)">US$9,686</div></div>
+          <div class="sbox"><div class="sbox-label">純利潤</div><div class="sbox-val" style="color:var(--amber)">US$1,513</div></div>
+          <div class="sbox"><div class="sbox-label">利潤率</div><div class="sbox-val" style="color:var(--gold-deep)">13.5%</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--red)">US$5,600</div></div>
+          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--amber)">US$4,843</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <div class="note">
-  <strong>匯率：</strong>USD 1 = NT$31<br>
-  <strong>6/30 行動：</strong>① 確認 TAITRA US$60,051 入帳 → 匯大會 US$51,936　② 確認 Fortune Electric US$5,599.95 入帳 → 7/11 前匯大會 US$4,843.20<br>
-  <strong>更新方式：</strong>收到新 invoice 或匯款通知，截圖上傳即可。
+  <strong>更新方式：</strong>收到客戶匯款或大會 invoice，直接截圖或 PDF 上傳給 Claude，說明是哪個展 → 我解析後告訴你數字變化，並輸出新版報表。<br>
+  <strong>匯率：</strong>USD 1 = NT$31　·　SGD 1 = NT$23<br>
+  <strong>本次更新（2026.07.21）：</strong>「2026 INTI 印尼台灣館」新增 Fortune Electric Value（18sqm，A3-55A）攤位與展場廣告製作成本兩筆CNG invoice；利潤統一以「跟客戶收的金額－付大會的金額」計算，不論CNG invoice抬頭寫誰。TFBO 依使用者確認已結案，收付款狀態改為全數結清。年度總利潤、待收、待付三項KPI已重新加總全部五個展覽。
 </div>
 
 <script>
-function toggle(id){document.getElementById(id).classList.toggle('open')}
-function switchTab(key,tab){
-  const card=document.getElementById('c-'+key);
-  const panel=card.querySelector('.detail-panel');
-  const tabs=panel.querySelectorAll('.tab');
-  const contents=panel.querySelectorAll('.tab-content');
-  const keys=['r','p','s'];
-  tabs.forEach((t,i)=>t.classList.toggle('active',keys[i]===tab));
-  contents.forEach((c,i)=>c.classList.toggle('active',keys[i]===tab));
+function toggle(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function switchTab(expo,tab){
+  const panel=document.getElementById('card-'+expo).querySelector('.detail-panel');
+  const tabs=['exhibitors','costs','summary'];
+  panel.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',tabs[i]===tab)});
+  panel.querySelectorAll('.tab-content').forEach(c=>{c.classList.toggle('active',c.id===expo+'-'+tab)});
 }
 </script>
 </body>
