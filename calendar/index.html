@@ -11,7 +11,6 @@
 <title>年度計畫</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
-
   :root {
     --ink: #1a1a2e;
     --cream: #f9f6f0;
@@ -25,7 +24,6 @@
     --amber: #d4824a;
     --shadow: rgba(26,26,46,0.12);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans TC', sans-serif;
@@ -44,7 +42,6 @@
     position: relative;
     overflow: hidden;
   }
-
   /* ── HEADER / CALENDAR ── */
   .app-header {
     background: var(--ink);
@@ -81,7 +78,6 @@
   }
   .hbtn:hover { background: rgba(255,255,255,0.2); }
   .hbtn.gold { background: var(--gold); color: var(--ink); }
-
   .cal-nav {
     display: flex;
     justify-content: space-between;
@@ -143,7 +139,6 @@
   .dot-ann  { background: var(--rose); }
   .dot-rec  { background: var(--sky); }
   .dot-note { background: var(--amber); }
-
   /* ── BOTTOM TABS ── */
   .tab-bar {
     display: flex;
@@ -169,7 +164,6 @@
   }
   .tab-btn .icon { font-size: 17px; }
   .tab-btn.active { color: var(--ink); border-bottom-color: var(--gold); background: var(--cream); }
-
   /* ── PANELS ── */
   .panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
   .panel.active { display: flex; }
@@ -182,14 +176,12 @@
   }
   .panel-inner::-webkit-scrollbar { width: 3px; }
   .panel-inner::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 4px; }
-
   .date-label {
     font-size: 12px; font-weight: 700;
     color: rgba(26,26,46,0.38);
     letter-spacing: 0.5px;
     margin-bottom: 12px;
   }
-
   /* ── TODO ── */
   .todo-input-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .todo-input {
@@ -208,7 +200,26 @@
     transition: transform 0.15s;
   }
   .add-btn:active { transform: scale(0.92); }
-
+  .mic-btn {
+    background: var(--sky); color: #fff;
+    border: none; border-radius: 12px;
+    width: 42px; font-size: 19px;
+    cursor: pointer; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .mic-btn:active { transform: scale(0.92); }
+  .mic-btn.listening {
+    background: var(--rose);
+    animation: pulseMic 1s infinite;
+  }
+  @keyframes pulseMic {
+    0%,100% { box-shadow: 0 0 0 0 rgba(196,122,122,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(196,122,122,0); }
+  }
+  .voice-hint {
+    font-size: 11px; color: rgba(26,26,46,0.35);
+    margin: -8px 0 14px 2px; line-height: 1.5;
+  }
   .todo-section-label {
     font-size: 11px; font-weight: 700;
     letter-spacing: 1px;
@@ -220,7 +231,6 @@
     content: ''; flex: 1; height: 1px;
     background: rgba(26,26,46,0.1);
   }
-
   .todo-item {
     display: flex; align-items: center; gap: 10px;
     background: #fff; border-radius: 12px;
@@ -230,7 +240,6 @@
   }
   .todo-item.done-item { background: rgba(122,158,135,0.08); box-shadow: none; }
   @keyframes slideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
-
   .todo-check {
     width: 22px; height: 22px; border-radius: 50%;
     border: 2px solid var(--warm);
@@ -246,7 +255,6 @@
     background: var(--warm); border-radius: 6px;
     padding: 2px 6px; flex-shrink: 0;
   }
-
   /* ── MONTHLY SUMMARY ── */
   .summary-header {
     display: flex; justify-content: space-between;
@@ -260,7 +268,6 @@
     cursor: pointer; font-size: 16px; color: var(--ink);
   }
   .summary-month-label { font-size: 13px; font-weight: 700; min-width: 70px; text-align: center; }
-
   .summary-card {
     background: #fff; border-radius: 14px;
     padding: 16px; margin-bottom: 12px;
@@ -295,7 +302,6 @@
     background: linear-gradient(90deg, var(--sage), var(--sky));
     transition: width 0.6s ease;
   }
-
   /* ── NOTES ── */
   .note-textarea {
     width: 100%; border: 2px solid var(--warm);
@@ -327,7 +333,6 @@
     cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
   #photo-input { display: none; }
-
   /* ── QUOTES ── */
   .quote-input-area {
     background: #fff; border-radius: 14px;
@@ -369,7 +374,6 @@
     transition: opacity 0.2s;
   }
   .save-quote-btn:hover { opacity: 0.88; }
-
   .quote-filter-bar {
     display: flex; gap: 6px; overflow-x: auto;
     padding-bottom: 10px; margin-bottom: 4px;
@@ -383,7 +387,6 @@
     transition: all 0.15s; flex-shrink: 0;
   }
   .qf-pill.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
-
   .quote-item {
     background: #fff; border-radius: 14px;
     padding: 16px; margin-bottom: 10px;
@@ -417,7 +420,6 @@
     transition: all 0.15s;
   }
   .quote-del:hover { color: var(--rose); background: #fee; }
-
   /* ── ANNIVERSARIES ── */
   .ann-form {
     background: #fff; border-radius: 14px;
@@ -489,7 +491,6 @@
   .rec-section-label::after { content:''; flex:1; height:1px; background:rgba(26,26,46,0.1); }
   .ann-del { background: none; border: none; color: rgba(26,26,46,0.2); font-size: 18px; cursor: pointer; padding: 4px; }
   .ann-del:hover { color: var(--rose); }
-
   /* ── MODAL ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
@@ -521,7 +522,6 @@
   }
   .modal-btn.cancel { background: var(--warm); color: var(--ink); }
   .modal-btn.confirm { background: var(--rose); color: #fff; }
-
   /* ── PHOTO VIEWER ── */
   .photo-viewer {
     display: none; position: fixed; inset: 0;
@@ -536,7 +536,6 @@
     color: #fff; font-size: 24px; width: 40px; height: 40px;
     border-radius: 50%; cursor: pointer;
   }
-
   /* ── EMPTY ── */
   .empty-state { text-align: center; padding: 36px 20px; color: rgba(26,26,46,0.3); }
   .empty-state .big { font-size: 38px; margin-bottom: 8px; }
@@ -545,7 +544,6 @@
 </head>
 <body>
 <div class="app-shell">
-
   <!-- HEADER -->
   <div class="app-header" id="app-header">
     <div class="header-top">
@@ -562,7 +560,6 @@
     </div>
     <div class="cal-grid" id="cal-grid"></div>
   </div>
-
   <!-- TABS -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('todo')" id="tab-todo">
@@ -584,19 +581,19 @@
       <span class="icon">🎯</span>年度計畫
     </button>
   </div>
-
   <!-- TODO PANEL -->
   <div class="panel active" id="panel-todo">
     <div class="panel-inner">
       <div class="date-label" id="todo-date-label"></div>
       <div class="todo-input-row">
         <input class="todo-input" id="todo-input" placeholder="新增待辦事項…" onkeydown="if(event.key==='Enter') addTodo()">
+        <button class="mic-btn" id="mic-btn" onclick="startVoiceInput()" title="語音新增">🎤</button>
         <button class="add-btn" onclick="addTodo()">+</button>
       </div>
+      <div class="voice-hint">💬 按 🎤 說話，例如「明天下午三點開會」會自動排到對的日期</div>
       <div id="todo-list"></div>
     </div>
   </div>
-
   <!-- MONTHLY SUMMARY PANEL -->
   <div class="panel" id="panel-summary">
     <div class="panel-inner">
@@ -611,7 +608,6 @@
       <div id="summary-content"></div>
     </div>
   </div>
-
   <!-- NOTE PANEL -->
   <div class="panel" id="panel-note">
     <div class="panel-inner">
@@ -625,7 +621,6 @@
       <div class="photo-grid" id="photo-grid"></div>
     </div>
   </div>
-
   <!-- QUOTES PANEL -->
   <div class="panel" id="panel-quotes">
     <div class="panel-inner">
@@ -654,11 +649,9 @@
       <div id="quote-list"></div>
     </div>
   </div>
-
   <!-- ANNIVERSARY PANEL -->
   <div class="panel" id="panel-ann">
     <div class="panel-inner">
-
       <div class="ann-form">
         <h3>🎉 新增紀念日</h3>
         <div class="form-row">
@@ -718,9 +711,7 @@
         </div>
         <button class="save-ann-btn" onclick="addAnniversary()">＋ 標注紀念日</button>
       </div>
-
       <div id="ann-list"></div>
-
       <div class="ann-form" style="margin-top:8px">
         <h3>🔁 新增循環事件</h3>
         <div class="form-row">
@@ -743,13 +734,9 @@
         </div>
         <button class="save-ann-btn" style="background:var(--sky)" onclick="addRecurring()">＋ 新增循環事件</button>
       </div>
-
       <div id="rec-list"></div>
-
     </div>
   </div>
-
-
   <!-- PLANS PANEL -->
   <div class="panel" id="panel-plans">
     <div class="panel-inner">
@@ -787,15 +774,12 @@
   </div>
 </div>
 <!-- ann modal removed -->
-
 <!-- BACKUP MODAL -->
 <div id="backup-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:flex-end;justify-content:center">
   <div style="background:#f9f6f0;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:480px">
     <div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px">📦 備份與還原</div>
     <p style="font-size:13px;color:rgba(26,26,46,0.5);margin-bottom:16px;line-height:1.6">換手機前先匯出資料，新手機貼上還原即可。</p>
-
     <button onclick="exportData()" style="width:100%;background:#1a1a2e;color:#f0d98a;border:none;border-radius:12px;padding:13px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px">📤 匯出資料（複製到剪貼簿）</button>
-
     <div style="margin-bottom:10px">
       <label style="font-size:12px;font-weight:700;color:rgba(26,26,46,0.45);display:block;margin-bottom:6px">貼上備份資料還原：</label>
       <textarea id="import-textarea" placeholder="把備份的文字貼在這裡…" style="width:100%;height:100px;border:2px solid #e8e0d0;border-radius:12px;padding:10px 14px;font-family:'Noto Sans TC',sans-serif;font-size:13px;background:#fff;outline:none;resize:none"></textarea>
@@ -804,16 +788,13 @@
     <button onclick="closeBackupModal()" style="width:100%;background:#e8e0d0;color:#1a1a2e;border:none;border-radius:12px;padding:13px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:700;cursor:pointer">關閉</button>
   </div>
 </div>
-
 <!-- PHOTO VIEWER -->
 <div class="photo-viewer" id="photo-viewer" onclick="closePhotoViewer()">
   <img id="photo-viewer-img" src="" alt="">
   <button class="photo-viewer-close" onclick="closePhotoViewer()">✕</button>
 </div>
-
 <!-- TOAST -->
 <div id="toast" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--gold-light);padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-
 <script>
 // ── STATE ──
 let currentDate = new Date();
@@ -822,10 +803,8 @@ let pendingAnn = null;
 let activeQuoteTag = 'life';
 let activeQuoteFilter = 'all';
 let summaryDate = new Date();
-
 const today = new Date();
 today.setHours(0,0,0,0);
-
 // ── STORAGE ──
 const KEY = k => `mycal_${k}`;
 function load(k, def) {
@@ -839,7 +818,6 @@ function fmtDateLabel(d) {
   const weeks = ['日','一','二','三','四','五','六'];
   return `${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日（週${weeks[d.getDay()]}）`;
 }
-
 // ── CALENDAR ──
 function renderCalendar() {
   const y = currentDate.getFullYear(), m = currentDate.getMonth();
@@ -855,18 +833,15 @@ function renderCalendar() {
   const todos = load('todos', {}), notes = load('notes', {}), photos = load('photos', {});
   const anns = load('anniversaries', []);
   const annMDs = new Set(anns.map(a => a.date.length<=5 ? a.date : (()=>{ const d=new Date(a.date); return String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })()));
-
   for (let i = 0; i < 42; i++) {
     const cell = document.createElement('div'); cell.className = 'cal-day';
     let dayNum, cellDate;
     if (i < firstDay) { dayNum = prevDim - firstDay + i + 1; cellDate = new Date(y, m-1, dayNum); cell.classList.add('other-month'); }
     else if (i - firstDay < dim) { dayNum = i - firstDay + 1; cellDate = new Date(y, m, dayNum); }
     else { dayNum = i - firstDay - dim + 1; cellDate = new Date(y, m+1, dayNum); cell.classList.add('other-month'); }
-
     const dk = dateKey(cellDate);
     if (dk === dateKey(today)) cell.classList.add('today');
     if (dk === dateKey(selectedDate)) cell.classList.add('selected');
-
     const dayTodos = todos[dk] || [];
     const hasPending = dayTodos.some(t=>!t.done);
     const hasDone    = dayTodos.some(t=>t.done);
@@ -892,11 +867,9 @@ function renderCalendar() {
     grid.appendChild(cell);
   }
 }
-
 function selectDate(d) { selectedDate = new Date(d); renderCalendar(); renderCurrentPanel(); }
 function changeMonth(delta) { currentDate.setMonth(currentDate.getMonth()+delta); renderCalendar(); }
 function goToday() { currentDate = new Date(); selectedDate = new Date(); renderCalendar(); renderCurrentPanel(); }
-
 // ── TABS ──
 let activeTab = 'todo';
 function switchTab(tab) {
@@ -915,7 +888,6 @@ function renderCurrentPanel() {
   else if (activeTab==='plans') renderPlans();
   else renderAnniversaries();
 }
-
 // ── TODOS ──
 function renderTodos() {
   const dk = dateKey(selectedDate);
@@ -933,7 +905,6 @@ function renderTodos() {
     el.innerHTML = '';
   }
   if (!list.length) return;
-
   const pending = list.filter(t=>!t.done);
   const done    = list.filter((t,i)=>t.done ? (t._i=i, true) : false);
   // rebuild with original indices
@@ -972,7 +943,131 @@ function toggleTodo(i) {
   save('todos', todos);
   renderTodos(); renderCalendar();
 }
-
+// ── VOICE INPUT ──
+let voiceRecognition = null;
+let isListening = false;
+function cnNumToInt(s) {
+  if (s == null) return NaN;
+  if (/^\d+$/.test(s)) return parseInt(s, 10);
+  const digits = {'零':0,'一':1,'二':2,'兩':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};
+  if (s === '十') return 10;
+  if (s.length === 1) return digits[s] !== undefined ? digits[s] : NaN;
+  if (s.indexOf('十') !== -1) {
+    const idx = s.indexOf('十');
+    const tensPart = s.slice(0, idx);
+    const onesPart = s.slice(idx+1);
+    const tens = tensPart === '' ? 1 : (digits[tensPart] !== undefined ? digits[tensPart] : 1);
+    const ones = onesPart === '' ? 0 : (digits[onesPart] !== undefined ? digits[onesPart] : 0);
+    return tens*10 + ones;
+  }
+  return NaN;
+}
+function parseZhDateTime(rawText) {
+  let text = rawText.trim();
+  let target = new Date(); target.setHours(0,0,0,0);
+  let dateMatched = false;
+  const relMap = [
+    [/大後天/, 3], [/後天/, 2], [/大前天/, -3], [/前天/, -2],
+    [/明天|明日/, 1], [/昨天|昨日/, -1], [/今天|今日/, 0]
+  ];
+  for (const [re, offset] of relMap) {
+    if (re.test(text)) {
+      target.setDate(target.getDate() + offset);
+      text = text.replace(re, '');
+      dateMatched = true;
+      break;
+    }
+  }
+  if (!dateMatched) {
+    const wdRe = /(下)?(星期|週|周|禮拜)([一二三四五六日天])/;
+    const m = text.match(wdRe);
+    if (m) {
+      const nextWeekPrefix = !!m[1];
+      const wdChar = m[3];
+      const wdMap = {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'日':0,'天':0};
+      const targetWd = wdMap[wdChar];
+      const todayWd = target.getDay();
+      let diff = (targetWd - todayWd + 7) % 7;
+      if (nextWeekPrefix) diff += 7;
+      target.setDate(target.getDate() + diff);
+      text = text.replace(wdRe, '');
+      dateMatched = true;
+    }
+  }
+  if (!dateMatched) {
+    const mdRe = /([0-9一二三四五六七八九十兩]{1,3})月([0-9一二三四五六七八九十兩]{1,3})[日號号]/;
+    const m = text.match(mdRe);
+    if (m) {
+      const month = cnNumToInt(m[1]);
+      const day = cnNumToInt(m[2]);
+      if (!isNaN(month) && !isNaN(day)) {
+        const year = target.getFullYear();
+        let cand = new Date(year, month-1, day);
+        if (cand < target) cand = new Date(year+1, month-1, day);
+        target = cand;
+        text = text.replace(mdRe, '');
+        dateMatched = true;
+      }
+    }
+  }
+  let timeLabel = null;
+  const timeRe = /(上午|早上|凌晨|中午|下午|晚上|傍晚)?\s*([0-9一二三四五六七八九十兩]{1,2})[點点](半)?(?:\s*([0-9一二三四五六七八九十兩]{1,2})分)?/;
+  const tm = text.match(timeRe);
+  if (tm) {
+    const period = tm[1] || '';
+    let hour = cnNumToInt(tm[2]);
+    const half = !!tm[3];
+    let minute = tm[4] ? cnNumToInt(tm[4]) : (half ? 30 : 0);
+    if (!isNaN(hour)) {
+      if ((period === '下午' || period === '晚上' || period === '傍晚') && hour < 12) hour += 12;
+      if ((period === '上午' || period === '早上' || period === '凌晨') && hour === 12) hour = 0;
+      if (period === '中午' && hour < 12) hour = 12;
+      timeLabel = `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`;
+      text = text.replace(timeRe, '');
+    }
+  }
+  const fillers = ['幫我','請','要','新增','增加','提醒我','提醒','記得','安排一下','安排','排一下','排','的行程','這個提醒','事項','待辦'];
+  fillers.forEach(f => { text = text.split(f).join(''); });
+  text = text.replace(/[，,、\s]+/g, ' ').trim();
+  if (!text) text = rawText.trim();
+  return { date: target, timeLabel, cleanText: text };
+}
+function startVoiceInput() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showToast('這個瀏覽器不支援語音辨識，建議用 Android 上的 Chrome'); return; }
+  if (isListening) return;
+  const btn = document.getElementById('mic-btn');
+  voiceRecognition = new SR();
+  voiceRecognition.lang = 'zh-TW';
+  voiceRecognition.continuous = false;
+  voiceRecognition.interimResults = false;
+  voiceRecognition.maxAlternatives = 1;
+  isListening = true;
+  btn.classList.add('listening');
+  showToast('🎤 請說話…');
+  voiceRecognition.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    handleVoiceText(text);
+  };
+  voiceRecognition.onerror = () => { showToast('語音辨識失敗，請再試一次'); };
+  voiceRecognition.onend = () => { isListening = false; btn.classList.remove('listening'); };
+  try { voiceRecognition.start(); } catch(e) { isListening = false; btn.classList.remove('listening'); }
+}
+function handleVoiceText(text) {
+  const parsed = parseZhDateTime(text);
+  const dk = dateKey(parsed.date);
+  const todos = load('todos', {});
+  if (!todos[dk]) todos[dk] = [];
+  const finalText = parsed.timeLabel ? `${parsed.timeLabel} ${parsed.cleanText}` : parsed.cleanText;
+  todos[dk].unshift({ text: finalText, done: false });
+  save('todos', todos);
+  selectedDate = new Date(parsed.date);
+  currentDate = new Date(parsed.date);
+  renderCalendar();
+  if (activeTab === 'todo') renderTodos();
+  const md = `${parsed.date.getMonth()+1}/${parsed.date.getDate()}`;
+  showToast(`✓ 已新增到 ${md}：${finalText}`);
+}
 // ── MONTHLY SUMMARY ──
 function changeSummaryMonth(delta) {
   summaryDate.setMonth(summaryDate.getMonth()+delta);
@@ -985,10 +1080,8 @@ function renderSummary() {
   const todos = load('todos', {});
   const notes = load('notes', {});
   const photos = load('photos', {});
-
   let totalTasks = 0, doneTasks = 0, noteDays = 0;
   const doneItems = [];
-
   for (let d = 1; d <= dim; d++) {
     const dk = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const list = todos[dk] || [];
@@ -1001,21 +1094,17 @@ function renderSummary() {
     });
     if ((notes[dk]&&notes[dk].trim()) || photos[dk]?.length) noteDays++;
   }
-
   const pct = totalTasks ? Math.round(doneTasks/totalTasks*100) : 0;
   const el = document.getElementById('summary-content');
-
   if (totalTasks === 0 && noteDays === 0) {
     el.innerHTML = `<div class="empty-state"><div class="big">🌙</div><p>這個月還沒有記錄<br>快去新增待辦和日記吧！</p></div>`;
     return;
   }
-
   const doneListHTML = doneItems.length
     ? `<ul class="summary-done-list">${doneItems.map(it=>`
         <li><span class="chk">✓</span><span>${escHtml(it.text)}</span><span class="dtag">${it.date}</span></li>
       `).join('')}</ul>`
     : `<p style="font-size:13px;color:rgba(26,26,46,0.35);padding:8px 0">還沒有完成的事項</p>`;
-
   const pendingItems = [];
   for (let d2 = 1; d2 <= dim; d2++) {
     const dk2 = `${y}-${String(m+1).padStart(2,'0')}-${String(d2).padStart(2,'0')}`;
@@ -1029,7 +1118,6 @@ function renderSummary() {
         <li><span class="chk" style="color:var(--rose)">✗</span><span>${escHtml(it.text)}</span><span class="dtag">${it.date}</span></li>
       `).join('')}</ul>`
     : `<p style="font-size:13px;color:var(--sage);padding:8px 0">🎉 這個月全部完成了！</p>`;
-
   el.innerHTML = `
     <div class="summary-card">
       <h3>📊 待辦統計</h3>
@@ -1053,7 +1141,6 @@ function renderSummary() {
     </div>
   `;
 }
-
 // ── NOTES ──
 function renderNote() {
   const dk = dateKey(selectedDate);
@@ -1106,11 +1193,9 @@ function deletePhoto(dk, i) {
   photos[dk].splice(i,1); if (!photos[dk].length) delete photos[dk];
   save('photos', photos); renderPhotos(); renderCalendar();
 }
-
 // ── QUOTES ──
 const TAG_LABELS = { life:'🌱 生活', work:'💼 工作', love:'💗 情感', wisdom:'🔮 智慧', other:'📌 其他' };
 const TAG_CLASS  = { life:'qt-life', work:'qt-work', love:'qt-love', wisdom:'qt-wisdom', other:'qt-other' };
-
 function selectQuoteTag(el) {
   document.querySelectorAll('.tag-pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
@@ -1188,11 +1273,9 @@ function deleteQuote(id) {
   quotes = quotes.filter(q=>q.id!==id);
   save('quotes', quotes); renderQuotes();
 }
-
 // ── ANNIVERSARIES ──
 let annTrack = false;
 let annRepeat = 'forever';
-
 function setAnnTrack(val) {
   annTrack = val;
   document.getElementById('ann-track-no').classList.toggle('active', !val);
@@ -1278,7 +1361,6 @@ function deleteAnn(id) {
   anns = anns.filter(a=>a.id!==id);
   save('anniversaries', anns); renderAnniversaries(); renderCalendar();
 }
-
 // ── RECURRING EVENTS ──
 function onRecTypeChange() {
   const type = document.getElementById('rec-type').value;
@@ -1376,13 +1458,11 @@ function getRecurringForDate(dk) {
     return false;
   });
 }
-
 // ── PLANS ──
 let activePlanTag = 'yearly';
 let activePlanFilter = 'all';
 const PLAN_LABELS = { yearly:'🎯 年度計畫', monthly:'📅 月計畫', life:'🌟 人生計畫' };
 const PLAN_COLORS = { yearly:'var(--lavender)', monthly:'var(--sky)', life:'var(--gold)' };
-
 function selectPlanTag(tag) {
   activePlanTag = tag;
   ['yearly','monthly','life'].forEach(t => {
@@ -1494,7 +1574,6 @@ function deletePlan(id) {
   plans = plans.filter(p=>p.id!==id);
   save('plans', plans); renderPlans();
 }
-
 // ── BACKUP ──
 function showBackupModal() {
   document.getElementById('backup-modal').style.display = 'flex';
@@ -1542,7 +1621,6 @@ function importData() {
     showToast('格式錯誤，請確認備份資料是否完整');
   }
 }
-
 function toggleQuote(id) {
   const body = document.getElementById('qbody-'+id);
   const btn = document.getElementById('qtoggle-'+id);
@@ -1573,7 +1651,6 @@ function saveQuoteEdit(id) {
   renderQuotes();
   showToast('金句已更新 ✓');
 }
-
 // ── UTILS ──
 function toggleSection(id) {
   const el = document.getElementById(id);
@@ -1595,7 +1672,6 @@ function showToast(msg) {
   el.textContent = msg; el.style.display='block';
   clearTimeout(toastTimer); toastTimer = setTimeout(()=>el.style.display='none', 2200);
 }
-
 // ── INIT ──
 summaryDate = new Date(today);
 onRecTypeChange();
