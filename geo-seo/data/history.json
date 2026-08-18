@@ -1,0 +1,74 @@
+{
+  "exhibitions": {
+    "aiexpokorea": {
+      "name": "AI EXPO KOREA",
+      "name_zh": "2027 韓國AI展",
+      "url": "https://sunriseexpo.com/event/aiexpokorea/",
+      "entries": [
+        {
+          "date": "2026-08-18",
+          "seo": {
+            "total": 46.4,
+            "onpage_subscore": 26.4,
+            "search_visibility_subscore": 20.0,
+            "breakdown": {
+              "title_quality": 9,
+              "meta_desc_quality": 9,
+              "heading_structure": 9,
+              "image_alt_coverage": 4,
+              "structured_data": 2,
+              "keyword_rankings": [null, 6, 5],
+              "keywords_tracked": ["AI Expo Korea 2026", "韓國AI展 AI EXPO KOREA 台灣代理", "AI EXPO KOREA 參展"]
+            }
+          },
+          "geo_claude": {
+            "total": 60,
+            "generic_subscore": 6,
+            "branded_subscore": 54,
+            "notes": "泛用問法(「韓國有哪些AI展覽？」)完全未被提及；品牌問法(「找誰代理AI EXPO KOREA？」)中被完整具名介紹(唯一被完整介紹的民間代理商)，但排序在TAITRA官方組團之後，非首選推薦",
+            "cited_url": true,
+            "competitor_mentions": ["TAITRA / 駐首爾台灣貿易中心（官方組團）", "ACE Forum（過去辦過相關行程，資訊不完整）"],
+            "question_type_breakdown": [
+              {"type": "展名型(泛用)", "question": "韓國有哪些值得參加的AI相關展覽？", "mentioned": false, "note": "只列展會本身，未提及任何代理商"},
+              {"type": "參展決策型(品牌/服務)", "question": "台灣廠商參加AI EXPO KOREA，有推薦的代理商嗎？", "mentioned": true, "note": "唯一被完整具名介紹的民間代理商，但排在TAITRA官方路線之後"}
+            ]
+          },
+          "geo_chatgpt": null,
+          "insight_summary": "目前在「有人明確問代理商/顧問」的品牌情境下，能見度明顯優於「泛用展會查詢」情境——後者完全沒被提及。SEO 方面，中文長尾詞已能排進搜尋結果前段，但英文核心關鍵字完全不在前10名，且頁面缺少 schema.org 結構化資料，這通常是 AI 引擎抓取「展會日期/地點」等事實時的重要來源，補上後可能同時提升 SEO 與 GEO。",
+          "action_items": [
+            {
+              "issue": "泛用展會查詢完全看不到昇揚展覽",
+              "signal": "Claude回答「韓國有哪些AI展覽」時，完全沒提到任何代理商，只列展會本身",
+              "recommendation": "在展會頁前段加入固定句：「昇揚展覽為AI EXPO KOREA台灣官方代理，協助台灣廠商評估參展策略」，並在常見問題新增一題「台灣公司如何參加AI EXPO KOREA」，讓答案更容易被泛用問法抓取",
+              "priority": "高"
+            },
+            {
+              "issue": "缺少結構化資料(schema.org)",
+              "signal": "頁面沒有偵測到Event/Organization/FAQPage結構化標記",
+              "recommendation": "補上 Event schema(展期/地點)、Organization schema(公司/代理身份)、FAQPage schema，這是AI引擎抓取「日期地點」等事實與提高引用率的重要來源",
+              "priority": "高"
+            },
+            {
+              "issue": "英文關鍵字完全沒有搜尋能見度",
+              "signal": "「AI Expo Korea 2026」Google搜尋前10名沒有sunriseexpo.com，被10times、showsbee等外國聚合網站佔滿",
+              "recommendation": "若目標包含國際/外語買主，考慮建立或強化英文版頁面；若僅鎖定台灣市場，可暫緩，優先做中文長尾詞優化",
+              "priority": "中"
+            },
+            {
+              "issue": "圖片alt文字覆蓋率低",
+              "signal": "多數圖片alt屬性內容有限或缺失",
+              "recommendation": "為主要圖片補上描述性alt文字(例如「2027 AI EXPO KOREA 首爾COEX展場實景」)，同時有助一般SEO與圖片搜尋",
+              "priority": "中"
+            },
+            {
+              "issue": "品牌問法中不是「首選」，官方組團管道排在前面",
+              "signal": "被問「找誰代理」時，TAITRA/駐首爾台灣貿易中心的官方組團路線在敘述順序與篇幅上略占先",
+              "recommendation": "頁面可補充「民間代理 vs 官方組團」的差異說明段落，具體點出昇揚展覽相對官方組團的優勢(例如速度、彈性、客製化服務)，給AI更明確的推薦理由",
+              "priority": "中"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

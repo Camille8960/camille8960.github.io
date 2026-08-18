@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO / SEO 展會能見度儀表板 — 昇揚展覽</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* SEO = blue */
+    --series-2:       #eb6834; /* Claude GEO = orange */
+    --series-3:       #1baf7a; /* ChatGPT GEO = aqua */
+    --seq-100:        #cde2fb;
+    --seq-250:        #86b6ef;
+    --seq-400:        #3987e5;
+    --seq-500:        #256abf;
+    --seq-650:        #104281;
+    --good:           #0ca30c;
+    --warning:        #fab219;
+    --serious:        #ec835a;
+    --critical:       #d03b3b;
+  }
+  /* 固定使用淺色主題，不隨系統深色模式切換 */
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page-plane);
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 60px; }
+  header.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--text-secondary); font-size: 13px; margin: 0; }
+  .exhibit-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .exhibit-tab {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
+    border-radius: 999px; padding: 6px 14px; font-size: 13px; cursor: default;
+  }
+  .exhibit-tab.active { color: var(--text-primary); border-color: var(--series-1); font-weight: 600; }
+
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 720px) { .tiles { grid-template-columns: 1fr; } }
+  .tile {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .tile .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+  .tile .value { font-size: 34px; font-weight: 600; line-height: 1; }
+  .tile .value.muted { color: var(--text-muted); font-size: 22px; font-weight: 500; }
+  .tile .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; margin-top: 8px; padding: 3px 8px; border-radius: 999px; }
+  .badge.good { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+  .badge.warning { color: #8a5a00; background: color-mix(in srgb, var(--warning) 24%, transparent); }
+  .badge.serious { color: #8a3a1e; background: color-mix(in srgb, var(--serious) 22%, transparent); }
+  .badge.critical { color: var(--critical); background: color-mix(in srgb, var(--critical) 14%, transparent); }
+  .badge.pending { color: var(--text-muted); background: var(--gridline); }
+
+  section { margin-bottom: 26px; }
+  h2 { font-size: 15px; margin: 0 0 12px; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px;
+  }
+
+  .bar-row { display: grid; grid-template-columns: 130px 1fr 34px; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-label { color: var(--text-secondary); }
+  .bar-track { height: 10px; background: var(--gridline); border-radius: 5px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 5px; }
+  .bar-val { text-align: right; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+  .kw-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .kw-chip {
+    font-size: 12px; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border);
+    color: var(--text-secondary); background: var(--page-plane);
+  }
+  .kw-chip .rank { font-weight: 600; }
+  .kw-chip.rank-good .rank { color: var(--good); }
+  .kw-chip.rank-mid .rank { color: #8a5a00; }
+  .kw-chip.rank-none .rank { color: var(--critical); }
+
+  .geo-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .geo-compare { grid-template-columns: 1fr; } }
+  .engine-block h3 { font-size: 13px; margin: 0 0 10px; display:flex; align-items:center; gap:6px;}
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  .notes { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-top: 12px; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .qtype-chip {
+    font-size: 11px; padding: 4px 9px; border-radius: 7px; border: 1px solid var(--border);
+    color: var(--text-secondary); background: var(--page-plane);
+  }
+  .qtype-chip .yn { font-weight: 600; }
+  .qtype-chip.yes .yn { color: var(--good); }
+  .qtype-chip.no .yn { color: var(--critical); }
+  .competitor-chip {
+    font-size: 11px; padding: 4px 9px; border-radius: 7px; border: 1px dashed var(--border);
+    color: var(--text-secondary); background: var(--page-plane);
+  }
+  .citation-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 9px; border-radius: 7px; margin-top: 10px; }
+  .citation-chip.yes { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+  .citation-chip.no { color: var(--critical); background: color-mix(in srgb, var(--critical) 14%, transparent); }
+  .sub-heading { font-size: 11px; color: var(--text-muted); margin: 12px 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+
+  .action-table { display: flex; flex-direction: column; gap: 10px; }
+  .action-row {
+    display: grid; grid-template-columns: 1.1fr 1.4fr 1.6fr 70px; gap: 14px;
+    border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 13px; align-items: start;
+  }
+  @media (max-width: 800px) { .action-row { grid-template-columns: 1fr; } }
+  .action-row.heading { background: var(--page-plane); font-size: 11px; color: var(--text-muted); padding: 8px 14px; }
+  .action-row .issue { font-weight: 600; }
+  .action-row .signal, .action-row .rec { color: var(--text-secondary); line-height: 1.5; }
+  .priority-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .priority-badge.高 { color: var(--critical); background: color-mix(in srgb, var(--critical) 14%, transparent); }
+  .priority-badge.中 { color: #8a5a00; background: color-mix(in srgb, var(--warning) 24%, transparent); }
+  .priority-badge.低 { color: var(--text-muted); background: var(--gridline); }
+
+  .legend { display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 3px; }
+
+  table.tv { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.tv th, table.tv td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--gridline); color: var(--text-secondary); }
+  table.tv th { color: var(--text-muted); font-weight: 500; }
+  details.table-toggle { margin-top: 10px; }
+  details.table-toggle summary { cursor: pointer; font-size: 12px; color: var(--text-secondary); }
+
+  footer { font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--gridline); padding-top: 14px; margin-top: 10px; }
+
+  .exhibit-tab { cursor: pointer; }
+  .manage-link {
+    font-size: 12px; color: var(--series-1); border: 1px solid var(--border); background: var(--surface-1);
+    border-radius: 8px; padding: 7px 12px; white-space: nowrap; text-decoration: none; display: inline-block;
+  }
+  .manage-link:hover { border-color: var(--series-1); }
+
+  .add-form { display: grid; grid-template-columns: 1.1fr 1.6fr 140px auto; gap: 10px; align-items: end; }
+  @media (max-width: 800px) { .add-form { grid-template-columns: 1fr; } }
+  .add-form label { display: grid; gap: 6px; font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+  .add-form input, .add-form select {
+    font: inherit; font-size: 13px; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--page-plane); color: var(--text-primary);
+  }
+  .add-form button {
+    font: inherit; font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 8px; border: none;
+    background: var(--series-1); color: #fff; cursor: pointer; white-space: nowrap;
+  }
+  .add-form button:hover { opacity: .92; }
+  .add-form-note { font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+  .add-form-status {
+    font-size: 12px; margin-top: 12px; padding: 9px 12px; border-radius: 8px; display: none;
+  }
+  .add-form-status.show { display: block; }
+  .add-form-status.ok { background: color-mix(in srgb, var(--good) 12%, transparent); color: #0a5c0a; }
+</style>
+</head>
+<body>
+<div class="viz-root wrap">
+
+  <header class="top">
+    <div>
+      <h1>GEO / SEO 展會能見度儀表板</h1>
+      <p class="sub">昇揚展覽 Sunrise Expo · 依各展會自訂頻率自動掃描 · 最近掃描：<span id="scanDate"></span></p>
+    </div>
+    <a class="manage-link" id="manageLink" href="#" target="_blank" rel="noopener">管理所有展會與頻率 →</a>
+  </header>
+
+  <div class="exhibit-tabs" id="exhibitTabs"></div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section>
+    <h2>新增展會</h2>
+    <div class="card">
+      <form class="add-form" id="addForm">
+        <label>展會名稱
+          <input type="text" id="fName" placeholder="例如：CyberSec Asia" required>
+        </label>
+        <label>昇揚展覽的展會頁網址
+          <input type="url" id="fUrl" placeholder="https://sunriseexpo.com/event/..." required>
+        </label>
+        <label>追蹤頻率
+          <select id="fFreq">
+            <option value="每週">每週（展前衝刺期）</option>
+            <option value="每兩週" selected>每兩週（主打展會）</option>
+            <option value="每月">每月（觀察展會）</option>
+          </select>
+        </label>
+        <button type="submit">加入追蹤清單</button>
+      </form>
+      <div class="add-form-status" id="addStatus"></div>
+      <p class="add-form-note">
+        這個 dashboard 是靜態頁面，沒有自己的伺服器，沒辦法按下去就立刻觸發掃描 ——
+        按下「加入追蹤清單」後，這筆資料會自動複製，並幫你開啟展會設定表，
+        到分頁最下面按 <strong>Ctrl+V</strong> 貼上、存檔即可，下次排程執行時會自動讀到並開始追蹤。
+        你也可以直接點右上角「管理所有展會與頻率」進去編輯或刪除既有的展會。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>SEO 細項拆解</h2>
+    <div class="card">
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--series-1)"></span>on-page 技術面（滿分40）</div>
+      </div>
+      <div id="seoBars"></div>
+      <div class="kw-list" id="kwList"></div>
+      <p class="notes" id="seoNotes"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>GEO 細項拆解 — Claude vs ChatGPT</h2>
+    <div class="card">
+      <div class="geo-compare" id="geoCompare"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>本期加強建議 — 我該怎麼改進</h2>
+    <div class="card">
+      <div class="action-table" id="actionTable"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>本期洞察</h2>
+    <div class="card">
+      <p class="notes" id="insights"></p>
+    </div>
+  </section>
+
+  <footer>
+    評分方式：SEO = on-page技術面(40分：標題/meta/標題結構/圖片alt/結構化資料) + 搜尋能見度(60分：追蹤關鍵字在Google的排名)。
+    GEO = 泛用問法(40分) + 品牌/服務問法(60分)，分別測 Claude 與 ChatGPT 對「有沒有提到昇揚展覽、提到的位置與正確性」評分。
+    分數規則固定，供跨期比較用。下次掃描：<span id="nextScan"></span>。
+  </footer>
+
+</div>
+
+<script>
+const DATA = __DASHBOARD_DATA__;
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/17IECgaJob9vWj-kut0vOG5EGsHDU8IItnkx5u43xYXo/edit";
+
+function scoreBadge(score) {
+  if (score === null || score === undefined) return {cls:'pending', label:'尚未啟用'};
+  if (score >= 70) return {cls:'good', label:'良好'};
+  if (score >= 40) return {cls:'warning', label:'待加強'};
+  return {cls:'critical', label:'急需優化'};
+}
+
+function rankChipClass(rank) {
+  if (rank === null) return 'rank-none';
+  if (rank <= 3) return 'rank-good';
+  return 'rank-mid';
+}
+
+let currentExKey = null;
+
+function renderTabs() {
+  const exKeys = Object.keys(DATA.exhibitions);
+  const exhibitTabs = document.getElementById('exhibitTabs');
+  exhibitTabs.innerHTML = '';
+  exKeys.forEach((k) => {
+    const ex = DATA.exhibitions[k];
+    const tab = document.createElement('div');
+    tab.className = 'exhibit-tab' + (k === currentExKey ? ' active' : '');
+    tab.textContent = ex.name + '（' + ex.name_zh + '）';
+    tab.addEventListener('click', () => { currentExKey = k; renderTabs(); renderExhibition(k); });
+    exhibitTabs.appendChild(tab);
+  });
+}
+
+function renderExhibition(key) {
+  const ex = DATA.exhibitions[key];
+  const entries = ex.entries;
+  const latest = entries[entries.length - 1];
+  document.getElementById('scanDate').textContent = latest.date;
+
+  const nextScan = new Date(latest.date);
+  nextScan.setDate(nextScan.getDate() + 14);
+  document.getElementById('nextScan').textContent = nextScan.toISOString().slice(0,10);
+
+  // Tiles
+  const tiles = document.getElementById('tiles');
+  const seoBadge = scoreBadge(latest.seo.total);
+  const claudeBadge = scoreBadge(latest.geo_claude ? latest.geo_claude.total : null);
+  const chatgptBadge = scoreBadge(latest.geo_chatgpt ? latest.geo_chatgpt.total : null);
+
+  tiles.innerHTML = `
+    <div class="tile">
+      <div class="label">SEO 總分</div>
+      <div class="value">${latest.seo.total}<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
+      <span class="badge ${seoBadge.cls}">${seoBadge.label}</span>
+    </div>
+    <div class="tile">
+      <div class="label">GEO — Claude</div>
+      <div class="value">${latest.geo_claude ? latest.geo_claude.total : '—'}<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
+      <span class="badge ${claudeBadge.cls}">${claudeBadge.label}</span>
+    </div>
+    <div class="tile">
+      <div class="label">GEO — ChatGPT</div>
+      <div class="value ${latest.geo_chatgpt ? '' : 'muted'}">${latest.geo_chatgpt ? latest.geo_chatgpt.total : '待設定 API'}</div>
+      <span class="badge ${chatgptBadge.cls}">${chatgptBadge.label}</span>
+    </div>
+  `;
+
+  // SEO bars
+  const seoBars = document.getElementById('seoBars');
+  const b = latest.seo.breakdown;
+  const items = [
+    ['標題(title)', b.title_quality],
+    ['Meta描述', b.meta_desc_quality],
+    ['標題結構(H1-H3)', b.heading_structure],
+    ['圖片alt覆蓋率', b.image_alt_coverage],
+    ['結構化資料(schema.org)', b.structured_data],
+  ];
+  seoBars.innerHTML = items.map(([label, val]) => {
+    const pct = val / 10 * 100;
+    const hue = pct >= 70 ? 'var(--seq-500)' : pct >= 40 ? 'var(--seq-400)' : 'var(--seq-250)';
+    return `<div class="bar-row">
+      <div class="bar-label">${label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${hue}"></div></div>
+      <div class="bar-val">${val}/10</div>
+    </div>`;
+  }).join('');
+
+  const kwList = document.getElementById('kwList');
+  const kws = b.keywords_tracked || [];
+  const ranks = b.keyword_rankings || [];
+  kwList.innerHTML = kws.map((kw, i) => {
+    const r = ranks[i];
+    const cls = rankChipClass(r);
+    const rankLabel = r === null ? '前10名外' : '第' + r + '名';
+    return `<div class="kw-chip ${cls}">${kw} — <span class="rank">${rankLabel}</span></div>`;
+  }).join('');
+
+  document.getElementById('seoNotes').textContent =
+    '搜尋能見度分數(滿分60)＝上述關鍵字排名換算：' + latest.seo.search_visibility_subscore + '/60。on-page技術面：' + latest.seo.onpage_subscore + '/40。';
+
+  // GEO compare
+  const geoCompare = document.getElementById('geoCompare');
+  function engineBlock(name, color, geo) {
+    if (!geo) {
+      return `<div class="engine-block">
+        <h3><span class="dot" style="background:var(--text-muted)"></span>${name}</h3>
+        <p class="notes">尚未啟用（等待 API 連線設定完成）</p>
+      </div>`;
+    }
+    const genPct = geo.generic_subscore / 40 * 100;
+    const braPct = geo.branded_subscore / 60 * 100;
+    const qtypeChips = (geo.question_type_breakdown || []).map(q => {
+      const cls = q.mentioned ? 'yes' : 'no';
+      const yn = q.mentioned ? '有提及' : '未提及';
+      return `<div class="qtype-chip ${cls}" title="${(q.question||'').replace(/"/g,'&quot;')}">${q.type} — <span class="yn">${yn}</span></div>`;
+    }).join('');
+    const competitorChips = (geo.competitor_mentions || []).map(c =>
+      `<div class="competitor-chip">${c}</div>`
+    ).join('');
+    const citation = geo.cited_url
+      ? `<span class="citation-chip yes">✓ 回答中有引用 sunriseexpo.com 連結</span>`
+      : `<span class="citation-chip no">✕ 回答中未引用官網連結（只提到公司名）</span>`;
+    return `<div class="engine-block">
+      <h3><span class="dot" style="background:${color}"></span>${name} — 總分 ${geo.total}/100</h3>
+      <div class="bar-row">
+        <div class="bar-label">泛用問法</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${genPct}%;background:${color}"></div></div>
+        <div class="bar-val">${geo.generic_subscore}/40</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">品牌/服務問法</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${braPct}%;background:${color}"></div></div>
+        <div class="bar-val">${geo.branded_subscore}/60</div>
+      </div>
+      ${citation}
+      ${qtypeChips ? `<div class="sub-heading">問題類型細項</div><div class="chip-row">${qtypeChips}</div>` : ''}
+      ${competitorChips ? `<div class="sub-heading">回答中一併出現的競爭對象</div><div class="chip-row">${competitorChips}</div>` : ''}
+      <p class="notes">${geo.notes || ''}</p>
+    </div>`;
+  }
+  geoCompare.innerHTML =
+    engineBlock('Claude', 'var(--series-2)', latest.geo_claude) +
+    engineBlock('ChatGPT', 'var(--series-3)', latest.geo_chatgpt);
+
+  // Action plan
+  const actionTable = document.getElementById('actionTable');
+  const actionItems = latest.action_items || [];
+  actionTable.innerHTML =
+    `<div class="action-row heading"><div>弱點</div><div>測到的訊號</div><div>建議怎麼做</div><div>優先度</div></div>` +
+    actionItems.map(it => `
+      <div class="action-row">
+        <div class="issue">${it.issue}</div>
+        <div class="signal">${it.signal}</div>
+        <div class="rec">${it.recommendation}</div>
+        <div><span class="priority-badge ${it.priority}">${it.priority}</span></div>
+      </div>
+    `).join('');
+
+  // Insights
+  const insights = document.getElementById('insights');
+  if (latest.insight_summary) {
+    insights.innerHTML = `<strong>${ex.name}</strong> ${latest.insight_summary}`;
+  } else {
+    insights.innerHTML = `<strong>${ex.name}</strong> 本期尚未產生洞察摘要，詳見上方各細項拆解與加強建議。`;
+  }
+}
+
+function init() {
+  const exKeys = Object.keys(DATA.exhibitions);
+  currentExKey = exKeys[0];
+  document.getElementById('manageLink').href = SHEET_URL;
+  renderTabs();
+  renderExhibition(currentExKey);
+
+  const addForm = document.getElementById('addForm');
+  const addStatus = document.getElementById('addStatus');
+  addForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('fName').value.trim();
+    const url = document.getElementById('fUrl').value.trim();
+    const freq = document.getElementById('fFreq').value;
+    if (!name || !url) return;
+
+    const row = `${name}\t${url}\t${freq}\t啟用\t`;
+    const showStatus = () => {
+      addStatus.textContent = '已複製「' + name + '」這一列，並幫你開啟展會設定表 —— 到分頁最下面按 Ctrl+V 貼上、存檔即可，下次排程會自動讀到。';
+      addStatus.className = 'add-form-status show ok';
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(row).then(showStatus).catch(showStatus);
+    } else {
+      showStatus();
+    }
+    window.open(SHEET_URL, '_blank', 'noopener');
+    addForm.reset();
+    document.getElementById('fFreq').value = '每兩週';
+  });
+}
+
+init();
+</script>
+</body>
+</html>
