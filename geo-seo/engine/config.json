@@ -1,0 +1,17 @@
+{
+  "company": {
+    "name": "昇揚展覽",
+    "name_en": "Sunrise Expo",
+    "domain": "sunriseexpo.com"
+  },
+  "exhibitions": [
+    {
+      "key": "aiexpokorea",
+      "name": "AI EXPO KOREA",
+      "name_zh": "2027 韓國AI展",
+      "url": "https://sunriseexpo.com/event/aiexpokorea/",
+      "frequency": "biweekly",
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "sunrise-geo-seo-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scan": "node scripts/scan.mjs",
+    "scan:force": "node scripts/scan.mjs --force"
+  }
+}
