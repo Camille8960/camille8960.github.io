@@ -1,0 +1,42 @@
+{
+  "company": {
+    "name": "Sunrise Expo",
+    "alternateNames": ["昇揚展覽", "昇揚展覽有限公司"],
+    "domain": "sunriseexpo.com"
+  },
+  "events": [
+    {
+      "id": "aiexpokorea",
+      "name": "AI EXPO KOREA",
+      "url": "https://sunriseexpo.com/event/aiexpokorea/",
+      "frequency": "biweekly",
+      "marketPosition": "韓國 AI B2B 市場入口",
+      "targetAudiences": ["台灣 AI 伺服器公司", "Edge AI 廠商", "AI 晶片公司", "智慧製造廠商"],
+      "eventNames": ["AI EXPO KOREA", "韓國AI展", "韓國 AI 展"],
+      "brandNames": ["Sunrise Expo", "昇揚展覽", "昇揚展覽有限公司"],
+      "competitors": ["日本 AI Expo", "日本 AI / DX 展", "大型亞洲科技綜合展"]
+    },
+    {
+      "id": "cybersec-asia",
+      "name": "CyberSec Asia",
+      "url": "https://sunriseexpo.com/event/cybersec-asia-html/",
+      "frequency": "monthly",
+      "marketPosition": "泰國與 CLMVT 資安市場入口",
+      "targetAudiences": ["台灣資安公司", "SOC 服務商", "雲端安全廠商", "身份識別與零信任廠商"],
+      "eventNames": ["CyberSec Asia", "泰國亞洲資安展", "亞洲資安展"],
+      "brandNames": ["Sunrise Expo", "昇揚展覽", "昇揚展覽有限公司"],
+      "competitors": ["GISEC Global", "日本資安展", "大型亞洲科技綜合展"]
+    },
+    {
+      "id": "ai-asia",
+      "name": "AI Asia",
+      "url": "https://sunriseexpo.com/event/ai-asia/",
+      "frequency": "monthly",
+      "marketPosition": "東南亞早期 AI B2B 入口",
+      "targetAudiences": ["台灣 AI 應用公司", "GPU/伺服器基礎設施商", "雲端資料平台", "AI 資安整合商"],
+      "eventNames": ["AI Asia", "泰國亞洲 AI 展", "亞洲 AI 展"],
+      "brandNames": ["Sunrise Expo", "昇揚展覽", "昇揚展覽有限公司"],
+      "competitors": ["AI EXPO KOREA", "日本 AI Expo", "大型亞洲科技綜合展"]
+    }
+  ]
+}

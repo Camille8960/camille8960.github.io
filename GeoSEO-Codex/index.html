@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GeoSEO Codex Monitor</title>
+    <style>
+      :root {
+        --bg: #f6f3ee;
+        --panel: #fffdf8;
+        --ink: #172026;
+        --muted: #63716d;
+        --line: #d9d1c2;
+        --green: #177267;
+        --blue: #2e6fa7;
+        --rose: #b85955;
+        --gold: #a97618;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Microsoft JhengHei", "PingFang TC", Arial, sans-serif; }
+      main { max-width: 1240px; margin: 0 auto; padding: 28px; }
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: 38px; line-height: 1.12; }
+      h2 { font-size: 21px; }
+      h3 { font-size: 17px; }
+      .top { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: end; margin-bottom: 16px; }
+      .eyebrow, .label { display: block; margin-bottom: 8px; color: var(--green); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+      .summary { max-width: 760px; margin-top: 12px; color: var(--muted); line-height: 1.7; }
+      .panel, .score { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 18px 50px rgba(47, 42, 32, .07); }
+      .panel, .status { padding: 18px; }
+      .status { background: var(--ink); color: #fffdf8; border-radius: 8px; }
+      .status span, .status small { display: block; color: #d6ded9; }
+      .status strong { display: block; margin: 8px 0; font-size: 22px; }
+      .grid { display: grid; gap: 16px; margin-bottom: 16px; }
+      .overview { overflow-x: auto; }
+      .row { display: grid; grid-template-columns: minmax(190px, 1.3fr) 92px 95px 95px 105px 120px minmax(230px, 1.2fr) 118px; gap: 12px; align-items: center; min-width: 1060px; margin-top: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 7px; }
+      .row.header { margin-top: 0; background: #eee8dc; color: var(--muted); font-size: 12px; font-weight: 900; }
+      a { color: var(--green); font-weight: 800; text-decoration: none; }
+      button { min-height: 38px; padding: 8px 10px; border: 0; border-radius: 6px; background: var(--green); color: #fffdf8; cursor: pointer; font: inherit; font-size: 13px; font-weight: 900; }
+      .muted { color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .chip { display: inline-block; padding: 5px 8px; border-radius: 999px; background: #e8f3ef; color: var(--green); font-size: 12px; font-weight: 900; }
+      .warn { background: #fff4de; color: var(--gold); }
+      .detail { display: none; }
+      .detail.active { display: block; }
+      .detail-top { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 16px; }
+      .score-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+      .score { padding: 14px; }
+      .score span { display: block; color: var(--muted); font-size: 13px; font-weight: 900; }
+      .score strong { display: block; margin-top: 8px; color: var(--blue); font-size: 34px; }
+      .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .block { padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fbf8f0; }
+      .block h3 { margin-bottom: 12px; }
+      .block ul, .block ol { display: grid; gap: 9px; margin: 0; padding-left: 20px; }
+      .block li { line-height: 1.55; }
+      .answer { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+      .empty { padding: 18px; border: 1px dashed #c7c0b2; border-radius: 8px; background: #fbf8f0; color: var(--muted); line-height: 1.7; }
+      @media (max-width: 920px) {
+        main { padding: 18px; }
+        .top, .detail-grid, .score-grid { grid-template-columns: 1fr; }
+        h1 { font-size: 30px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="top">
+        <div>
+          <span class="eyebrow">Sunrise Expo · Codex</span>
+          <h1>GeoSEO-Codex Monitor</h1>
+          <p class="summary">獨立於 Claude 版本的 GEO/SEO 交叉監測。這裡只讀取 Codex 問題組的 Claude + ChatGPT API 掃描結果。</p>
+        </div>
+        <div class="status">
+          <span>報告狀態</span>
+          <strong id="runStatus">載入中</strong>
+          <small id="runMeta">正在讀取 data/latest-results.json</small>
+        </div>
+      </section>
+
+      <section class="panel grid">
+        <div><span class="label">Portfolio</span><h2>Codex 問題組總表</h2></div>
+        <div class="overview" id="overview"></div>
+      </section>
+
+      <section class="panel">
+        <div class="detail-top">
+          <div><span class="label">Event report</span><h2>單一展會結果</h2></div>
+          <span class="chip">Codex scoring</span>
+        </div>
+        <div class="empty" id="emptyDetail">請先按某個展會的「查看結果」。</div>
+        <div id="details"></div>
+      </section>
+    </main>
+
+    <script>
+      const state = { reports: [] };
+      loadResults();
+
+      async function loadResults() {
+        try {
+          const response = await fetch("data/latest-results.json", { cache: "no-store" });
+          if (!response.ok) throw new Error("result file not found");
+          const data = await response.json();
+          state.reports = data.reports || [];
+          document.querySelector("#runStatus").textContent = modeLabel(data.mode);
+          document.querySelector("#runMeta").textContent = data.generatedAt ? `上次掃描：${formatDate(data.generatedAt)}` : data.message;
+          renderOverview();
+          renderDetails();
+        } catch {
+          document.querySelector("#runStatus").textContent = "無法讀取";
+          document.querySelector("#runMeta").textContent = "GitHub Pages 發布後會讀取 data/latest-results.json。";
+          document.querySelector("#overview").innerHTML = '<div class="empty">目前無法讀取資料。</div>';
+        }
+      }
+
+      function renderOverview() {
+        const overview = document.querySelector("#overview");
+        if (!state.reports.length) {
+          overview.innerHTML = '<div class="empty">尚未有正式 API 掃描結果。GitHub Actions 完成後會自動更新。</div>';
+          return;
+        }
+        overview.innerHTML = `<div class="row header"><span>展會</span><span>頻率</span><span>Claude</span><span>ChatGPT</span><span>GEO</span><span>狀態</span><span>下一步</span><span>結果</span></div>${state.reports.map(renderRow).join("")}`;
+        overview.querySelectorAll("button[data-event]").forEach((button) => button.addEventListener("click", () => showDetail(button.dataset.event)));
+      }
+
+      function renderRow(report) {
+        return `<div class="row"><span><strong>${escapeHtml(report.eventName)}</strong><br><a href="${escapeAttribute(report.url)}">展會頁</a></span><span>${frequencyLabel(report.frequency)}</span><span>${scoreLabel(providerScore(report, "Claude"))}</span><span>${scoreLabel(providerScore(report, "ChatGPT"))}</span><span>${scoreLabel(report.taiwanGeoScore)}</span><span><span class="chip">${statusLabel(report.status)}</span></span><span>${escapeHtml(report.recommendations?.[0] || "等待掃描建議")}</span><span><button type="button" data-event="${escapeAttribute(report.eventId)}">查看結果</button></span></div>`;
+      }
+
+      function renderDetails() {
+        document.querySelector("#details").innerHTML = state.reports.map((report) => `<article class="detail" id="detail-${escapeAttribute(report.eventId)}"><div class="detail-top"><div><span class="label">${escapeHtml(report.eventName)}</span><h2>${escapeHtml(report.eventName)} 測試結果</h2><p class="muted">${formatDate(report.scannedAt)} · ${statusLabel(report.status)}</p></div><a href="${escapeAttribute(report.url)}">展會頁</a></div><div class="score-grid"><div class="score"><span>Claude GEO</span><strong>${scoreLabel(providerScore(report, "Claude"))}</strong></div><div class="score"><span>ChatGPT GEO</span><strong>${scoreLabel(providerScore(report, "ChatGPT"))}</strong></div><div class="score"><span>SEO</span><strong>${scoreLabel(report.seoScore)}</strong></div><div class="score"><span>競爭壓力</span><strong>${scoreLabel(100 - report.competitiveScore)}</strong></div></div><div class="detail-grid"><div class="block"><h3>Codex 問題</h3><ul>${(report.questions || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="block"><h3>改善建議</h3><ol>${(report.recommendations || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></div><div class="block"><h3>競爭者</h3><ul>${competitorList(report)}</ul></div><div class="block"><h3>原始 AI 回答</h3>${(report.providers || []).slice(0, 6).map(renderAnswer).join("")}</div></div></article>`).join("");
+      }
+
+      function showDetail(eventId) {
+        document.querySelector("#emptyDetail").style.display = "none";
+        document.querySelectorAll(".detail").forEach((item) => item.classList.remove("active"));
+        const detail = document.querySelector(`#detail-${CSS.escape(eventId)}`);
+        if (detail) detail.classList.add("active");
+      }
+
+      function renderAnswer(output) {
+        return `<div class="answer"><strong>${escapeHtml(output.provider)} · ${escapeHtml(output.questionType || "")}</strong><p class="muted">${escapeHtml(output.question)}</p><p>${escapeHtml(output.answer)}</p></div>`;
+      }
+      function competitorList(report) {
+        if (!report.competitors?.length) return "<li>本次回答沒有明顯競爭展會壓過你。</li>";
+        return report.competitors.map((item) => `<li>${escapeHtml(item.name)}：出現 ${item.count} 次</li>`).join("");
+      }
+      function providerScore(report, provider) {
+        const rows = (report.providers || []).filter((item) => item.provider === provider);
+        if (!rows.length) return null;
+        return Math.round(rows.reduce((sum, item) => sum + item.score.total, 0) / rows.length);
+      }
+      function modeLabel(mode) {
+        if (mode === "api") return "正式 API 掃描";
+        if (mode === "pending") return "等待正式掃描";
+        if (mode === "mock") return "流程測試";
+        return "尚未掃描";
+      }
+      function statusLabel(status) { return status === "ai_scored" ? "已掃描" : "待掃描"; }
+      function frequencyLabel(value) { return { weekly: "每週", biweekly: "每兩週", monthly: "每月" }[value] || value; }
+      function scoreLabel(value) { return Number.isFinite(value) ? String(value) : "-"; }
+      function formatDate(value) {
+        if (!value) return "尚未掃描";
+        return new Intl.DateTimeFormat("zh-TW", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(value));
+      }
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+      }
+      function escapeAttribute(value) { return escapeHtml(value); }
+    </script>
+  </body>
+</html>
