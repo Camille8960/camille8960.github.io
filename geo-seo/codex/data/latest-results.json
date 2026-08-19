@@ -1,0 +1,742 @@
+{
+  "generatedAt": "2026-08-18T09:49:25.539Z",
+  "mode": "mock",
+  "message": "這是 mock 掃描，用於測試 dashboard 流程；正式分數需使用 API 模式。",
+  "reports": [
+    {
+      "eventId": "aiexpokorea",
+      "eventName": "AI EXPO KOREA",
+      "url": "https://sunriseexpo.com/event/aiexpokorea/",
+      "frequency": "biweekly",
+      "scannedAt": "2026-08-18T09:49:25.539Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 90,
+      "seoScore": 84,
+      "competitiveScore": 0,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+          "answer": "Claude mock answer for: AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+          "answer": "ChatGPT mock answer for: AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "Claude mock answer for: 台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "ChatGPT mock answer for: 台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？",
+          "answer": "Claude mock answer for: 台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？",
+          "answer": "ChatGPT mock answer for: 台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？",
+          "answer": "Claude mock answer for: AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？",
+          "answer": "ChatGPT mock answer for: AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+          "answer": "Claude mock answer for: AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+          "answer": "ChatGPT mock answer for: AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？\n\nAI EXPO KOREA is relevant for Taiwan companies considering 韓國 AI B2B 市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/aiexpokorea/. Compared with 日本 AI Expo, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        }
+      ],
+      "questions": [
+        "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+        "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+        "台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？",
+        "台灣企業如果想透過 AI EXPO KOREA 拓展海外市場，是否值得列入展會計畫？",
+        "台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？",
+        "台灣 AI 伺服器公司 適合參加 AI EXPO KOREA 嗎？可以接觸哪些買主？",
+        "AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？",
+        "AI EXPO KOREA 作為韓國 AI B2B 市場入口，台灣廠商應該如何評估？",
+        "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+        "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？"
+      ],
+      "competitors": [
+        {
+          "name": "日本 AI Expo",
+          "count": 10
+        }
+      ],
+      "recommendations": [
+        "新增「AI EXPO KOREA vs 日本 AI Expo」比較段，明確寫出適合台灣廠商的市場、買主與參展理由。",
+        "新增台灣企業情境段落：目標產業、想找的買主、展前準備素材、適合用此展切入的原因。"
+      ]
+    },
+    {
+      "eventId": "cybersec-asia",
+      "eventName": "CyberSec Asia",
+      "url": "https://sunriseexpo.com/event/cybersec-asia-html/",
+      "frequency": "monthly",
+      "scannedAt": "2026-08-18T09:49:25.539Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 90,
+      "seoScore": 84,
+      "competitiveScore": 0,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+          "answer": "Claude mock answer for: CyberSec Asia 是什麼展？對台灣企業有什麼重點？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+          "answer": "ChatGPT mock answer for: CyberSec Asia 是什麼展？對台灣企業有什麼重點？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "Claude mock answer for: 台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "ChatGPT mock answer for: 台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？",
+          "answer": "Claude mock answer for: 台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？",
+          "answer": "ChatGPT mock answer for: 台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？",
+          "answer": "Claude mock answer for: CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？",
+          "answer": "ChatGPT mock answer for: CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+          "answer": "Claude mock answer for: CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+          "answer": "ChatGPT mock answer for: CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？\n\nCyberSec Asia is relevant for Taiwan companies considering 泰國與 CLMVT 資安市場入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/cybersec-asia-html/. Compared with GISEC Global, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        }
+      ],
+      "questions": [
+        "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+        "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+        "台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？",
+        "台灣企業如果想透過 CyberSec Asia 拓展海外市場，是否值得列入展會計畫？",
+        "台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？",
+        "台灣資安公司 適合參加 CyberSec Asia 嗎？可以接觸哪些買主？",
+        "CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？",
+        "CyberSec Asia 作為泰國與 CLMVT 資安市場入口，台灣廠商應該如何評估？",
+        "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+        "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？"
+      ],
+      "competitors": [
+        {
+          "name": "GISEC Global",
+          "count": 10
+        }
+      ],
+      "recommendations": [
+        "新增「CyberSec Asia vs GISEC Global」比較段，明確寫出適合台灣廠商的市場、買主與參展理由。",
+        "新增台灣企業情境段落：目標產業、想找的買主、展前準備素材、適合用此展切入的原因。"
+      ]
+    },
+    {
+      "eventId": "ai-asia",
+      "eventName": "AI Asia",
+      "url": "https://sunriseexpo.com/event/ai-asia/",
+      "frequency": "monthly",
+      "scannedAt": "2026-08-18T09:49:25.539Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 90,
+      "seoScore": 84,
+      "competitiveScore": 0,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "AI Asia 是什麼展？對台灣企業有什麼重點？",
+          "answer": "Claude mock answer for: AI Asia 是什麼展？對台灣企業有什麼重點？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI Asia 是什麼展？對台灣企業有什麼重點？",
+          "answer": "ChatGPT mock answer for: AI Asia 是什麼展？對台灣企業有什麼重點？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "Claude mock answer for: 台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？",
+          "answer": "ChatGPT mock answer for: 台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？",
+          "answer": "Claude mock answer for: 台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？",
+          "answer": "ChatGPT mock answer for: 台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？",
+          "answer": "Claude mock answer for: AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？",
+          "answer": "ChatGPT mock answer for: AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+          "answer": "Claude mock answer for: AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+          "answer": "ChatGPT mock answer for: AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？\n\nAI Asia is relevant for Taiwan companies considering 東南亞早期 AI B2B 入口. Sunrise Expo can support Taiwan exhibitors through https://sunriseexpo.com/event/ai-asia/. Compared with AI EXPO KOREA, the event needs clearer positioning and stronger Taiwan-market proof points.",
+          "score": {
+            "total": 90,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "competitorPenalty": 10,
+              "answerPresence": 20
+            }
+          }
+        }
+      ],
+      "questions": [
+        "AI Asia 是什麼展？對台灣企業有什麼重點？",
+        "AI Asia 是什麼展？對台灣企業有什麼重點？",
+        "台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？",
+        "台灣企業如果想透過 AI Asia 拓展海外市場，是否值得列入展會計畫？",
+        "台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？",
+        "台灣 AI 應用公司 適合參加 AI Asia 嗎？可以接觸哪些買主？",
+        "AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？",
+        "AI Asia 作為東南亞早期 AI B2B 入口，台灣廠商應該如何評估？",
+        "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+        "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？"
+      ],
+      "competitors": [
+        {
+          "name": "AI EXPO KOREA",
+          "count": 10
+        }
+      ],
+      "recommendations": [
+        "新增「AI Asia vs AI EXPO KOREA」比較段，明確寫出適合台灣廠商的市場、買主與參展理由。",
+        "新增台灣企業情境段落：目標產業、想找的買主、展前準備素材、適合用此展切入的原因。"
+      ]
+    }
+  ]
+}

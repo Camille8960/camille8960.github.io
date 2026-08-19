@@ -1,0 +1,11 @@
+{
+  "name": "sunrise-geo-monitor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "scan": "node scripts/scan.mjs",
+    "scan:mock": "node scripts/scan.mjs --mock"
+  }
+}
