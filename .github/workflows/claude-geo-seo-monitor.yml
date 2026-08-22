@@ -1,0 +1,46 @@
+name: Sunrise GEO/SEO Monitor (Claude engine)
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "忽略到期判斷，強制重新掃描所有啟用中的展會"
+        required: false
+        default: "false"
+  schedule:
+    - cron: "0 1 * * 0"
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run scan
+        working-directory: geo-seo/engine
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            node scripts/scan.mjs --force
+          else
+            node scripts/scan.mjs
+          fi
+
+      - name: Commit updated report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add geo-seo/data/history.json geo-seo/index.html geo-seo/engine/last-run-summary.json
+          git diff --cached --quiet || git commit -m "GEO/SEO 排程更新 $(date -u +%F)"
+          git push
