@@ -1,63 +1,35 @@
-// 用 Claude 的 web_search 工具實際查關鍵字排名(不是用固定/假造的排名)。
-// 之所以不直接爬 Google 網頁，是因為在 GitHub Actions 的機器上直接爬 Google
-// 很容易被擋(驗證碼/封鎖)，不穩定；改用 Anthropic 官方 web_search 工具查詢，
-// 一樣是真實搜尋結果，但透過穩定的 API 通道。
-
-const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5";
+// 用 Google Custom Search JSON API 查「真正的 Google 排名」。
+// 舊版用 Claude 的 web_search 工具去猜排名，但 Claude 的搜尋後端跟真正的
+// Google 搜尋(含台灣在地化、AI Overview)不是同一套索引，查出來的名次會跟
+// 使用者自己在 Google 上看到的不一樣。改成直接打 Google 官方的
+// Custom Search API，才能拿到跟真人搜尋一致的排名。
+//
+// 需要兩個環境變數：
+//   GOOGLE_SEARCH_API_KEY - Google Cloud 申請的 API 金鑰
+//   GOOGLE_SEARCH_CX      - Programmable Search Engine 的搜尋引擎 ID
 
 export async function estimateSearchVisibility(exhibition, company) {
   const keywords = buildKeywords(exhibition);
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error("ANTHROPIC_API_KEY 未設定");
+  const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
+  const cx = process.env.GOOGLE_SEARCH_CX;
 
-  const prompt = `請用網路搜尋工具，實際查詢以下每一個關鍵字在 Google 的搜尋結果，看「${exhibition.url}」這個網址(或同網域 ${company.domain} 底下的頁面)有沒有出現在前10名，大約第幾名。
-
-關鍵字列表：
-${keywords.map((k, i) => `${i + 1}. ${k}`).join("\n")}
-
-請只回傳一個JSON陣列(不要有其他文字、不要markdown code fence)，格式：
-[{"keyword": "<關鍵字>", "found_in_top10": <true/false>, "approx_rank": <數字或null>}]`;
-
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: ANTHROPIC_MODEL,
-      max_tokens: 1500,
-      messages: [
-        { role: "user", content: prompt },
-        { role: "assistant", content: "[" },
-      ],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
-    }),
-  });
-
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`關鍵字排名查詢失敗 ${res.status}: ${text.slice(0, 500)}`);
-  }
-
-  const data = await res.json();
-  const textBlocks = (data.content || []).filter((b) => b.type === "text");
-  const raw = "[" + textBlocks.map((b) => b.text).join("\n");
-  const start = raw.indexOf("[");
-  const end = raw.lastIndexOf("]");
-  let rankings;
-  try {
-    rankings = JSON.parse(raw.slice(start, end + 1));
-  } catch {
-    rankings = keywords.map((k) => ({ keyword: k, found_in_top10: false, approx_rank: null }));
+  if (!apiKey || !cx) {
+    // 沒設定 Google 搜尋 API 金鑰時，不要假裝有查，明確標記「未檢測」，
+    // 分數用 null 表示，而不是誤導性的 0 分。
+    return {
+      search_visibility_subscore: null,
+      keyword_rankings: keywords.map(() => null),
+      keywords_tracked: keywords,
+      note: "尚未設定 GOOGLE_SEARCH_API_KEY / GOOGLE_SEARCH_CX，此項目未檢測",
+    };
   }
 
   let points = 0;
   const keyword_rankings = [];
-  for (const r of rankings) {
-    const rank = r.approx_rank;
-    keyword_rankings.push(rank ?? null);
+
+  for (const keyword of keywords) {
+    const rank = await searchKeywordRank(keyword, company.domain, apiKey, cx);
+    keyword_rankings.push(rank);
     if (rank && rank <= 3) points += 20;
     else if (rank && rank <= 10) points += 10;
   }
@@ -69,6 +41,36 @@ ${keywords.map((k, i) => `${i + 1}. ${k}`).join("\n")}
     keyword_rankings,
     keywords_tracked: keywords,
   };
+}
+
+async function searchKeywordRank(query, domain, apiKey, cx) {
+  const url = new URL("https://www.googleapis.com/customsearch/v1");
+  url.searchParams.set("key", apiKey);
+  url.searchParams.set("cx", cx);
+  url.searchParams.set("q", query);
+  url.searchParams.set("num", "10");
+  url.searchParams.set("gl", "tw"); // 台灣在地化
+  url.searchParams.set("hl", "zh-TW");
+
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    const text = await res.text();
+    console.error(`Google 搜尋 API 失敗(關鍵字:${query}) ${res.status}: ${text.slice(0, 300)}`);
+    return null; // 單一關鍵字查詢失敗不要讓整個掃描中斷，標記未知即可
+  }
+
+  const data = await res.json();
+  const items = data.items || [];
+  const idx = items.findIndex((item) => {
+    try {
+      const host = new URL(item.link).hostname.replace(/^www\./, "");
+      return host === domain.replace(/^www\./, "") || host.endsWith("." + domain.replace(/^www\./, ""));
+    } catch {
+      return false;
+    }
+  });
+
+  return idx === -1 ? null : idx + 1;
 }
 
 function buildKeywords(exhibition) {

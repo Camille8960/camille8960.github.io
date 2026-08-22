@@ -77,7 +77,10 @@ async function main() {
 async function scanOneExhibition(company, exhibition, today) {
   const seoFacts = await analyzeOnPageSeo(exhibition.url);
   const searchVisibility = await estimateSearchVisibility(exhibition, company);
-  const seoTotal = round1(seoFacts.onpage_subscore + searchVisibility.search_visibility_subscore);
+  const seoTotal =
+    searchVisibility.search_visibility_subscore === null
+      ? null
+      : round1(seoFacts.onpage_subscore + searchVisibility.search_visibility_subscore);
 
   const questions = buildQuestions(exhibition);
 

@@ -308,6 +308,7 @@ function renderExhibition(key) {
 
   // Tiles
   const tiles = document.getElementById('tiles');
+  const seoNotTested = latest.seo.search_visibility_subscore === null || latest.seo.search_visibility_subscore === undefined;
   const seoBadge = scoreBadge(latest.seo.total);
   const claudeBadge = scoreBadge(latest.geo_claude ? latest.geo_claude.total : null);
   const chatgptBadge = scoreBadge(latest.geo_chatgpt ? latest.geo_chatgpt.total : null);
@@ -315,7 +316,7 @@ function renderExhibition(key) {
   tiles.innerHTML = `
     <div class="tile">
       <div class="label">SEO 總分</div>
-      <div class="value">${latest.seo.total}<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
+      <div class="value ${latest.seo.total === null ? 'muted' : ''}">${latest.seo.total === null ? '待設定 Google API' : latest.seo.total + '<span style="font-size:16px;color:var(--text-muted)">/100</span>'}</div>
       <span class="badge ${seoBadge.cls}">${seoBadge.label}</span>
     </div>
     <div class="tile">
@@ -355,13 +356,14 @@ function renderExhibition(key) {
   const ranks = b.keyword_rankings || [];
   kwList.innerHTML = kws.map((kw, i) => {
     const r = ranks[i];
-    const cls = rankChipClass(r);
-    const rankLabel = r === null ? '前10名外' : '第' + r + '名';
+    const cls = seoNotTested ? 'rank-none' : rankChipClass(r);
+    const rankLabel = seoNotTested ? '尚未檢測' : (r === null ? '前10名外' : '第' + r + '名');
     return `<div class="kw-chip ${cls}">${kw} — <span class="rank">${rankLabel}</span></div>`;
   }).join('');
 
-  document.getElementById('seoNotes').textContent =
-    '搜尋能見度分數(滿分60)＝上述關鍵字排名換算：' + latest.seo.search_visibility_subscore + '/60。on-page技術面：' + latest.seo.onpage_subscore + '/40。';
+  document.getElementById('seoNotes').textContent = seoNotTested
+    ? '尚未設定 Google 搜尋 API(GOOGLE_SEARCH_API_KEY / GOOGLE_SEARCH_CX)，搜尋能見度(滿分60)這項還沒有真實資料，目前只有 on-page 技術面：' + latest.seo.onpage_subscore + '/40。'
+    : '搜尋能見度分數(滿分60)＝上述關鍵字排名換算：' + latest.seo.search_visibility_subscore + '/60。on-page技術面：' + latest.seo.onpage_subscore + '/40。';
 
   // 測試問題（Claude/ChatGPT 都回答同一組，只顯示一次）
   const questionsAsked = document.getElementById('questionsAsked');
