@@ -80,6 +80,7 @@ function summarizeSeoAudit(seoAudit) {
   return [
     summary.title,
     summary.metaDescription,
+    summary.visibleTextSample,
     `SEO score: ${seoAudit?.score ?? 0}`,
     issueText ? `SEO issues: ${issueText}` : "",
   ]
