@@ -26,12 +26,14 @@ export async function estimateSearchVisibility(exhibition, company) {
 
   let points = 0;
   const keyword_rankings = [];
+  const debug = [];
 
   for (const keyword of keywords) {
-    const rank = await searchKeywordRank(keyword, company.domain, apiKey, cx);
-    keyword_rankings.push(rank);
-    if (rank && rank <= 3) points += 20;
-    else if (rank && rank <= 10) points += 10;
+    const result = await searchKeywordRank(keyword, company.domain, apiKey, cx);
+    keyword_rankings.push(result.rank);
+    debug.push({ keyword, ...result.debug });
+    if (result.rank && result.rank <= 3) points += 20;
+    else if (result.rank && result.rank <= 10) points += 10;
   }
 
   const search_visibility_subscore = round1((points / (20 * keywords.length)) * 60);
@@ -40,6 +42,7 @@ export async function estimateSearchVisibility(exhibition, company) {
     search_visibility_subscore,
     keyword_rankings,
     keywords_tracked: keywords,
+    debug, // 診斷用：這次查詢每個關鍵字實際拿到的結果，方便排查為什麼排名是null
   };
 }
 
@@ -52,25 +55,41 @@ async function searchKeywordRank(query, domain, apiKey, cx) {
   url.searchParams.set("gl", "tw"); // 台灣在地化
   url.searchParams.set("hl", "zh-TW");
 
-  const res = await fetch(url.toString());
+  let res;
+  try {
+    res = await fetch(url.toString());
+  } catch (err) {
+    console.error(`Google 搜尋 API 連線失敗(關鍵字:${query}): ${err.message}`);
+    return { rank: null, debug: { status: "fetch_error", message: err.message } };
+  }
+
   if (!res.ok) {
     const text = await res.text();
     console.error(`Google 搜尋 API 失敗(關鍵字:${query}) ${res.status}: ${text.slice(0, 300)}`);
-    return null; // 單一關鍵字查詢失敗不要讓整個掃描中斷，標記未知即可
+    return { rank: null, debug: { status: "http_error", httpStatus: res.status, message: text.slice(0, 300) } };
   }
 
   const data = await res.json();
   const items = data.items || [];
+  const normalizedDomain = domain.replace(/^www\./, "");
   const idx = items.findIndex((item) => {
     try {
       const host = new URL(item.link).hostname.replace(/^www\./, "");
-      return host === domain.replace(/^www\./, "") || host.endsWith("." + domain.replace(/^www\./, ""));
+      return host === normalizedDomain || host.endsWith("." + normalizedDomain);
     } catch {
       return false;
     }
   });
 
-  return idx === -1 ? null : idx + 1;
+  return {
+    rank: idx === -1 ? null : idx + 1,
+    debug: {
+      status: "ok",
+      itemCount: items.length,
+      topLinks: items.slice(0, 5).map((i) => i.link),
+      searchInformation: data.searchInformation || null,
+    },
+  };
 }
 
 function buildKeywords(exhibition) {

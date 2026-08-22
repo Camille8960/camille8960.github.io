@@ -120,6 +120,7 @@ async function scanOneExhibition(company, exhibition, today) {
         keyword_rankings: searchVisibility.keyword_rankings,
         keywords_tracked: searchVisibility.keywords_tracked,
       },
+      search_debug: searchVisibility.debug || null,
     },
     geo_claude: {
       ...analysis.geo_claude,
