@@ -93,6 +93,18 @@
   .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
   .notes { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-top: 12px; }
+  .findings-list { margin: 12px 0 0; padding-left: 18px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .findings-list li { margin-bottom: 6px; }
+  .findings-list li:last-child { margin-bottom: 0; }
+  .questions-asked { display: grid; gap: 8px; margin: 10px 0 18px; }
+  .question-line {
+    font-size: 13px; color: var(--text-primary); line-height: 1.5; padding: 10px 12px;
+    background: var(--page-plane); border: 1px solid var(--border); border-radius: 8px;
+  }
+  .question-line .qtag {
+    display: inline-block; font-size: 11px; font-weight: 700; color: var(--series-1);
+    margin-right: 6px;
+  }
 
   .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .qtype-chip {
@@ -223,6 +235,8 @@
   <section>
     <h2>GEO 細項拆解 — Claude vs ChatGPT</h2>
     <div class="card">
+      <div class="sub-heading">本次測試問題（Claude 跟 ChatGPT 都是回答這同一組問題）</div>
+      <div id="questionsAsked" class="questions-asked"></div>
       <div class="geo-compare" id="geoCompare"></div>
     </div>
   </section>
@@ -349,6 +363,18 @@ function renderExhibition(key) {
   document.getElementById('seoNotes').textContent =
     '搜尋能見度分數(滿分60)＝上述關鍵字排名換算：' + latest.seo.search_visibility_subscore + '/60。on-page技術面：' + latest.seo.onpage_subscore + '/40。';
 
+  // 測試問題（Claude/ChatGPT 都回答同一組，只顯示一次）
+  const questionsAsked = document.getElementById('questionsAsked');
+  const qa = latest.questions_asked;
+  if (qa && (qa.generic || qa.branded)) {
+    questionsAsked.innerHTML = `
+      ${qa.generic ? `<div class="question-line"><span class="qtag">泛用問法</span>${qa.generic}</div>` : ''}
+      ${qa.branded ? `<div class="question-line"><span class="qtag">品牌/服務問法</span>${qa.branded}</div>` : ''}
+    `;
+  } else {
+    questionsAsked.innerHTML = `<p class="notes" style="margin-top:0">（這一筆是較早期的測試資料，沒有保留完整問題原文，之後的掃描都會列出來。）</p>`;
+  }
+
   // GEO compare
   const geoCompare = document.getElementById('geoCompare');
   function engineBlock(name, color, geo) {
@@ -371,6 +397,16 @@ function renderExhibition(key) {
     const citation = geo.cited_url
       ? `<span class="citation-chip yes">✓ 回答中有引用 sunriseexpo.com 連結</span>`
       : `<span class="citation-chip no">✕ 回答中未引用官網連結（只提到公司名）</span>`;
+    const searchChip = geo.used_web_search === undefined
+      ? ''
+      : geo.used_web_search
+        ? `<span class="citation-chip yes" style="margin-left:6px">✓ 這次有開網路搜尋</span>`
+        : `<span class="citation-chip no" style="margin-left:6px">✕ 這次沒開網路搜尋（純知識庫回答，僅供參考）</span>`;
+    const findings = Array.isArray(geo.key_findings) && geo.key_findings.length
+      ? `<ul class="findings-list">${geo.key_findings.map(f => `<li>${f}</li>`).join('')}</ul>`
+      : geo.notes
+        ? `<ul class="findings-list"><li>${geo.notes}</li></ul>`
+        : '';
     return `<div class="engine-block">
       <h3><span class="dot" style="background:${color}"></span>${name} — 總分 ${geo.total}/100</h3>
       <div class="bar-row">
@@ -383,26 +419,30 @@ function renderExhibition(key) {
         <div class="bar-track"><div class="bar-fill" style="width:${braPct}%;background:${color}"></div></div>
         <div class="bar-val">${geo.branded_subscore}/60</div>
       </div>
-      ${citation}
+      ${citation}${searchChip}
       ${qtypeChips ? `<div class="sub-heading">問題類型細項</div><div class="chip-row">${qtypeChips}</div>` : ''}
       ${competitorChips ? `<div class="sub-heading">回答中一併出現的競爭對象</div><div class="chip-row">${competitorChips}</div>` : ''}
-      <p class="notes">${geo.notes || ''}</p>
+      <div class="sub-heading">重點發現</div>
+      ${findings}
     </div>`;
   }
   geoCompare.innerHTML =
     engineBlock('Claude', 'var(--series-2)', latest.geo_claude) +
     engineBlock('ChatGPT', 'var(--series-3)', latest.geo_chatgpt);
 
-  // Action plan
+  // Action plan（依優先度排序：高 > 中 > 低）
   const actionTable = document.getElementById('actionTable');
-  const actionItems = latest.action_items || [];
+  const priorityOrder = { '高': 0, '中': 1, '低': 2 };
+  const actionItems = (latest.action_items || [])
+    .slice()
+    .sort((a, b) => (priorityOrder[a.priority] ?? 9) - (priorityOrder[b.priority] ?? 9));
   actionTable.innerHTML =
-    `<div class="action-row heading"><div>弱點</div><div>測到的訊號</div><div>建議怎麼做</div><div>優先度</div></div>` +
+    `<div class="action-row heading"><div>弱點</div><div>測到的訊號</div><div>該怎麼做</div><div>優先度</div></div>` +
     actionItems.map(it => `
       <div class="action-row">
         <div class="issue">${it.issue}</div>
         <div class="signal">${it.signal}</div>
-        <div class="rec">${it.recommendation}</div>
+        <div class="rec"><strong style="color:var(--text-primary)">${it.recommendation}</strong></div>
         <div><span class="priority-badge ${it.priority}">${it.priority}</span></div>
       </div>
     `).join('');
