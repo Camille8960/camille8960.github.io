@@ -107,6 +107,7 @@ async function scanOneExhibition(company, exhibition, today) {
 
   return {
     date: today,
+    questions_asked: questions,
     seo: {
       total: seoTotal,
       onpage_subscore: seoFacts.onpage_subscore,

@@ -163,7 +163,7 @@ ${JSON.stringify(seoFacts.raw, null, 2)}
     "total": <數字0-100>,
     "generic_subscore": <數字0-40>,
     "branded_subscore": <數字0-60>,
-    "notes": "<一段話說明這個分數怎麼來的，具體、有根據>",
+    "key_findings": ["<條列式重點1，一句話講完一件事實，不要寫成一大段>", "<條列式重點2>", "<條列式重點3，最多4條>"],
     "cited_url": <true/false，回答裡有沒有引用官網網址>,
     "competitor_mentions": ["<有提到的競爭代理商或官方組團管道，沒有就空陣列>"],
     "question_type_breakdown": [
@@ -171,13 +171,15 @@ ${JSON.stringify(seoFacts.raw, null, 2)}
       {"type": "參展決策型(品牌/服務)", "question": "<問題2原文>", "mentioned": <true/false>, "note": "<簡短說明>"}
     ]
   },
-  "geo_chatgpt": { "<同上格式>" },
+  "geo_chatgpt": { "<同上格式，key_findings也要條列式>" },
   "insight_summary": "<一段話總結這次最重要的發現，要具體，例如比較Claude跟ChatGPT的差異、跟SEO實測結果的關聯>",
   "action_items": [
-    {"issue": "<弱點一句話>", "signal": "<這次測到的具體證據>", "recommendation": "<具體可執行的建議>", "priority": "高/中/低"}
+    {"issue": "<弱點一句話>", "signal": "<這次測到的具體證據，要引用回答裡的實際內容或數字，不要空泛帶過>", "recommendation": "<具體可執行的建議，要講清楚「做什麼」「放在哪裡」「怎麼做」，讓使用者看了就知道下一步要做什麼動作，不要寫「可以考慮...」這種模糊的話>", "priority": "高/中/低"}
   ]
 }
-action_items請列3-5條，一定要具體、有根據、可執行，不要空泛。`;
+key_findings的規則：每一條就是「一個事實」，用最短的話講完，不要在一條裡塞兩三件事，不要寫成完整段落。例如寫「品牌問法中被具名推薦，但排在TAITRA官方組團之後」，不要寫「在品牌問法情境下，雖然...但是...同時...」這種長句。
+action_items的recommendation規則：要像在下工作指令一樣具體，例如「在展會頁面第一段加入這句話：『昇揚展覽為OO展台灣官方代理』」，而不是「加強公司在頁面上的曝光」這種空話。
+action_items請列3-5條，依重要性排序(最重要的排最前面)，一定要具體、有根據、可執行，不要空泛。`;
 }
 
 function extractJson(raw) {
