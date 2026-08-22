@@ -25,7 +25,7 @@ test("scoreModelResponse tracks event, brand, official URL, and competitors sepa
   assert.ok(score.total >= 80);
 });
 
-test("buildEventReport creates report, competitors, and recommendations", () => {
+test("buildEventReport uses real SEO audit output instead of metadata estimates", () => {
   const report = buildEventReport({
     event: {
       id: "cybersec-asia",
@@ -39,6 +39,13 @@ test("buildEventReport creates report, competitors, and recommendations", () => 
       competitors: ["GISEC Global"],
     },
     scannedAt: "2026-08-19T01:00:00.000Z",
+    seoAudit: {
+      score: 47,
+      status: "scored",
+      signals: { title: { passed: false, points: 0, maxPoints: 12, detail: "缺少 title" } },
+      issues: ["title 缺失或長度不佳"],
+      summary: { title: "" },
+    },
     modelOutputs: [
       { provider: "Claude", question: "CyberSec Asia 是什麼？", questionType: "direct_event", answer: "CyberSec Asia is useful for Thailand. GISEC Global is larger." },
       { provider: "ChatGPT", question: "官方來源？", questionType: "official_source", answer: "CyberSec Asia info is available from Sunrise Expo at https://sunriseexpo.com/event/cybersec-asia-html/." },
@@ -48,6 +55,9 @@ test("buildEventReport creates report, competitors, and recommendations", () => 
   assert.equal(report.eventId, "cybersec-asia");
   assert.equal(report.providers.length, 2);
   assert.ok(report.taiwanGeoScore > 0);
+  assert.equal(report.seoScore, 47);
+  assert.equal(report.seoStatus, "scored");
+  assert.deepEqual(report.seoIssues, ["title 缺失或長度不佳"]);
+  assert.ok(report.recommendations.some((item) => item.includes("SEO：title 缺失或長度不佳")));
   assert.ok(report.competitors.some((item) => item.name === "GISEC Global"));
-  assert.ok(report.recommendations.length >= 2);
 });
