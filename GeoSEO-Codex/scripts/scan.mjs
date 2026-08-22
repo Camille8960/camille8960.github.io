@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildQuestionPlan } from "../src/questions.mjs";
 import { buildEventReport, shouldScanEvent } from "../src/scoring.mjs";
+import { fetchSeoAudit } from "../src/seo.mjs";
 import { buildMockAnswer, callAnthropic, callOpenAI } from "../src/providers.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -24,14 +25,17 @@ for (const event of eventsConfig.events) {
     continue;
   }
 
-  const pageSummary = await fetchPageSummary(event.url);
+  const page = await fetchPage(event.url);
+  const seoAudit = mockMode
+    ? null
+    : page.seoAudit;
   const modelOutputs = [];
 
   for (const question of buildQuestionPlan(event)) {
     for (const provider of ["Claude", "ChatGPT"]) {
       const answer = mockMode
         ? buildMockAnswer({ provider, event, question: question.question })
-        : await callProvider(provider, { question: question.question, event, pageSummary });
+        : await callProvider(provider, { question: question.question, event, pageSummary: page.summary });
 
       modelOutputs.push({
         provider,
@@ -43,7 +47,7 @@ for (const event of eventsConfig.events) {
     }
   }
 
-  reports.push(buildEventReport({ event, scannedAt, modelOutputs }));
+  reports.push(buildEventReport({ event, scannedAt, modelOutputs, seoAudit }));
 }
 
 const output = {
@@ -62,21 +66,26 @@ async function callProvider(provider, input) {
   return callOpenAI(input);
 }
 
-async function fetchPageSummary(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) return "";
-    const html = await response.text();
-    return html
-      .replace(/<script[\s\S]*?<\/script>/gi, " ")
-      .replace(/<style[\s\S]*?<\/style>/gi, " ")
-      .replace(/<[^>]+>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-      .slice(0, 6000);
-  } catch {
-    return "";
-  }
+async function fetchPage(url) {
+  const seoAudit = await fetchSeoAudit(url);
+  return {
+    seoAudit,
+    summary: summarizeSeoAudit(seoAudit),
+  };
+}
+
+function summarizeSeoAudit(seoAudit) {
+  const summary = seoAudit?.summary ?? {};
+  const issueText = (seoAudit?.issues ?? []).slice(0, 6).join("；");
+  return [
+    summary.title,
+    summary.metaDescription,
+    `SEO score: ${seoAudit?.score ?? 0}`,
+    issueText ? `SEO issues: ${issueText}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .slice(0, 6000);
 }
 
 async function readPreviousResults() {
