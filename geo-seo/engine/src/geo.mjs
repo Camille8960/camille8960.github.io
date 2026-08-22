@@ -109,10 +109,7 @@ export async function analyzeResults({ exhibition, company, seoFacts, claudeAnsw
     body: JSON.stringify({
       model: ANTHROPIC_MODEL,
       max_tokens: 3000,
-      messages: [
-        { role: "user", content: prompt },
-        { role: "assistant", content: "{" },
-      ],
+      messages: [{ role: "user", content: prompt }],
     }),
   });
 
@@ -123,7 +120,7 @@ export async function analyzeResults({ exhibition, company, seoFacts, claudeAnsw
 
   const data = await res.json();
   const textBlocks = (data.content || []).filter((b) => b.type === "text");
-  const raw = "{" + textBlocks.map((b) => b.text).join("\n");
+  const raw = textBlocks.map((b) => b.text).join("\n");
   return extractJson(raw);
 }
 
@@ -157,7 +154,7 @@ ${JSON.stringify(seoFacts.raw, null, 2)}
 - 泛用問法(40分) = 有沒有提到${company.name}/${company.name_en}(有=20分,沒有=0) + 醒目程度(0-10) + 展會資訊正確性(0-10)
 - 品牌問法(60分) = 有沒有提到${company.name}(有=25分,沒有=0) + 醒目程度/排序(0-20) + 服務描述正確性(0-15)
 
-請只回傳一個JSON物件(不要有任何JSON以外的文字、不要用markdown code fence)，格式如下(第一個字元已經是「{」，你接著往下寫)：
+請只回傳一個JSON物件，不要有任何JSON以外的文字、不要加開場白或說明、不要用markdown code fence，直接以「{」開頭、以「}」結尾。格式如下：
 {
   "geo_claude": {
     "total": <數字0-100>,
