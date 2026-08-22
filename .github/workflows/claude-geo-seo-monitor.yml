@@ -46,4 +46,3 @@ jobs:
           git add geo-seo/data/history.json geo-seo/index.html geo-seo/engine/last-run-summary.json
           git diff --cached --quiet || git commit -m "GEO/SEO 排程更新 $(date -u +%F)"
           git push
-Page_DownPage_DownPage_Down
