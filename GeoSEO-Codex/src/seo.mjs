@@ -93,6 +93,7 @@ export function auditSeoHtml({ url, html, status = 200, contentType = "" }) {
     summary: {
       title,
       metaDescription: description,
+      visibleTextSample: text.slice(0, 5000),
       h1Count: h1s.length,
       canonical,
       jsonLdCount,
