@@ -34,7 +34,7 @@ export function scoreModelResponse(answer, event) {
   };
 }
 
-export function buildEventReport({ event, scannedAt, modelOutputs }) {
+export function buildEventReport({ event, scannedAt, modelOutputs, seoAudit = null }) {
   const officialDomain = new URL(event.url).hostname;
   const providers = modelOutputs.map((output) => ({
     provider: output.provider,
@@ -49,6 +49,7 @@ export function buildEventReport({ event, scannedAt, modelOutputs }) {
     }),
   }));
   const competitors = summarizeCompetitors(providers, event.competitors ?? []);
+  const seoIssues = seoAudit?.issues ?? ["尚未執行真實 SEO 掃描"];
 
   return {
     eventId: event.id,
@@ -58,16 +59,20 @@ export function buildEventReport({ event, scannedAt, modelOutputs }) {
     scannedAt,
     status: "ai_scored",
     taiwanGeoScore: average(providers.map((item) => item.score.total)),
-    seoScore: estimateSeoScore(event),
+    seoScore: Number.isFinite(seoAudit?.score) ? seoAudit.score : 0,
+    seoStatus: seoAudit?.status ?? "not_scanned",
+    seoSignals: seoAudit?.signals ?? {},
+    seoIssues,
+    seoSummary: seoAudit?.summary ?? {},
     competitiveScore: clamp(100 - competitors.reduce((sum, item) => sum + item.count * 10, 0), 0, 100),
     providers,
     questions: [...new Set(modelOutputs.map((output) => output.question))],
     competitors,
-    recommendations: buildRecommendations(event, providers, competitors),
+    recommendations: buildRecommendations(event, providers, competitors, seoIssues),
   };
 }
 
-function buildRecommendations(event, providers, competitors) {
+function buildRecommendations(event, providers, competitors, seoIssues = []) {
   const recommendations = [];
   const brandMentionRate = providers.filter((item) => item.score.brandMentioned).length / Math.max(providers.length, 1);
   const urlRate = providers.filter((item) => item.score.officialUrlCited).length / Math.max(providers.length, 1);
@@ -77,6 +82,9 @@ function buildRecommendations(event, providers, competitors) {
   }
   if (urlRate < 0.8) {
     recommendations.push("增加 Event、FAQPage、Organization schema，並在 FAQ 內自然包含官方網址。");
+  }
+  for (const issue of seoIssues.slice(0, 2)) {
+    recommendations.push(`SEO：${issue}。`);
   }
   if (competitors.length) {
     recommendations.push(`新增「${event.name} vs ${competitors[0].name}」比較段，說明市場、買主、台灣廠商適合度。`);
@@ -93,11 +101,6 @@ function summarizeCompetitors(providers, competitors) {
     }))
     .filter((item) => item.count > 0)
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-}
-
-function estimateSeoScore(event) {
-  const fields = [event.name, event.url, event.marketPosition, event.eventNames?.length, event.brandNames?.length, event.targetAudiences?.length];
-  return 60 + fields.filter(Boolean).length * 4;
 }
 
 function includesAny(text, values = []) {
