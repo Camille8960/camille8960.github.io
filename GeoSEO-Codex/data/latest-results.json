@@ -1,6 +1,711 @@
 {
-  "generatedAt": null,
-  "mode": "pending",
-  "message": "等待 GitHub Actions 執行正式 Claude + ChatGPT API 掃描。這不是 mock 分數。",
-  "reports": []
+  "generatedAt": "2026-08-22T14:21:18.737Z",
+  "mode": "api",
+  "message": "正式 Claude / ChatGPT API 掃描結果。",
+  "reports": [
+    {
+      "eventId": "aiexpokorea",
+      "eventName": "AI EXPO KOREA",
+      "url": "https://sunriseexpo.com/event/aiexpokorea/",
+      "frequency": "biweekly",
+      "scannedAt": "2026-08-22T14:21:18.737Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 37,
+      "seoScore": 84,
+      "competitiveScore": 90,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "## AI EXPO KOREA 是什麼展？\n\nAI EXPO KOREA 是在韓國首爾 COEX 舉辦的 B2B 人工智慧專業展覽，由韓國人工智能協會（KORAIA）等單位主辦，定位為進入韓國 AI 產業供應鏈的重要入口。2027 年將舉辦第十屆十週年紀念展（4 月 14 至 16 日），預估吸引超過 5.5 萬名專業觀眾，展覽重心涵蓋 Physical AI 與人形機器人、AI Agent 與大語言模型、以及智慧製造與工業 AI 三大方向。\n\n## 對台灣企業的重點\n\n韓國 AI 市場預估將從 2025 年的約 72 億美元，成長至 2032 年的 538 億美元以上，年複合成長率達 33%，加上韓國政府大規模政策預算挹注，整體採購需求明確且具規模。對台灣企業而言，**最適合參展的類型**包括：AI 伺服器與 Edge AI 模組硬體廠商、AOI 與視覺檢測方案供應商、工業 AI 或機器人零組件廠商，以及希望尋找韓國代理商或系統整合商的 ICT 品牌。相對地，若產品仍在原型驗證階段、尚未準備好韓文或英文簡報，或缺乏韓國市場的售後策略，建議先補強這些準備再評估參展，否則現場曝光難以轉化為實際商機。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "AI EXPO KOREA 是韓國規模大的 B2B AI 展會，聚焦 AI 硬體、智慧製造、Physical AI/人形機器人以及語言模型等應用，並搭配技術論壇與投資媒合活動。對台灣企業來說，它是測試產品在韓國市場可行性、尋",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "## AI 伺服器公司參加 AI EXPO KOREA 的評估建議\n\n以韓國市場布局的角度來看，AI EXPO KOREA 對台灣 AI 伺服器廠商確實具有相當高的參考價值。韓國 AI 市場目前正處於高速擴張期，政府預算大幅挹注基礎建設與算力相關採購，這對 AI 伺服器硬體廠商來說是相對直接的需求對口。展會本身以 B2B 為主要定位，現場參與者多為企業採購方、系統整合商與代理商，比起純品牌曝光型展會，更容易在三天內累積有效的商業接觸。值得注意的是，2027 年是第十屆紀念展，預估觀眾規模將超過五萬五千人，是近年規模較大的一屆，若有意進入韓國市場，時間點的象徵意義也相對有利。\n\n不過，建議在決定參展前先確認幾件事：**產品是否已有量產實績或實際客戶導入案例**、是否備有英文或韓文規格簡報，以及是否已初步規劃韓國端的代理或售後安排。若這些準備尚未到位，展會現場的曝光效果可能難以轉化成實質詢價或訂單。整體而言，若貴公司已具備上述條件，AI EXPO KOREA 是值得列入 2027 年海外參展計畫的選項之一。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "值得列入評估，但要看你",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "如果台灣公司想透過展會切入韓國 AI B2B 市場入口，應該怎麼評估 AI EXPO KOREA？",
+          "questionType": "market_entry",
+          "answer": "## 台灣公司評估 AI EXPO KOREA 的關鍵思考框架\n\n評估一個展會是否值得參加，最核心的問題不是「這個展好不好」，而是「這個展適不適合你現在的公司階段」。AI EXPO KOREA 是一個定位偏向 B2B 實質洽談的展會，而非單純的品牌曝光場合，所以評估重點應放在你的產品是否已具備可展示的落地案例、量產能力，以及清楚的韓國市場進入策略，三者缺一的話，參展的轉化效果會大打折扣。其次，要對照韓國市場的需求結構——韓國政府目前重點投資方向集中在 AI 硬體基礎建設、智慧製造、Physical AI 與人形機器人，如果你的產品屬於 AI 伺服器、Edge AI 模組、AOI 視覺檢測或機器人零組件，與現場買方的供需匹配度相對高，反之若是純軟體或仍在早期驗證階段的方案，現場很難有效轉化詢問。另外也要考慮展會的規模與參與者結構，2027 年是第十屆且預估觀眾超過 5.5 萬人，Hyundai、Samsung、Naver 等韓國主要企業都會出席，這代表接觸真實採購決策者的機會存在，但競爭密度也相應提高，台灣廠商若能提前透過現場媒合機制預約會談，效果會遠優於被動等待。總結來說，這個展值不值得進，取決於你能不能帶著「準備好的子彈」去，包括韓文或英文技術簡報、明確的目標客群定位，以及一套後續跟進的代理或合作機制。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "如果台灣公司想透過展會切入韓國 AI B2B 市場入口，應該怎麼評估 AI EXPO KOREA？",
+          "questionType": "market_entry",
+          "answer": "評估時建議先用",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "這兩個展會針對的市場不同，適合的台灣企業類型也有差異，選擇時要看自己的目標市場與產品定位。\n\n**AI EXPO KOREA** 的核心優勢在於韓國本地的 B2B 採購與供應鏈對接，適合已有量產能力、想切入韓國 AI 硬體供應鏈的廠商，例如 AI 伺服器、Edge AI 模組、工業視覺檢測等領域，尤其韓國政府現在砸重金在 AI 基礎建設與智慧製造，政策採購需求明確。\n\n**日本 AI Expo**（Japan IT Week 旗下展）則更偏向日本企業數位轉型與 IT 解決方案的應用市場，訪客結構以日本國內企業 IT 採購決策者為主，對軟體應用、SaaS、資安等方向相對友善。\n\n如果台灣企業的強項是 **AI 硬體、製造業 AI 解決方案、機器人零組件或感測器**，韓國展的對接機會更直接，因為韓國廠商（如三星、現代、LG）本身就是潛在的採購方或合作對象。\n\n若台灣企業主打的是 **AI 軟體應用、企業 SaaS 或數位轉型服務**，日本市場的需求結構可能更為吻合，日本企業對長期合作關係的重視程度也相對高。\n\n簡單說，**硬體與製造業 AI 方向選韓國，軟體應用與服務方向選日本**，當然如果資源允許，兩邊都布局也是不少台灣中大型廠商的策略。",
+          "score": {
+            "total": 42,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 8
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "我要查 AI EXPO KOREA 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "要查詢 AI EXPO KOREA 的台灣參展窗口與官方資訊，主要可以從以下幾個方向著手。\n\n**台灣參展窗口**方面，台灣官方代理是昇揚展覽有限公司（Sunrise Expo），可以直接透過電子郵件 info@sunriseexpo.com 洽詢參展報名、攤位申請及相關規劃事宜。\n\n**韓國主辦方資訊**方面，展會由 KORAIA（韓國人工智能協會）、SeoulMESSE 與 AI Times 共同主辦，可直接搜尋這幾個主辦單位的官方網站，取得展會的原始公告與最新動態。\n\n此外，也可以關注貿協（TAITRA）或經濟部國貿署等台灣官方機構，這類單位有時會協助組織台灣館集體參展，並可能提供參展補助相關資訊，值得一併確認。\n\n2027 年的 AI EXPO KOREA 預計在 4 月 14 日至 16 日於首爾 COEX 舉行，是第 10 屆十週年紀念展，若有參展意向，建議提早聯繫台灣代理窗口，確認攤位安排與準備時程。",
+          "score": {
+            "total": 100,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "我要查 AI EXPO KOREA 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        }
+      ],
+      "questions": [
+        "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
+        "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
+        "如果台灣公司想透過展會切入韓國 AI B2B 市場入口，應該怎麼評估 AI EXPO KOREA？",
+        "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
+        "我要查 AI EXPO KOREA 的台灣參展窗口與官方資訊，應該看哪些來源？"
+      ],
+      "competitors": [
+        {
+          "name": "日本 AI Expo",
+          "count": 1
+        }
+      ],
+      "recommendations": [
+        "在 AI EXPO KOREA 頁面首屏與 FAQ 明確寫出 Sunrise Expo/昇揚展覽是台灣參展窗口。",
+        "增加 Event、FAQPage、Organization schema，並在 FAQ 內自然包含官方網址。",
+        "新增「AI EXPO KOREA vs 日本 AI Expo」比較段，說明市場、買主、台灣廠商適合度。",
+        "補一段台灣企業參展情境：適合產業、買主類型、展前準備、參展窗口與下一步 CTA。"
+      ]
+    },
+    {
+      "eventId": "cybersec-asia",
+      "eventName": "CyberSec Asia",
+      "url": "https://sunriseexpo.com/event/cybersec-asia-html/",
+      "frequency": "monthly",
+      "scannedAt": "2026-08-22T14:21:18.737Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 40,
+      "seoScore": 84,
+      "competitiveScore": 80,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "## CyberSec Asia 是什麼展？\n\nCyberSec Asia 是東南亞規模最大的 B2B 資安專業展覽，在泰國曼谷舉辦，並與泰國國家網路安全局（NCSA）共同主辦 Thailand International Cyber Week，具有明確的政府背書性質。展會主要服務對象是希望打入 CLMVT 市場（柬埔寨、寮國、緬甸、越南、泰國）的資安廠商，是切入這塊快速成長市場的重要入口。\n\n## 對台灣企業的重點\n\n對台灣資安廠商來說，這個展有幾個值得關注的特點：\n\n- **決策層買主高度集中**：2026 年參展數據顯示，55% 的訪客為 C-Level 高階主管，包含 CISO、CIO、IT 總監等，直接對接採購決策層，有助縮短銷售週期\n- **市場需求真實迫切**：泰國企業遭受網路攻擊的頻率遠高於全球平均，金融、電信、政府與醫療等產業有明確的採購需求\n- **AI 資安議題同場涵蓋**：2026 年起與 AI Asia 聯合舉辦，適合同時具備資安與 AI 產品線的廠商一次接觸更廣的買主群\n\n不過，若產品尚未備有英文技術文件、或尚未針對泰國 PDPA 等當地法規做好合規調整，建議先完成在地化準備，再評估參展時機會更有效率。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "CyberSec Asia 是在泰國曼谷舉辦的區域性 B2B 資安專業展，常由 VNU Asia Pacific 與泰國國家網路安全局等單位合作，定位為打入 CLMVT（柬埔寨、寮國、緬甸、越南、泰國）市場的入口。對台灣資安廠商的重點在於：會場買家以政府、金融、電信與大型企業為主，且決策層（C‑level／CISO 等）比例高，利於尋找代理商、政府採購或加速採購流程。適合帶去展出的產品包含 IAM、雲端安全、AI 驅動資安、端點防護、零信任、OT/ICS 工控資安與 MSSP／SOC 服務等；但需有英文技術文件與亞太導入案例以增加說服力。參展前務必完成在地化（如符合泰國 PDPA 或相關法規）、準備英文一頁式問題解決摘要，並透過主辦方",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣資安公司 想找海外買主，CyberSec Asia 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "## CyberSec Asia 值得台灣資安公司列入參展計畫嗎？\n\n整體來說，**值得認真評估**，但要先確認自身條件是否符合這個展會的定位。\n\n這個展會的核心價值在於它是切入 **CLMVT 區域（泰國、越南、柬埔寨、寮國、緬甸）** 的重要入口，加上有泰國國家網路安全機構背書，吸引到的買主決策層比例相當高——超過一半的訪客是 C-Level 高階主管，包括 CISO、CIO、IT 總監等，這對縮短銷售週期很有幫助。從數據面來看，訪客互動意願也明顯高於一般科技展，平均每家參展商帶走約 38 筆有效商業接觸，不是純粹的參觀型人流。\n\n不過，**不是每家台灣資安廠商都適合現在就去**。如果產品文件還沒有完整的英文版、或者沒有針對泰國 PDPA 等當地法規做過調整，貿然參展反而效果有限。比較適合去的是已經有金融、製造業導入案例、產品類別屬於雲端安全、IAM、端點防護、零信任、OT 資安等方向的廠商。\n\n建議有興趣的公司可以先做好這幾件事再決定：確認產品是否符合當地合規要求、準備英文的商業問題解決摘要（而非純技術規格），並在展前主動申請 Business Matching，鎖定金融、電信、政府這三個採購意願最強的產業買主，這樣參展的投資報酬率才會比較明確。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣資安公司 想找海外買主，CyberSec Asia 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "如果台灣公司想透過展會切入泰國與 CLMVT 資安市場入口，應該怎麼評估 CyberSec Asia？",
+          "questionType": "market_entry",
+          "answer": "## 台灣資安廠商評估 CyberSec Asia 的關鍵考量\n\nCyberSec Asia 是目前東南亞規模最大的專業資安展之一，由泰國國家網路安全局（NCSA）共同背書，對想打入 CLMVT 市場的台灣廠商來說，政府公信力與買主品質是兩個明顯優勢。從 2026 年展會數據來看，55% 訪客為 C-Level 高階主管、現場掃描名單達 5,370 筆，代表這個場合的商業互動密度遠高於一般科技展，適合以「尋找代理商或政府採購機會」為目標的廠商優先評估。市場需求面也相當明確，泰國企業遭受網路攻擊的頻率持續攀升，金融、電信、政府與醫療產業的採購需求是真實存在的，而非停留在政策倡議階段。不過，台灣廠商在決定參展前有幾個關鍵檢核點需要先確認：產品是否已備有完整英文技術文件、是否符合泰國 PDPA 或各國當地資安法規要求、以及是否已有至少一個亞太市場的實際導入案例——若這三項尚未就緒，建議先完成在地化準備，再評估參展時機，否則現場效益會大打折扣。整體而言，若企業的產品屬於 IAM、零信任、雲端安全、OT 資安或 AI 驅動資安應用等類別，且具備金融或製造業客戶案例，CyberSec Asia 是值得認真列入年度展覽計畫的選項。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "如果台灣公司想透過展會切入泰國與 CLMVT 資安市場入口，應該怎麼評估 CyberSec Asia？",
+          "questionType": "market_entry",
+          "answer": "評估 CyberSec Asia 可以從「目標買家與決策層比例、政府背書、市場涵蓋（CLMVT）與實際展後數據」四個面向切入：若你的目標是尋找代理商或搶政府／大型企業採購，該展55%為C‑Level且有泰國國家資安單位背書，代表機會較實質。再來檢視展後數據（訪客數、現場掃描名單、國際比重）來估算每次參展可能帶回的有效接觸與 ROI。產品面要自我檢核是否已完成在地化（含 PDPA／當地資安法規）、具英文技術文件與區域導入案例；若沒有，先做市場準備再參展。參展策略上建議事前申請 Business Matching、準備英文一頁式解決方案說明、鎖定金融／電信／",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "這兩個展會的定位截然不同，適合的企業類型也有明顯差異。**CyberSec Asia** 聚焦東南亞市場，特別是泰國與 CLMVT 區域（柬埔寨、寮國、緬甸、越南、泰國），適合想打入這些快速數位化新興市場、尋找在地代理商或政府採購機會的台灣資安廠商；**GISEC Global** 則是中東地區最具代表性的資安展，主要輻射海灣國家及非洲市場，客群結構和地緣完全不同。\n\n如果台灣企業的短期布局重心是亞洲、地理距離較近、且已具備金融或製造業的東南亞導入案例，CyberSec Asia 會是更直接的切入點，參展成本與市場熟悉度也相對友善。反之，若企業有意進攻中東政府或關鍵基礎設施採購市場、或產品已通過國際高規格合規認證，GISEC Global 可能更有發揮空間。\n\n對多數尚在評估海外市場的台灣中小型資安廠商來說，**CyberSec Asia 的門檻與市場距離相對合理**，是優先評估的選項；待東南亞站穩腳步後，再考慮進一步拓展至中東市場，會是比較務實的策略路徑。",
+          "score": {
+            "total": 42,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 8
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "簡短結論：若目標是打入東南亞（特別是 CLMVT：柬埔寨、寮國、緬甸、越南、泰國）並尋找代理商或政府採購機會，CyberSec Asia 通常更適合台灣資安廠商；若目標客群是中東／北非的大型企業、能源、電信或國家級專案，GISEC Global 在市場規模與買方層級",
+          "score": {
+            "total": 42,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [
+              "GISEC Global"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 8
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "我要查 CyberSec Asia 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "要查詢 CyberSec Asia 的台灣參展窗口與相關資訊，可以從以下幾個方向著手：\n\n首先，**主辦單位 VNU Asia Pacific 的官方網站**是最直接的來源，可以查到展會規格、參展費用與報名流程等第一手資料。其次，如果你在台灣尋找在地參展窗口或代理服務，可以搜尋有代理東南亞展覽業務的台灣展覽服務商，他們通常提供中文諮詢與聯合組團參展的服務。另外，**經濟部國際貿易署**或**資策會**偶爾會針對東南亞資安市場辦理輔導或補助計畫，也值得確認是否有相關資源可申請。如果你的公司屬於資安產業，也可以透過**台灣資安主管機關（數位部、ICST 台灣資安協會）**的公告或會員通知取得更新訊息。整體而言，建議同時查閱官方展會頁面與台灣在地展覽服務商兩個管道，確保資訊的即時性與在地支援的可行性。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "我要查 CyberSec Asia 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        }
+      ],
+      "questions": [
+        "CyberSec Asia 是什麼展？對台灣企業有什麼重點？",
+        "台灣資安公司 想找海外買主，CyberSec Asia 值得列入參展計畫嗎？",
+        "如果台灣公司想透過展會切入泰國與 CLMVT 資安市場入口，應該怎麼評估 CyberSec Asia？",
+        "CyberSec Asia 跟 GISEC Global 相比，哪一個更適合台灣企業？",
+        "我要查 CyberSec Asia 的台灣參展窗口與官方資訊，應該看哪些來源？"
+      ],
+      "competitors": [
+        {
+          "name": "GISEC Global",
+          "count": 2
+        }
+      ],
+      "recommendations": [
+        "在 CyberSec Asia 頁面首屏與 FAQ 明確寫出 Sunrise Expo/昇揚展覽是台灣參展窗口。",
+        "增加 Event、FAQPage、Organization schema，並在 FAQ 內自然包含官方網址。",
+        "新增「CyberSec Asia vs GISEC Global」比較段，說明市場、買主、台灣廠商適合度。",
+        "補一段台灣企業參展情境：適合產業、買主類型、展前準備、參展窗口與下一步 CTA。"
+      ]
+    },
+    {
+      "eventId": "ai-asia",
+      "eventName": "AI Asia",
+      "url": "https://sunriseexpo.com/event/ai-asia/",
+      "frequency": "monthly",
+      "scannedAt": "2026-08-22T14:21:18.737Z",
+      "status": "ai_scored",
+      "taiwanGeoScore": 42,
+      "seoScore": 84,
+      "competitiveScore": 90,
+      "providers": [
+        {
+          "provider": "Claude",
+          "question": "AI Asia 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "## AI Asia 是什麼展？\n\nAI Asia 是一個專注於 AI 產業的 B2B 展覽，定位為東南亞地區首個以 AI 為核心的專業商業平台，在泰國曼谷舉辦。展會涵蓋三大主軸：AI 應用解決方案（如機器學習、生成式 AI、電腦視覺）、AI 基礎設施與雲端資料平台，以及 AI 驅動的資安防護，並與同期的資安展聯合舉辦，共享訪客資源。\n\n## 對台灣企業的重點\n\n對台灣 B2B 廠商來說，這個展會的核心價值在於**切入時機**——首屆展會競爭密度較低，早期進場的品牌能見度通常優於展會成熟後才加入的參展商。泰國 AI 市場預估到 2030 年將以近 29% 的年複合成長率擴大，加上多家國際雲端業者已大規模投入泰國基礎設施建設，企業端採購需求正在快速釋出。最適合參展的台灣廠商，包括已有垂直行業 AI 落地案例的應用廠商、伺服器與邊緣運算硬體廠商，以及具備泰國個資法（PDPA）合規能力的資安業者。若產品尚在開發階段或缺乏英文技術文件，建議先觀展評估，待準備就緒再正式參展。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI Asia 是什麼展？對台灣企業有什麼重點？",
+          "questionType": "direct_event",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "台灣 AI 應用公司 想找海外買主，AI Asia 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "如果你的公司已有具體的 AI 應用落地案例，並且目標是在東南亞尋找代理商或系統整合商合作夥伴，AI Asia 確實值得列入參展評估清單。這個展會定位在 B2B 市場，聚焦 AI 應用、雲端基礎設施與資安整合，方向與台灣 AI 應用公司的產品屬性高度吻合。泰國本身是東南亞第二大數位經濟體，企業端的 AI 採購需求正在加速釋出，市場時機點相對有利。展會屬於較早期階段，競爭密度還不高，早期進場的品牌通常能在展會成熟前建立較強的在地能見度與合作關係。不過如果你的產品還在開發階段、或者目前缺乏英文技術文件與說明材料，建議先以觀展方式了解市場反應，不急著正式參展。整體而言，這不太是「值不值得」的問題，而是「時機對不對」的判斷——對已準備好的公司來說，現在進場的成本與風險都低於展會成熟後。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣 AI 應用公司 想找海外買主，AI Asia 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "值得列入但有條件：若你們已有落地案例、完整的英文技術/商務材料，且目標是尋找在泰國或東南亞的代理商、系統整合商或企業買主，AI Asia 是一個切入早期市場、快速建立能見度的好機會。泰國企業端採購與雲端基礎設施投資正在加速（對B2B解決方案需求明顯），同場的資安展也有助於接觸合規與治理需求較高的買家。參展前建議申請主辦方的媒合（Business Matching）並準備一頁英文摘要；展後在72小",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "如果台灣公司想透過展會切入東南亞早期 AI B2B 入口，應該怎麼評估 AI Asia？",
+          "questionType": "market_entry",
+          "answer": "## 如何評估 AI Asia 是否適合你的公司切入東南亞 AI B2B 市場\n\n評估 AI Asia 的第一步，是誠實盤點自家產品的成熟度——如果你已有具體的 AI 落地案例、且備有英文技術文件，這個展會的轉化潛力才會真正發揮出來；反之，若產品仍在開發階段，先以觀展身份去了解市場反應會比倉促參展更有效益。其次要確認你的目標客群：AI Asia 定位在 B2B 採購決策者，特別適合想在泰國尋找代理商或系統整合商的廠商，如果你的銷售模式是直接面向終端消費者，這個場合的匹配度就相對低。第三點值得注意的是展會的早期紅利——作為東南亞首個專注 AI 產業的 B2B 展覽，競爭密度目前仍低，品牌曝光的邊際效益通常高於展會成熟後才進場的時機，這對預算有限但想建立先發優勢的台灣中小企業尤其重要。另外，同場聯合舉辦的資安展讓這個場合對同時具備 AI 與資安產品線的廠商更具效益，若你的產品涉及合規、資料保護或 AI 治理，現場議題的切合度會更高。最後建議在做最終決策前，把展位費用、差旅、英文行銷材料製作等實際成本加總，與預期能接觸到的潛在合作夥伴數量對比，再判斷這個時間點的投資報酬率是否符合公司的市場拓展節奏。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "如果台灣公司想透過展會切入東南亞早期 AI B2B 入口，應該怎麼評估 AI Asia？",
+          "questionType": "market_entry",
+          "answer": "如果目標是以展會作為「東南亞早期 B2B 入口」，評估 AI Asia 時重點應放在四個面向：目標買主的職級與產業（是否為你鎖定的企業端或成長型 SME）、展會訪客與參展商的國際化與垂直度（AI 基礎設施、雲端、資安是否為主力）、主辦單位能提供的 Business Matching 與媒合品質，以及你產品的成熟度與英文展示資料是否到位。AI Asia 與同期資安展共辦能擴大決策買主池，且首屆或早期展會競爭密度低、能見度高，但若產品仍在開發或缺英文技",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "這兩個展會的定位差異相當明顯，適合的企業類型也不同。**AI Asia** 位於泰國曼谷，鎖定東南亞市場，適合希望打入泰國或東南亞、尋找當地代理商或系統整合商的台灣 B2B 廠商；**AI EXPO KOREA** 則以韓國市場為主，競爭環境相對成熟，進入門檻與市場複雜度都不同。\n\n如果台灣企業的策略方向是**拓展新興市場、建立早期合作關係**，AI Asia 的時機優勢較明顯——東南亞 AI 採購需求正在快速釋出，而首屆展會競爭密度相對較低，早期進場的品牌能見度通常更高。相對地，韓國市場已有成熟的本地 AI 生態系，台灣廠商在當地的差異化空間需要更精準的策略。\n\n整體來說，**若企業已有 AI 落地案例、英文技術文件完備，且目標是東南亞市場開發**，AI Asia 更適合作為優先選擇；若目標客群在東北亞或已有韓國市場佈局，再考慮 AI EXPO KOREA 比較合理。兩者並非互斥，但資源有限的中小型台灣廠商建議先聚焦其中一個市場，確認策略方向後再評估是否雙邊並行。",
+          "score": {
+            "total": 42,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [
+              "AI EXPO KOREA"
+            ],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 8
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+          "questionType": "comparison",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
+          "question": "我要查 AI Asia 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "要查詢 AI Asia 的台灣參展窗口與官方資訊，最直接的方式是聯繫負責台灣市場推廣的代理窗口，根據背景資料顯示，昇揚展覽有限公司（Sunrise Expo）是台灣這端的對接單位，可透過 info@sunriseexpo.com 洽詢參展細節、費用與補助資訊。此外，主辦方為 VNU Asia Pacific，若需要直接取得英文版官方資料或國際參展合約，可搜尋 VNU Asia Pacific 的官方網站進行確認。針對參展補助部分，建議同時查詢經濟部國際貿易署或外貿協會（TAITRA）是否有針對東南亞展會的出展補助計畫，這對降低首次參展成本很有幫助。若想先了解展會定位與市場背景再決定是否參展，可參考昇揚展覽網站上的展會介紹頁面，內容涵蓋泰國 AI 市場數據、展品類別與參展策略建議，資訊相對完整。整體建議是先透過台灣窗口取得一手報價與參展規格，再對照補助資格評估實際出展成本。",
+          "score": {
+            "total": 100,
+            "eventMentioned": true,
+            "brandMentioned": true,
+            "officialUrlCited": true,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 25,
+              "officialUrl": 25,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "我要查 AI Asia 的台灣參展窗口與官方資訊，應該看哪些來源？",
+          "questionType": "official_source",
+          "answer": "",
+          "score": {
+            "total": 8,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 8,
+              "competitorPenalty": 0
+            }
+          }
+        }
+      ],
+      "questions": [
+        "AI Asia 是什麼展？對台灣企業有什麼重點？",
+        "台灣 AI 應用公司 想找海外買主，AI Asia 值得列入參展計畫嗎？",
+        "如果台灣公司想透過展會切入東南亞早期 AI B2B 入口，應該怎麼評估 AI Asia？",
+        "AI Asia 跟 AI EXPO KOREA 相比，哪一個更適合台灣企業？",
+        "我要查 AI Asia 的台灣參展窗口與官方資訊，應該看哪些來源？"
+      ],
+      "competitors": [
+        {
+          "name": "AI EXPO KOREA",
+          "count": 1
+        }
+      ],
+      "recommendations": [
+        "在 AI Asia 頁面首屏與 FAQ 明確寫出 Sunrise Expo/昇揚展覽是台灣參展窗口。",
+        "增加 Event、FAQPage、Organization schema，並在 FAQ 內自然包含官方網址。",
+        "新增「AI Asia vs AI EXPO KOREA」比較段，說明市場、買主、台灣廠商適合度。",
+        "補一段台灣企業參展情境：適合產業、買主類型、展前準備、參展窗口與下一步 CTA。"
+      ]
+    }
+  ]
 }
