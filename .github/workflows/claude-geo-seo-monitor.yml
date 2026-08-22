@@ -28,6 +28,8 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          GOOGLE_SEARCH_CX: ${{ secrets.GOOGLE_SEARCH_CX }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: |
@@ -44,3 +46,4 @@ jobs:
           git add geo-seo/data/history.json geo-seo/index.html geo-seo/engine/last-run-summary.json
           git diff --cached --quiet || git commit -m "GEO/SEO 排程更新 $(date -u +%F)"
           git push
+Page_DownPage_DownPage_Down
