@@ -89,6 +89,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .header-title{font-size:22px;font-weight:300;letter-spacing:-.02em}
 .header-title strong{font-weight:700;color:var(--gold-deep)}
 .updated{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.nav-link{font-family:var(--mono);font-size:11px;color:var(--gold-deep);background:var(--gold-light);border:1px solid var(--gold-border);padding:6px 13px;border-radius:20px;text-decoration:none;font-weight:500;transition:background .15s,border-color .15s;white-space:nowrap}
+.nav-link:hover{background:var(--gold-border);border-color:var(--gold-deep)}
 
 .tabs{display:flex;gap:0;margin-bottom:22px;border:1px solid var(--border2);border-radius:10px;overflow:hidden;background:var(--surface)}
 .tabbtn{flex:1;padding:12px 0;font-size:13px;text-align:center;color:var(--muted);cursor:pointer;background:transparent;border:none;font-family:var(--sans);font-weight:500;transition:background .15s,color .15s}
@@ -170,7 +173,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
       <div class="logo">昇揚展覽有限公司</div>
       <div class="header-title">展覽查詢工具</div>
     </div>
-    <div class="updated">資料截至 2026.08.25</div>
+    <div class="header-right">
+      <div class="updated">資料截至 2026.08.25</div>
+      <a class="nav-link" href="https://camille8960.github.io/finance/">← 財務儀表板</a>
+    </div>
   </div>
 
   <div class="tabs">
