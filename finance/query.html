@@ -1,0 +1,458 @@
+<title>昇揚展覽查詢工具</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;
+  --surface:#ffffff;
+  --surface2:#f2efe8;
+  --border:rgba(0,0,0,0.08);
+  --border2:rgba(0,0,0,0.14);
+  --text:#1a1a18;
+  --muted:#888680;
+  --muted2:#bbb9b3;
+  --gold:#b8902a;
+  --gold-light:#f5edd8;
+  --gold-border:rgba(184,144,42,0.3);
+  --gold-deep:#8a6a1a;
+  --green:#2a7a55;
+  --green-light:#e8f5ee;
+  --green-border:rgba(42,122,85,0.25);
+  --red:#c0392b;
+  --red-light:#fdf0ee;
+  --red-border:rgba(192,57,43,0.2);
+  --amber:#b86a10;
+  --amber-light:#fef3e2;
+  --amber-border:rgba(184,106,16,0.25);
+  --blue:#2255a4;
+  --blue-light:#edf2fc;
+  --sans:'Noto Sans TC',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161310;
+    --surface:#201b15;
+    --surface2:#282119;
+    --border:rgba(255,255,255,0.09);
+    --border2:rgba(255,255,255,0.16);
+    --text:#f3ede1;
+    --muted:#a89f8d;
+    --muted2:#6f6858;
+    --gold:#dcae44;
+    --gold-light:rgba(220,174,68,0.14);
+    --gold-border:rgba(220,174,68,0.35);
+    --gold-deep:#eec872;
+    --green:#57b98a;
+    --green-light:rgba(87,185,138,0.14);
+    --green-border:rgba(87,185,138,0.3);
+    --red:#e2776a;
+    --red-light:rgba(226,119,106,0.14);
+    --red-border:rgba(226,119,106,0.3);
+    --amber:#e3a83f;
+    --amber-light:rgba(227,168,63,0.14);
+    --amber-border:rgba(227,168,63,0.3);
+    --blue:#7ea3ea;
+    --blue-light:rgba(126,163,234,0.12);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161310;
+  --surface:#201b15;
+  --surface2:#282119;
+  --border:rgba(255,255,255,0.09);
+  --border2:rgba(255,255,255,0.16);
+  --text:#f3ede1;
+  --muted:#a89f8d;
+  --muted2:#6f6858;
+  --gold:#dcae44;
+  --gold-light:rgba(220,174,68,0.14);
+  --gold-border:rgba(220,174,68,0.35);
+  --gold-deep:#eec872;
+  --green:#57b98a;
+  --green-light:rgba(87,185,138,0.14);
+  --green-border:rgba(87,185,138,0.3);
+  --red:#e2776a;
+  --red-light:rgba(226,119,106,0.14);
+  --red-border:rgba(226,119,106,0.3);
+  --amber:#e3a83f;
+  --amber-light:rgba(227,168,63,0.14);
+  --amber-border:rgba(227,168,63,0.3);
+  --blue:#7ea3ea;
+  --blue-light:rgba(126,163,234,0.12);
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;padding:28px 20px 60px}
+.wrap{max-width:920px;margin:0 auto}
+
+.header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;padding-bottom:18px;border-bottom:1.5px solid var(--gold-border)}
+.logo{font-size:10px;letter-spacing:.18em;color:var(--gold);margin-bottom:4px;font-weight:500}
+.header-title{font-size:22px;font-weight:300;letter-spacing:-.02em}
+.header-title strong{font-weight:700;color:var(--gold-deep)}
+.updated{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+.tabs{display:flex;gap:0;margin-bottom:22px;border:1px solid var(--border2);border-radius:10px;overflow:hidden;background:var(--surface)}
+.tabbtn{flex:1;padding:12px 0;font-size:13px;text-align:center;color:var(--muted);cursor:pointer;background:transparent;border:none;font-family:var(--sans);font-weight:500;transition:background .15s,color .15s}
+.tabbtn.active{background:var(--gold-light);color:var(--gold-deep)}
+.tabbtn:not(.active):hover{background:var(--surface2)}
+
+.view{display:none}
+.view.active{display:block}
+
+.searchbox{width:100%;padding:12px 16px;font-size:14px;font-family:var(--sans);border:1px solid var(--border2);border-radius:10px;background:var(--surface);color:var(--text);margin-bottom:6px}
+.searchbox:focus{outline:none;border-color:var(--gold)}
+.hint{font-size:11px;color:var(--muted);margin-bottom:18px}
+
+.sec-label{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:500;margin:22px 0 12px}
+.sec-label:first-child{margin-top:0}
+
+/* cash on hand */
+.cash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.cash-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.cash-box.highlight{border-color:var(--gold-border);background:var(--gold-light)}
+.cash-label{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.cash-val{font-family:var(--mono);font-size:19px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text)}
+.cash-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.cash-note{font-size:11px;color:var(--amber);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border2)}
+
+/* year revenue table */
+.year-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.year-table th{font-size:10px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;padding:11px 14px;text-align:right;border-bottom:1px solid var(--border2);background:var(--surface2);font-weight:500}
+.year-table th:first-child,.year-table td:first-child{text-align:left}
+.year-table td{padding:13px 14px;border-bottom:1px solid var(--border);font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.year-table tr:last-child td{border-bottom:none}
+.year-badge{display:inline-block;font-size:10px;padding:2px 9px;border-radius:20px;font-family:var(--sans);font-weight:500;margin-left:8px}
+.yb-done{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
+.yb-live{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
+
+/* exhibitor results */
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:10px}
+.ex-name{font-size:14px;font-weight:600}
+.ex-alias{font-size:11px;color:var(--muted);margin-top:1px}
+.ex-rows{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.ex-row{font-size:12.5px;padding-top:6px;border-top:1px solid var(--border)}
+.ex-row:first-child{border-top:none;padding-top:0}
+.ex-row-show{color:var(--text)}
+.ex-row-meta{color:var(--muted);font-size:11px;margin-top:1px}
+.no-result{padding:24px;text-align:center;color:var(--muted);font-size:13px}
+
+.show-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-top:16px}
+.show-panel-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.show-panel-name{font-size:16px;font-weight:600}
+.show-panel-meta{font-size:11.5px;color:var(--muted);margin-top:3px}
+.show-panel-profit{text-align:right}
+.show-panel-profit-val{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--green);font-variant-numeric:tabular-nums}
+.show-panel-profit-pct{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+.perf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.perf-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.perf-label{font-size:10px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;font-weight:500}
+.perf-val{font-family:var(--mono);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+
+.pending-box{padding:14px 16px;background:var(--surface2);border:1px dashed var(--border2);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.7}
+.name-pill{display:inline-block;padding:5px 13px;margin:0 6px 6px 0;font-size:12.5px;border-radius:20px;background:var(--surface2);border:1px solid var(--border2);color:var(--text)}
+
+.year-table tbody tr{cursor:pointer}
+.year-table tbody tr:hover td{background:var(--surface2)}
+.year-table tbody tr.active-row td{background:var(--gold-light);color:var(--gold-deep)}
+
+.footer-note{margin-top:28px;padding:12px 16px;background:var(--gold-light);border:1px solid var(--gold-border);border-radius:10px;font-size:11.5px;color:var(--gold-deep);line-height:1.8}
+
+@media(max-width:600px){
+  .perf-grid{grid-template-columns:1fr 1fr}
+  .cash-grid{grid-template-columns:1fr}
+  .show-panel-head{flex-direction:column}
+}
+</style>
+
+<div class="wrap">
+  <div class="header">
+    <div>
+      <div class="logo">昇揚展覽有限公司</div>
+      <div class="header-title">展覽查詢工具</div>
+    </div>
+    <div class="updated">資料截至 2026.08.25</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tabbtn active" onclick="showView('year')" id="tabbtn-year">歷年收入</button>
+    <button class="tabbtn" onclick="showView('exhibitor')" id="tabbtn-exhibitor">廠商查詢</button>
+  </div>
+
+  <!-- YEAR VIEW (年度 → 展覽 → 廠商，三層下鑽) -->
+  <div class="view active" id="view-year">
+    <div class="sec-label" style="margin-top:0">目前可動用資金</div>
+    <div class="cash-grid">
+      <div class="cash-box">
+        <div class="cash-label">NTD 台幣帳戶</div>
+        <div class="cash-val">NT$248</div>
+        <div class="cash-sub">國內帳戶餘額</div>
+      </div>
+      <div class="cash-box">
+        <div class="cash-label">USD 美金帳戶</div>
+        <div class="cash-val">US$16,973.03</div>
+        <div class="cash-sub">≈ NT$534,650　（匯率 31.5）</div>
+        <div class="cash-note">可動用 US$1,886.03（已扣 Cybersec Asia 2027 已收未匯大會的 US$15,087）</div>
+      </div>
+      <div class="cash-box highlight">
+        <div class="cash-label">可動用資金合計</div>
+        <div class="cash-val" style="color:var(--gold-deep)">NT$59,658</div>
+        <div class="cash-sub">銀行實際餘額 NT$534,898，扣除已收但尚未匯給大會的款項後可安全動用</div>
+      </div>
+    </div>
+
+    <div class="sec-label">依年度統計（點一列查看該年度的展覽）</div>
+    <table class="year-table">
+      <thead><tr><th>年度</th><th>展覽場數</th><th>營業額</th><th>成本</th><th>利潤</th><th>利潤率</th></tr></thead>
+      <tbody id="year-tbody"></tbody>
+    </table>
+
+    <div id="year-detail"></div>
+
+    <div class="footer-note">2026 年為已結案的完整年度數字（4 場展覽皆已結束並結清）。2027 年僅計入目前已收/已付的第一期款項，展覽尚未結束，數字會持續變動，不是最終值。2026 年以前的展覽紀錄目前未收錄在這個工具裡。</div>
+  </div>
+
+  <!-- EXHIBITOR VIEW -->
+  <div class="view" id="view-exhibitor">
+    <input class="searchbox" id="ex-search" type="text" placeholder="輸入廠商名稱搜尋，例如「華誠」「TAITRA」「n partner」..." oninput="renderExhibitors()">
+    <div class="hint">會搜尋中英文名稱與已知別名（例如「華誠」＝「Fortune Electric」）。留空則顯示所有廠商。</div>
+    <div id="ex-results"></div>
+  </div>
+
+  <div class="footer-note" style="margin-top:20px">
+    <strong>資料來源：</strong>昇揚展覽財務儀表板（claude/dashboard.html）2026.08.25 版本　·　匯率基準 USD 1 = NT$31.5<br>
+    <strong>更新方式：</strong>這個工具跟財務儀表板用同一批資料，儀表板更新時我會一併回來更新這裡。
+  </div>
+</div>
+
+<script>
+// ---------- DATA ----------
+const SHOWS = [
+  {
+    id:'cyber2026', name:'Cybersec Asia 2026', year:2026, location:'泰國曼谷', sqm:72, booths:8,
+    dates:'', status:'settled', revenue:50088.00, cost:32560.00, profit:17528.00, margin:35.0,
+    exhibitors:[
+      {name:'n partner', canon:'N-Partner', sqm:9, amount:4494, collected:4494, status:'全額'},
+      {name:'公信', canon:'Clientron', sqm:9, amount:4494, collected:4494, status:'全額'},
+      {name:'UPAS', canon:'UPAS', sqm:9, amount:null, collected:null, status:'全額'},
+      {name:'n partner (2)', canon:'N-Partner', sqm:9, amount:null, collected:null, status:'全額'},
+      {name:'Heartbot', canon:'Heartbot', sqm:9, amount:null, collected:null, status:'全額'},
+      {name:'系統自由', canon:'系統自由', sqm:9, amount:null, collected:null, status:'全額'},
+      {name:'公會', canon:'公會', sqm:null, amount:'NT$41,100', collected:'NT$0', status:'未收'}
+    ],
+    boothmap:null, boothmapNote:'8 個展位，已知 7 筆展商紀錄，尚無實際展位編號對照，待補充平面圖或分配紀錄。'
+  },
+  {
+    id:'ai2026', name:'AI Expo Taiwan 2026', year:2026, location:'台灣台北', sqm:108, booths:12,
+    dates:'', status:'settled', revenue:46200.00, cost:14560.00, profit:15470.00, margin:33.5,
+    flagNote:'此場支出/利潤數字經核對有不一致之處（成本明細加總為 US$31,640，與顯示的合計 US$14,560 對不上），待 Camille 確認正確金額。',
+    exhibitors:[
+      {name:'TAITRA（台灣館，代表 12 家）', canon:'TAITRA', sqm:108, amount:46200, collected:46200, status:'全額'}
+    ],
+    boothmap:null, boothmapNote:'12 個展位皆由 TAITRA 台灣館統一報名，個別公司名單與展位編號尚未記錄，待提供 TAITRA 參展商名單。'
+  },
+  {
+    id:'tfbo2026', name:'TFBO 泰國加盟展 2026', year:2026, location:'泰國曼谷 BITEC', sqm:90, booths:10,
+    dates:'2026/06/04–07', status:'settled', revenue:42372.00, cost:29405.61, profit:12966.39, margin:30.6,
+    exhibitors:[
+      {name:'TAITRA', canon:'TAITRA', sqm:90, amount:42372, collected:42372, status:'全額'}
+    ],
+    boothmap:null, boothmapNote:'10 個展位皆由 TAITRA 統一報名，個別公司名單與展位編號尚未記錄，待提供 TAITRA 參展商名單。'
+  },
+  {
+    id:'inti2026', name:'INTI 2026 印尼科技創新展', year:2026, location:'印尼雅加達 JIExpo', sqm:118.8, booths:14,
+    dates:'2026/08/11–13', status:'settled', revenue:68384.84, cost:57066.00, profit:11318.84, margin:16.6,
+    exhibitors:[
+      {name:'TAITRA（台灣館，代表 12 家）', canon:'TAITRA', sqm:100.8, amount:59282.39, collected:59282.39, status:'全額'},
+      {name:'華誠（Fortune Electric Value Co., Ltd.）', canon:'華誠', sqm:18, amount:9102.45, collected:9102.45, status:'全額'}
+    ],
+    boothmap:null, boothmapNote:'①台灣館 12 個展位由 TAITRA 統一報名，個別公司名單尚未記錄；②獨立報名 2 個展位皆為華誠（Fortune Electric）承租，不涉及其他展商，只是還沒有明確展位編號。'
+  },
+  {
+    id:'cyber2027', name:'Cybersec Asia 2027', year:2027, location:'泰國曼谷 QSNCC', sqm:54, booths:6,
+    dates:'2027/01/20–21', status:'live', revenue:30174.00, revenueNote:'合約總額，已收 US$15,087（第一期）', cost:null, profit:null, margin:null,
+    exhibitors:[
+      {name:'Skycloud Computing Co., Ltd.', canon:'Skycloud', sqm:9, booth:'C07', amount:5029, collected:2514.50, status:'50%'},
+      {name:'CHT Security Co., Ltd.', canon:'CHT Security', sqm:9, booth:'C11', amount:5029, collected:2514.50, status:'50%'},
+      {name:'Clientron Corp.', canon:'Clientron', sqm:9, booth:'C05', amount:5029, collected:2514.50, status:'50%'},
+      {name:'N-Partner Technologies Co., Ltd.', canon:'N-Partner', sqm:9, booth:'C12', amount:5029, collected:2514.50, status:'50%'},
+      {name:'Team T5 Inc.', canon:'Team T5', sqm:9, booth:'C09', amount:5029, collected:2514.50, status:'50%'},
+      {name:'UPAS Technology Corp', canon:'UPAS', sqm:9, booth:'C08', amount:5029, collected:2514.50, status:'50%'}
+    ],
+    boothmap:[
+      {booth:'C05', exhibitor:'Clientron Corp.'},
+      {booth:'C07', exhibitor:'Skycloud Computing Co., Ltd.'},
+      {booth:'C08', exhibitor:'UPAS Technology Corp'},
+      {booth:'C09', exhibitor:'Team T5 Inc.'},
+      {booth:'C11', exhibitor:'CHT Security Co., Ltd.'},
+      {booth:'C12', exhibitor:'N-Partner Technologies Co., Ltd.'}
+    ]
+  },
+  {
+    id:'aikorea2027', name:'AI Expo Korea 2027', year:2027, location:'韓國首爾 COEX A Hall', sqm:12, booths:1,
+    dates:'2027/04/14–16', status:'live', revenue:2860, revenueNote:'已收第一期（合約總額 US$5,720）', cost:1768, profit:1092, margin:38.2,
+    profitNote:'僅第一期已實現利潤，第二期尚未到期',
+    exhibitors:[
+      {name:'Fufront AI Co., Ltd.', canon:'Fufront AI', sqm:12, amount:5720, collected:2860, status:'50%'}
+    ],
+    boothmap:null, boothmapNote:'只有 1 個展位，承租商為 Fufront AI Co., Ltd.，尚未記錄實際展位編號。'
+  }
+];
+
+// ---------- YEAR VIEW (年度 → 展覽 → 廠商，三層下鑽) ----------
+function fmtUSD(n){
+  if(n===null||n===undefined) return '—';
+  return 'US$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+const YEARS=[...new Set(SHOWS.map(s=>s.year))].sort((a,b)=>b-a);
+let activeYear=null;
+let activeShowId=null;
+
+function yearAgg(y){
+  const shows=SHOWS.filter(s=>s.year===y);
+  const d={count:shows.length,revenue:0,cost:0,profit:0,live:false,costKnown:true};
+  shows.forEach(s=>{
+    d.revenue+=s.revenue||0;
+    if(s.cost!==null&&s.cost!==undefined) d.cost+=s.cost; else d.costKnown=false;
+    if(s.profit!==null&&s.profit!==undefined) d.profit+=s.profit;
+    if(s.status==='live') d.live=true;
+  });
+  return d;
+}
+
+function renderYears(){
+  const tbody=document.getElementById('year-tbody');
+  tbody.innerHTML=YEARS.map(y=>{
+    const d=yearAgg(y);
+    const margin=d.revenue?(d.profit/d.revenue*100).toFixed(1)+'%':'—';
+    const badge=d.live?'<span class="year-badge yb-live">進行中</span>':'<span class="year-badge yb-done">已結案</span>';
+    return `<tr class="${y===activeYear?'active-row':''}" onclick="selectYear(${y})">
+      <td>${y}${badge}</td>
+      <td>${d.count} 場</td>
+      <td>${fmtUSD(d.revenue)}</td>
+      <td>${d.costKnown?fmtUSD(d.cost):fmtUSD(d.cost)+'+'}</td>
+      <td style="color:var(--green)">${fmtUSD(d.profit)}</td>
+      <td>${margin}</td>
+    </tr>`;
+  }).join('');
+}
+
+function selectYear(y){
+  activeYear=(activeYear===y)?null:y;
+  activeShowId=null;
+  renderYears();
+  renderYearDetail();
+}
+
+function renderYearDetail(){
+  const box=document.getElementById('year-detail');
+  if(!activeYear){ box.innerHTML=''; return; }
+  const shows=SHOWS.filter(s=>s.year===activeYear).sort((a,b)=>(b.profit||0)-(a.profit||0));
+  const rows=shows.map(s=>`
+    <tr class="${s.id===activeShowId?'active-row':''}" onclick="selectShow('${s.id}')">
+      <td>${s.name}</td>
+      <td style="text-align:left">${s.location}</td>
+      <td>${fmtUSD(s.revenue)}</td>
+      <td>${s.cost!==null&&s.cost!==undefined?fmtUSD(s.cost):'—'}</td>
+      <td style="color:var(--green)">${s.profit!==null&&s.profit!==undefined?fmtUSD(s.profit):'—'}</td>
+      <td>${s.margin!==null&&s.margin!==undefined?s.margin+'%':'—'}</td>
+    </tr>`).join('');
+  box.innerHTML=`
+    <div class="sec-label">${activeYear} 年度展覽明細（點一列查看廠商）</div>
+    <table class="year-table">
+      <thead><tr><th>展覽</th><th>地點</th><th>營業額</th><th>成本</th><th>利潤</th><th>利潤率</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div id="show-detail"></div>
+  `;
+  renderShowDetail();
+}
+
+function selectShow(id){
+  activeShowId=(activeShowId===id)?null:id;
+  renderYearDetail();
+}
+
+function renderShowDetail(){
+  const el=document.getElementById('show-detail');
+  if(!el) return;
+  if(!activeShowId){ el.innerHTML=''; return; }
+  const s=SHOWS.find(x=>x.id===activeShowId);
+  const metaBits=[s.location, s.sqm+'sqm', s.booths+' 展位'];
+  if(s.dates) metaBits.push(s.dates);
+  const namesHtml=s.exhibitors.map(e=>`<span class="name-pill">${e.name}</span>`).join('');
+  el.innerHTML=`
+    <div class="show-panel">
+      <div class="show-panel-head">
+        <div>
+          <div class="show-panel-name">${s.name}</div>
+          <div class="show-panel-meta">${metaBits.join(' · ')}</div>
+        </div>
+        <div class="show-panel-profit">
+          <div class="show-panel-profit-val">${s.profit!==null&&s.profit!==undefined?fmtUSD(s.profit):'尚未結算'}</div>
+          <div class="show-panel-profit-pct">${s.margin!==null&&s.margin!==undefined?'利潤率 '+s.margin+'%':(s.status==='live'?'展覽進行中':'')}</div>
+        </div>
+      </div>
+      <div class="perf-grid">
+        <div class="perf-box"><div class="perf-label">營業額</div><div class="perf-val" style="color:var(--blue)">${fmtUSD(s.revenue)}</div></div>
+        <div class="perf-box"><div class="perf-label">成本</div><div class="perf-val" style="color:var(--red)">${s.cost!==null&&s.cost!==undefined?fmtUSD(s.cost):'—'}</div></div>
+        <div class="perf-box"><div class="perf-label">利潤</div><div class="perf-val" style="color:var(--green)">${s.profit!==null&&s.profit!==undefined?fmtUSD(s.profit):'—'}</div></div>
+        <div class="perf-box"><div class="perf-label">合計</div><div class="perf-val" style="color:var(--gold-deep)">${s.margin!==null&&s.margin!==undefined?s.margin+'%':'—'}</div></div>
+      </div>
+      ${s.flagNote?`<div class="pending-box" style="margin-bottom:16px;border-color:var(--amber-border);color:var(--amber)">⚠ ${s.flagNote}</div>`:''}
+      ${s.profitNote?`<div class="pending-box" style="margin-bottom:16px">${s.profitNote}</div>`:''}
+      <div class="sec-label">參展廠商</div>
+      <div>${namesHtml}</div>
+    </div>
+  `;
+}
+
+// ---------- EXHIBITOR VIEW ----------
+function norm(s){ return (s||'').toLowerCase().replace(/[\s().（）,，·]/g,''); }
+function renderExhibitors(){
+  const q=norm(document.getElementById('ex-search').value);
+  // group by canon name
+  const groups={};
+  SHOWS.forEach(show=>{
+    show.exhibitors.forEach(ex=>{
+      const key=ex.canon;
+      if(!groups[key]) groups[key]={canon:ex.canon,names:new Set(),rows:[]};
+      groups[key].names.add(ex.name);
+      groups[key].rows.push({show:show.name,year:show.year,sqm:ex.sqm,booth:ex.booth,amount:ex.amount,collected:ex.collected,status:ex.status});
+    });
+  });
+  const results=Object.values(groups).filter(g=>{
+    if(!q) return true;
+    if(norm(g.canon).includes(q)) return true;
+    for(const n of g.names){ if(norm(n).includes(q)) return true; }
+    return false;
+  }).sort((a,b)=>a.canon.localeCompare(b.canon,'zh-Hant'));
+
+  const box=document.getElementById('ex-results');
+  if(!results.length){ box.innerHTML='<div class="no-result">沒有符合的廠商，換個關鍵字試試？</div>'; return; }
+  box.innerHTML=results.map(g=>{
+    const aliasList=[...g.names].filter(n=>n!==g.canon);
+    const rows=g.rows.map(r=>`
+      <div class="ex-row">
+        <div class="ex-row-show">${r.show}</div>
+        <div class="ex-row-meta">${r.year} 年　·　${r.sqm?r.sqm+'sqm':'坪數未記錄'}</div>
+      </div>`).join('');
+    return `<div class="ex-card">
+      <div class="ex-name">${g.canon}</div>
+      ${aliasList.length?`<div class="ex-alias">又見於：${aliasList.join('、')}</div>`:''}
+      <div class="ex-rows">${rows}</div>
+    </div>`;
+  }).join('');
+}
+
+// ---------- TABS ----------
+function showView(name){
+  ['year','exhibitor'].forEach(v=>{
+    document.getElementById('view-'+v).classList.toggle('active',v===name);
+    document.getElementById('tabbtn-'+v).classList.toggle('active',v===name);
+  });
+}
+
+renderYears();
+renderExhibitors();
+renderYearDetail();
+</script>
