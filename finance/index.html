@@ -42,6 +42,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .header-title{font-size:22px;font-weight:300;letter-spacing:-.02em;color:var(--text)}
 .header-title strong{font-weight:700;color:var(--gold-deep)}
 .updated{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.nav-link{font-family:var(--mono);font-size:11px;color:var(--gold-deep);background:var(--gold-light);border:1px solid var(--gold-border);padding:6px 13px;border-radius:20px;text-decoration:none;font-weight:500;transition:background .15s,border-color .15s;white-space:nowrap}
+.nav-link:hover{background:var(--gold-border);border-color:var(--gold-deep)}
 
 /* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
@@ -152,7 +155,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
     <div class="logo">昇揚展覽有限公司</div>
     <div class="header-title">財務儀表板 <strong>2026</strong></div>
   </div>
-  <div class="updated">2026.08.25</div>
+  <div class="header-right">
+    <div class="updated">2026.08.26</div>
+    <a class="nav-link" href="query.html">展覽查詢工具 →</a>
+  </div>
 </div>
 
 <div class="kpi-row">
