@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T08:07:50.212Z",
+  "generatedAt": "2026-09-06T07:00:13.407Z",
   "mode": "api",
   "message": "正式 Claude / ChatGPT API 掃描結果。",
   "reports": [
@@ -8,9 +8,9 @@
       "eventName": "AI EXPO KOREA",
       "url": "https://sunriseexpo.com/event/aiexpokorea/",
       "frequency": "biweekly",
-      "scannedAt": "2026-08-22T15:34:49.633Z",
+      "scannedAt": "2026-09-06T07:00:13.407Z",
       "status": "ai_scored",
-      "taiwanGeoScore": 38,
+      "taiwanGeoScore": 35,
       "seoScore": 92,
       "seoStatus": "scored",
       "seoSignals": {
@@ -24,13 +24,13 @@
           "passed": true,
           "points": 12,
           "maxPoints": 12,
-          "detail": "2027 韓國AI展｜AI EXPO KOREA 韓國主辦指定代理"
+          "detail": "2027 AI EXPO KOREA 韓國AI展"
         },
         "metaDescription": {
           "passed": true,
           "points": 14,
           "maxPoints": 14,
-          "detail": "2027韓國AI展 AI EXPO KOREA於4月14日至16日在首爾COEX舉行。昇揚展覽為韓國主辦方指定之台灣官方代理，提供參展報名及諮詢。"
+          "detail": "2027 韓國AI展 AI EXPO KOREA將於4月14日至16日在首爾COEX舉行，適逢第10屆十週年展。Sunrise Expo昇揚展覽為台灣官方獨家代理，提供參展報名、攤位方案及韓國市場諮詢，適合AI伺服器、Edge AI、視覺檢測與智慧製造業者參展。"
         },
         "h1": {
           "passed": true,
@@ -48,7 +48,7 @@
           "passed": true,
           "points": 12,
           "maxPoints": 12,
-          "detail": "1 組 JSON-LD"
+          "detail": "2 組 JSON-LD"
         },
         "internalLinks": {
           "passed": true,
@@ -66,38 +66,38 @@
           "passed": true,
           "points": 8,
           "maxPoints": 8,
-          "detail": "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+          "detail": "index,follow"
         },
         "contentDepth": {
           "passed": true,
           "points": 8,
           "maxPoints": 8,
-          "detail": "13950 字元可見文字"
+          "detail": "13944 字元可見文字"
         }
       },
       "seoIssues": [
         "圖片 alt 覆蓋率不足"
       ],
       "seoSummary": {
-        "title": "2027 韓國AI展｜AI EXPO KOREA 韓國主辦指定代理",
-        "metaDescription": "2027韓國AI展 AI EXPO KOREA於4月14日至16日在首爾COEX舉行。昇揚展覽為韓國主辦方指定之台灣官方代理，提供參展報名及諮詢。",
-        "visibleTextSample": "2027 韓國AI展｜AI EXPO KOREA 韓國主辦指定代理 跳至主要內容 \",\"library\":\"fa-solid\"},\"toggle\":\"burger\"}\" data-widget_type=\"nav-menu.default\"> 展覽訊息 展會花絮 參展攻略 參展補助 關於我們 與我連絡 展覽訊息 展會花絮 參展攻略 參展補助 關於我們 與我連絡 2027 AI EXPO KOREA 韓國AI展 Share this event: 20261777 DD Days HH Hours MM Min SS Sec 開展日期 2027年 4 月 14 日 結束日期 2027年 4 月 16 日 展會地點 首爾, 韓國 展會簡介 2027 韓國AI展 AI EXPO KOREA｜展期、地點與參展資訊 2027 韓國AI展 AI EXPO KOREA將於2027年4月14日至16日在首爾COEX舉行。昇揚展覽有限公司（Sunrise Expo）為AI EXPO KOREA台灣官方代理，協助台灣廠商辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 AI EXPO KOREA較適合已具備量產能力、希望切入韓國AI硬體供應鏈，或尋找當地代理商與系統整合商的台灣企業，尤其是AI伺服器、Edge AI模組、AI加速晶片、機器人零組件與AI視覺檢測方案供應商。相較於單純的品牌曝光，此展更適合作為測試韓國採購商實際需求、建立技術合作關係的平台。2027年適逢第10屆十週年紀念展，預估規模擴大至5.5萬人以上，是觀察韓國AI產業結構、提前卡位的時間點。 展期： 2027年4月14日（三）至16日（五） 地點： 首爾COEX A Hall 主辦： KORAIA（韓國人工智能協會）、SeoulMESSE、AI Times 規模（2026年第9屆）： 18個國家、330家企業、562個攤位、48,678名觀眾 2027年預估規模： 55,000人以上（十週年紀念展擴大舉辦） 台灣於2026年以Taiwan Pavilion形式集體參展，MSI、SilentTech、CyberLink等15家以上品牌同場展出，並獲ETNews、Aju News等韓國主流媒體專訪報導。 市場訊息 韓國AI市場正進入七倍成長期，台灣廠商的入場時機 538.7億美元 韓國AI市場2032年預估規模（Fortune Business Insights） 33.4% 年複合成長率CAGR（2025–2032） 9.9兆韓元 韓國政府2026年度AI預算，較上年度成長近3倍 韓國AI市場七年間預估將放大約7.5倍。根據Fortune Business Insights資料，市場規模預估將由2025年的71.7億美元，成長至2032年的538.7億美元。這代表基礎建設、企業導入與應用落地的需求正在集中爆發。對台灣廠商而言，現在進入韓國市場的教育成本，可能低於三年後才開始布局。 韓國政府的重點投入方向包括： AI半導體與算力基礎建設 Physical AI與人形機器人 韓語大型語言模型（LLM） AI應用於製造、金融及醫療 根據Bloomberg與MLex報導，韓國政府2026年度AI預算達9.9兆韓元，約合67億美元，較上一年度3.3兆韓元大幅成長，橫跨41個部會、741項AI相關計畫，採購需求已有明確的政策資金支撐。建議台灣廠商優先對照自家產品是否符合上述方向，確認具體切入點後，再決定參展策略。 展會亮點 AI EXPO KOREA 2027三大焦點展區 2027年核心主題涵蓋Physical AI、AI Agents、LLM、Smart Manufacturing及AI Chip，三大展區A1、A2、A3全數啟用。同期活動包括AI EXPO KOREA SUMMIT技術論壇、VC Connect投資媒合及AI Synergy Global Link國際市場論壇。 Physical AI與人形機器人： Hyundai、LG、Samsung與Persona AI等企業展出人形機器人，是亞洲少數同類規模的B2B展示場域。台灣廠商若具備機器人零組件、感測器、Edge AI模組或視覺檢測方案，具有具體對接機會。 AI Agent與LLM： Naver、Kakao、Upstage等韓語LLM平台同場展示最新技術。2026年展會中，KB金融與生成式AI公司GENON共同開發人形機器人「GenP」，示範問候應對、環境感知、服藥提醒及復健攙扶等高齡照護情境，是AI Agent結合Physical AI應用於金融與長照場景的具體案例。根據Grand View Research資料，韓國AI Agent市場規模預估將由2024年的1.3億美元，成長至2030年的18億美元，年複合成長率達56.1%。 智慧製造與工業AI： PCB、電池及半導體AOI品質檢測、Digital Twin與Factory OS為主要展示方向。根據MarketsandMarkets資料，韓國AI製造市場預估將由2025年的11.5億美元，成長至2030年的59.8億美元，年複合成長率約39%，是台灣製造業AI解決方案廠商直接接觸市場需求的窗口。 展覽觀點 AI EXPO KOREA適合哪些台灣企業參加？ 以下類型的台灣廠商較適合評估參展： AI伺服器、Edge AI模組、AI加速晶片等硬體廠商 AI視覺檢測、AOI或半導體品質檢測方案供應商 工業AI、智慧製造、機器人零組件或感測器廠商 希望在韓國尋找技術合作夥伴、代理商或系統整合商的ICT品牌 反之，若企業目前沒有可展示的海外實績、產品仍處於原型驗證階段、缺乏英文或韓文簡報資料，或尚未規劃韓國市場的代理與售後策略，建議先補強上述準備，再評估是否參展，以免現場曝光無法轉化為有效商機。 常見問題 韓國AI展 AI EXPO KOREA常見問題 Q1. 台灣廠商如何報名AI EXPO KOREA？ 台灣廠商如欲參加AI EXPO KOREA，可洽台灣官方代理昇揚展覽有限公司（Sunrise Expo），辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 Q2. AI EXPO KOREA值得台灣企業參加嗎？ 若企業已具備量產能力或實際導入案例，且希望切入韓國AI供應鏈、尋找代理商或系統整合商，值得優先評估。韓國AI市場預估將由2025年的約72億美元，成長至2032年的538.7億美元，年複合成長率為33.4%；韓國政府2026年度AI預算亦已達9.9兆韓元，採購需求具有明確的政策資金支撐。 Q3. 哪些台灣企業較適合參加AI EXPO KOREA？ 較適合的企業包括AI伺服器、Edge AI模組、AI加速晶片等硬體廠商；AI視覺檢測、AOI或半導體品質檢測方案供應商；工業AI、智慧製造、機器人零組件或感測器廠商；以及希望在韓國尋找技術合作夥伴、代理商或系統整合商的ICT品牌。 Q4. 哪些企業不適合參加AI EXPO KOREA？ 若企業目前沒有可展示的實際導入案例、產品仍在概念驗證階段、缺乏英文或韓文簡報資料，或尚未規劃韓國市場的代理與售後策略，建議先補強上述準備，再評估是否參展。 Q5. 第一次參加AI EXPO KOREA應該準備什麼？ 建議準備至少一項可展示的實際導入案例、韓文或英文版產品簡報、明確的目標客群，例如企業採購方、代理商或系統整合商，以及具體的韓國市場進入策略，並提前透過VC Connect等媒合機制安排會前預約。 Q6. 台灣企業如何透過AI EXPO KOREA找到韓國代理商？ 展會期間的技術論壇、VC Connect投資媒合與各展區現場洽談，是建立代理關係的主要管道。建議台灣廠商提前準備一頁式技術規格與商業條件文件，並主動鎖定與自身產品互補的韓國系統整合商或代理商接觸，而非被動等待現場曝光帶來詢問。 現場照片 下載展會資料 其它相關展 AI Asia 亞洲AI展 INTI 印尼科技創新展 展館資訊 Coex Hall, 513 Yeongdong-daero, Gangnam District, Seoul, Korea 首爾 , 韓國 Korea, Republic of 展會資訊 Date : 14 4 月 2027 Tags : AI Categories : AI , 韓國 Visit Website 主辦方 Seoul Messe View Organizer Website 加入行事曆 + Google Calendar + ICal Export 展會簡介 2027 韓國AI展 AI EXPO KOREA｜展期、地點與參展資訊 2027 韓國AI展 AI EXPO KOREA將於2027年4月14日至16日在首爾COEX舉行。昇揚展覽有限公司（Sunrise Expo）為AI EXPO KOREA台灣官方代理，協助台灣廠商辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 AI EXPO KOREA較適合已具備量產能力、希望切入韓國AI硬體供應鏈，或尋找當地代理商與系統整合商的台灣企業，尤其是AI伺服器、Edge AI模組、AI加速晶片、機器人零組件與AI視覺檢測方案供應商。相較於單純的品牌曝光，此展更適合作為測試韓國採購商實際需求、建立技術合作關係的平台。2027年適逢第10屆十週年紀念展，預估規模擴大至5.5萬人以上，是觀察韓國AI產業結構、提前卡位的時間點。 展期： 2027年4月14日（三）至16日（五） 地點： 首爾COEX A Hall 主辦： KORAIA（韓國人工智能協會）、SeoulMESSE、AI Times 規模（2026年第9屆）： 18個國家、330家企業、562個攤位、48,678名觀眾 2027年預估規模： 55,000人以上（十週年紀念展擴大舉辦） 台灣於2026年以Taiwan Pavilion形式集體參展，MSI、SilentTech、CyberLink等15家以上品牌同場展出，並獲ETNews、Aju News等韓國主流媒體專訪報導。 市場訊息 韓國AI市場正進入七倍成長期，台灣廠商的入場時機 538.7億美元 韓國AI市場2032年預估規模（Fortune Business Insights） 33.4% 年複合成長率CAGR（2025–2032） 9.9兆韓元 韓國政府2026年度AI預算，較上年度成長近3倍 韓國AI市場七年間預估將放大約7.5倍。根據Fortune Business Insights資料，市場規模預估將由2025年的71.7億美元，成長至2032年的538.7億美元。這代表基礎建設、企業導入與應用落地的需求正在集中爆發。對台灣廠商而言，現在進入韓國市場的教育成本，可能低於三年後才開始布局。 韓國政府的重點投入方向包括： AI半導體與算力基礎建設 Physical AI與人形機器人 韓語大型語言模型（LLM） AI應用於製造、金融及醫療 根據Bloomberg與MLex報導，韓國政府2026年度AI預算達9.9兆韓元，約合67億美元，較上一年度3.3兆韓元大幅成長，橫跨41個部會、741項AI相關計畫，採購需求已有明確的政策資金支撐。建議台灣廠商優先對照自家產品是否符合上述方向，確認具體切入點後，再決定參展策略。 展會亮點 AI EXPO KOREA 2027三大焦點展區 2027年核心主題涵蓋Physical AI、AI Agents、LLM、Smart Manufacturing及AI Chip，三大展區A1、A2、A3全數啟用。同期活動包括AI EXPO KOREA SUMMIT技術論壇、VC Connect投資媒合及AI Synergy Global Link國際市場論壇。 Physical AI與人形機器人： Hyundai、LG、Samsung與Persona AI等企業展出人形機器人，是亞洲少數同類規模的B2B展示場域。台",
+        "title": "2027 AI EXPO KOREA 韓國AI展",
+        "metaDescription": "2027 韓國AI展 AI EXPO KOREA將於4月14日至16日在首爾COEX舉行，適逢第10屆十週年展。Sunrise Expo昇揚展覽為台灣官方獨家代理，提供參展報名、攤位方案及韓國市場諮詢，適合AI伺服器、Edge AI、視覺檢測與智慧製造業者參展。",
+        "visibleTextSample": "2027 AI EXPO KOREA 韓國AI展 跳至主要內容 \",\"library\":\"fa-solid\"},\"toggle\":\"burger\"}\" data-widget_type=\"nav-menu.default\"> 展覽訊息 展會花絮 參展攻略 參展補助 關於我們 與我連絡 展覽訊息 展會花絮 參展攻略 參展補助 關於我們 與我連絡 2027 AI EXPO KOREA 韓國AI展 Share this event: 19008697 DD Days HH Hours MM Min SS Sec 開展日期 2027年 4 月 14 日 結束日期 2027年 4 月 16 日 展會地點 首爾, 韓國 展會簡介 2027 韓國AI展 AI EXPO KOREA｜展期、地點與參展資訊 2027 韓國AI展 AI EXPO KOREA將於2027年4月14日至16日在首爾COEX舉行。昇揚展覽有限公司（Sunrise Expo）為AI EXPO KOREA台灣官方代理，協助台灣廠商辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 AI EXPO KOREA較適合已具備量產能力、希望切入韓國AI硬體供應鏈，或尋找當地代理商與系統整合商的台灣企業，尤其是AI伺服器、Edge AI模組、AI加速晶片、機器人零組件與AI視覺檢測方案供應商。相較於單純的品牌曝光，此展更適合作為測試韓國採購商實際需求、建立技術合作關係的平台。2027年適逢第10屆十週年紀念展，預估規模擴大至5.5萬人以上，是觀察韓國AI產業結構、提前卡位的時間點。 展期： 2027年4月14日（三）至16日（五） 地點： 首爾COEX A Hall 主辦： KORAIA（韓國人工智能協會）、SeoulMESSE、AI Times 規模（2026年第9屆）： 18個國家、330家企業、562個攤位、48,678名觀眾 2027年預估規模： 55,000人以上（十週年紀念展擴大舉辦） 台灣於2026年以Taiwan Pavilion形式集體參展，MSI、SilentTech、CyberLink等15家以上品牌同場展出，並獲ETNews、Aju News等韓國主流媒體專訪報導。 市場訊息 韓國AI市場正進入七倍成長期，台灣廠商的入場時機 538.7億美元 韓國AI市場2032年預估規模（Fortune Business Insights） 33.4% 年複合成長率CAGR（2025–2032） 9.9兆韓元 韓國政府2026年度AI預算，較上年度成長近3倍 韓國AI市場七年間預估將放大約7.5倍。根據Fortune Business Insights資料，市場規模預估將由2025年的71.7億美元，成長至2032年的538.7億美元。這代表基礎建設、企業導入與應用落地的需求正在集中爆發。對台灣廠商而言，現在進入韓國市場的教育成本，可能低於三年後才開始布局。 韓國政府的重點投入方向包括： AI半導體與算力基礎建設 Physical AI與人形機器人 韓語大型語言模型（LLM） AI應用於製造、金融及醫療 根據Bloomberg與MLex報導，韓國政府2026年度AI預算達9.9兆韓元，約合67億美元，較上一年度3.3兆韓元大幅成長，橫跨41個部會、741項AI相關計畫，採購需求已有明確的政策資金支撐。建議台灣廠商優先對照自家產品是否符合上述方向，確認具體切入點後，再決定參展策略。 展會亮點 AI EXPO KOREA 2027三大焦點展區 2027年核心主題涵蓋Physical AI、AI Agents、LLM、Smart Manufacturing及AI Chip，三大展區A1、A2、A3全數啟用。同期活動包括AI EXPO KOREA SUMMIT技術論壇、VC Connect投資媒合及AI Synergy Global Link國際市場論壇。 Physical AI與人形機器人： Hyundai、LG、Samsung與Persona AI等企業展出人形機器人，是亞洲少數同類規模的B2B展示場域。台灣廠商若具備機器人零組件、感測器、Edge AI模組或視覺檢測方案，具有具體對接機會。 AI Agent與LLM： Naver、Kakao、Upstage等韓語LLM平台同場展示最新技術。2026年展會中，KB金融與生成式AI公司GENON共同開發人形機器人「GenP」，示範問候應對、環境感知、服藥提醒及復健攙扶等高齡照護情境，是AI Agent結合Physical AI應用於金融與長照場景的具體案例。根據Grand View Research資料，韓國AI Agent市場規模預估將由2024年的1.3億美元，成長至2030年的18億美元，年複合成長率達56.1%。 智慧製造與工業AI： PCB、電池及半導體AOI品質檢測、Digital Twin與Factory OS為主要展示方向。根據MarketsandMarkets資料，韓國AI製造市場預估將由2025年的11.5億美元，成長至2030年的59.8億美元，年複合成長率約39%，是台灣製造業AI解決方案廠商直接接觸市場需求的窗口。 展覽觀點 AI EXPO KOREA適合哪些台灣企業參加？ 以下類型的台灣廠商較適合評估參展： AI伺服器、Edge AI模組、AI加速晶片等硬體廠商 AI視覺檢測、AOI或半導體品質檢測方案供應商 工業AI、智慧製造、機器人零組件或感測器廠商 希望在韓國尋找技術合作夥伴、代理商或系統整合商的ICT品牌 反之，若企業目前沒有可展示的海外實績、產品仍處於原型驗證階段、缺乏英文或韓文簡報資料，或尚未規劃韓國市場的代理與售後策略，建議先補強上述準備，再評估是否參展，以免現場曝光無法轉化為有效商機。 常見問題 韓國AI展 AI EXPO KOREA常見問題 Q1. 台灣廠商如何報名AI EXPO KOREA？ 台灣廠商如欲參加AI EXPO KOREA，可洽台灣官方代理昇揚展覽有限公司（Sunrise Expo），辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 Q2. AI EXPO KOREA值得台灣企業參加嗎？ 若企業已具備量產能力或實際導入案例，且希望切入韓國AI供應鏈、尋找代理商或系統整合商，值得優先評估。韓國AI市場預估將由2025年的約72億美元，成長至2032年的538.7億美元，年複合成長率為33.4%；韓國政府2026年度AI預算亦已達9.9兆韓元，採購需求具有明確的政策資金支撐。 Q3. 哪些台灣企業較適合參加AI EXPO KOREA？ 較適合的企業包括AI伺服器、Edge AI模組、AI加速晶片等硬體廠商；AI視覺檢測、AOI或半導體品質檢測方案供應商；工業AI、智慧製造、機器人零組件或感測器廠商；以及希望在韓國尋找技術合作夥伴、代理商或系統整合商的ICT品牌。 Q4. 哪些企業不適合參加AI EXPO KOREA？ 若企業目前沒有可展示的實際導入案例、產品仍在概念驗證階段、缺乏英文或韓文簡報資料，或尚未規劃韓國市場的代理與售後策略，建議先補強上述準備，再評估是否參展。 Q5. 第一次參加AI EXPO KOREA應該準備什麼？ 建議準備至少一項可展示的實際導入案例、韓文或英文版產品簡報、明確的目標客群，例如企業採購方、代理商或系統整合商，以及具體的韓國市場進入策略，並提前透過VC Connect等媒合機制安排會前預約。 Q6. 台灣企業如何透過AI EXPO KOREA找到韓國代理商？ 展會期間的技術論壇、VC Connect投資媒合與各展區現場洽談，是建立代理關係的主要管道。建議台灣廠商提前準備一頁式技術規格與商業條件文件，並主動鎖定與自身產品互補的韓國系統整合商或代理商接觸，而非被動等待現場曝光帶來詢問。 現場照片 下載展會資料 其它相關展 AI Asia 亞洲AI展 INTI 印尼科技創新展 展館資訊 Coex Hall, 513 Yeongdong-daero, Gangnam District, Seoul, Korea 首爾 , 韓國 Korea, Republic of 展會資訊 Date : 14 4 月 2027 Tags : AI Categories : AI , 韓國 Visit Website 主辦方 Seoul Messe View Organizer Website 加入行事曆 + Google Calendar + ICal Export 展會簡介 2027 韓國AI展 AI EXPO KOREA｜展期、地點與參展資訊 2027 韓國AI展 AI EXPO KOREA將於2027年4月14日至16日在首爾COEX舉行。昇揚展覽有限公司（Sunrise Expo）為AI EXPO KOREA台灣官方代理，協助台灣廠商辦理參展報名、攤位申請及參展規劃。聯絡信箱： info@sunriseexpo.com 。 AI EXPO KOREA較適合已具備量產能力、希望切入韓國AI硬體供應鏈，或尋找當地代理商與系統整合商的台灣企業，尤其是AI伺服器、Edge AI模組、AI加速晶片、機器人零組件與AI視覺檢測方案供應商。相較於單純的品牌曝光，此展更適合作為測試韓國採購商實際需求、建立技術合作關係的平台。2027年適逢第10屆十週年紀念展，預估規模擴大至5.5萬人以上，是觀察韓國AI產業結構、提前卡位的時間點。 展期： 2027年4月14日（三）至16日（五） 地點： 首爾COEX A Hall 主辦： KORAIA（韓國人工智能協會）、SeoulMESSE、AI Times 規模（2026年第9屆）： 18個國家、330家企業、562個攤位、48,678名觀眾 2027年預估規模： 55,000人以上（十週年紀念展擴大舉辦） 台灣於2026年以Taiwan Pavilion形式集體參展，MSI、SilentTech、CyberLink等15家以上品牌同場展出，並獲ETNews、Aju News等韓國主流媒體專訪報導。 市場訊息 韓國AI市場正進入七倍成長期，台灣廠商的入場時機 538.7億美元 韓國AI市場2032年預估規模（Fortune Business Insights） 33.4% 年複合成長率CAGR（2025–2032） 9.9兆韓元 韓國政府2026年度AI預算，較上年度成長近3倍 韓國AI市場七年間預估將放大約7.5倍。根據Fortune Business Insights資料，市場規模預估將由2025年的71.7億美元，成長至2032年的538.7億美元。這代表基礎建設、企業導入與應用落地的需求正在集中爆發。對台灣廠商而言，現在進入韓國市場的教育成本，可能低於三年後才開始布局。 韓國政府的重點投入方向包括： AI半導體與算力基礎建設 Physical AI與人形機器人 韓語大型語言模型（LLM） AI應用於製造、金融及醫療 根據Bloomberg與MLex報導，韓國政府2026年度AI預算達9.9兆韓元，約合67億美元，較上一年度3.3兆韓元大幅成長，橫跨41個部會、741項AI相關計畫，採購需求已有明確的政策資金支撐。建議台灣廠商優先對照自家產品是否符合上述方向，確認具體切入點後，再決定參展策略。 展會亮點 AI EXPO KOREA 2027三大焦點展區 2027年核心主題涵蓋Physical AI、AI Agents、LLM、Smart Manufacturing及AI Chip，三大展區A1、A2、A3全數啟用。同期活動包括AI EXPO KOREA SUMMIT技術論壇、VC Connect投資媒合及AI Synergy Global Link國際市場論壇。 Physical AI與人形機器人： Hyundai、LG、Samsung與Persona AI等企業展出人形機器人，是亞洲少數同類規模的B2B展示場域。台灣廠商若具備機器人",
         "h1Count": 1,
         "canonical": "https://sunriseexpo.com/event/aiexpokorea/",
-        "jsonLdCount": 1,
+        "jsonLdCount": 2,
         "internalLinks": 51,
         "externalLinks": 8,
         "imageCount": 42,
         "imageAltCoverage": 0.023809523809523808,
-        "visibleTextLength": 13950
+        "visibleTextLength": 13944
       },
-      "competitiveScore": 100,
+      "competitiveScore": 90,
       "providers": [
         {
           "provider": "Claude",
           "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
           "questionType": "direct_event",
-          "answer": "## AI EXPO KOREA 是什麼展？\n\nAI EXPO KOREA 是韓國規模最大的 AI 產業 B2B 專業展覽，每年在首爾 COEX 舉辦，由韓國人工智能協會（KORAIA）等單位主辦。展會涵蓋 Physical AI、AI Agent、大型語言模型（LLM）、智慧製造、AI 晶片等主題，吸引來自多個國家的企業與採購商參與。2027 年適逢第十屆十週年紀念展，預估參觀人數將突破 5.5 萬人，規模明顯擴大。\n\n## 對台灣企業的重點\n\n對台灣廠商來說，這個展會最大的價值在於直接接觸韓國 AI 供應鏈的採購商、代理商與系統整合商，而不只是品牌曝光。特別適合參展的類型包括：**AI 伺服器、Edge AI 模組、AI 加速晶片、機器人零組件、AI 視覺檢測與工業 AOI 方案**等硬體或解決方案廠商。韓國 AI 市場預估從 2025 年到 2032 年將成長約 7.5 倍，政府預算也大幅擴張，市場需求有政策資金明確支撐，台灣廠商現在布局的時間成本相對較低。不過，若產品仍在原型驗證階段、缺乏英文或韓文簡報，或尚未規劃當地代理策略，建議先補強這些準備再評估是否參展。",
+          "answer": "## AI EXPO KOREA 是什麼展？\n\nAI EXPO KOREA 是韓國規模最大的 AI 產業 B2B 展覽，由韓國人工智能協會（KORAIA）主辦，每年在首爾 COEX 舉行。展會涵蓋 Physical AI、AI Agent、大型語言模型、智慧製造與 AI 晶片等核心主題，吸引來自多個國家的企業與採購商參與。2027 年適逢第十屆十週年紀念展，預計將擴大至 5.5 萬人以上的規模。\n\n## 對台灣企業的重點\n\n對台灣企業來說，這個展覽的價值不只是品牌曝光，更在於**直接接觸韓國採購商、尋找代理商與系統整合商**的實質商機。韓國 AI 市場預估將從 2025 年的約 72 億美元，成長至 2032 年的近 540 億美元，加上政府大幅提升 AI 相關預算，市場需求有明確的政策資金支撐。特別適合參展的台灣業者包括：**AI 伺服器、Edge AI 模組、AI 視覺檢測、AOI 品質檢測、工業 AI 與機器人零組件**等領域的廠商。反之，若產品仍在原型驗證階段、缺乏實際導入案例或尚未準備韓國市場進入策略，建議先做好準備再評估是否參展，以確保現場接觸能有效轉化為商業機會。",
           "score": {
             "total": 50,
             "eventMentioned": true,
@@ -117,46 +117,6 @@
           "provider": "ChatGPT",
           "question": "AI EXPO KOREA 是什麼展？對台灣企業有什麼重點？",
           "questionType": "direct_event",
-          "answer": "AI EXPO KOREA 是韓國主要的B2B人工智慧專業展覽，聚焦AI晶片與算力、Edge/伺服器硬體、Physical AI（含人形機器人）、LLM/AI Agent 及智慧製造等應用場景，通常在首爾 COEX 舉辦（例：2027年為4月中旬）。對台灣企業的重點在於：若已具備量產或實際導入案例，這是切入韓國AI供應鏈、尋找代理商／系統整合商與技術合作夥伴的實務平台，能快速驗證當地採購需求。若產品仍停留在原型或缺乏英文/韓文商務資料、售後與代理規劃，現場曝光轉化成訂單的機會會較低，建議先補強商務準備。參展時可鎖定智慧製造、視覺檢測、Edge AI模組、AI加速器與機器人零組件等需求面向，並善用論壇與投資／媒合活動安排會",
-          "score": {
-            "total": 50,
-            "eventMentioned": true,
-            "brandMentioned": false,
-            "officialUrlCited": false,
-            "competitorsMentioned": [],
-            "signals": {
-              "eventMention": 30,
-              "brandMention": 0,
-              "officialUrl": 0,
-              "answerPresence": 20,
-              "competitorPenalty": 0
-            }
-          }
-        },
-        {
-          "provider": "Claude",
-          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
-          "questionType": "buyer_intent",
-          "answer": "## AI EXPO KOREA 對台灣 AI 伺服器公司值得考慮嗎？\n\n以下幾個角度可以幫助你評估：\n\n**市場契合度高**：韓國政府正大力投資 AI 算力基礎建設，AI 伺服器正好對應這波政策採購需求，買主來源有政策資金撐腰，詢問品質相對較高。\n\n**展會性質符合 B2B 開發**：這個展會聚焦硬體供應鏈對接，現場會有企業採購方、系統整合商與代理商，比純品牌曝光型展會更適合拿來開發實際訂單或尋找在地代理夥伴。\n\n**規模與時機點不錯**：2027 年是第十屆，預估觀眾人數超過 5.5 萬人，且台灣廠商已有集體參展前例，能降低單獨赴展的摸索成本。\n\n**但有一個前提要先確認**：若你的產品已有量產能力與實際導入案例，參展效益會明顯；若仍在原型階段、缺乏英韓文簡報資料，建議先補齊這些準備，否則現場曝光很難轉換為有效商機。\n\n整體而言，對已具備出貨能力的台灣 AI 伺服器廠商來說，AI EXPO KOREA 是值得列入 2027 年參展計畫的選項，但務必在報名前先釐清目標客群與韓國市場的進入策略。",
-          "score": {
-            "total": 50,
-            "eventMentioned": true,
-            "brandMentioned": false,
-            "officialUrlCited": false,
-            "competitorsMentioned": [],
-            "signals": {
-              "eventMention": 30,
-              "brandMention": 0,
-              "officialUrl": 0,
-              "answerPresence": 20,
-              "competitorPenalty": 0
-            }
-          }
-        },
-        {
-          "provider": "ChatGPT",
-          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
-          "questionType": "buyer_intent",
           "answer": "",
           "score": {
             "total": 8,
@@ -175,9 +135,49 @@
         },
         {
           "provider": "Claude",
+          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "## AI EXPO KOREA 值得台灣 AI 伺服器廠商列入參展計畫嗎？\n\n對於有意開拓海外買主的台灣 AI 伺服器公司來說，AI EXPO KOREA 是相當值得認真評估的選項。韓國 AI 市場預估將從 2025 年的約 72 億美元成長至 2032 年的 538 億美元以上，政府預算也大幅增加，代表當地採購需求有實質政策資金支撐，並非只是概念階段。這個展會的定位是 B2B 為主，現場參觀者多為企業採購方、系統整合商與代理商，與 AI 伺服器廠商尋找海外買主的目標高度吻合。2027 年適逢第十屆十週年紀念展，預估入場人次將超過 5.5 萬人，是歷屆規模最大的一次，曝光機會相對集中。不過要提醒的是，若公司目前尚無可展示的量產實績、缺乏英文或韓文簡報資料，或還沒想清楚韓國市場的代理與售後策略，建議先把這些準備補齊再參展，否則現場詢問難以轉化為實際訂單。整體而言，已具備出貨能力且想在韓國卡位供應鏈的台灣 AI 伺服器廠商，現在進場的時間點比三年後更划算。",
+          "score": {
+            "total": 50,
+            "eventMentioned": true,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 30,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "ChatGPT",
+          "question": "台灣 AI 伺服器公司 想找海外買主，AI EXPO KOREA 值得列入參展計畫嗎？",
+          "questionType": "buyer_intent",
+          "answer": "值得列入參展計畫，但要看你們的準備與目標。若已有量產能力或實際導入案例、並明確想切入韓國AI硬體供應鏈（尋找代理、系統整合商或大型企業採購），該展是直接接觸買主、測試需求與建立技術合作的好場域。建議至少準備韓文/英文產品簡報、一頁技術規格與商業條件、可示範的實機或案例，以及明確的售後與代理策略，並利用展會的媒合、論壇與預約機制提前安排會議。若產品仍在POC階段或缺乏韓語支援，先以局部市場驗證或找當地合作夥伴補強再參展，能提高投資報酬率。",
+          "score": {
+            "total": 20,
+            "eventMentioned": false,
+            "brandMentioned": false,
+            "officialUrlCited": false,
+            "competitorsMentioned": [],
+            "signals": {
+              "eventMention": 0,
+              "brandMention": 0,
+              "officialUrl": 0,
+              "answerPresence": 20,
+              "competitorPenalty": 0
+            }
+          }
+        },
+        {
+          "provider": "Claude",
           "question": "如果台灣公司想透過展會切入韓國 AI B2B 市場入口，應該怎麼評估 AI EXPO KOREA？",
           "questionType": "market_entry",
-          "answer": "## 評估 AI EXPO KOREA 的幾個關鍵角度\n\n對台灣公司來說，評估這個展會首先要問的是「自家產品是否符合韓國市場當下的採購需求」，而不是單純考量展會規模大小。韓國政府目前重點投入的方向包括 AI 半導體、Physical AI、智慧製造與醫療 AI，如果你的產品落在 AI 伺服器、Edge AI 模組、AOI 視覺檢測或機器人零組件這些類別，對位性相對明確，值得認真評估。\n\n其次要評估「公司現階段的出海準備度」——如果產品還在概念驗證階段、沒有實際導入案例、也沒有英文或韓文版的簡報資料，即使展會規模再大，現場曝光也很難轉化為實質商機。反之，若已有量產能力與可展示的案例，這個展會的 B2B 媒合屬性（如 VC Connect、技術論壇）就能提供具體的對接機會，不只是品牌曝光。\n\n第三個維度是時間點的戰略意義：2027 年是第 10 屆十週年紀念展，規模預估擴大，加上韓國 AI 市場正處於快速成長期，現在進場的教育成本可能低於幾年後才開始布局。整體來說，這個展會比較適合作為「測試韓國市場真實需求、建立代理或技術合作關係」的平台，而不是純粹的品牌形象展，評估時應以這個定位為核心來判斷是否值得投入資源。",
+          "answer": "## 如何評估 AI EXPO KOREA 是否適合台灣公司切入韓國 AI B2B 市場\n\n評估這個展會，可以從幾個角度來思考：\n\n**先確認自身產品的匹配度**\nAI EXPO KOREA 的參觀者結構以韓國企業採購方、系統整合商為主，最能發揮效益的台灣廠商，通常是已有量產能力或實際導入案例的 AI 硬體業者，例如 Edge AI 模組、AI 視覺檢測、工業 AI 或機器人零組件供應商，如果產品還在原型驗證階段，展會現場很難有效轉化詢問。\n\n**對照韓國市場的政策方向**\n韓國政府近年在 AI 半導體、Physical AI、智慧製造與醫療 AI 方面投入大量預算，若台灣廠商的產品方向與這些領域吻合，展會就不只是曝光，而是可以直接接觸到有採購需求的買方。\n\n**評估展會規模與買家質量**\n這個展會有一定的規模基礎，且同期有技術論壇與媒合機制，如果公司的目標是尋找韓國代理商或系統整合商，展會提供的結構性洽談機會比單純冷開發更有效率，建議提前準備韓文或英文版的技術規格與合作條件文件。\n\n**務實考量展前準備**\n沒有海外實績、缺乏英韓文簡報、或尚未規劃售後與代理策略的公司，即使參展也容易因轉化率低而浪費資源，建議先把這些基礎補齊再評估，參展的投資才能發揮應有的效益。",
           "score": {
             "total": 50,
             "eventMentioned": true,
@@ -197,15 +197,15 @@
           "provider": "ChatGPT",
           "question": "如果台灣公司想透過展會切入韓國 AI B2B 市場入口，應該怎麼評估 AI EXPO KOREA？",
           "questionType": "market_entry",
-          "answer": "",
+          "answer": "AI EXPO KOREA 對已具",
           "score": {
-            "total": 8,
-            "eventMentioned": false,
+            "total": 38,
+            "eventMentioned": true,
             "brandMentioned": false,
             "officialUrlCited": false,
             "competitorsMentioned": [],
             "signals": {
-              "eventMention": 0,
+              "eventMention": 30,
               "brandMention": 0,
               "officialUrl": 0,
               "answerPresence": 8,
@@ -217,19 +217,21 @@
           "provider": "Claude",
           "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
           "questionType": "comparison",
-          "answer": "這個問題很好，兩個展會其實定位不同，適合的企業類型也有所差異。\n\n**AI EXPO KOREA（韓國）**的優勢在於，韓國AI市場正處於高速成長期，政府預算大幅投入AI相關建設，對於做AI硬體、Edge AI模組、工業視覺檢測、機器人零組件的台灣廠商來說，韓國是一個具體的採購需求市場，商機相對明確且有政策資金支撐。如果你的目標是找韓國代理商、系統整合商，或切入三星、現代等大廠供應鏈，AI EXPO KOREA是比較直接的入口。\n\n**日本AI Expo**則更適合想進入日本企業數位轉型市場的廠商，日本企業文化重視長期關係與信任建立，通常需要較長的業務週期，但市場規模穩定、技術門檻要求高。\n\n簡單來說，**若你的產品是AI硬體、製造業AI解決方案，且希望短中期就試探市場反應，AI EXPO KOREA的節奏可能比日本快**；如果你的目標是深耕日本企業客戶、走穩健的長線布局，日本AI Expo則更合適。\n\n兩者並不互斥，預算允許的話，分年或分階段都參加，其實是觀察東亞兩大AI市場差異的好方式。建議先釐清自己的產品成熟度與目標客群，再決定優先順序。",
+          "answer": "這兩個展會的定位和適合的企業類型其實有些差異，建議從自家產品與目標市場來判斷。\n\n**AI EXPO KOREA** 主要聚焦韓國本地的 B2B 採購與供應鏈合作，參展者以 AI 硬體、Edge AI 模組、視覺檢測、智慧製造等實體產品廠商為主，適合已有量產能力、想直接接觸韓國採購商或尋找當地代理商的台灣企業。韓國 AI 市場成長動能強勁，政府預算也大幅挹注，對硬體與製造類廠商來說是個具體的商機入口。\n\n**日本 AI Expo**（Japan IT Week 旗下展）則涵蓋範圍更廣，包含軟體、SaaS、資料分析等方向，日本市場進入門檻較高，語言與合規要求也更嚴格，但市場規模與成熟度相對更大，適合已有日本在地夥伴或長期布局日本的企業。\n\n如果你的產品屬於 **AI 伺服器、工業 AI、機器人零組件或 AOI 檢測方案**，AI EXPO KOREA 在切入時機和市場性價比上可能更具優勢；若產品以軟體或解決方案為主，且已有日本市場基礎，日本 AI Expo 則較為合適。兩者並不互斥，有資源的企業可以考慮依序布局。",
           "score": {
-            "total": 50,
+            "total": 42,
             "eventMentioned": true,
             "brandMentioned": false,
             "officialUrlCited": false,
-            "competitorsMentioned": [],
+            "competitorsMentioned": [
+              "日本 AI Expo"
+            ],
             "signals": {
               "eventMention": 30,
               "brandMention": 0,
               "officialUrl": 0,
               "answerPresence": 20,
-              "competitorPenalty": 0
+              "competitorPenalty": 8
             }
           }
         },
@@ -237,7 +239,7 @@
           "provider": "ChatGPT",
           "question": "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
           "questionType": "comparison",
-          "answer": "",
+          "answer": "兩者沒有絕對「哪個更好」，要看你們的產品屬性與市場策略。",
           "score": {
             "total": 8,
             "eventMentioned": false,
@@ -257,16 +259,16 @@
           "provider": "Claude",
           "question": "我要查 AI EXPO KOREA 的台灣參展窗口與官方資訊，應該看哪些來源？",
           "questionType": "official_source",
-          "answer": "如果你想查詢 AI EXPO KOREA 的台灣參展相關資訊，主要可以從以下幾個方向著手：\n\n1. **台灣官方代理窗口**：台灣這邊的指定代理是昇揚展覽有限公司（Sunrise Expo），有參展報名、攤位申請等需求都可以直接寄信至 info@sunriseexpo.com 詢問，是最直接的聯絡方式。\n\n2. **韓國主辦方官網**：展會由 KORAIA（韓國人工智能協會）、SeoulMESSE 與 AI Times 共同主辦，可以直接搜尋 SeoulMESSE 或 AI EXPO KOREA 官方網站，查看最新展會規格與參展條件。\n\n3. **展覽補助資訊**：若你有意申請政府參展補助，建議同步查詢貿協（TAITRA）或經濟部相關單位的海外參展補助計畫，有時可搭配展覽代理一起申辦。\n\n4. **韓國媒體報導**：若想了解展會實際規模與台灣廠商在韓國市場的曝光情況，可搜尋 ETNews 或 Aju News 等韓國媒體，過去幾屆都有相關報導可供參考。\n\n整體來說，有實際參展意向的話，直接聯繫台灣代理窗口是最有效率的第一步。",
+          "answer": "如果你想查詢 AI EXPO KOREA 的台灣參展相關資訊，主要可以從以下幾個方向著手：\n\n首先，**台灣官方代理**是最直接的窗口，負責協助台灣廠商辦理報名、攤位申請與參展規劃，可透過電子郵件 info@sunriseexpo.com 聯繫詢問。其次，**展會主辦方**為 KORAIA（韓國人工智能協會）、SeoulMESSE 與 AI Times，若需要查詢韓國端的官方展會資訊，可直接搜尋 SeoulMESSE 或 AI EXPO KOREA 官方網站取得第一手資料。此外，**外貿協會（TAITRA）** 或 **貿易局** 有時會針對重點海外展提供補助或組團資訊，也值得確認是否有相關支援方案。最後，建議同時關注韓國科技媒體如 ETNews、Aju News 等，這些媒體在歷屆展會中有針對台灣館的報導，可作為評估展會能見度的參考依據。",
           "score": {
-            "total": 100,
+            "total": 75,
             "eventMentioned": true,
-            "brandMentioned": true,
+            "brandMentioned": false,
             "officialUrlCited": true,
             "competitorsMentioned": [],
             "signals": {
               "eventMention": 30,
-              "brandMention": 25,
+              "brandMention": 0,
               "officialUrl": 25,
               "answerPresence": 20,
               "competitorPenalty": 0
@@ -301,11 +303,17 @@
         "AI EXPO KOREA 跟 日本 AI Expo 相比，哪一個更適合台灣企業？",
         "我要查 AI EXPO KOREA 的台灣參展窗口與官方資訊，應該看哪些來源？"
       ],
-      "competitors": [],
+      "competitors": [
+        {
+          "name": "日本 AI Expo",
+          "count": 1
+        }
+      ],
       "recommendations": [
         "在 AI EXPO KOREA 頁面首屏與 FAQ 明確寫出 Sunrise Expo/昇揚展覽是台灣參展窗口。",
         "增加 Event、FAQPage、Organization schema，並在 FAQ 內自然包含官方網址。",
         "SEO：圖片 alt 覆蓋率不足。",
+        "新增「AI EXPO KOREA vs 日本 AI Expo」比較段，說明市場、買主、台灣廠商適合度。",
         "補一段台灣企業參展情境：適合產業、買主類型、展前準備、參展窗口與下一步 CTA。"
       ]
     },
