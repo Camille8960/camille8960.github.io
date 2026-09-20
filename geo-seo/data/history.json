@@ -1437,6 +1437,272 @@
               }
             }
           }
+        },
+        {
+          "date": "2026-09-20",
+          "questions_asked": {
+            "generic": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+            "branded": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？"
+          },
+          "seo": {
+            "total": 30.4,
+            "onpage_subscore": 30.4,
+            "search_visibility_subscore": 0,
+            "breakdown": {
+              "title_quality": 9,
+              "meta_desc_quality": 9,
+              "heading_structure": 10,
+              "image_alt_coverage": 0,
+              "structured_data": 10,
+              "keyword_rankings": [
+                null,
+                null,
+                null
+              ],
+              "keywords_tracked": [
+                "AI EXPO KOREA",
+                "2027 韓國AI展 台灣代理",
+                "AI EXPO KOREA 參展"
+              ]
+            },
+            "search_debug": [
+              {
+                "keyword": "AI EXPO KOREA",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              },
+              {
+                "keyword": "2027 韓國AI展 台灣代理",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              },
+              {
+                "keyword": "AI EXPO KOREA 參展",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              }
+            ]
+          },
+          "geo_claude": {
+            "total": 25,
+            "generic_subscore": 0,
+            "branded_subscore": 25,
+            "key_findings": [
+              "泛用問法完全未提及昇揚展覽/Sunrise Expo，得0分",
+              "品牌問法未主動提及昇揚展覽，改推TAITRA首爾貿易中心為「最重要官方窗口」排第一",
+              "品牌問法列出展昭、亞威森、台典三家民間代理，昇揚展覽完全缺席",
+              "兩題均未引用sunriseexpo.com網址"
+            ],
+            "cited_url": false,
+            "competitor_mentions": [
+              "展昭國際企業",
+              "亞威森國際展覽(Avanza Expo)",
+              "台典有限公司(Tai-Den)",
+              "TAITRA首爾台灣貿易中心"
+            ],
+            "question_type_breakdown": [
+              {
+                "type": "展名型(泛用)",
+                "question": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "mentioned": false,
+                "note": "回答完整列出亞洲AI展覽清單，但全文無任何昇揚展覽或Sunrise Expo字樣"
+              },
+              {
+                "type": "參展決策型(品牌/服務)",
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "mentioned": false,
+                "note": "推薦TAITRA、展昭、亞威森、台典，昇揚展覽完全未被提及，連補充選項都沒有"
+              }
+            ],
+            "used_web_search": true,
+            "raw_citations": [
+              "https://www.coexcenter.com/events/ai-expo-korea-2026/",
+              "https://www.coexcenter.com/events/ai-expo-korea-2026/",
+              "https://aiexpo.co.kr/en/ai-expo-english/",
+              "https://www.tradeindia.com/tradeshows/144511/ai-expo-korea-2026.html",
+              "https://en.smarttechkorea.com/aibigdatashow",
+              "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+              "https://jasumo.com/listing/artificial-intelligence-expo-tokyo/",
+              "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+              "https://www.computextaipei.com.tw/en/news/A9462967BB2D7702/info.html",
+              "https://www.prnewswire.com/news-releases/computex-2026-concludes-successfully-as-global-innovation-shapes-a-new-ai-ecosystem-302792536.html",
+              "https://www.cna.com.tw/news/ait/202605060314.aspx",
+              "https://mice.meettaiwan.com/meettaiwan/home/zh-tw/mt-00051/supplier/S201200429/info.html",
+              "https://www.avanzaexpo.com.tw/",
+              "https://www.avanzaexpo.com.tw/",
+              "https://tai-den.com/",
+              "https://tai-den.com/",
+              "https://www.trade.gov.tw/Pages/Detail.aspx?nodeID=4703&pid=786027",
+              "https://apply.trade.gov.tw/espo/"
+            ]
+          },
+          "geo_chatgpt": {
+            "total": 72,
+            "generic_subscore": 20,
+            "branded_subscore": 52,
+            "key_findings": [
+              "泛用問法未提及昇揚展覽，得0分，但展會資訊正確性較高且附官方連結",
+              "品牌問法具名推薦昇揚展覽並標註「台灣官方代理」，列於推薦清單第一位",
+              "品牌問法引用了sunriseexpo.com網址，增強可信度與可追蹤性",
+              "品牌問法同時推薦TAITRA、英亞、亞廣、同觀等競爭管道，昇揚排第一但仍需與多家競爭"
+            ],
+            "cited_url": true,
+            "competitor_mentions": [
+              "外貿協會/TAITRA",
+              "英亞展覽服務(EASC)",
+              "亞廣國際展覽集團(ACE)",
+              "同觀展覽服務(VESC)"
+            ],
+            "question_type_breakdown": [
+              {
+                "type": "展名型(泛用)",
+                "question": "我們公司在考慮海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "mentioned": false,
+                "note": "完整列出10+場全球AI展覽並附官方連結，但全文無昇揚展覽或Sunrise Expo字樣"
+              },
+              {
+                "type": "參展決策型(品牌/服務)",
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "mentioned": true,
+                "note": "列為推薦清單第一位，明確標註台灣官方代理身份，並附sunriseexpo.com連結"
+              }
+            ],
+            "used_web_search": true,
+            "raw_citations": [
+              "https://aiexpo.co.kr/en/?utm_source=openai",
+              "https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai",
+              "https://asiatechxsg.com/aisummitsingapore/?utm_source=openai",
+              "https://www.gitex.com/?utm_source=openai",
+              "https://www.hi-tech-fair.com.cn/?utm_source=openai",
+              "https://www.ciie.org/zbh/en/?utm_source=openai",
+              "https://www.ceatec.com/en/?utm_source=openai",
+              "https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai",
+              "https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai",
+              "https://en.wikipedia.org/wiki/Consumer_Electronics_Show?utm_source=openai",
+              "https://aiexpo.co.kr/en/?utm_source=openai",
+              "https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai",
+              "https://asiatechxsg.com/aisummitsingapore/?utm_source=openai",
+              "https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai",
+              "https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai",
+              "https://sunriseexpo.com/event/aiexpokorea/?utm_source=openai",
+              "https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai",
+              "https://www.easc.com.tw/m/404-1829-7859.php?Lang=zh-tw&utm_source=openai",
+              "https://aceforum.com.tw/m/412-1179-18188.php?Lang=zh-tw&utm_source=openai",
+              "https://www.vesc.com.tw/services/?utm_source=openai",
+              "https://www.goldenseal.com.tw/tw/service?utm_source=openai",
+              "https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai"
+            ]
+          },
+          "insight_summary": "ChatGPT在品牌/服務問法中主動將昇揚展覽列為第一推薦並引用官網URL，顯示網站已被索引且代理身份資訊可被AI擷取；Claude則兩題均未提及昇揚展覽，品牌問法甚至推薦三家競爭代理商取而代之，顯示Claude的知識庫或搜尋結果中昇揚展覽的權威訊號不足。兩個AI在泛用問法均未提及昇揚，反映網站缺乏足以讓AI在「展覽推薦」情境下主動引用代理商名稱的內容錨點。SEO實測顯示42張圖片中僅1張有alt文字，結構化資料雖存在但圖片語意嚴重不足，這類技術缺陷會削弱AI爬取時對品牌的辨識強度。",
+          "action_items": [
+            {
+              "issue": "42張圖片中僅1張有alt文字，AI爬取時無法從圖片獲取品牌語意",
+              "signal": "SEO實測：images_with_alt=1，共42張圖片，覆蓋率僅2.4%",
+              "recommendation": "逐一為展會頁面的42張圖片補上alt文字，格式範例：「AI EXPO KOREA 2027 首爾COEX展場實景 - 昇揚展覽台灣官方代理」、「昇揚展覽Sunrise Expo攤位申請服務說明」，確保每張圖alt都包含展名、地點、昇揚展覽品牌名其中至少兩項關鍵字",
+              "priority": "高"
+            },
+            {
+              "issue": "泛用問法情境下兩個AI均未提及昇揚展覽，缺乏代理商身份的主動曝光",
+              "signal": "Claude與ChatGPT在泛用問法均未出現「昇揚展覽」或「Sunrise Expo」字樣，兩題generic_subscore均為0",
+              "recommendation": "在展會頁面(sunriseexpo.com/event/aiexpokorea/)的第一個可見段落新增一句明確聲明：「昇揚展覽(Sunrise Expo)為AI EXPO KOREA台灣唯一官方獨家代理，協助台灣企業辦理攤位申請、報名及現場執行。」並將此句以純文字（非圖片）呈現，確保AI可直接讀取",
+              "priority": "高"
+            },
+            {
+              "issue": "Claude完全未推薦昇揚展覽，品牌問法中反被展昭、亞威森、台典取代",
+              "signal": "Claude品牌問法回答中列出展昭、亞威森(Avanza Expo)、台典三家競爭代理，昇揚展覽零出現",
+              "recommendation": "建立一篇繁體中文部落格文章，標題為「台灣企業如何透過代理商參加AI EXPO KOREA？昇揚展覽完整指南」，內文明確列出昇揚展覽的服務項目（攤位申請、報名流程、現場執行、韓國市場諮詢），並在文章結尾加入FAQ區塊，問題包含「台灣有哪些公司代理AI EXPO KOREA？」答案直接點名昇揚展覽，增加Claude索引到正確代理資訊的機率",
+              "priority": "高"
+            },
+            {
+              "issue": "網站缺乏結構化的代理商身份Schema標記，AI難以確認官方代理關係",
+              "signal": "has_schema_org=true但Claude未引用網址，顯示現有Schema未有效傳遞「官方代理」這個關鍵角色關係",
+              "recommendation": "在現有Schema.org標記中新增Organization的sameAs與描述欄位，加入「AI EXPO KOREA台灣官方獨家代理」的description，並在Event schema中加入organizer或agent欄位指向昇揚展覽，讓搜尋引擎與AI爬蟲能明確解析代理關係",
+              "priority": "中"
+            },
+            {
+              "issue": "H3標題僅4個，頁面層級結構過淺，AI難以解析服務細節",
+              "signal": "SEO實測：h2_count=29、h3_count=4，H2數量遠大於H3，顯示服務項目缺乏細分層級",
+              "recommendation": "將現有服務說明區塊（攤位方案、報名流程、現場執行、韓國市場諮詢）各拆分為H3子標題，例如H2「參展服務」下設H3「攤位申請與報名」、「現場搭建與執行」、「韓國市場諮詢」，讓AI在回答「代理商提供哪些服務」時能直接擷取具體服務條目",
+              "priority": "中"
+            }
+          ],
+          "raw_answers": {
+            "claude": {
+              "generic": {
+                "question": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "answer": "非常好！我已蒐集到足夠的資訊，以下為您整理目前亞洲地區 AI 產業值得參加的主要展覽：\n\n---\n\n# 🌏 亞洲 AI 產業重點展覽推薦\n\n---\n\n## 🇰🇷 韓國\n\n### 1. AI EXPO KOREA（國際人工智慧大展）\n- **地點**：首爾 COEX 會展中心 Hall A\n- **時間**：每年 5 月（例：2026 年為 5/6–5/8）\n\n\nAI EXPO KOREA 是韓國第一個、也是最大的 AI B2B 展覽，展示最新的 AI 技術與創新。\n活動提供網絡交流、投資諮詢與全球市場進入支援，並分享真實的 AI 商業應用案例。\n\n\n\n2026 年第九屆共有來自 18 個國家的 330 家企業與機構參與，設置 562 個展位，吸引了 48,678 名訪客與買家，確立了其韓國最大 AI 商業平台的地位。\n\n\n\n展覽涵蓋的主題包括：AI 優化處理器與晶片、深度學習 GPU 與 FPGA、邊緣運算裝置、AI 機器人與無人機、機器學習平台、NLP 軟體、電腦視覺工具等。\n\n\n---\n\n### 2. AI & Big Data Show\n- **地點**：首爾 COEX\n- **時間**：每年 6 月\n\n\nAI & Big Data Show 2026 於 6 月在首爾 COEX 舉行，以「AI 創新浪潮」為主題，並設有 TechCon 科技論壇、量子科技、智慧氣候科技、數位醫療等特色展區。\n\n\n---\n\n## 🇯🇵 日本\n\n### 3. AI EXPO TOKYO（NexTech Week Tokyo）\n- **地點**：東京 Big Sight / Makuhari Messe（千葉）\n- **時間**：春季（4 月）及秋季（11 月），一年兩屆\n\n\nNexTech Week Tokyo 由 RX Japan 主辦，旗下整合了五個同期展覽：AI EXPO TOKYO、區塊鏈博覽會、量子計算博覽會、AI 時代人才與組織改革博覽會，以及人形機器人博覽會。\n\n\n\nAI EXPO TOKYO 是日本最重要的 AI 貿易展，展示生成式 AI、區塊鏈、量子計算與自動化等前沿解決方案。\n2026 年春季展吸引了超過 33,000 名訪客。\n\n\n---\n\n## 🇹🇼 台灣\n\n### 4. COMPUTEX TAIPEI\n- **地點**：台北南港展覽館\n- **時間**：每年 6 月初\n\n\nCOMPUTEX 是全球 AIoT 與新創領域的頂尖展覽之一，2026 年以「AI Together」為主題，聚焦 AI 運算、機器人與智慧移動、以及下一代技術，匯聚全球科技領袖、新創企業與產業專家。\n\n\n\n2026 年共吸引來自 152 個國家與地區的 111,312 名買家與訪客，涵蓋日本、美國、韓國、中國、新加坡、越南、印度等地。\n\n\n---\n\n## 🇸🇬 新加坡\n\n### 5. GITEX Asia（AI Everything Singapore）",
+                "usedSearch": true,
+                "citations": [
+                  "https://www.coexcenter.com/events/ai-expo-korea-2026/",
+                  "https://www.coexcenter.com/events/ai-expo-korea-2026/",
+                  "https://aiexpo.co.kr/en/ai-expo-english/",
+                  "https://www.tradeindia.com/tradeshows/144511/ai-expo-korea-2026.html",
+                  "https://en.smarttechkorea.com/aibigdatashow",
+                  "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+                  "https://jasumo.com/listing/artificial-intelligence-expo-tokyo/",
+                  "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+                  "https://www.computextaipei.com.tw/en/news/A9462967BB2D7702/info.html",
+                  "https://www.prnewswire.com/news-releases/computex-2026-concludes-successfully-as-global-innovation-shapes-a-new-ai-ecosystem-302792536.html"
+                ]
+              },
+              "branded": {
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "answer": "根據搜尋結果，以下為您整理出台灣企業參加 **AI EXPO KOREA** 可以善用的官方管道、代理顧問公司，以及重要補助資源，供您參考：\n\n---\n\n## 🇹🇼 台灣參加 AI EXPO KOREA 的建議管道\n\n### 一、最重要的官方窗口：首爾台灣貿易中心（TAITRA 韓國據點）\n\n\nAI EXPO KOREA 2026 的台灣館，正是由**首爾台灣貿易中心**協助組織，集結 16 家台灣企業共同參展。\n首爾台灣貿易中心是**外貿協會（TAITRA）**在韓國的直屬辦公室，是台灣廠商進軍韓國展覽最直接的官方協助窗口，可提供：\n\n- **組團參展**（申請加入台灣館）\n- 當地市場情報與買主配對\n- 展前展後商務支援\n\n📌 **建議第一步：直接聯繫 TAITRA 首爾貿易中心**\n官網：[www.taitra.org.tw](https://www.taitra.org.tw)（可查詢首爾辦事處聯絡資訊）\n\n---\n\n### 二、台灣民間展覽代理公司（可協助報名、攤位申請與現場執行）\n\n以下為台灣具代表性的國際展覽代理服務公司：\n\n#### 1. 🏢 展昭國際企業股份有限公司\n\n展昭國際企業群成立於 1985 年，是台灣第一家大型民間專業展覽公司，代理世界各國知名展會徵展業務，展覽行蹤已遍及 42 個國家 70 個城市，代理全世界逾 1,500 場各類展覽。\n\n- 官網：[mice.meettaiwan.com](https://mice.meettaiwan.com)（可搜尋展昭）\n\n#### 2. 🏢 亞威森國際展覽（Avanza Expo）\n\n亞威森協助台灣企業外銷逾 20 年，代理體育、機車、農業、畜牧、健康醫療等國際 B2B 展覽，除了展覽攤位銷售，也提供參展團務、展位搭建以及展品運輸相關周邊服務。\n\n- 官網：[www.avanzaexpo.com.tw](https://www.avanzaexpo.com.tw)\n\n#### 3. 🏢 台典有限公司（Tai-Den）\n\n台典有限公司專業代理世界各地之展覽，服務台灣地區廠商拓展更大業務市場。\n\n- 官網：[tai-den.com](https://tai-den.com)\n\n---\n\n### 三、政府補助資源：經濟部國際貿易署海外參展補助\n\n這是台灣廠商出國參展一定要善用的資源！\n\n\n貿易署補助企業參加海外實體國際展覽，於 10–11 月受理次年上半年展覽申請、4–5 月受理當年下半年展覽申請。實體展覽每展 1 攤位（每攤位 9 平方公尺）補助上限新台幣 **12 萬元**，每增加 1 攤位增加補助 1 萬元，每展補助上限為 **16 萬元**。\n\n\n\n貿易署提供公司及商號赴海外國際展覽的補助，展後一個月內需完成核銷程序，全程採線上申請辦理。\n\n\n📌 **補助申請入口：** [tpsp.trade.gov.tw",
+                "usedSearch": true,
+                "citations": [
+                  "https://www.cna.com.tw/news/ait/202605060314.aspx",
+                  "https://mice.meettaiwan.com/meettaiwan/home/zh-tw/mt-00051/supplier/S201200429/info.html",
+                  "https://www.avanzaexpo.com.tw/",
+                  "https://www.avanzaexpo.com.tw/",
+                  "https://tai-den.com/",
+                  "https://tai-den.com/",
+                  "https://www.trade.gov.tw/Pages/Detail.aspx?nodeID=4703&pid=786027",
+                  "https://apply.trade.gov.tw/espo/"
+                ]
+              }
+            },
+            "chatgpt": {
+              "generic": {
+                "question": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "answer": "很好 — 我把「AI / 相關科技領域、亞洲與國際上較值得參加的展會」整理成一份可操作的清單（包含典型時間/地點、為何值得去、適合哪種目標/公司），並標註官方來源以便你再確認報名與攤位資訊。若要我把清單依你公司目標（拓客／找代理／募資／招人才／測市場）做優先排序或估算預算、攤位大小、參展時間表，我可以接著幫你細化。\n\n推薦展會（重點摘要）：\n\n- AI EXPO KOREA（韓國，首爾 COEX，通常五月/每年舉辦）——韓國本地與周邊企業、SI/솔루션買家多，B2B 採購導向強，適合想進入韓國市場或擴大企業客戶的廠商。([aiexpo.co.kr](https://aiexpo.co.kr/en/?utm_source=openai))\n\n- World Artificial Intelligence Conference (WAIC，上海)——中國大型 AI 高峰與產業展示，政策、產業合作、製造/智慧硬體與AI整合案例豐富，適合要打入中國市場、找大型合作夥伴或示範機器人/終端產品的公司。2026 年例子為 7 月中下旬舉行。([english.shanghai.gov.cn](https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai))\n\n- The AI Summit Singapore / Asia Tech x Singapore（新加坡，Singapore EXPO，通常 5 月）——APAC 區域型戰略、企業級採用與治理議題為主，適合想接觸東南亞企業客戶、SaaS/企業AI解決方案或尋找區域合作夥伴的公司。([asiatechxsg.com](https://asiatechxsg.com/aisummitsingapore/?utm_source=openai))\n\n- GITEX / GITEX AI Asia（杜拜 / 新加坡等）——國際企業與投資生態，GITEX Global 在杜拜影響力大，GITEX Asia 在新加坡也聚集區域買家；適合有國際化產品、想要接觸中東或跨區投資鏈的公司。([gitex.com](https://www.gitex.com/?utm_source=openai))\n\n- China Hi‑Tech Fair (CHTF，深圳，高交會，例年 11 月下旬)——中國南方（深圳/珠三角）硬體、製造與供應鏈展示重鎮，對硬體整合商、AIoT、機器視覺、晶片及製造業解決方案特別有價值。([hi-tech-fair.com.cn](https://www.hi-tech-fair.com.cn/?utm_source=openai))\n\n- China International Import Expo (CIIE，上海，通常每年 11 月)——國際採購與國家館規模大，若你的產品有跨境貿易或需要官方/大買家曝光可列入考慮（CIIE 常含智能產業/資訊技術展區）。([ciie.org](https://www.ciie.org/zbh/en/?utm_source=openai))\n\n- CEATEC（日本，Makuhari Messe，通常 10 月）——日本市場與製造/工業應用導向，適合硬體、機器人、工業AI 與系統整合。([ceatec.com](https://www.ceatec.com/en/?utm_source=openai))\n\n- Web Summit（歐洲／里斯本，11 月）——歐洲最大綜合科技會議，適合要找國際投資人、媒體曝光或大規模 B2B/B2C 品牌曝光的公司。([websummit.com](https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai))\n\n- MWC Barcelona（Mobile World Congress，巴塞隆納，通常 3 月）——電信、邊緣計算、5G、IoT 生態系與電信業客戶密集，適合通訊/邊緣AI/嵌入式方案廠商。MWC 2027 安排在 2027/03/01–04。([mwcbarcelona.bnetwork.com](https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai))\n\n- CES（拉斯維加斯，美國，1 月）——全球消費性電子、大量媒體與分銷商聚集，若你的產品偏消費端或想要美國曝光、媒體示範，可考慮。([en.wikipedia.org](https://en.wikipedia.org/wiki/Consumer_Electronics_Show?utm_source=openai))\n\n參展選擇上的快速分流建議（依目標）：\n- 想快速在韓國/為韓國客戶做商機開發：AI EXPO KOREA + AI Summit Seoul（或當地 vertical 展）。([aiexpo.co.kr](https://aiexpo.co.kr/en/?utm_source=openai))\n- 目標進入中國市場（企業+製造）：WAIC（品牌、治理、AI 平台）＋ CHTF（硬體/供應鏈）。([english.shanghai.gov.cn](https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai))\n- 要覆蓋整個 APAC / 尋求投資或企業採購：The AI Summit Singapore、GITEX Asia / GITEX Global。([asiatechxsg.com](https://asiatechxsg.com/aisummitsingapore/?utm_source=openai))\n- 要國際媒體/投資人曝光、招募或跨區業務：Web Summit、CES（視產品屬性）。([websummit.com](https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai))\n- 針對電信/邊緣/5G：MWC Barcelona。([mwcbarcelona.bnetwork.com](https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai))\n\n實務建議（參展前兩到六個月要做的事）\n- 明確目標與 KPI（例如：現場名單數、商機數、媒合會次數、媒體曝光次數）。  \n- 決定 “展位類型”（小型標準攤位 vs. 展示型/有演示舞台 vs. 共同國家館）—國家館通常成本較低但空間與曝光受限。  \n- 提前申請（熱門展會常提早額滿）、準備當地法規與物流（中文/韓文資材、電力、演示用網路）。  \n- 搭配本地 PR/商務代表或貿促機構（經常能拿到團體報名或買家邀請支援）。  \n\n下一步我可以幫你做的事（你選一項或多項）：  \n1) 依你公司目標（例如：B2B、硬體、SaaS）把上述展會做「優先排序」與給出推估成本範圍（攤位、運輸、旅費、人力）。  \n2) 幫你查某一場展的「最新攤位申請、報名截止與參展手冊」並列出重要截止日期（我會直接抓官方頁面）。  \n3) 幫你擬參展準備清單（行前 90/60/30/7 天要做的事）與現場 Lead 管理表單範本。  \n\n想先從哪個方向深入？例如：請告訴我你們的主要目標市場（韓國 / 中國 / 東南亞 / 歐洲 / 美國）、產品類型（SaaS / 硬體 / 方案整合）、以及期望參展的時間範圍（例如「2026 下半年」或「2027 年上半年」）。我會以此幫你優先排展會並拉出具體時間表與必要連結。",
+                "usedSearch": true,
+                "citations": [
+                  "https://aiexpo.co.kr/en/?utm_source=openai",
+                  "https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai",
+                  "https://asiatechxsg.com/aisummitsingapore/?utm_source=openai",
+                  "https://www.gitex.com/?utm_source=openai",
+                  "https://www.hi-tech-fair.com.cn/?utm_source=openai",
+                  "https://www.ciie.org/zbh/en/?utm_source=openai",
+                  "https://www.ceatec.com/en/?utm_source=openai",
+                  "https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai",
+                  "https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai",
+                  "https://en.wikipedia.org/wiki/Consumer_Electronics_Show?utm_source=openai",
+                  "https://aiexpo.co.kr/en/?utm_source=openai",
+                  "https://english.shanghai.gov.cn/en-ParticipateExplore/20260716/e9f440efa31f4b81987f9c65ff4760df.html?utm_source=openai",
+                  "https://asiatechxsg.com/aisummitsingapore/?utm_source=openai",
+                  "https://websummit.com/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai",
+                  "https://mwcbarcelona.bnetwork.com/en/Home/AboutTheEvent?utm_source=openai"
+                ]
+              },
+              "branded": {
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "answer": "有的 — 台灣有數家常替廠商代辦海外展（含韓國）並提供從攤位申請、報名、裝潢到現場執行的一條龍服務。下面先列出幾家值得優先接洽的單位（含政府/官方通路與民間專業代理），並附上簡短說明與可參考來源；最後再給您建議的下一步與聯絡範本，方便直接發信詢價。\n\n推薦（可優先聯絡）\n- 昇揚展覽 / Sunrise Expo — 在部分資料上標註為 AI EXPO KOREA 台灣官方代理，能協助參展報名、攤位申請與參展規劃（適合想透過台灣代理直接報名者）。([sunriseexpo.com](https://sunriseexpo.com/event/aiexpokorea/?utm_source=openai))  \n- 外貿協會 / Taiwantrade（TAITRA）— 台灣官方貿易推廣通路，會在其展覽/活動頁整理展會與台灣團資訊，若要參加「台灣館」或申請政府補助，常由外貿協會或台灣經貿網協助。([events.taiwantrade.com](https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai))  \n- 英亞展覽服務（EASC）— 長期從事國際展覽與海外市場開發、替台廠辦團與辦展推廣（適合需要海外市場開發與 Buyer/媒體安排者）。([easc.com.tw](https://www.easc.com.tw/m/404-1829-7859.php?Lang=zh-tw&utm_source=openai))  \n- 亞廣國際展覽集團（ACE / 亞廣）— 台灣大型專業展務公司，具展場設計、公關行銷與國際執行合作網絡，能提供整合式服務（攤位設計＋現場執行）。([aceforum.com.tw](https://aceforum.com.tw/m/412-1179-18188.php?Lang=zh-tw&utm_source=openai))  \n- 同觀展覽服務（VESC）— 標榜協助企業從報名到海外參展的整套服務，對於資訊與溝通成本高的海外展能提供協助。([vesc.com.tw](https://www.vesc.com.tw/services/?utm_source=openai))\n\n其他可接洽類型（視需求選擇）\n- 本地裝潢/搭建公司（例如：開翔國際 / Golden Seal、雨耕展覽、冠寶等）— 負責攤位設計施工與現場搭建、設備租借與櫃檯人員。([goldenseal.com.tw](https://www.goldenseal.com.tw/tw/service?utm_source=openai))  \n- 在地物流/報關與展品運輸業者 — 處理海運/空運、報關與展品保險（一般代理/展務公司會推薦合作廠商）。  \n- 當地公關或媒體/買主媒合團隊 — 若希望在韓國做新品發表或媒合買主，可請代理協助安排韓國當地媒體或買主會。  \n\n建議的下一步（快速清單）\n1. 確認展期與預定攤位類型（例如：展期/展館、角位或標準攤位、攤位大小）。  \n2. 決定要「由主辦單位直接報名」還是「透過台灣代理（或台灣館）報名」——代理常可協助爭取團位、整合形象館並代辦補助。([events.taiwantrade.com](https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai))  \n3. 準備需求文件給代理（公司簡介、產品重點、預算、是否需攤位設計、是否要在地業務/通譯人員、是否需貨運/報關服務）。  \n4. 同時向 2–3 家代理詢價與可提供的服務項目（比較費用、已執行過的韓國展案例、包含哪些 deliverables）。  \n5. 若需要，我可以幫您把詢問代理的 Email 或需求表格草稿寫好，或代為比較幾家報價要點。\n\n聯絡代理／主辦時可用的簡短 Email 範本（中文）\n- 主旨：詢價：貴公司協助參加 AI EXPO KOREA（攤位 / 代辦 / 現場執行）  \n- 內文要點（請附）：\n  1. 公司簡介（2–3句）＋負責人與聯絡方式  \n  2. 目標：參展目的（找代理/通路/買主/測試市場）  \n  3. 展期與欲申請展位大小（例：3m x 3m 或 6m x 3m）  \n  4. 需委託項目（攤位申請、設計搭建、運輸報關、現場人員、媒合買主、行銷）  \n  5. 預算範圍（若有）與回覆期限  \n  6. 請對方提供服務項目清單、報價範例、過往韓國展執行案例與聯絡人推薦信或照片。  \n\n要我幫忙的地方\n- 我可以：  \n  - 依您預計的展期/攤位大小，幫您把上述範本改成完整 Email 內容（中文或英/韓文），或直接整理「詢價比較表格」給您。  \n  - 若您願意，告訴我預計展期（或您已鎖定的 AI EXPO KOREA 年份/場次）與預算／攤位大小，我就能幫您起草給 3 家代理的詢價郵件，或幫您比較他們網站上的服務內容與報價要點。\n\n您想先指定哪一兩家公司我幫您擬信聯絡？或先把您預計的參展時程、預算與攤位大小告訴我，我就幫您把詢價信稿做好。",
+                "usedSearch": true,
+                "citations": [
+                  "https://sunriseexpo.com/event/aiexpokorea/?utm_source=openai",
+                  "https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai",
+                  "https://www.easc.com.tw/m/404-1829-7859.php?Lang=zh-tw&utm_source=openai",
+                  "https://aceforum.com.tw/m/412-1179-18188.php?Lang=zh-tw&utm_source=openai",
+                  "https://www.vesc.com.tw/services/?utm_source=openai",
+                  "https://www.goldenseal.com.tw/tw/service?utm_source=openai",
+                  "https://events.taiwantrade.com/AIEXPOKR2026/CMS/download?utm_source=openai"
+                ]
+              }
+            }
+          }
         }
       ]
     }
