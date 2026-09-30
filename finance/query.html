@@ -174,7 +174,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
       <div class="header-title">展覽查詢工具</div>
     </div>
     <div class="header-right">
-      <div class="updated">資料截至 2026.08.25</div>
+      <div class="updated">資料截至 2026.09.30</div>
       <a class="nav-link" href="https://camille8960.github.io/finance/">← 財務儀表板</a>
     </div>
   </div>
@@ -195,14 +195,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
       </div>
       <div class="cash-box">
         <div class="cash-label">USD 美金帳戶</div>
-        <div class="cash-val">US$16,973.03</div>
-        <div class="cash-sub">≈ NT$534,650　（匯率 31.5）</div>
-        <div class="cash-note">可動用 US$1,886.03（已扣 Cybersec Asia 2027 已收未匯大會的 US$15,087）</div>
+        <div class="cash-val">US$17,662.91</div>
+        <div class="cash-sub">≈ NT$556,382　（匯率 31.5）</div>
+        <div class="cash-note">可動用 US$4,690.91（已扣 Cybersec Asia 2027 已收須匯大會約 US$12,972）</div>
       </div>
       <div class="cash-box highlight">
         <div class="cash-label">可動用資金合計</div>
-        <div class="cash-val" style="color:var(--gold-deep)">NT$59,658</div>
-        <div class="cash-sub">銀行實際餘額 NT$534,898，扣除已收但尚未匯給大會的款項後可安全動用</div>
+        <div class="cash-val" style="color:var(--gold-deep)">NT$148,012</div>
+        <div class="cash-sub">銀行實際餘額 NT$556,630，扣除已收但尚未匯給大會的款項後可安全動用</div>
       </div>
     </div>
 
@@ -225,7 +225,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   </div>
 
   <div class="footer-note" style="margin-top:20px">
-    <strong>資料來源：</strong>昇揚展覽財務儀表板（claude/dashboard.html）2026.08.25 版本　·　匯率基準 USD 1 = NT$31.5<br>
+    <strong>資料來源：</strong>昇揚展覽財務儀表板（claude/dashboard.html）2026.09.30 版本　·　匯率基準 USD 1 = NT$31.5<br>
     <strong>更新方式：</strong>這個工具跟財務儀表板用同一批資料，儀表板更新時我會一併回來更新這裡。
   </div>
 </div>
@@ -274,33 +274,38 @@ const SHOWS = [
     boothmap:null, boothmapNote:'①台灣館 12 個展位由 TAITRA 統一報名，個別公司名單尚未記錄；②獨立報名 2 個展位皆為華誠（Fortune Electric）承租，不涉及其他展商，只是還沒有明確展位編號。'
   },
   {
-    id:'cyber2027', name:'Cybersec Asia 2027', year:2027, location:'泰國曼谷 QSNCC', sqm:54, booths:6,
-    dates:'2027/01/20–21', status:'live', revenue:30174.00, revenueNote:'合約總額，已收 US$15,087（第一期）', cost:null, profit:null, margin:null,
+    id:'cyber2027', name:'Cybersec Asia 2027', year:2027, location:'泰國曼谷 QSNCC', sqm:63, booths:7,
+    dates:'2027/01/20–21', status:'live', revenue:35203.00, revenueNote:'合約總額，已收 US$15,087（第一期）；HEARTBOT US$5,029 預計 10 月底一次付清；Openfind 口頭續約意願，未簽約不計', cost:30268, profit:4935, margin:14.0,
+    profitNote:'成本與利潤為預估：佣金＝扣除 7% VAT 後未稅價 US$4,700 × 15% ＝US$705/展位 × 7 ＝US$4,935；大會款預估 US$30,268（含 VAT 轉付）。尚未收到大會 Invoice，收到後以實際帳單重算。',
     exhibitors:[
       {name:'Skycloud Computing Co., Ltd.', canon:'Skycloud', sqm:9, booth:'C07', amount:5029, collected:2514.50, status:'50%'},
       {name:'CHT Security Co., Ltd.', canon:'CHT Security', sqm:9, booth:'C11', amount:5029, collected:2514.50, status:'50%'},
       {name:'Clientron Corp.', canon:'Clientron', sqm:9, booth:'C05', amount:5029, collected:2514.50, status:'50%'},
       {name:'N-Partner Technologies Co., Ltd.', canon:'N-Partner', sqm:9, booth:'C12', amount:5029, collected:2514.50, status:'50%'},
       {name:'Team T5 Inc.', canon:'Team T5', sqm:9, booth:'C09', amount:5029, collected:2514.50, status:'50%'},
-      {name:'UPAS Technology Corp', canon:'UPAS', sqm:9, booth:'C08', amount:5029, collected:2514.50, status:'50%'}
+      {name:'UPAS Technology Corp', canon:'UPAS', sqm:9, booth:'C08', amount:5029, collected:2514.50, status:'50%'},
+      {name:'HEARTBOT AI', canon:'Heartbot', sqm:9, booth:'C06', amount:5029, collected:0, status:'待收'}
     ],
     boothmap:[
       {booth:'C05', exhibitor:'Clientron Corp.'},
+      {booth:'C06', exhibitor:'HEARTBOT AI'},
       {booth:'C07', exhibitor:'Skycloud Computing Co., Ltd.'},
       {booth:'C08', exhibitor:'UPAS Technology Corp'},
       {booth:'C09', exhibitor:'Team T5 Inc.'},
+      {booth:'C10', exhibitor:'（空位，尚未售出）'},
       {booth:'C11', exhibitor:'CHT Security Co., Ltd.'},
       {booth:'C12', exhibitor:'N-Partner Technologies Co., Ltd.'}
     ]
   },
   {
-    id:'aikorea2027', name:'AI Expo Korea 2027', year:2027, location:'韓國首爾 COEX A Hall', sqm:12, booths:1,
-    dates:'2027/04/14–16', status:'live', revenue:2860, revenueNote:'已收第一期（合約總額 US$5,720）', cost:1768, profit:1092, margin:38.2,
-    profitNote:'僅第一期已實現利潤，第二期尚未到期',
+    id:'aikorea2027', name:'AI Expo Korea 2027', year:2027, location:'韓國首爾 COEX A Hall', sqm:21, booths:2,
+    dates:'2027/04/14–16', status:'live', revenue:4840, revenueNote:'已收 Fufront、新漢兩家第一期（合約總額 US$9,680）', cost:2931.50, profit:1908.50, margin:39.4,
+    profitNote:'兩家第一期已實現利潤：已收 US$4,840 − 大會第一期已付 US$2,931.50（Fufront 1,716＋新漢 1,215.50，已扣 35% 佣金）＝US$1,908.50。第二期（收款 US$4,840、大會款 US$2,931.50）尚未到期；全案預估利潤 US$3,817。銀行手續費（Fufront US$32、新漢 US$51.85）未計入。',
     exhibitors:[
-      {name:'Fufront AI Co., Ltd.', canon:'Fufront AI', sqm:12, amount:5720, collected:2860, status:'50%'}
+      {name:'Fufront AI Co., Ltd.', canon:'Fufront AI', sqm:12, amount:5720, collected:2860, status:'50%'},
+      {name:'NEXCOM International Co., Ltd.（新漢）', canon:'NEXCOM', sqm:9, amount:3960, collected:1980, status:'50%'}
     ],
-    boothmap:null, boothmapNote:'只有 1 個展位，承租商為 Fufront AI Co., Ltd.，尚未記錄實際展位編號。'
+    boothmap:null, boothmapNote:'共 2 個展位：Fufront AI（12sqm）與新漢 NEXCOM（9sqm），尚未記錄實際展位編號。'
   }
 ];
 
