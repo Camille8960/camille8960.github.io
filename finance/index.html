@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>昇揚展覽 · 財務儀表板 2026</title>
+<title>昇揚展覽 · 財務儀表板</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -45,6 +45,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
 .nav-link{font-family:var(--mono);font-size:11px;color:var(--gold-deep);background:var(--gold-light);border:1px solid var(--gold-border);padding:6px 13px;border-radius:20px;text-decoration:none;font-weight:500;transition:background .15s,border-color .15s;white-space:nowrap}
 .nav-link:hover{background:var(--gold-border);border-color:var(--gold-deep)}
+
+/* Year toggle */
+.year-toggle{display:flex;gap:8px;margin-bottom:18px}
+.yr-btn{font-family:var(--sans);font-size:13px;font-weight:500;padding:8px 18px;border-radius:20px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.yr-btn.active{background:var(--gold-light);color:var(--gold-deep);border-color:var(--gold-border)}
 
 /* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
@@ -153,48 +158,78 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 <div class="header">
   <div>
     <div class="logo">昇揚展覽有限公司</div>
-    <div class="header-title">財務儀表板 <strong>2026</strong></div>
+    <div class="header-title">財務儀表板 <strong id="yr-title">2027</strong></div>
   </div>
   <div class="header-right">
-    <div class="updated">2026.08.26</div>
+    <div class="updated">2026.09.30</div>
     <a class="nav-link" href="query.html">展覽查詢工具 →</a>
   </div>
 </div>
 
-<div class="kpi-row">
+<div class="year-toggle">
+  <button class="yr-btn active" id="yr-btn-2027" onclick="setYear(2027)">2027 進行中</button>
+  <button class="yr-btn" id="yr-btn-2026" onclick="setYear(2026)">2026 已結案</button>
+</div>
+
+<!-- 2027 KPI -->
+<div class="kpi-row" id="kpi-2027">
   <div class="kpi highlight">
-    <div class="kpi-label">年度總利潤（已實現部分）</div>
-    <div class="kpi-val gold">NT$1,838,807</div>
-    <div class="kpi-sub">利潤率 27.8%　·　總收入 NT$6,612,002</div>
+    <div class="kpi-label">年度總利潤（含預估）</div>
+    <div class="kpi-val gold">NT$275,688</div>
+    <div class="kpi-sub">利潤率 19.5%（AI Expo Korea 39.4%＋Cybersec Asia 預估 14.0%）　·　總收入（合約）NT$1,413,815</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待收款項</div>
-    <div class="kpi-val amber">NT$565,331</div>
-    <div class="kpi-sub">Cybersec Asia 2027 第二期 US$15,087（10/31）· AI Expo Korea 2027 第二期 US$2,860（2027/01/14）</div>
+    <div class="kpi-val amber">NT$786,114</div>
+    <div class="kpi-sub">Cybersec Asia 2027 US$20,116（第二期 15,087＋HEARTBOT 5,029，10/31）· AI Expo Korea 2027 第二期 US$4,840（Fufront 2,860＋新漢 1,980，2027/01/14）</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">待付帳款</div>
-    <div class="kpi-val gold">NT$0</div>
-    <div class="kpi-sub">四場 2026 展覽已全數結清；AI Expo Korea 2027 第一期大會款已付；其餘尚未收到大會費用單</div>
+    <div class="kpi-val amber">NT$92,342</div>
+    <div class="kpi-sub">AI Expo Korea 2027 大會第二期 US$2,931.50（Fufront 1,716＋新漢 1,215.50，已扣佣金，2027/02/26）；Cybersec Asia 2027 尚未收到大會費用單（預估 US$30,268，未計入）</div>
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+<!-- 2026 KPI（已結案） -->
+<div class="kpi-row" id="kpi-2026" style="display:none">
+  <div class="kpi highlight">
+    <div class="kpi-label">年度總利潤（已結案）</div>
+    <div class="kpi-val gold">NT$1,804,421</div>
+    <div class="kpi-sub">利潤率 27.7%　·　總收入 NT$6,521,912（4 場展覽）</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">待收款項</div>
+    <div class="kpi-val">NT$0</div>
+    <div class="kpi-sub">2026 四場已全數收齊</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">待付帳款</div>
+    <div class="kpi-val">NT$0</div>
+    <div class="kpi-sub">2026 四場已全數結清（AI Expo Taiwan 支出明細加總與合計不一致，待核對）</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px">
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
     <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">NTD 台幣帳戶</div>
     <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">NT$248</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">國內帳戶餘額</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">國內帳戶餘額（2026/08/26 資料，未更新）</div>
   </div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
     <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">USD 美金帳戶</div>
-    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">US$16,973.03</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">≈ NT$534,650　（匯率 31.5）</div>
-    <div style="font-size:11px;color:var(--amber);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border2)">可動用 US$1,886.03（已扣 Cybersec Asia 2027 已收未匯大會的 US$15,087）</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">US$17,662.91</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">≈ NT$556,382　（匯率 31.5）· 2026/09/30 銀行餘額</div>
+    <div style="font-size:11px;color:var(--amber);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border2)">可動用 US$4,690.91（已扣 Cybersec Asia 2027 已收須匯大會約 US$12,972；已收 US$15,087 中佣金 US$2,115 屬我方）</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+    <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">SGD 新加坡幣帳戶</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text)">S$1,591.83</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">≈ NT$36,612　（匯率 23）· 2026/09/29 銀行餘額</div>
   </div>
   <div style="background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;padding:16px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.04);background:linear-gradient(135deg,#fffdf7 0%,#fdf6e3 100%)">
     <div style="font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:500">可動用資金合計</div>
-    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--gold-deep)">NT$59,658</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">銀行實際餘額 NT$534,898，扣除已收但尚未匯給大會的款項後可安全動用</div>
+    <div style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--gold-deep)">NT$184,624</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">銀行實際餘額約 NT$593,242（NTD 248＋USD＋SGD 折台幣），扣除已收但尚未匯給大會的款項後可安全動用</div>
   </div>
 </div>
 
@@ -202,34 +237,35 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 <div class="expo-list">
 
   <!-- Cybersec Asia 2027 -->
-  <div class="expo-card warn" id="card-cyber27">
+  <div class="expo-card warn" id="card-cyber27" data-year="2027">
     <div class="expo-summary" onclick="toggle('card-cyber27')">
       <div class="status-dot s-amber"></div>
       <div>
         <div class="expo-name">Cybersec Asia 2027</div>
-        <div class="expo-meta">54 sqm · 6 展位（招商中）· 泰國曼谷 QSNCC · 2027/01/20–21</div>
+        <div class="expo-meta">63 sqm · 7 展位（招商中）· 泰國曼谷 QSNCC · 2027/01/20–21</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val hi">US$15,087</div>
-        <div class="profit-pct">已收訂金（未計大會成本）</div>
+        <div class="profit-val lo">US$4,935</div>
+        <div class="profit-pct">預估利潤 14.0%（佣金 15%）· 已收 US$15,087</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="bar-row">
       <div class="bar-lbl">合約</div>
       <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$30,174</div>
+      <div class="bar-num">US$35,203</div>
       <div class="bar-lbl">已收</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:50%"></div></div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:42.9%"></div></div>
       <div class="bar-num" style="color:var(--green)">US$15,087</div>
       <div class="bar-lbl">待收</div>
-      <div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--amber);opacity:.6"></div></div>
-      <div class="bar-num" style="color:var(--amber)">US$15,087</div>
+      <div class="bar-track"><div class="bar-fill" style="width:57.1%;background:var(--amber);opacity:.6"></div></div>
+      <div class="bar-num" style="color:var(--amber)">US$20,116</div>
     </div>
     <div class="flag-row">
-      <span class="flag f-ok">已收 6/6 家第一期訂金</span>
-      <span class="flag f-warn">第二期待收 US$15,087（2026/10/31 到期）</span>
-      <span class="flag f-warn">大會成本尚未收到帳單</span>
+      <span class="flag f-ok">已收 6/7 家第一期訂金</span>
+      <span class="flag f-warn">待收 US$20,116：6 家第二期 15,087＋HEARTBOT 5,029（皆 2026/10/31）</span>
+      <span class="flag f-warn">HEARTBOT 第一期已逾 9/15，客戶告知 10 月底一次付清</span>
+      <span class="flag f-warn">大會帳單未到（預估成本 US$30,268）</span>
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
@@ -248,27 +284,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
             <tr><td>N-Partner Technologies Co., Ltd.</td><td class="mono">C12</td><td class="mono" style="color:var(--muted)">TH260515</td><td class="mono">US$5,029</td><td class="mono">US$2,514.50</td><td class="mono" style="color:var(--amber)">US$2,514.50</td><td><span class="pay-badge pay-part">50%</span></td></tr>
             <tr><td>Team T5 Inc.</td><td class="mono">C09</td><td class="mono" style="color:var(--muted)">TH260618</td><td class="mono">US$5,029</td><td class="mono">US$2,514.50</td><td class="mono" style="color:var(--amber)">US$2,514.50</td><td><span class="pay-badge pay-part">50%</span></td></tr>
             <tr><td>UPAS Technology Corp</td><td class="mono">C08</td><td class="mono" style="color:var(--muted)">TH260618</td><td class="mono">US$5,029</td><td class="mono">US$2,514.50</td><td class="mono" style="color:var(--amber)">US$2,514.50</td><td><span class="pay-badge pay-part">50%</span></td></tr>
-            <tr class="cost-total"><td>合計（6 家）</td><td></td><td></td><td class="mono">US$30,174</td><td class="mono">US$15,087</td><td class="mono">US$15,087</td><td></td></tr>
+            <tr><td>HEARTBOT AI</td><td class="mono">C06</td><td class="mono" style="color:var(--muted)">TH260901</td><td class="mono">US$5,029</td><td class="mono">US$0</td><td class="mono" style="color:var(--amber)">US$5,029</td><td><span class="pay-badge pay-part">10月底一次付</span></td></tr>
+            <tr class="cost-total"><td>合計（7 家）</td><td></td><td></td><td class="mono">US$35,203</td><td class="mono">US$15,087</td><td class="mono">US$20,116</td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">Bronze Package 9sqm/展位，每展位 US$4,700 + VAT 7%＝US$5,029。招商尚未截止，後續可能新增展商。</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Bronze Package 9sqm/展位，每展位 US$4,700 + VAT 7%＝US$5,029。招商尚未截止，後續可能新增展商。HEARTBOT invoice（TH260901）原第一期 2026/9/15 到期，客戶告知 10 月底一次付清 100%；invoice 上展位誤植為 C09，依主辦方平面圖實為 C06。Openfind（2026 年參展商）口頭表示明年續約，尚未簽回報名表、未開 invoice，不計入金額。</div>
       </div>
       <div class="tab-content" id="cyber27-costs">
-        <div style="padding:14px 16px;background:var(--surface2);border:1px dashed var(--border2);border-radius:8px;font-size:12px;color:var(--muted);text-align:center">
-          尚未收到大會（主辦方）場地費 Invoice。收到後會自動計入支出，並重新計算實際利潤。
-        </div>
+        <table class="cost-table">
+          <thead><tr><th>項目</th><th>收款（含 VAT 7%）</th><th>未稅</th><th>佣金 15%</th><th>應付大會（預估）</th><th>狀態</th></tr></thead>
+          <tbody>
+            <tr><td>每展位（9sqm Bronze）</td><td class="mono">US$5,029</td><td class="mono">US$4,700</td><td class="mono" style="background:var(--gold-light)">US$705</td><td class="mono">US$4,324</td><td><span class="pay-badge pay-none">未開單</span></td></tr>
+            <tr class="cost-total"><td>合計（7 展位）</td><td class="mono">US$35,203</td><td class="mono">US$32,900</td><td class="mono">US$4,935</td><td class="mono">US$30,268</td><td></td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">佣金＝扣除 7% VAT 後的未稅價 × 15%；VAT 假設隨大會款轉付。以上為預估，尚未收到大會場地費 Invoice，收到後改以實際帳單重算。已收第一期 US$15,087 中，我方佣金 US$2,115，須匯大會約 US$12,972。</div>
       </div>
       <div class="tab-content" id="cyber27-summary">
         <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">合約總額</div><div class="sbox-val" style="color:var(--blue)">US$30,174</div></div>
+          <div class="sbox"><div class="sbox-label">合約總額</div><div class="sbox-val" style="color:var(--blue)">US$35,203</div></div>
           <div class="sbox"><div class="sbox-label">已收（第一期）</div><div class="sbox-val" style="color:var(--green)">US$15,087</div></div>
-          <div class="sbox"><div class="sbox-label">總支出</div><div class="sbox-val" style="color:var(--muted)">—</div></div>
-          <div class="sbox"><div class="sbox-label">毛利（未扣大會成本）</div><div class="sbox-val" style="color:var(--amber)">US$15,087</div></div>
-          <div class="sbox"><div class="sbox-label">待收（第二期）</div><div class="sbox-val" style="color:var(--red)">US$15,087</div></div>
-          <div class="sbox"><div class="sbox-label">待付</div><div class="sbox-val" style="color:var(--muted)">US$0</div></div>
+          <div class="sbox"><div class="sbox-label">預估總支出</div><div class="sbox-val" style="color:var(--red)">US$30,268</div></div>
+          <div class="sbox"><div class="sbox-label">預估利潤（15% 佣金）</div><div class="sbox-val" style="color:var(--amber)">US$4,935（14.0%）</div></div>
+          <div class="sbox"><div class="sbox-label">待收</div><div class="sbox-val" style="color:var(--red)">US$20,116</div></div>
+          <div class="sbox"><div class="sbox-label">待付（大會）</div><div class="sbox-val" style="color:var(--muted)">未開單</div></div>
         </div>
         <div style="margin-top:10px;padding:8px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:11px;color:var(--amber)">
-          已收 6 家第一期訂金（各 50%），第二期尾款將於 2026/10/31 到期。大會場地費 Invoice 尚未收到，收到後將自動計入支出並重新計算實際利潤。
+          已收 6 家第一期訂金（各 50%），第二期尾款 US$15,087 將於 2026/10/31 到期；HEARTBOT US$5,029 預計 10 月底一次付清。支出與利潤為預估，大會場地費 Invoice 收到後以實際帳單重算。
         </div>
       </div>
       <div class="tab-content" id="cyber27-boothmap">
@@ -276,9 +318,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
           <thead><tr><th>展位編號</th><th>展商</th></tr></thead>
           <tbody>
             <tr><td class="mono">C05</td><td>Clientron Corp.</td></tr>
+            <tr><td class="mono">C06</td><td>HEARTBOT AI</td></tr>
             <tr><td class="mono">C07</td><td>Skycloud Computing Co., Ltd.</td></tr>
             <tr><td class="mono">C08</td><td>UPAS Technology Corp</td></tr>
             <tr><td class="mono">C09</td><td>Team T5 Inc.</td></tr>
+            <tr><td class="mono">C10</td><td style="color:var(--muted)">空位（尚未售出）</td></tr>
             <tr><td class="mono">C11</td><td>CHT Security Co., Ltd.</td></tr>
             <tr><td class="mono">C12</td><td>N-Partner Technologies Co., Ltd.</td></tr>
           </tbody>
@@ -288,37 +332,38 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   </div>
 
   <!-- AI Expo Korea 2027 -->
-  <div class="expo-card warn" id="card-aikorea">
+  <div class="expo-card warn" id="card-aikorea" data-year="2027">
     <div class="expo-summary" onclick="toggle('card-aikorea')">
       <div class="status-dot s-amber"></div>
       <div>
         <div class="expo-name">AI Expo Korea 2027</div>
-        <div class="expo-meta">12 sqm · 1 展位（招商中）· 韓國首爾 COEX A Hall · 2027/04/14–16</div>
+        <div class="expo-meta">21 sqm · 2 展位（招商中）· 韓國首爾 COEX A Hall · 2027/04/14–16</div>
       </div>
       <div class="expo-profit">
-        <div class="profit-val hi">US$1,092</div>
-        <div class="profit-pct">利潤率 38.2%（僅第一期）</div>
+        <div class="profit-val hi">US$1,908.50</div>
+        <div class="profit-pct">已實現利潤（兩家第一期）</div>
       </div>
       <div class="expand-icon">▾</div>
     </div>
     <div class="bar-row">
       <div class="bar-lbl">已收</div>
       <div class="bar-track"><div class="bar-fill b-rev" style="width:100%"></div></div>
-      <div class="bar-num">US$2,860</div>
+      <div class="bar-num">US$4,840</div>
       <div class="bar-lbl">已付</div>
-      <div class="bar-track"><div class="bar-fill b-exp" style="width:61.8%"></div></div>
-      <div class="bar-num">US$1,768</div>
+      <div class="bar-track"><div class="bar-fill b-exp" style="width:60.6%"></div></div>
+      <div class="bar-num">US$2,931.50</div>
       <div class="bar-lbl">利潤</div>
-      <div class="bar-track"><div class="bar-fill b-pft" style="width:38.2%"></div></div>
-      <div class="bar-num" style="color:var(--green)">US$1,092</div>
+      <div class="bar-track"><div class="bar-fill b-pft" style="width:39.4%"></div></div>
+      <div class="bar-num" style="color:var(--green)">US$1,908.50</div>
       <div class="bar-lbl">待收</div>
       <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--amber);opacity:.6"></div></div>
-      <div class="bar-num" style="color:var(--amber)">US$2,860</div>
+      <div class="bar-num" style="color:var(--amber)">US$4,840</div>
     </div>
     <div class="flag-row">
-      <span class="flag f-ok">已收 1/1 家第一期訂金</span>
-      <span class="flag f-ok">大會第一期已付 US$1,768</span>
-      <span class="flag f-warn">第二期待收/待付 US$2,860（2027/01/14 到期）</span>
+      <span class="flag f-ok">已收 2/2 家第一期訂金</span>
+      <span class="flag f-ok">兩家大會第一期已付 US$2,931.50</span>
+      <span class="flag f-warn">第二期待收 US$4,840（2027/01/14）</span>
+      <span class="flag f-warn">第二期待付大會 US$2,931.50（2027/02/26）</span>
     </div>
     <div class="detail-panel">
       <div class="detail-tabs">
@@ -332,41 +377,46 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
           <thead><tr><th>展商</th><th>Invoice No.</th><th>合約金額</th><th>已收（第一期）</th><th>未收（第二期）</th><th>狀態</th></tr></thead>
           <tbody>
             <tr><td>Fufront AI Co., Ltd.</td><td class="mono" style="color:var(--muted)">KR260713</td><td class="mono">US$5,720</td><td class="mono">US$2,860</td><td class="mono" style="color:var(--amber)">US$2,860</td><td><span class="pay-badge pay-part">50%</span></td></tr>
+            <tr><td>NEXCOM International Co., Ltd.（新漢）</td><td class="mono" style="color:var(--muted)">KR260908</td><td class="mono">US$3,960</td><td class="mono">US$1,980</td><td class="mono" style="color:var(--amber)">US$1,980</td><td><span class="pay-badge pay-part">50%</span></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">Shell Scheme 標準裝潢 12sqm，US$5,200 + VAT 10%＝US$5,720。招商尚未截止，後續可能新增展商。</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Fufront：Shell Scheme 標準裝潢 12sqm，US$5,200 + VAT 10%＝US$5,720。新漢：Shell Scheme 9sqm，4,000 − 早鳥 400 + VAT 360＝US$3,960（尚未扣再參展折扣）。招商尚未截止，後續可能新增展商。</div>
       </div>
       <div class="tab-content" id="aikorea-costs">
         <table class="cost-table">
           <thead><tr><th>項目</th><th>金額</th><th>已付</th><th>狀態</th></tr></thead>
           <tbody>
-            <tr><td>Fufront AI 第一期場地費（大會，已扣除佣金）</td><td class="mono">US$1,768</td><td class="mono">US$1,768</td><td><span class="pay-badge pay-full">已付</span></td></tr>
-            <tr class="cost-total"><td>合計</td><td class="mono">US$1,768</td><td class="mono">US$1,768</td><td></td></tr>
+            <tr><td>Fufront AI 第一期（大會 US$2,640 − 佣金 US$924）</td><td class="mono">US$1,716</td><td class="mono">US$1,716</td><td><span class="pay-badge pay-full">已付</span></td></tr>
+            <tr><td>新漢 第一期（大會 US$1,870 − 佣金 US$654.50）</td><td class="mono">US$1,215.50</td><td class="mono">US$1,215.50</td><td><span class="pay-badge pay-full">已付 2026/09/30</span></td></tr>
+            <tr class="cost-total"><td>合計（第一期）</td><td class="mono">US$2,931.50</td><td class="mono">US$2,931.50</td><td></td></tr>
+            <tr><td>Fufront AI 第二期（扣佣後，2027/02/26）</td><td class="mono">US$1,716</td><td class="mono">—</td><td><span class="pay-badge pay-none">待付</span></td></tr>
+            <tr><td>新漢 第二期（扣佣後，2027/02/26）</td><td class="mono">US$1,215.50</td><td class="mono">—</td><td><span class="pay-badge pay-none">待付</span></td></tr>
+            <tr class="cost-total"><td>合計（第二期）</td><td class="mono">US$2,931.50</td><td class="mono">—</td><td></td></tr>
           </tbody>
         </table>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">此金額已扣除昇揚展覽佣金後支付予大會，差額（US$2,860 − US$1,768 = US$1,092）即為本公司佣金收入。第二期款項將於收到大會通知後支付。</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">佣金＝每期 50% 款項（含 VAT）× 35%，匯款時直接扣除，並開佣金 invoice 給大會（Fufront KR260902、新漢 KR260929）。銀行手續費另計、未列入成本：Fufront 第一期 US$32、新漢第一期 US$51.85。</div>
       </div>
       <div class="tab-content" id="aikorea-summary">
         <div class="summary-box">
-          <div class="sbox"><div class="sbox-label">已收（第一期）</div><div class="sbox-val" style="color:var(--blue)">US$2,860</div></div>
-          <div class="sbox"><div class="sbox-label">已付大會（第一期）</div><div class="sbox-val" style="color:var(--red)">US$1,768</div></div>
-          <div class="sbox"><div class="sbox-label">已實現利潤（第一期）</div><div class="sbox-val" style="color:var(--green)">US$1,092</div></div>
-          <div class="sbox"><div class="sbox-label">利潤率（第一期）</div><div class="sbox-val" style="color:var(--gold-deep)">38.2%</div></div>
-          <div class="sbox"><div class="sbox-label">待收（第二期）</div><div class="sbox-val" style="color:var(--red)">US$2,860</div></div>
-          <div class="sbox"><div class="sbox-label">待付（第二期）</div><div class="sbox-val" style="color:var(--muted)">待大會通知</div></div>
+          <div class="sbox"><div class="sbox-label">已收（兩家第一期）</div><div class="sbox-val" style="color:var(--blue)">US$4,840</div></div>
+          <div class="sbox"><div class="sbox-label">已付大會（兩家第一期）</div><div class="sbox-val" style="color:var(--red)">US$2,931.50</div></div>
+          <div class="sbox"><div class="sbox-label">已實現利潤（第一期）</div><div class="sbox-val" style="color:var(--green)">US$1,908.50</div></div>
+          <div class="sbox"><div class="sbox-label">全案預估利潤</div><div class="sbox-val" style="color:var(--gold-deep)">US$3,817</div></div>
+          <div class="sbox"><div class="sbox-label">待收（第二期）</div><div class="sbox-val" style="color:var(--red)">US$4,840</div></div>
+          <div class="sbox"><div class="sbox-label">待付（第二期）</div><div class="sbox-val" style="color:var(--amber)">US$2,931.50</div></div>
         </div>
         <div style="margin-top:10px;padding:8px 12px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:8px;font-size:11px;color:var(--amber)">
-          第一期已收已付，利潤已實現。第二期尾款（收款與付款）將於 2027/01/14 前後到期，金額待大會通知後確認。
+          兩家第一期均已收已付，利潤 US$1,908.50 已實現（利潤率 39.4%）。新漢尾款 2027/01/14、Fufront 尾款 2027/02/26 到期；大會第二期 US$2,931.50 於 2027/02/26 到期。
         </div>
       </div>
       <div class="tab-content" id="aikorea-boothmap">
-        <div class="boothmap-pending">只有 <b>1 個展位</b>，承租展商為 <b>Fufront AI Co., Ltd.</b>。目前尚未記錄實際展位編號，如有大會提供的展位號碼可以補上。</div>
+        <div class="boothmap-pending">共 <b>2 個展位</b>：<b>Fufront AI Co., Ltd.</b>（12sqm）與 <b>NEXCOM International Co., Ltd.</b>（9sqm）。目前尚未記錄實際展位編號，如有大會提供的展位號碼可以補上。</div>
       </div>
     </div>
   </div>
 
   <!-- Cybersec Asia 2026 -->
-  <div class="expo-card" id="card-cyber">
+  <div class="expo-card" id="card-cyber" data-year="2026" style="display:none">
     <div class="expo-summary" onclick="toggle('card-cyber')">
       <div class="status-dot s-green"></div>
       <div>
@@ -454,7 +504,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   </div>
 
   <!-- AI Expo -->
-  <div class="expo-card" id="card-ai">
+  <div class="expo-card" id="card-ai" data-year="2026" style="display:none">
     <div class="expo-summary" onclick="toggle('card-ai')">
       <div class="status-dot s-green"></div>
       <div>
@@ -524,7 +574,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   </div>
 
   <!-- TFBO -->
-  <div class="expo-card" id="card-tfbo">
+  <div class="expo-card" id="card-tfbo" data-year="2026" style="display:none">
     <div class="expo-summary" onclick="toggle('card-tfbo')">
       <div class="status-dot s-green"></div>
       <div>
@@ -624,7 +674,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   </div>
 
   <!-- INTI 2026 -->
-  <div class="expo-card" id="card-inti26">
+  <div class="expo-card" id="card-inti26" data-year="2026" style="display:none">
     <div class="expo-summary" onclick="toggle('card-inti26')">
       <div class="status-dot s-green"></div>
       <div>
@@ -745,6 +795,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 <script>
 function toggle(id){
   document.getElementById(id).classList.toggle('open');
+}
+function setYear(y){
+  document.getElementById('yr-title').textContent=y;
+  [2027,2026].forEach(function(yr){
+    document.getElementById('yr-btn-'+yr).classList.toggle('active',yr===y);
+    document.getElementById('kpi-'+yr).style.display=(yr===y)?'':'none';
+  });
+  document.querySelectorAll('.expo-card[data-year]').forEach(function(c){
+    c.style.display=(c.getAttribute('data-year')==String(y))?'':'none';
+  });
 }
 function switchTab(expo,tab){
   const panel=document.getElementById('card-'+expo).querySelector('.detail-panel');
