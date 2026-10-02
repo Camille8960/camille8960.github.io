@@ -197,7 +197,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
         <div class="cash-label">USD 美金帳戶</div>
         <div class="cash-val">US$17,662.91</div>
         <div class="cash-sub">≈ NT$556,382　（匯率 31.5）</div>
-        <div class="cash-note">可動用 US$4,690.91（已扣 Cybersec Asia 2027 已收須匯大會約 US$12,972）</div>
+        <div class="cash-note">可動用 US$4,690.91（已扣 Cybersec Asia 2027 已收須匯大會約 US$12,972；蘋信 US$5,350 待確認入帳，尚未計入）</div>
       </div>
       <div class="cash-box highlight">
         <div class="cash-label">可動用資金合計</div>
@@ -274,9 +274,9 @@ const SHOWS = [
     boothmap:null, boothmapNote:'①台灣館 12 個展位由 TAITRA 統一報名，個別公司名單尚未記錄；②獨立報名 2 個展位皆為華誠（Fortune Electric）承租，不涉及其他展商，只是還沒有明確展位編號。'
   },
   {
-    id:'cyber2027', name:'Cybersec Asia 2027', year:2027, location:'泰國曼谷 QSNCC', sqm:63, booths:7,
-    dates:'2027/01/20–21', status:'live', revenue:15087.00, revenueNote:'已收款（第一期，6 家）；合約總額 US$35,203；HEARTBOT US$5,029 預計 10 月底一次付清；Openfind 口頭續約意願，未簽約不計', cost:12972, profit:2115, margin:14.0,
-    profitNote:'利潤僅計已收款的佣金：已收第一期 US$15,087（6 家 × US$2,514.50）中，佣金＝未稅價 US$4,700 × 15% × 50% ＝US$352.50/家 × 6 ＝US$2,115；須匯大會約 US$12,972。未收款部分（第二期與 HEARTBOT）的佣金待收到再計入（全案預估佣金 US$4,935，大會 Invoice 尚未收到）。',
+    id:'cyber2027', name:'Cybersec Asia 2027', year:2027, location:'泰國曼谷 QSNCC', sqm:81, booths:9,
+    dates:'2027/01/20–21', status:'live', revenue:20437.00, revenueNote:'已收款（6 家第一期＋蘋信全額，蘋信待確認入帳）；合約總額 US$45,903；HEARTBOT US$5,029、網擎 US$5,350（口頭確認，未開單）預計 10 月底付款', cost:17572, profit:2865, margin:14.0,
+    profitNote:'利潤僅計已收款的佣金：已收 US$20,437（6 家第一期 US$15,087＋蘋信全額 US$5,350）中，佣金＝未稅價 × 15% × 已收比例：6 家 US$352.50 × 6 ＝US$2,115，蘋信 US$5,000 × 15% ＝US$750，合計 US$2,865；須匯大會約 US$17,572。未收款部分（第二期、HEARTBOT、網擎）的佣金待收到再計入（全案預估佣金 US$6,435，大會 Invoice 尚未收到）。',
     exhibitors:[
       {name:'Skycloud Computing Co., Ltd.', canon:'Skycloud', sqm:9, booth:'C07', amount:5029, collected:2514.50, status:'50%'},
       {name:'CHT Security Co., Ltd.', canon:'CHT Security', sqm:9, booth:'C11', amount:5029, collected:2514.50, status:'50%'},
@@ -284,9 +284,12 @@ const SHOWS = [
       {name:'N-Partner Technologies Co., Ltd.', canon:'N-Partner', sqm:9, booth:'C12', amount:5029, collected:2514.50, status:'50%'},
       {name:'Team T5 Inc.', canon:'Team T5', sqm:9, booth:'C09', amount:5029, collected:2514.50, status:'50%'},
       {name:'UPAS Technology Corp', canon:'UPAS', sqm:9, booth:'C08', amount:5029, collected:2514.50, status:'50%'},
-      {name:'HEARTBOT AI', canon:'Heartbot', sqm:9, booth:'C06', amount:5029, collected:0, status:'待收'}
+      {name:'PINTrust Company Limited（蘋信科技）', canon:'PINTrust', sqm:9, booth:'C04', amount:5350, collected:5350, status:'全額（待確認入帳）'},
+      {name:'HEARTBOT AI', canon:'Heartbot', sqm:9, booth:'C06', amount:5029, collected:0, status:'待收'},
+      {name:'Openfind Information Technology, Inc.（網擎資訊）', canon:'Openfind', sqm:9, booth:'待定', amount:5350, collected:0, status:'口頭確認'}
     ],
     boothmap:[
+      {booth:'C04', exhibitor:'PINTrust Company Limited'},
       {booth:'C05', exhibitor:'Clientron Corp.'},
       {booth:'C06', exhibitor:'HEARTBOT AI'},
       {booth:'C07', exhibitor:'Skycloud Computing Co., Ltd.'},
@@ -294,7 +297,8 @@ const SHOWS = [
       {booth:'C09', exhibitor:'Team T5 Inc.'},
       {booth:'C10', exhibitor:'（空位，尚未售出）'},
       {booth:'C11', exhibitor:'CHT Security Co., Ltd.'},
-      {booth:'C12', exhibitor:'N-Partner Technologies Co., Ltd.'}
+      {booth:'C12', exhibitor:'N-Partner Technologies Co., Ltd.'},
+      {booth:'待定', exhibitor:'Openfind Information Technology, Inc.（口頭確認，尚未排位）'}
     ]
   },
   {
