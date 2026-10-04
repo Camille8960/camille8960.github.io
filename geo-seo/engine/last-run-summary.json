@@ -1,4 +1,10 @@
 {
-  "ranAt": "2026-09-27T06:29:11.177Z",
-  "results": []
+  "ranAt": "2026-10-04T06:43:51.070Z",
+  "results": [
+    {
+      "key": "aiexpokorea",
+      "name": "AI EXPO KOREA",
+      "error": "OpenAI API 失敗 429: {\n  \"error\": {\n    \"message\": \"You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.\",\n    \"type\": \"insufficient_quota\",\n    \"param\": null,\n    \"code\": \"credit_balance_exhausted\"\n  }\n}"
+    }
+  ]
 }
