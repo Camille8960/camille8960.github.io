@@ -1,0 +1,316 @@
+/**
+ * 貓咪健康紀錄・後端（Google Apps Script）
+ *
+ * 設定（只要做一次）
+ * 1. 到 script.google.com 新增專案，把這整份貼進去，存檔。
+ * 2. 左邊「專案設定」→「指令碼屬性」新增兩個：
+ *      TOKEN         自己想一組密碼（手機 App 要輸入同一組）
+ *      ANTHROPIC_KEY Claude API 金鑰（沒有的話，只是不能用「AI 讀取」，其他功能照常）
+ * 3. 右上「部署」→「新增部署作業」→ 類型選「網頁應用程式」：
+ *      執行身分：我　　誰可以存取：所有人
+ *    部署後會得到一串網址（結尾是 /exec），把它貼到手機 App 的「設定」。
+ * 4. 想把已經有的三次報告（多多、乖乖）匯進來：在編輯器上方選函式 seedExisting，按「執行」一次。
+ *
+ * 資料放在哪：第一次執行會自動建立「貓咪健康紀錄」試算表，和雲端硬碟裡的「貓咪健康紀錄」資料夾。
+ * 之後改了程式，記得「部署」→「管理部署作業」→ 編輯 → 新版本，網址才會更新內容。
+ */
+const MODEL = 'claude-sonnet-5-5';
+const SHEETS = {
+  Cats:   ['id','name','info','photo','nextDate','nextTime','nextClinic','nextItems'],
+  Visits: ['id','cat','date','type','clinic','vet','weight','notes','created'],
+  Labs:   ['visit','cat','date','k','v','cap','lo','hi','unit'],
+  Files:  ['id','visit','cat','kind','name','mime','driveId','date'],
+  Meds:   ['id','cat','name','dose','slots','days','start','done'],
+  Notes:  ['id','cat','date','kind','tags','note','ask','done']
+};
+
+/* ---------- 入口 ---------- */
+function doGet() {
+  return ContentService.createTextOutput('貓咪健康紀錄後端運作中');
+}
+function doPost(e) {
+  let out;
+  try {
+    const body = JSON.parse(e.postData.contents);
+    const token = P_().getProperty('TOKEN');
+    if (!token) throw new Error('後端還沒設定 TOKEN（專案設定 → 指令碼屬性）');
+    if (String(body.token || '') !== token) throw new Error('密碼不對');
+    out = { ok: true, data: route_(body) };
+  } catch (err) {
+    out = { ok: false, error: String(err && err.message ? err.message : err) };
+  }
+  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+}
+function route_(b) {
+  switch (b.action) {
+    case 'ping':        return { pong: true };
+    case 'load':        return loadAll_();
+    case 'extract':     return extract_(b.images || []);
+    case 'getFile':     return getFile_(b.id);
+    case 'saveCat':     return locked_(() => saveCat_(b.cat));
+    case 'saveVisit':   return locked_(() => saveVisit_(b));
+    case 'deleteVisit': return locked_(() => deleteVisit_(b.id));
+    case 'saveMed':     return locked_(() => saveMed_(b.med));
+    case 'deleteMed':   return locked_(() => deleteMed_(b.id));
+    case 'saveNote':    return locked_(() => saveNote_(b.note));
+    case 'deleteNote':  return locked_(() => deleteNote_(b.id));
+    case 'parseNote':   return parseNote_(b.text);
+    default: throw new Error('不認得的動作：' + b.action);
+  }
+}
+function locked_(fn) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(25000);
+  try { return fn(); } finally { lock.releaseLock(); }
+}
+
+/* ---------- 試算表 ---------- */
+function P_() { return PropertiesService.getScriptProperties(); }
+function ss_() {
+  const p = P_();
+  const id = p.getProperty('SHEET_ID');
+  let ss;
+  if (id) ss = SpreadsheetApp.openById(id);
+  else { ss = SpreadsheetApp.create('貓咪健康紀錄'); p.setProperty('SHEET_ID', ss.getId()); }
+  Object.keys(SHEETS).forEach(function (name) {
+    let sh = ss.getSheetByName(name);
+    if (!sh) sh = ss.insertSheet(name);
+    if (sh.getLastRow() === 0) {
+      sh.getRange(1, 1, sh.getMaxRows(), SHEETS[name].length).setNumberFormat('@');
+      sh.appendRow(SHEETS[name]);
+      sh.setFrozenRows(1);
+    }
+  });
+  const def = ss.getSheetByName('Sheet1') || ss.getSheetByName('工作表1');
+  if (def && ss.getSheets().length > 1) ss.deleteSheet(def);
+  return ss;
+}
+function rows_(name) {
+  const sh = ss_().getSheetByName(name);
+  const v = sh.getDataRange().getValues();
+  const head = v.shift();
+  return v.filter(function (r) { return r.some(function (c) { return c !== ''; }); }).map(function (r) {
+    const o = {};
+    head.forEach(function (k, i) { o[k] = r[i] === '' ? '' : String(r[i]); });
+    return o;
+  });
+}
+function appendRows_(name, objs) {
+  if (!objs.length) return;
+  const cols = SHEETS[name];
+  const sh = ss_().getSheetByName(name);
+  const vals = objs.map(function (o) { return cols.map(function (k) { return o[k] == null ? '' : String(o[k]); }); });
+  const start = sh.getLastRow() + 1;
+  if (start + vals.length - 1 > sh.getMaxRows()) sh.insertRowsAfter(sh.getMaxRows(), vals.length + 50);
+  const rng = sh.getRange(start, 1, vals.length, cols.length);
+  rng.setNumberFormat('@');
+  rng.setValues(vals);
+}
+function deleteWhere_(name, pred) {
+  const sh = ss_().getSheetByName(name);
+  const v = sh.getDataRange().getValues();
+  const head = v[0];
+  for (let i = v.length - 1; i >= 1; i--) {
+    const o = {};
+    head.forEach(function (k, j) { o[k] = String(v[i][j]); });
+    if (pred(o)) sh.deleteRow(i + 1);
+  }
+}
+function upsert_(name, obj) {
+  const cols = SHEETS[name];
+  const sh = ss_().getSheetByName(name);
+  const v = sh.getDataRange().getValues();
+  for (let i = 1; i < v.length; i++) {
+    if (String(v[i][0]) === String(obj.id)) {
+      const cur = {};
+      cols.forEach(function (k, j) { cur[k] = v[i][j]; });
+      const merged = Object.assign(cur, obj);
+      const rng = sh.getRange(i + 1, 1, 1, cols.length);
+      rng.setNumberFormat('@');
+      rng.setValues([cols.map(function (k) { return merged[k] == null ? '' : String(merged[k]); })]);
+      return merged;
+    }
+  }
+  appendRows_(name, [obj]);
+  return obj;
+}
+function num_(s) { if (s === '' || s == null) return null; const n = Number(s); return isNaN(n) ? null : n; }
+function json_(s, def) { try { return s ? JSON.parse(s) : def; } catch (e) { return def; } }
+function newId_(p) { return p + Date.now().toString(36) + Math.floor(Math.random() * 1296).toString(36); }
+
+/* ---------- 讀取全部 ---------- */
+function loadAll_() {
+  return {
+    cats: rows_('Cats').map(function (c) {
+      return { id: c.id, name: c.name, info: c.info, photo: c.photo, nextDate: c.nextDate, nextTime: c.nextTime, nextClinic: c.nextClinic, nextItems: json_(c.nextItems, []) };
+    }),
+    visits: rows_('Visits').map(function (v) {
+      return { id: v.id, cat: v.cat, date: v.date, type: v.type, clinic: v.clinic, vet: v.vet, weight: num_(v.weight), notes: v.notes };
+    }),
+    labs: rows_('Labs').map(function (l) {
+      return { visit: l.visit, cat: l.cat, date: l.date, k: l.k, v: num_(l.v), cap: l.cap === '1', lo: num_(l.lo), hi: num_(l.hi), unit: l.unit };
+    }),
+    files: rows_('Files').map(function (f) {
+      return { id: f.id, visit: f.visit, cat: f.cat, kind: f.kind, name: f.name, mime: f.mime, date: f.date };
+    }),
+    notes: rows_('Notes').map(function (n) {
+      return { id: n.id, cat: n.cat, date: n.date, kind: n.kind || 'symptom', tags: json_(n.tags, []), note: n.note, ask: n.ask === '1', done: n.done === '1' };
+    }),
+    meds: rows_('Meds').map(function (m) {
+      return { id: m.id, cat: m.cat, name: m.name, dose: m.dose, slots: json_(m.slots, []), days: num_(m.days) || 1, start: m.start, done: json_(m.done, []) };
+    })
+  };
+}
+
+/* ---------- 寫入 ---------- */
+function saveCat_(cat) {
+  if (!cat || !cat.id) throw new Error('缺少貓咪 id');
+  const o = Object.assign({}, cat);
+  if (o.nextItems) o.nextItems = JSON.stringify(o.nextItems);
+  upsert_('Cats', o);
+  return loadAll_();
+}
+function folder_() {
+  const p = P_();
+  const id = p.getProperty('FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  const f = DriveApp.createFolder('貓咪健康紀錄');
+  p.setProperty('FOLDER_ID', f.getId());
+  return f;
+}
+function saveVisit_(b) {
+  const v = b.visit || {};
+  if (!v.cat || !v.date) throw new Error('缺少貓咪或日期');
+  const id = v.id || newId_('v');
+  const prev = rows_('Visits').filter(function (x) { return x.id === id; })[0];
+  upsert_('Visits', {
+    id: id, cat: v.cat, date: v.date, type: v.type || '', clinic: v.clinic || '', vet: v.vet || '',
+    weight: v.weight == null ? '' : v.weight, notes: v.notes || '', created: prev ? prev.created : new Date().toISOString()
+  });
+  deleteWhere_('Labs', function (o) { return o.visit === id; });
+  const labs = (b.labs || []).filter(function (l) { return l.k && typeof l.v === 'number' && isFinite(l.v); }).map(function (l) {
+    return { visit: id, cat: v.cat, date: v.date, k: l.k, v: l.v, cap: l.cap ? '1' : '0', lo: l.lo == null ? '' : l.lo, hi: l.hi == null ? '' : l.hi, unit: l.unit || '' };
+  });
+  appendRows_('Labs', labs);
+  const fileRows = [];
+  (b.files || []).forEach(function (f, i) {
+    if (!f.base64) return;
+    const ext = (f.mime || 'image/jpeg').indexOf('png') >= 0 ? 'png' : 'jpg';
+    const name = v.date + '_' + (f.kind || 'other') + '_' + (Date.now() % 100000) + '_' + i + '.' + ext;
+    const blob = Utilities.newBlob(Utilities.base64Decode(f.base64), f.mime || 'image/jpeg', name);
+    const file = folder_().createFile(blob);
+    fileRows.push({ id: newId_('f'), visit: id, cat: v.cat, kind: f.kind || 'other', name: f.name || name, mime: f.mime || 'image/jpeg', driveId: file.getId(), date: v.date });
+  });
+  appendRows_('Files', fileRows);
+  if (b.next !== undefined) {
+    const n = b.next;
+    upsert_('Cats', { id: v.cat, nextDate: n ? n.date : '', nextTime: n ? (n.time || '') : '', nextClinic: n ? (n.clinic || '') : '', nextItems: JSON.stringify(n && n.items ? n.items : []) });
+  }
+  const data = loadAll_();
+  data.visitId = id;
+  return data;
+}
+function deleteVisit_(id) {
+  rows_('Files').filter(function (f) { return f.visit === id; }).forEach(function (f) {
+    try { DriveApp.getFileById(f.driveId).setTrashed(true); } catch (e) {}
+  });
+  deleteWhere_('Files', function (o) { return o.visit === id; });
+  deleteWhere_('Labs', function (o) { return o.visit === id; });
+  deleteWhere_('Visits', function (o) { return o.id === id; });
+  return loadAll_();
+}
+function saveMed_(m) {
+  const id = m.id || newId_('m');
+  upsert_('Meds', { id: id, cat: m.cat, name: m.name, dose: m.dose || '', slots: JSON.stringify(m.slots || []), days: m.days || 1, start: m.start || '', done: JSON.stringify(m.done || []) });
+  return loadAll_();
+}
+function deleteMed_(id) {
+  deleteWhere_('Meds', function (o) { return o.id === id; });
+  return loadAll_();
+}
+function saveNote_(n) {
+  if (!n || !n.cat || !n.date) throw new Error('缺少貓咪或日期');
+  upsert_('Notes', { id: n.id || newId_('n'), cat: n.cat, date: n.date, kind: n.kind === 'vet' ? 'vet' : 'symptom', tags: JSON.stringify(n.tags || []), note: n.note || '', ask: n.ask ? '1' : '0', done: n.done ? '1' : '0' });
+  return loadAll_();
+}
+function deleteNote_(id) {
+  deleteWhere_('Notes', function (o) { return o.id === id; });
+  return loadAll_();
+}
+function getFile_(id) {
+  const row = rows_('Files').filter(function (f) { return f.id === id; })[0];
+  if (!row) throw new Error('找不到這個檔案');
+  const blob = DriveApp.getFileById(row.driveId).getBlob();
+  return { mime: row.mime, name: row.name, base64: Utilities.base64Encode(blob.getBytes()) };
+}
+
+/* ---------- AI 讀報告 ---------- */
+const PROMPT =
+  '這是動物醫院（常見為 IDEXX）的貓咪檢驗報告照片，可能有數張（血液生化、血球、甲狀腺等）。\n' +
+  '請只讀出「這一次」檢驗的數值，不要讀右邊「上一次」的欄位。\n' +
+  '只輸出一個 JSON，不要任何說明文字，格式：\n' +
+  '{"date":"YYYY-MM-DD 或 null（報告上的檢驗日期）","clinic":"醫院名稱或 null","metrics":[{"k":"縮寫","name":"報告上印的名稱","value":數字,"cap":true或false,"unit":"單位","lo":參考範圍下限數字或null,"hi":參考範圍上限數字或null}]}\n' +
+  '規則：\n' +
+  '1. k 用 IDEXX 縮寫：肌酸酐 CREA、尿素氮 BUN、磷 PHOS、總甲狀腺素 TT4、SDMA、鉀 K、鈉 Na、氯 Cl、鈣 Ca、血糖 GLU、ALT、ALKP、TP、ALB、GLOB、CHOL、TBIL、血球的 RBC HCT HGB MCV MCH MCHC RDW RETIC RETIC-HGB WBC NEU LYM MONO EOS BASO PLT MPV PCT；其他項目照報告上的縮寫。\n' +
+  '2. 數值前面印有 > 或 < 時（例如 >20.0），value 填那個數字，cap 填 true。\n' +
+  '3. 看不清楚的項目就省略，絕對不要猜。數字用小數點。\n' +
+  '4. 不要輸出飼主姓名、電話、病歷號、晶片號等任何個人資料。';
+function claude_(content, maxTokens) {
+  const key = P_().getProperty('ANTHROPIC_KEY');
+  if (!key) throw new Error('後端還沒設定 ANTHROPIC_KEY（專案設定 → 指令碼屬性）');
+  const res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+    payload: JSON.stringify({ model: MODEL, max_tokens: maxTokens, messages: [{ role: 'user', content: content }] })
+  });
+  const code = res.getResponseCode();
+  const text = res.getContentText();
+  if (code !== 200) {
+    let msg = text;
+    try { msg = JSON.parse(text).error.message; } catch (e) {}
+    throw new Error('Claude API 失敗（' + code + '）：' + String(msg).slice(0, 200));
+  }
+  const out = (JSON.parse(text).content || []).map(function (c) { return c.text || ''; }).join('');
+  const a = out.indexOf('{'), z = out.lastIndexOf('}');
+  if (a < 0 || z < a) throw new Error('AI 沒有回傳可讀的資料，請再試一次或手動輸入');
+  return JSON.parse(out.slice(a, z + 1));
+}
+const NOTE_PROMPT =
+  '以下是貓咪飼主口述（語音轉文字，可能有錯字）的內容，可能是獸醫交代的注意事項，也可能是飼主觀察到的症狀。請整理成 JSON，只輸出 JSON：\n' +
+  '{"kind":"vet（獸醫交代）或 symptom（飼主觀察到的症狀）","tags":[從下面清單挑出有提到的],"note":"整理後的重點文字，繁體中文，保留所有細節（藥名、劑量、次數、時間）"}\n' +
+  '清單：食慾變差、不吃、嘔吐、拉肚子、便秘、喝水變多、喝水變少、尿量變多、精神變差、體重下降、口臭、躲起來、行走異常\n' +
+  '規則：沒提到的不要加；不要加入沒說過的內容；語音常有諧音錯字，請依上下文判斷。\n口述內容：\n';
+function parseNote_(text) {
+  text = String(text || '').trim();
+  if (!text) throw new Error('沒有內容');
+  if (text.length > 2000) throw new Error('內容太長');
+  return claude_(NOTE_PROMPT + text, 800);
+}
+function extract_(images) {
+  const key = P_().getProperty('ANTHROPIC_KEY');
+  if (!key) throw new Error('後端還沒設定 ANTHROPIC_KEY（專案設定 → 指令碼屬性）');
+  if (!images.length) throw new Error('沒有照片');
+  const content = images.map(function (im) {
+    return { type: 'image', source: { type: 'base64', media_type: im.mime || 'image/jpeg', data: im.base64 } };
+  });
+  content.push({ type: 'text', text: PROMPT });
+  const res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+    payload: JSON.stringify({ model: MODEL, max_tokens: 4000, messages: [{ role: 'user', content: content }] })
+  });
+  const code = res.getResponseCode();
+  const text = res.getContentText();
+  if (code !== 200) {
+    let msg = text;
+    try { msg = JSON.parse(text).error.message; } catch (e) {}
+    throw new Error('Claude API 失敗（' + code + '）：' + String(msg).slice(0, 200));
+  }
+  const reply = JSON.parse(text);
+  const out = (reply.content || []).map(function (c) { return c.text || ''; }).join('');
+  const a = out.indexOf('{'), z = out.lastIndexOf('}');
+  if (a < 0 || z < a) throw new Error('AI 沒有回傳可讀的資料，請重拍或手動輸入');
+  const parsed = JSON.parse(out.slice(a, z + 1));
+  parsed.metrics = (parsed.metrics || []).filter(function (m) { return m && m.k && typeof m.value === 'number'; });
+  return parsed;
+}
