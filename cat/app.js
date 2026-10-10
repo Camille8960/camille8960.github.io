@@ -205,8 +205,8 @@ const PHOTO_HEAD=false;
 function face(mood,photo,uid,cx,cy){
   if(!PHOTO_HEAD)photo=null;
   const fur='var(--fur)',st='var(--stripe)',ln='var(--fur-line)',cr='var(--cream)';
-  const ears=`<path d="M3.5 -37 L5.5 -55 L20 -45.5Z" fill="${fur}" stroke="${ln}" stroke-width="1.2" stroke-linejoin="round"/><path d="M6.8 -43 L7.4 -50.5 L13.5 -46Z" fill="var(--nose)" opacity=".75"/>
-    <path d="M30.5 -37 L28.5 -55 L14 -45.5Z" fill="${fur}" stroke="${ln}" stroke-width="1.2" stroke-linejoin="round"/><path d="M27.2 -43 L26.6 -50.5 L20.5 -46Z" fill="var(--nose)" opacity=".75"/>`;
+  const ears=`<path d="M3.8 -37 Q2.6 -49.6 9 -49.8 Q14.6 -48.6 18 -44Z" fill="${fur}" stroke="${ln}" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.2 -41.5 Q6 -46.8 9.2 -47 Q11.8 -46 13.2 -44.2Z" fill="var(--nose)" opacity=".8"/>
+    <path d="M30.2 -37 Q31.4 -49.6 25 -49.8 Q19.4 -48.6 16 -44Z" fill="${fur}" stroke="${ln}" stroke-width="1.5" stroke-linejoin="round"/><path d="M27.8 -41.5 Q28 -46.8 24.8 -47 Q22.2 -46 20.8 -44.2Z" fill="var(--nose)" opacity=".8"/>`;
   let head;
   if(photo){
     head=ears+`<clipPath id="hc${uid}"><circle cx="17" cy="-34" r="15"/></clipPath>
