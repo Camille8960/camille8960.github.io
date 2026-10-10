@@ -212,9 +212,11 @@ function face(mood,photo,uid,cx,cy){
   }else{
     const eyes=mood==='happy'?`<path d="M8.5 -33 Q11.5 -37.5 14.5 -33 M19.5 -33 Q22.5 -37.5 25.5 -33" fill="none" stroke="${ln}" stroke-width="2" stroke-linecap="round"/>`
       :mood==='sad'?`<path d="M8.5 -37 L14 -34 L8.5 -31 M25.5 -37 L20 -34 L25.5 -31" fill="none" stroke="${ln}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+      :mood==='worried'?`<ellipse cx="11.5" cy="-33" rx="2.7" ry="3.3" fill="${ln}"/><ellipse cx="22.5" cy="-33" rx="2.7" ry="3.3" fill="${ln}"/><circle cx="12.4" cy="-34.4" r="1.1" fill="#fff"/><circle cx="23.4" cy="-34.4" r="1.1" fill="#fff"/><path d="M7.5 -38 L14 -40.6 M26.5 -38 L20 -40.6" fill="none" stroke="${ln}" stroke-width="1.7" stroke-linecap="round"/>`
       :`<ellipse cx="11.5" cy="-33" rx="2.7" ry="3.3" fill="${ln}"/><ellipse cx="22.5" cy="-33" rx="2.7" ry="3.3" fill="${ln}"/><circle cx="12.4" cy="-34.2" r="1" fill="#fff"/><circle cx="23.4" cy="-34.2" r="1" fill="#fff"/>`;
     const mouth=mood==='happy'?`<path d="M13.3 -26 Q17 -20.5 20.7 -26Z" fill="#B8453F" stroke="${ln}" stroke-width="1.1" stroke-linejoin="round"/>`
       :mood==='sad'?`<ellipse cx="17" cy="-23.2" rx="3.1" ry="3.5" fill="#8C3B3B" stroke="${ln}" stroke-width="1"/>`
+      :mood==='worried'?`<path d="M13 -23.8 Q15 -26 17 -23.8 Q19 -21.6 21 -23.8" fill="none" stroke="${ln}" stroke-width="1.4" stroke-linecap="round"/>`
       :`<path d="M13.8 -25.8 Q15.4 -23.6 17 -25.8 Q18.6 -23.6 20.2 -25.8" fill="none" stroke="${ln}" stroke-width="1.4" stroke-linecap="round"/>`;
     head=ears+`<ellipse cx="17" cy="-32" rx="16" ry="14.5" fill="${fur}" stroke="${ln}" stroke-width="1.2"/>
       <path d="M17 -46 v5 M12.3 -45.4 l.9 4.4 M21.7 -45.4 l-.9 4.4 M2.2 -32 h5 M3.2 -27.6 l4.4 1.2 M31.8 -32 h-5 M30.8 -27.6 l-4.4 1.2" fill="none" stroke="${st}" stroke-width="1.7" stroke-linecap="round"/>
@@ -222,8 +224,9 @@ function face(mood,photo,uid,cx,cy){
       <circle cx="7.6" cy="-27" r="2.7" fill="var(--blush)" opacity=".6"/><circle cx="26.4" cy="-27" r="2.7" fill="var(--blush)" opacity=".6"/>
       ${eyes}<path d="M15.4 -29.2 L18.6 -29.2 L17 -27.2Z" fill="var(--nose)" stroke="${ln}" stroke-width=".6" stroke-linejoin="round"/>${mouth}`;
   }
+  const sweat=mood==='worried'&&!photo?'<path d="M-2.5 -42 q-3.2 4.8 0 6.8 q3.2 -2 0 -6.8z" fill="var(--water)" stroke="var(--surface)" stroke-width=".6"/>':'';
   const tears=mood==='sad'?tearP(8.5,'a',-30)+tearP(25.5,'b',-30):'';
-  return `<g transform="translate(${cx-17} ${cy+33})">${head}${tears}</g>`;
+  return `<g transform="translate(${cx-17} ${cy+33})">${head}${tears}${sweat}</g>`;
 }
 const stripeTail=(d,w)=>`<path d="${d}" fill="none" stroke="var(--fur)" stroke-width="${w}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="var(--stripe)" stroke-width="${w+.4}" stroke-dasharray="2.2 4.6" stroke-linecap="butt" opacity=".9"/>`;
 /* pose：walk 走路（側面）、cheer 雙手向上歡呼（正面）、kneel 跪在地上哭（正面） */
@@ -314,7 +317,7 @@ function chart(m,bi,st,big){
   });
   if(big){
     const sv=S.demo==='up'?'up':S.demo==='down'?'down':st.state;
-    const mood=sv==='up'?'happy':sv==='down'?'sad':'flat';
+    const mood=sv==='up'?'happy':sv==='down'?'sad':(S.demo==='worry'||(sv==='same'&&st.zone!=='in'))?'worried':'flat';
     const d='M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')+' L'+(xs[n-1]+34)+' '+pts[n-1][1].toFixed(1);
     s+=`<path class="wpath" d="${d}" fill="none" stroke="none"/><g class="walker" data-mood="${mood}" data-uid="${esc(m.k)}">${sprite(mood,null,m.k)}</g>`;
   }
@@ -429,8 +432,9 @@ function rangesHtml(){
 function countsFor(c,b){const o=S.base;S.base=b;const r=summarize(c);S.base=o;return r}
 function heroHtml(c,s){
   const bd=baseDates(c.id);
-  const vv=S.demo==='up'?'up':S.demo==='down'?'down':s.v;
-  const mood=vv==='up'?'happy':vv==='down'?'sad':'flat';
+  const worry=S.demo==='worry'||(!S.demo&&(s.v==='flat'||s.v==='mixed')&&s.same.length>0&&s.out.length>0);
+  const vv=S.demo==='up'?'up':S.demo==='down'?'down':S.demo==='worry'?'flat':s.v;
+  const mood=vv==='up'?'happy':vv==='down'?'sad':worry?'worried':'flat';
   const col=vv==='up'?'var(--good)':vv==='down'?'var(--bad)':'var(--flat)';
   const segs=[];
   if(bd.prev)segs.push(['prev','和上次比',bd.prev]);
@@ -456,7 +460,7 @@ function heroHtml(c,s){
     </button>
     <p class="cap">山坡的方向是整體走勢（進步與變差的項目數），不是單一數值。點圖可重播。</p>
     <div class="qrow" role="group" aria-label="預覽貓咪動作"><span class="cap" style="align-self:center">預覽動作：</span>
-      ${[[null,'目前結果'],['up','進步'],['down','退步']].map(x=>`<button type="button" class="q" data-act="demo" data-v="${x[0]||''}" aria-pressed="${S.demo===x[0]}">${x[1]}</button>`).join('')}</div>
+      ${[[null,'目前結果'],['up','進步'],['down','退步'],['worry','擔心']].map(x=>`<button type="button" class="q" data-act="demo" data-v="${x[0]||''}" aria-pressed="${S.demo===x[0]}">${x[1]}</button>`).join('')}</div>
     ${S.demo?'<p class="cap">這是預覽，不是目前真正的結果。</p>':''}
     <h3 class="verdict">${esc(s.text)}</h3>
     ${s.sub?`<p class="sub">${esc(s.sub)}</p>`:''}
