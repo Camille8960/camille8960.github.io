@@ -1,4 +1,4 @@
-const V='cat-v2',ASSETS=['./','index.html','app.css?v=2','app.js?v=2','manifest.webmanifest'];
+const V='cat-v3',ASSETS=['./','index.html','app.css?v=3','app.js?v=3','manifest.webmanifest'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{

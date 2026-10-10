@@ -61,7 +61,7 @@ const Local={
   db(){let d=lsGet('cat-db',null);if(!d){d=demoDb();lsSet('cat-db',d)}return d},
   save(d){lsSet('cat-db',d)},
   async call(a,p){
-    const d=this.db();
+    const d=this.db();d.logs=d.logs||[];
     const ret=()=>JSON.parse(JSON.stringify(d));
     switch(a){
       case 'load':return ret();
@@ -78,6 +78,9 @@ const Local={
       case 'deleteVisit':d.visits=d.visits.filter(x=>x.id!==p.id);d.labs=d.labs.filter(x=>x.visit!==p.id);d.files=d.files.filter(x=>x.visit!==p.id);this.save(d);return ret();
       case 'saveMed':{const m=Object.assign({id:p.med.id||newId('m'),done:[]},p.med);const i=d.meds.findIndex(x=>x.id===m.id);if(i>=0)d.meds[i]=m;else d.meds.push(m);this.save(d);return ret()}
       case 'deleteMed':d.meds=d.meds.filter(x=>x.id!==p.id);this.save(d);return ret();
+      case 'saveLog':{const l=p.log,id=l.id||newId('l'),rec={id,cat:l.cat,date:l.date,time:l.time||'',food:l.food||'',water:l.water==null?null:l.water,vomit:l.vomit==null?null:l.vomit,stool:l.stool||'',energy:l.energy||'',note:l.note||''};const i=d.logs.findIndex(x=>x.id===id);if(i>=0)d.logs[i]=rec;else d.logs.push(rec);this.save(d);return ret()}
+      case 'deleteLog':d.logs=d.logs.filter(x=>x.id!==p.id);this.save(d);return ret();
+      case 'parseLog':throw new Error('示範模式不能用 AI 整理。請先到「設定」連接你的 Google 試算表。');
       case 'getFile':{const f=this.files.get(p.id);if(!f)throw new Error('示範模式重新整理後就看不到照片了');const row=d.files.find(x=>x.id===p.id)||{};return{mime:f.mime,name:row.name||'',base64:f.base64}}
       case 'extract':throw new Error('示範模式不能用 AI 讀取。請先到「設定」連接你的 Google 試算表。');
       case 'ping':return{pong:true};
@@ -109,7 +112,7 @@ function demoDb(){
     {CREA:2.5,BUN:41,PHOS:5.9,SDMA:17,TT4:3.1,HCT:31.0,HGB:10.2,RBC:6.9,WBC:11.8},
     {CREA:2.2,BUN:35,PHOS:5.5,SDMA:15,TT4:2.8,HCT:33.4,HGB:11.0,RBC:7.6,WBC:10.9}
   ];
-  const db={cats:[{id:'demo',name:'小虎',info:'示範貓・虎斑・已結紮',photo:'',nextDate:addDays(t,16),nextTime:'10:30',nextClinic:'示範動物醫院',nextItems:['kidney','thy']}],visits:[],labs:[],files:[],meds:[]};
+  const db={cats:[{id:'demo',name:'小虎',info:'示範貓・虎斑・已結紮',photo:'',nextDate:addDays(t,16),nextTime:'10:30',nextClinic:'示範動物醫院',nextItems:['kidney','thy']}],visits:[],labs:[],files:[],meds:[],logs:[]};
   vals.forEach((o,i)=>{
     const id='demo-'+i;
     db.visits.push({id,cat:'demo',date:d[i],type:'lab',clinic:'示範動物醫院',vet:'',weight:[3.9,3.85,3.9][i],notes:i===2?'示範資料：這隻貓是虛構的。':''});
@@ -120,12 +123,12 @@ function demoDb(){
 /* 後端回傳的資料整理成一致的形狀 */
 function normDb(raw){
   const d=raw||{};
-  const db={cats:d.cats||[],visits:d.visits||[],labs:d.labs||[],files:d.files||[],meds:d.meds||[]};
+  const db={cats:d.cats||[],visits:d.visits||[],labs:d.labs||[],files:d.files||[],meds:d.meds||[],logs:d.logs||[]};
   db.visits.forEach(v=>{if(TYPE_NAME[v.type]==null){const m=TYPES.find(t=>t[1]===v.type);v.type=m?m[0]:(v.type||'lab')}});
   db.cats.forEach(c=>{if(!Array.isArray(c.nextItems))c.nextItems=[]});
   return db;
 }
-const S={db:normDb(null),cat:null,range:6,base:'prev',demo:null,loading:false,err:'',toast:'',editNext:false,showMed:false,careMsg:null};
+const S={db:normDb(null),cat:null,range:6,base:'prev',demo:null,loading:false,err:'',toast:'',editNext:false,showMed:false,careMsg:null,logDraft:{}};
 /* ===== 分析 ===== */
 const LABEL={up:'進步',same:'持平',down:'需留意',new:'新項目'};
 function cutDate(months){const m=months===undefined?S.range:months;return m?addMonths(todayStr(),-m):'0000-00-00'}
@@ -604,9 +607,9 @@ function emptyCat(c){
 }
 function catView(c){
   const s=summarize(c);
-  if(!s.hasData&&!visitsOf(c.id).length)return emptyCat(c);
+  if(!s.hasData&&!visitsOf(c.id).length)return emptyCat(c)+logHtml(c)+(logsOf(c.id).length?exportHtml(c):'');
   const ms=metricsFor(c.id);
-  return (s.hasData?heroHtml(c,s):emptyCat(c))+visitsHtml(c)+careHtml(c)+(s.hasData?focusHtml(c,ms)+othersHtml(ms)+exportHtml(c):'')
+  return (s.hasData?heroHtml(c,s):emptyCat(c))+visitsHtml(c)+logHtml(c)+careHtml(c)+(s.hasData?focusHtml(c,ms)+othersHtml(ms):'')+exportHtml(c)
     +`<p class="note">只做紀錄和對照，不是診斷，請以獸醫的判斷為準。AI 讀出的數值存檔前請再核對一次。</p>`;
 }
 function renderApp(top){
@@ -622,6 +625,87 @@ function renderApp(top){
   $('#app').innerHTML=h;
   window.scrollTo(0,top?0:y);
   play();loadThumbs();
+}
+/* ===== 每日小紀錄（可以用說的） ===== */
+const FOOD=['好','普通','差','不吃'],STOOL=['正常','偏軟','拉肚子','便秘','沒看到'],ENERGY=['好','普通','沒精神'];
+const VOMIT=[[0,'沒有'],[1,'1 次'],[2,'2 次'],[3,'3 次以上']];
+const logsOf=cid=>S.db.logs.filter(l=>l.cat===cid).sort((a,b)=>(a.date+(a.time||''))<(b.date+(b.time||''))?1:-1);
+function nowHM(){const d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())}
+const micOK=()=>!!(window.SpeechRecognition||window.webkitSpeechRecognition);
+function chipGroup(field,opts,cur,label){
+  return `<div class="field">${label}<div class="qrow" role="group" aria-label="${label}">${opts.map(o=>{const v=Array.isArray(o)?o[0]:o,t=Array.isArray(o)?o[1]:o;return `<button type="button" class="q" data-act="lchip" data-f="${field}" data-v="${esc(v)}" aria-pressed="${String(cur)===String(v)}">${esc(t)}</button>`}).join('')}</div></div>`;
+}
+function logTags(l){
+  const t=[];
+  if(l.food)t.push('食慾 '+l.food);if(l.water!=null)t.push('喝水 '+l.water+' ml');
+  if(l.vomit!=null)t.push(l.vomit?'嘔吐 '+l.vomit+' 次':'沒吐');
+  if(l.stool)t.push('便便 '+l.stool);if(l.energy)t.push('精神 '+l.energy);
+  return t;
+}
+function logHtml(c){
+  const D=S.logDraft,ls=logsOf(c.id),recent=ls.slice(0,20);
+  return `<section><h3 class="sec">每日小紀錄</h3><div class="list">
+    <div class="card" aria-label="新增每日紀錄"><h4>今天狀況</h4>
+      <p class="sub">食慾、喝水、嘔吐、便便、精神的變化，常比抽血更早看出來。可以直接用說的。</p>
+      <label class="field">日期<input type="date" data-ld="date" value="${esc(D.date||todayStr())}" max="${todayStr()}"></label>
+      ${chipGroup('food',FOOD,D.food||'','食慾')}
+      <div class="frow"><label class="field">喝水 ml（選填）<input type="number" min="0" inputmode="numeric" data-ld="water" value="${esc(D.water==null?'':D.water)}"></label>
+      <div></div></div>
+      ${chipGroup('vomit',VOMIT,D.vomit==null?'':D.vomit,'嘔吐')}
+      ${chipGroup('stool',STOOL,D.stool||'','便便')}
+      ${chipGroup('energy',ENERGY,D.energy||'','精神')}
+      <label class="field">備註（可以用說的）<textarea id="l-note" data-ld="note" placeholder="例如：今天吃了半碗，下午吐了一次黃水，精神還好">${esc(D.note||'')}</textarea></label>
+      <div class="btns">${micOK()?`<button type="button" class="btn" id="l-mic" data-act="lmic" aria-pressed="false">🎤 用說的</button>`:''}
+        <button type="button" class="btn" data-act="lai" id="l-ai">AI 整理成欄位</button></div>
+      ${micOK()?'<p class="note">按「用說的」後直接講話，講完再按一次停止。第一次使用手機會問麥克風權限。</p>':'<p class="note">這個瀏覽器沒有內建語音辨識。請點手機鍵盤上的麥克風按鈕，一樣能用說的輸入。</p>'}
+      <p class="note">「AI 整理」會把你說的話，自動勾選上面的食慾、喝水、嘔吐等欄位，勾完請再看一眼。</p>
+      <div class="btns"><button class="btn pri" data-act="lsave">儲存今天狀況</button></div>
+      ${S.logMsg?`<p class="msg ${S.logMsg.kind}" role="status" aria-live="polite">${esc(S.logMsg.text)}</p>`:''}
+    </div>
+    ${recent.length?`<details data-key="logs"${isOpen('logs')}><summary><span>最近紀錄（${ls.length} 筆）</span><span class="s2">${esc(fmtYMD(recent[0].date))} ${esc(logTags(recent[0]).slice(0,2).join('・'))}</span></summary>
+      ${recent.map(l=>`<div class="row"><div class="name">${fmtYMD(l.date)} ${esc(l.time||'')}</div>${logTags(l).length?`<div class="tags">${logTags(l).map(x=>`<span class="tag info">${esc(x)}</span>`).join('')}</div>`:''}${l.note?`<p class="notes" style="white-space:pre-wrap;font-size:14px;margin:4px 0">${esc(l.note)}</p>`:''}<div class="btns"><button class="btn sm" data-act="ldel" data-id="${esc(l.id)}">刪除</button></div></div>`).join('')}</details>`:''}
+  </div></section>`;
+}
+let REC=null;
+function setMic(on){const b=$('#l-mic');if(b){b.textContent=on?'■ 停止':'🎤 用說的';b.setAttribute('aria-pressed',on)}}
+function toggleMic(){
+  if(REC){REC.stop();return}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+  const ta=$('#l-note');if(!ta)return;
+  const r=new SR();r.lang='zh-TW';r.interimResults=true;r.continuous=true;
+  const base=ta.value;let fin='';
+  r.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=t;else it+=t}
+    ta.value=base+(base&&!/[\s，。]$/.test(base)&&(fin||it)?'，':'')+fin+it;S.logDraft.note=ta.value};
+  r.onerror=e=>toast(e.error==='not-allowed'||e.error==='service-not-allowed'?'沒有麥克風權限，請到瀏覽器設定允許':'語音辨識失敗（'+e.error+'），可改用鍵盤上的麥克風');
+  r.onend=()=>{REC=null;setMic(false)};
+  REC=r;try{r.start();setMic(true)}catch(e){REC=null;toast('無法開始語音辨識')}
+}
+async function aiLog(){
+  const D=S.logDraft,text=($('#l-note')||{}).value||'';
+  if(!text.trim()){S.logMsg={kind:'err',text:'請先在備註說（或打）一些內容'};renderApp();return}
+  const b=$('#l-ai');if(b){b.disabled=true;b.innerHTML='<span class="spin"></span>整理中…'}
+  try{
+    const r=await api('parseLog',{text});
+    if(FOOD.includes(r.food))D.food=r.food;
+    if(typeof r.water==='number')D.water=r.water;
+    if(typeof r.vomit==='number')D.vomit=Math.min(3,Math.max(0,Math.round(r.vomit)));
+    if(STOOL.includes(r.stool))D.stool=r.stool;
+    if(ENERGY.includes(r.energy))D.energy=r.energy;
+    if(r.note)D.note=r.note;
+    S.logMsg={kind:'ok',text:'已整理，請核對上面的欄位再儲存'};
+  }catch(e){S.logMsg={kind:'err',text:e.message}}
+  renderApp();
+}
+async function saveLogNow(c){
+  const D=S.logDraft;D.note=($('#l-note')||{}).value||D.note||'';
+  const water=D.water===''||D.water==null?null:Number(D.water);
+  const has=D.food||water!=null||D.vomit!=null||D.stool||D.energy||(D.note||'').trim();
+  if(!has){S.logMsg={kind:'err',text:'請至少選一項或寫一點備註'};renderApp();return}
+  if(water!=null&&!isFinite(water)){S.logMsg={kind:'err',text:'喝水量要填數字'};renderApp();return}
+  try{
+    S.db=normDb(await api('saveLog',{log:{cat:c.id,date:D.date||todayStr(),time:nowHM(),food:D.food||'',water,vomit:D.vomit==null?null:Number(D.vomit),stool:D.stool||'',energy:D.energy||'',note:(D.note||'').trim()}}));
+    S.logDraft={};S.logMsg=null;toast('已儲存');renderApp();
+  }catch(e){S.logMsg={kind:'err',text:e.message};renderApp()}
 }
 /* ===== 圖片、檔案、提示 ===== */
 function toast(msg){
@@ -933,6 +1017,9 @@ function summarySheet(){
   const {cut,label}=rangeInfo(),T=labTable(c.id);
   const vs=visitsOf(c.id).filter(v=>v.date>=cut).reverse();
   const meds=S.db.meds.filter(m=>m.cat===c.id);
+  const lg=logsOf(c.id).filter(l=>l.date>=cut).reverse(),lgShow=lg.slice(-60);
+  const waters=lg.filter(l=>l.water!=null).map(l=>l.water),vom=lg.reduce((s,l)=>s+(l.vomit||0),0);
+  const lgSum=lg.length?`共 ${lg.length} 筆${waters.length?`；有記喝水的 ${waters.length} 筆，平均每筆 ${Math.round(waters.reduce((a,b)=>a+b,0)/waters.length)} ml`:''}${lg.some(l=>l.vomit!=null)?`；嘔吐合計 ${vom} 次`:''}。`:'';
   const fs=S.db.files.filter(f=>f.cat===c.id&&f.date>=cut).sort((a,b)=>a.date<b.date?-1:1);
   const from=T.dates.length?T.dates[0]:(vs[0]||{}).date,to=T.dates.length?T.dates[T.dates.length-1]:(vs[vs.length-1]||{}).date;
   const groups=[['f','腎臟與甲狀腺'],['o','其他生化'],['c','血球']];
@@ -955,6 +1042,7 @@ function summarySheet(){
       <p class="meta">▲ 高於、▼ 低於該報告的參考範圍；> 表示儀器上限。${T.cutN?'欄位太多，只列最近 10 次。':''}</p>`:'<p>這段期間沒有檢驗數值。</p>'}
       ${focus.length?`<h3>主要項目走勢</h3><div class="chartgrid">${focus.map(r=>`<div class="mini"><b>${esc(r.zh)} ${esc(r.k)}</b> <span class="meta">${esc(r.unit)}</span>${spark(r,T.dates)}<span class="meta">綠帶＝參考範圍</span></div>`).join('')}</div>`:''}
       ${wts.length?`<h3>體重</h3><p>${wts.map(v=>`${fmtYMD(v.date)}：${Number(v.weight).toFixed(2)} kg`).join('　')}</p>`:''}
+      ${lg.length?`<h3>日常紀錄（飼主記錄）</h3><p class="meta">${lgSum}${lg.length>60?' 下表只列最近 60 筆。':''}</p><table><thead><tr><th class="l">日期</th><th>食慾</th><th>喝水 ml</th><th>嘔吐</th><th>便便</th><th>精神</th><th class="l">備註</th></tr></thead><tbody>${lgShow.map(l=>`<tr><td class="l">${fmtYMD(l.date)}</td><td>${esc(l.food||'')}</td><td>${l.water==null?'':l.water}</td><td>${l.vomit==null?'':l.vomit}</td><td>${esc(l.stool||'')}</td><td>${esc(l.energy||'')}</td><td class="l" style="white-space:pre-wrap">${esc(l.note||'')}</td></tr>`).join('')}</tbody></table>`:''}
       <h3>看診紀錄（${vs.length} 次）</h3>
       ${vs.length?`<table><thead><tr><th class="l">日期</th><th class="l">類型</th><th class="l">醫院／獸醫</th><th class="l">備註</th></tr></thead><tbody>${vs.map(v=>`<tr><td class="l">${fmtYMD(v.date)}</td><td class="l">${esc(TYPE_NAME[v.type]||'')}</td><td class="l">${esc(v.clinic||'')}${v.vet?'／'+esc(v.vet):''}</td><td class="l" style="white-space:pre-wrap">${esc(v.notes||'')}</td></tr>`).join('')}</tbody></table>`:'<p>沒有紀錄。</p>'}
       ${meds.length?`<h3>目前的餵藥提醒</h3><ul>${meds.map(m=>`<li>${esc(m.name)}${m.dose?'・'+esc(m.dose):''}：${m.slots.join('、')}，連續 ${m.days} 天（${fmtYMD(m.start)} 起）</li>`).join('')}</ul>`:''}
@@ -972,6 +1060,9 @@ function csvText(){
   L.push(['體重 kg','','kg','','',...T.dates.map(d=>{const v=vs.find(x=>x.date===d);return v&&v.weight!=null?v.weight:''})].map(q).join(','));
   L.push('');L.push(['看診日期','類型','醫院','獸醫','備註'].map(q).join(','));
   vs.forEach(v=>L.push([v.date,TYPE_NAME[v.type]||'',v.clinic,v.vet,v.notes].map(q).join(',')));
+  const lg=logsOf(c.id).filter(l=>l.date>=rangeInfo().cut).reverse();
+  if(lg.length){L.push('');L.push(['日常紀錄日期','時間','食慾','喝水ml','嘔吐次數','便便','精神','備註'].map(q).join(','));
+    lg.forEach(l=>L.push([l.date,l.time,l.food,l.water==null?'':l.water,l.vomit==null?'':l.vomit,l.stool,l.energy,l.note].map(q).join(',')))}
   return '﻿'+L.join('\r\n')+'\r\n';
 }
 async function sumImgs(){
@@ -1055,6 +1146,14 @@ async function onAct(a,el){
     case 'med-ics':{
       const m=S.db.meds.find(x=>x.id===id);if(!m)break;
       await shareOrDownload(c.name+'-餵藥.ics',icsCal(m.slots.map(s=>vevent(medEvent(c,m,s)))),'text/calendar');break}
+    /* 每日小紀錄 */
+    case 'lchip':{const f=el.dataset.f,val=el.dataset.v,D=S.logDraft;const cur=D[f]==null?'':String(D[f]);
+      if(cur===val)delete D[f];else D[f]=(f==='vomit')?Number(val):val;
+      $$('[data-act=lchip][data-f='+f+']').forEach(b=>b.setAttribute('aria-pressed',String(D[f]!=null&&String(D[f])===b.dataset.v)));break}
+    case 'lmic':toggleMic();break;
+    case 'lai':aiLog();break;
+    case 'lsave':saveLogNow(c);break;
+    case 'ldel':if(confirm('刪除這筆小紀錄？'))mutate('deleteLog',{id},'已刪除');break;
     /* 匯出 */
     case 'summary':openSheet({kind:'summary',imgs:false,busy:false,msg:''});break;
     case 'sum-print':window.print();break;
@@ -1076,7 +1175,9 @@ function setupEvents(){
     lsSet('cat-open',[...OPEN]);if(d.open)loadThumbs();
   },true);
   document.addEventListener('input',e=>{
-    const t=e.target;if(!SH)return;
+    const t=e.target;
+    if(t.dataset&&t.dataset.ld!=null){S.logDraft[t.dataset.ld]=t.value;return}
+    if(!SH)return;
     if(t.dataset.f!=null){
       const f=t.dataset.f;
       if(f==='nextOn'){SH.nextOn=t.checked;if(t.checked&&!SH.next.date)SH.next.date=addMonths(SH.date,1);renderSheet();return}
