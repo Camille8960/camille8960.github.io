@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#fffaf6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="喵療日記">
-  <meta name="description" content="喵療日記：貓咪健康指數、病歷、照護及回診追蹤。">
+  <meta name="apple-mobile-web-app-title" content="貓咪值班中">
+  <meta name="description" content="貓咪值班中：貓咪健康指數、病歷、照護及回診追蹤。">
   <meta name="robots" content="noindex,nofollow">
-  <title>喵療日記｜Codex 介面交接版</title>
+  <title>貓咪值班中｜Codex 檢驗紀錄版</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon.svg">
@@ -18,7 +18,7 @@
 <body>
   <div id="app" class="app-shell" aria-live="polite">
     <header class="header">
-      <div class="brand-group"><div class="brand">🐾 喵療日記 <span class="edition">Codex 綜合版</span></div>
+      <div class="brand-group"><div class="brand">🐾 貓咪值班中 <span class="edition">Codex 綜合版</span></div>
         <div class="subdued">每條健康曲線，都有小貓陪伴</div></div>
       <button class="header-heart" type="button" id="backupButton" title="匯出這台裝置的資料">♡</button>
     </header>
@@ -33,6 +33,8 @@
     </nav>
     <div id="dialogRoot"></div>
   </div>
+  <script src="lab-core.js" defer></script>
+  <script src="lab-ocr.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>
