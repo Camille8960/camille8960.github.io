@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fffaf6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="喵療日記">
+  <meta name="description" content="喵療日記：貓咪健康指數、病歷、照護及回診追蹤。">
+  <meta name="robots" content="noindex,nofollow">
+  <title>喵療日記｜Codex 介面交接版</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div id="app" class="app-shell" aria-live="polite">
+    <header class="header">
+      <div class="brand-group"><div class="brand">🐾 喵療日記 <span class="edition">Codex 綜合版</span></div>
+        <div class="subdued">每條健康曲線，都有小貓陪伴</div></div>
+      <button class="header-heart" type="button" id="backupButton" title="匯出這台裝置的資料">♡</button>
+    </header>
+    <div class="pet-switch" id="petSwitch"></div>
+    <main class="content" id="content"></main>
+    <nav class="bottom-nav" id="bottomNav" aria-label="主要導覽">
+      <button data-tab="home" class="selected" type="button"><span class="nav-icon">⌂</span><span>首頁</span></button>
+      <button data-tab="metrics" type="button"><span class="nav-icon">▥</span><span>指數</span></button>
+      <button data-tab="records" type="button"><span class="nav-icon">▤</span><span>病歷</span></button>
+      <button data-tab="care" type="button"><span class="nav-icon">♡</span><span>照護</span></button>
+      <button data-tab="calendar" type="button"><span class="nav-icon">▦</span><span>行事曆</span></button>
+    </nav>
+    <div id="dialogRoot"></div>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>
