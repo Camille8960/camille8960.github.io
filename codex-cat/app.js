@@ -1,5 +1,5 @@
 'use strict';
-/* 貓咪值班中 Codex UI handoff: independently deployable local-first preview.
+/* 貓奴值班中 Codex UI handoff: independently deployable local-first preview.
    No real AI, authentication, server-side storage, medical diagnosis or notifications. */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -82,20 +82,20 @@ function modal(html){$('#dialogRoot').innerHTML=`<div class="dialog-backdrop"><d
 function close(){ $('#dialogRoot').innerHTML='' }
 const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const download=(name,blob)=>{const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)};
-const asJSON=()=>JSON.stringify({meta:{format:'貓咪值班中本機試用資料',date:today,note:'不包含原始影像附件'},data:DB},null,2);
+const asJSON=()=>JSON.stringify({meta:{format:'貓奴值班中本機試用資料',date:today,note:'不包含原始影像附件'},data:DB},null,2);
 function doctorHTML(){
 const c=pet(),d=DB.metrics.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
 const care=DB.care.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
 const docs=DB.docs.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
 const trs=d.map(r=>`<tr><td>${safe(r.date)}</td><td>${safe(r.testName||r.key)}</td><td>${safe(r.value)}</td><td>${safe(r.unit||'')}</td><td>${r.lo??'—'}–${r.hi??'—'}</td><td>${r.flag==='H'?'偏高':r.flag==='L'?'偏低':'—'}</td></tr>`).join('');
-return `<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>${safe(c.name)}｜貓咪值班中醫療摘要</title><style>body{font:14px/1.7 sans-serif;color:#333;max-width:900px;margin:25px auto;padding:0 20px}h1{font-size:25px}h2{border-bottom:2px solid #eee;padding-bottom:5px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px;text-align:left;font-size:12px}th{background:#f6f1ec}li{padding:3px 0}.note{font-size:12px;color:#555}@media print{body{margin:0;padding:0}tr{break-inside:avoid}}</style>
+return `<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>${safe(c.name)}｜貓奴值班中醫療摘要</title><style>body{font:14px/1.7 sans-serif;color:#333;max-width:900px;margin:25px auto;padding:0 20px}h1{font-size:25px}h2{border-bottom:2px solid #eee;padding-bottom:5px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px;text-align:left;font-size:12px}th{background:#f6f1ec}li{padding:3px 0}.note{font-size:12px;color:#555}@media print{body{margin:0;padding:0}tr{break-inside:avoid}}</style>
 <h1>${safe(c.name)}｜健康與檢驗病歷摘要</h1><p>匯出日期：${today}　｜　個別貓咪紀錄（僅供獸醫參考，請以原始醫療報告為準）</p>
 <h2>歷次檢驗結果</h2>${d.length?`<table><thead><tr><th>檢驗日期</th><th>檢驗項目</th><th>結果</th><th>單位</th><th>參考範圍</th><th>標記</th></tr></thead><tbody>${trs}</tbody></table>`:'<p>尚無檢驗數據</p>'}
 <h2>體重與日常照護</h2>${care.length?`<table><thead><tr><th>日期</th><th>體重 kg</th><th>皮下輸液 ml</th><th>照護備註</th></tr></thead><tbody>${care.map(x=>`<tr><td>${safe(x.date)}</td><td>${safe(x.weight||'—')}</td><td>${safe(x.fluid||'—')}</td><td>${safe(x.note||'')}</td></tr>`).join('')}</tbody></table>`:'<p>尚無照護紀錄</p>'}
 <h2>相關原始附件清單</h2>${docs.length?`<ul>${docs.map(x=>`<li>${safe(x.date)} · ${safe(x.type)} · ${safe(x.name)}</li>`).join('')}</ul>`:'<p>尚無原始附件</p>'}
 <p class="note">此摘要不含附件原始檔，須另外從 App 的病歷清單下載。此文件可用瀏覽器「列印 → 儲存為 PDF」。所有數值均來自使用者確認或手動填寫，並非獸醫診斷。</p></html>`;
 }
-function createICS(o){const t=(o.date.replaceAll('-','')+'T'+o.time.replace(':','')+'00'),later=(o.date.replaceAll('-','')+'T'+(o.time||'10:00').replace(':','')+'00');const clean=s=>String(s).replace(/[\\,;\n]/g,' ');download('貓咪值班中-'+o.date+'.ics',new Blob(['BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:'+o.id+'@miaotherapy\r\nDTSTART:'+t+'\r\nDTEND:'+later+'\r\nSUMMARY:'+clean(o.title)+'\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n'],{type:'text/calendar;charset=utf-8'}))}
+function createICS(o){const t=(o.date.replaceAll('-','')+'T'+o.time.replace(':','')+'00'),later=(o.date.replaceAll('-','')+'T'+(o.time||'10:00').replace(':','')+'00');const clean=s=>String(s).replace(/[\\,;\n]/g,' ');download('貓奴值班中-'+o.date+'.ics',new Blob(['BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:'+o.id+'@miaotherapy\r\nDTSTART:'+t+'\r\nDTEND:'+later+'\r\nSUMMARY:'+clean(o.title)+'\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n'],{type:'text/calendar;charset=utf-8'}))}
 let idbPromise;
 function store(){if(!idbPromise){idbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open('miaotherapy-codex-files-v1',1);req.onupgradeneeded=()=>req.result.createObjectStore('files');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}return idbPromise}
 async function putFile(id,file){const db=await store();return new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').put(file,id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
@@ -155,7 +155,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(a==='newtest'){modal(`<div class="flex"><strong>新增任意檢驗項目</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>檢驗日期</label><input type="date" id="manual-date" value="${today}"></div><div class="field"><label>項目名稱</label><input id="manual-name" placeholder="例如：USG 或其他任何檢驗項目"></div><div class="cols"><div class="field"><label>數值</label><input id="manual-value" type="number" step="any"></div><div class="field"><label>單位</label><input id="manual-unit" placeholder="例如 mg/dL"></div></div><button class="btn" data-action="savemanual">確認新增</button>`);return}
  if(a==='savemanual'){const name=$('#manual-name').value.trim(),v=$('#manual-value').value,dt=$('#manual-date').value,unit=LabCore.unit($('#manual-unit').value);if(!name||!dt||v.trim()===''||!Number.isFinite(+v)){alert('請填寫名稱、日期與有效數值');return}const k=defs[LabCore.canonical(name)]&&LabCore.unit(defs[LabCore.canonical(name)].unit)===unit?LabCore.canonical(name):LabCore.identity(name,unit);DB.metrics.push({id:id(),cat:active,key:k,date:dt,value:Number(v),testName:name,unit,category:LabCore.category(name)});persist();close();labView='history';tab='metrics';render();return}
  if(a==='recognize'){recognizeDoc(b.dataset.id);return}
- if(a==='doctor'){download('貓咪值班中-'+pet().name+'-醫師摘要-'+today+'.html',new Blob([doctorHTML()],{type:'text/html;charset=utf-8'}));return}
+ if(a==='doctor'){download('貓奴值班中-'+pet().name+'-醫師摘要-'+today+'.html',new Blob([doctorHTML()],{type:'text/html;charset=utf-8'}));return}
  if(a==='addtest'){const wrap=$('#exam-rows');wrap.insertAdjacentHTML('beforeend',examCell());$('#exam-count').textContent=wrap.children.length;return}
  if(a==='deltest'){b.closest('.exam-row')?.remove();$('#exam-count').textContent=$('#exam-rows').children.length;return}
  if(a==='reparse'){const raw=$('#exam-raw').value,dt=$('#exam-date').value,w=$('#exam-weight').value,doc=DB.docs.find(x=>x.id===scanState?.docId);const parsed=LabCore.parse(raw,doc?.type);parsed.date=parsed.date||dt;parsed.weight=parsed.weight??(w?Number(w):null);reviewExam(doc.id,parsed);return}
@@ -175,7 +175,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
 });
 document.addEventListener('change',async e=>{if(!e.target.matches('#pet-photo'))return;const f=e.target.files?.[0];if(!f||!f.type.startsWith('image/'))return;try{pet().photo=await compressPhoto(f);persist();render(false)}catch(err){alert(err.message)}});
 $('#backupButton').addEventListener('click',()=>modal(`<div class="flex"><strong>資料備份及照片管理</strong><button class="dialog-close close">關閉</button></div><div class="notice">本機測試資料可匯出 JSON；<b>目前匯出不包含醫療附件原始檔，包含已確認的檢驗項目與歷史數值</b>。正式雲端備份與帳號同步尚未完成。</div><button class="btn" data-action="export">匯出紀錄 JSON</button><button class="btn soft" data-action="photo">${safe(pet().name)}的照片</button><div class="field"><label>匯入先前的 JSON 紀錄</label><input type="file" id="import-file" accept="application/json"></div>`));
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.action==='export')download('貓咪值班中-本機紀錄-'+today+'.json',new Blob([asJSON()],{type:'application/json;charset=utf-8'}));if(b.dataset.action==='photo')modal(`<div class="flex"><strong>${safe(pet().name)}的照片</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>選擇貓咪照片（只在這台裝置顯示）</label><input type="file" id="pet-photo" accept="image/*"></div>`)});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.action==='export')download('貓奴值班中-本機紀錄-'+today+'.json',new Blob([asJSON()],{type:'application/json;charset=utf-8'}));if(b.dataset.action==='photo')modal(`<div class="flex"><strong>${safe(pet().name)}的照片</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>選擇貓咪照片（只在這台裝置顯示）</label><input type="file" id="pet-photo" accept="image/*"></div>`)});
 document.addEventListener('change',async e=>{if(e.target.id!=='import-file')return;try{const obj=JSON.parse(await e.target.files[0].text()),v=obj.data;if(!v||!Array.isArray(v.cats)||!Array.isArray(v.metrics)||!Array.isArray(v.care)||!Array.isArray(v.events)||!Array.isArray(v.docs))throw new Error('檔案格式不正確');if(!confirm('這會取代這台裝置目前的本機紀錄，確定匯入嗎？'))return;DB=v;DB.reports=Array.isArray(DB.reports)?DB.reports:[];active=DB.cats[0]?.id||'guai';persist();close();render()}catch(err){alert('匯入失敗：'+err.message)}});
 window.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
