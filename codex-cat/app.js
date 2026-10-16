@@ -115,7 +115,7 @@ function metricsPage(){
 function recordsPage(){const docs=DB.docs.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));const reports=DB.reports.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="flex"><div class="page-title">醫療病歷</div><button class="btn soft small" data-action="doctor">匯出醫師摘要</button></div><div class="muted">保存原始檔，辨識完整檢驗資料，確認後才寫入趨勢圖</div>
  <div class="card upload-hero"><h3>📷 上傳報告，自動辨識</h3><p class="muted">拍整張報告（不反光、字清楚）。同一份報告有好幾頁，可以一次選好幾張。選好後會自動讀出所有檢驗項目，核對後按儲存即可。</p><label class="btn big">選擇報告照片<input type="file" id="quick-file" multiple accept="image/*,application/pdf" hidden></label>${aiBadge()}</div>
  <details class="card"><summary>其他檔案（X 光、處方、超音波…）</summary><div class="cols"><div class="field"><label>報告日期（稍後可以修正）</label><input type="date" id="doc-date" value="${today}"></div><div class="field"><label>資料類型</label><select id="doc-type"><option>血檢</option><option>尿檢</option><option>X 光</option><option>超音波</option><option>處方</option><option>其他</option></select></div></div><div class="field"><label>備註</label><input id="doc-note" placeholder="醫院／檢查說明"></div><div class="field"><label>圖片或 PDF，每份不超過 12 MB</label><input type="file" id="doc-file" multiple accept="image/*,application/pdf"></div><button class="btn" data-action="addfiles">儲存原始檔</button><p class="muted">上傳後按每份報告的「辨識／輸入數據」。首次照片 OCR 需下載辨識程式；辨識在本機進行，不需要 OpenAI 金鑰。</p></details>
- <div class="card"><h3>已有 ${docs.length} 份原始檔</h3>${docs.length?docs.map(o=>{const rp=DB.reports.find(r=>r.docId===o.id);return `<div class="entry"><span style="font-size:22px">${o.mime==='application/pdf'?'📄':'🩻'}</span><div class="entry-body"><strong>${safe(o.date)} · ${safe(o.type)}</strong><div class="muted">${safe(o.name)}</div><div class="muted">${o.lead&&o.lead!==o.id?'同一份報告的其他頁':rp?'已確認 '+rp.testCount+' 項 · '+safe(rp.date):'尚未擷取檢驗數據'}</div></div><div class="lab-entry-buttons"><button class="btn soft small" data-action="viewfile" data-id="${safe(o.id)}">查看</button>${o.lead&&o.lead!==o.id?'':`<button class="btn small" data-action="recognize" data-id="${safe(o.id)}">${rp?'重新核對':'辨識／輸入'}</button>`}</div></div>`}).join(''):'<div class="empty">還沒有上傳病歷</div>'}</div>
+ <div class="card"><h3>已有 ${docs.length} 份原始檔</h3>${docs.length?docs.map(o=>{const rp=DB.reports.find(r=>r.docId===o.id);return `<div class="entry"><span style="font-size:22px">${o.mime==='application/pdf'?'📄':'🩻'}</span><div class="entry-body"><strong>${safe(o.date)} · ${safe(o.type)}</strong><div class="muted">${safe(o.name)}</div><div class="muted">${o.lead&&o.lead!==o.id?'同一份報告的其他頁':rp?'已確認 '+rp.testCount+' 項 · '+safe(rp.date):'尚未擷取檢驗數據'}</div></div><div class="lab-entry-buttons"><button class="btn soft small" data-action="viewfile" data-id="${safe(o.id)}">查看</button>${o.lead&&o.lead!==o.id?'':`<button class="btn small" data-action="recognize" data-id="${safe(o.id)}">${rp?'核對／修改':'辨識／輸入'}</button><button class="btn outline small" data-action="deldoc" data-id="${safe(o.id)}">刪除</button>`}</div></div>`}).join(''):'<div class="empty">還沒有上傳病歷</div>'}</div>
  <div class="card"><h3>③ 已確認的檢驗紀錄</h3>${reports.length?reports.map(r=>`<div class="entry"><div class="entry-body"><strong>${safe(r.date)} · ${r.testCount||0} 項</strong><div class="muted">體重：${r.weight??'未提供'} kg · ${safe(r.kind||'檢驗')}</div></div><button class="btn soft small" data-action="labview" data-view="history">看歷史</button></div>`).join(''):'<div class="empty">尚未確認檢驗結果</div>'}</div>
  <div class="notice">本機測試版：照片／PDF 只存這台裝置的瀏覽器，不具備帳號同步或雲端備份。文字 PDF 可試讀；掃描 PDF 請改拍清晰照片。請勿刪除唯一一份原始報告。</div>`}
 function carePage(){let logs=DB.care.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="page-title">每日照護</div><div class="muted">記下體重、皮下輸液、食慾、飲水與用藥</div><div class="card"><div class="field"><label>日期</label><input type="date" id="care-date" value="${today}"></div><div class="cols"><div class="field"><label>體重 kg</label><input type="number" id="weight" step=".01" placeholder="例如 2.6"></div><div class="field"><label>皮下輸液 ml</label><input type="number" id="fluid" step="1"></div></div><div class="cols"><div class="field"><label>食慾</label><select id="appetite"><option>正常</option><option>很好</option><option>稍差</option><option>沒有進食</option></select></div><div class="field"><label>飲水</label><select id="water"><option>正常</option><option>增加</option><option>減少</option></select></div></div><div class="field"><label>藥物與照護備註</label><textarea id="care-note" placeholder="藥名、劑量、排尿、精神狀況等"></textarea></div><button class="btn" data-action="savecare">儲存今日紀錄</button></div><div class="card"><h3>最近紀錄</h3>${logs.length?logs.map(o=>`<div class="entry"><span>♡</span><div class="entry-body"><strong>${safe(o.date)}</strong><div class="muted">體重 ${safe(o.weight||'—')} kg · 輸液 ${safe(o.fluid||'—')} ml · 食慾${safe(o.appetite)} · 飲水${safe(o.water)}</div><div class="muted">${safe(o.note)}</div></div></div>`).join(''):'<div class="empty">尚無照護紀錄</div>'}</div>`}
@@ -145,6 +145,7 @@ function createICS(o){const t=(o.date.replaceAll('-','')+'T'+o.time.replace(':',
 let idbPromise;
 function store(){if(!idbPromise){idbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open('miaotherapy-codex-files-v1',1);req.onupgradeneeded=()=>req.result.createObjectStore('files');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}return idbPromise}
 async function putFile(id,file){const db=await store();return new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').put(file,id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
+async function delFile(id){const db=await store();return new Promise(res=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=()=>res();tx.onerror=()=>res()})}
 async function getFile(id){const db=await store();return new Promise((resolve,reject)=>{const tx=db.transaction('files','readonly'),r=tx.objectStore('files').get(id);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 async function compressPhoto(f){return new Promise((res,rej)=>{const img=new Image(),u=URL.createObjectURL(f);img.onload=()=>{const s=Math.min(1,320/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.78))};img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('無法開啟此照片'))};img.src=u})}
 function examCell(row={},date){
@@ -194,6 +195,10 @@ async function runRecognition(docId,docs){
   else{const r=await LabAI.read(files);parsed={date:r.date,weight:r.weight,rows:r.rows.map(x=>({name:canonName(x.name),value:x.value,cap:x.cap,unit:LabCore.unit(x.unit),lo:x.lo,hi:x.hi,flag:x.flag})).filter((x,i,a)=>a.findIndex(y=>keyFor(y.name,y.unit)===keyFor(x.name,x.unit))===i),rawText:'',ai:true}}
  }catch(err){parsed={rows:[],date:null,weight:null,rawText:'',error:err.message}}
  if(!$('.dialog'))return;
+ if(parsed.ai&&parsed.rows.length){
+  const ok=saveExam({docId,date:parsed.date||doc.date||today,weight:parsed.weight,rows:parsed.rows.map(x=>({name:x.name,value:(x.cap||'')+x.value,unit:x.unit,lo:x.lo==null?'':String(x.lo),hi:x.hi==null?'':String(x.hi),flag:x.flag}))});
+  if(ok){render(false);importSummary(docId);return}
+ }
  reviewExam(docId,parsed);
 }
 async function recognizeDoc(docId){const rp=DB.reports.find(r=>r.docId===docId);if(rp){reviewExam(docId);return}runRecognition(docId,docGroup(docId))}
@@ -209,25 +214,43 @@ async function quickUpload(files){
  persist();
  await runRecognition(ids[0],docGroup(ids[0]));
 }
-function saveExam(){const d=DB.docs.find(x=>x.id===scanState?.docId);if(!d)return;
- const date=$('#exam-date').value,weight=$('#exam-weight').value.trim(),rawRows=currentExamRows();
- if(!date){alert('請確認檢驗日期');return}if(!rawRows.length){alert('請至少輸入一項檢驗結果');return}
+function saveExam(auto){
+ const fail=m=>{if(!auto)alert(m);return false};
+ const d=DB.docs.find(x=>x.id===(auto?auto.docId:scanState?.docId));if(!d)return false;
+ const date=auto?auto.date:$('#exam-date').value,weight=auto?(auto.weight==null?'':String(auto.weight)):$('#exam-weight').value.trim(),rawRows=auto?auto.rows:currentExamRows();
+ if(!date)return fail('請確認檢驗日期');if(!rawRows.length)return fail('請至少輸入一項檢驗結果');
  const inputs=[],seen=new Set();
  for(const r of rawRows){
   const pv=parseVal(r.value);
-  if(!r.name||!pv){alert('每一列必須有項目名稱及有效數值（可在數字前加 > 或 <）：'+(r.name||'（未命名）'));return}
-  if(r.lo!==''&&!Number.isFinite(Number(r.lo))||r.hi!==''&&!Number.isFinite(Number(r.hi))){alert('參考區間應為數字，或留白');return}
+  if(!r.name||!pv)return fail('每一列必須有項目名稱及有效數值（可在數字前加 > 或 <）：'+(r.name||'（未命名）'));
+  if(r.lo!==''&&!Number.isFinite(Number(r.lo))||r.hi!==''&&!Number.isFinite(Number(r.hi)))return fail('參考區間應為數字，或留白');
   const code=LabCore.canonical(r.name),unit=LabCore.unit(r.unit),built=defs[code],k=keyFor(r.name,r.unit);
-  if(seen.has(k)){alert('同一次檢驗有重複項目 '+r.name+'，請合併或更正');return}seen.add(k);
+  if(seen.has(k))return fail('同一次檢驗有重複項目 '+r.name+'，請合併或更正');seen.add(k);
   inputs.push({id:id(),cat:active,key:k,canonical:code,testName:r.name,date,value:pv.v,cap:pv.cap,unit:unit||built?.unit||'',lo:r.lo===''?null:Number(r.lo),hi:r.hi===''?null:Number(r.hi),flag:r.flag,category:LabCore.category(r.name,d.type),sourceDoc:d.id});
  }
- if(weight!==''&&(!Number.isFinite(Number(weight))||Number(weight)<=0||Number(weight)>35)){alert('請檢查體重 kg');return}
+ if(weight!==''&&(!Number.isFinite(Number(weight))||Number(weight)<=0||Number(weight)>35))return fail('請檢查體重 kg');
  DB.metrics=DB.metrics.filter(x=>x.sourceDoc!==d.id);DB.metrics.push(...inputs);
  DB.care=DB.care.filter(x=>x.sourceDoc!==d.id);
  if(weight!=='')DB.care.push({id:id(),cat:active,sourceDoc:d.id,date,weight:Number(weight),fluid:'',appetite:'未紀錄',water:'未紀錄',note:'從 '+d.name+' 檢驗報告記錄的體重'});
  DB.reports=DB.reports.filter(x=>x.docId!==d.id);DB.reports.push({id:id(),docId:d.id,cat:active,date,weight:weight===''?null:Number(weight),testCount:inputs.length,kind:d.type});
  docGroup(d.id).forEach(x=>x.date=date);
- if(!persist())return;scanState=null;cmp={a:null,b:null,all:false};close();tab='metrics';labView='current';render();
+ if(!persist())return false;cmp={a:null,b:null,all:false};
+ if(auto)return true;
+ scanState=null;close();tab='metrics';labView='current';render();return true;
+}
+async function removeDoc(docId){
+ const ids=docGroup(docId).map(x=>x.id);
+ DB.docs=DB.docs.filter(x=>!ids.includes(x.id));
+ DB.metrics=DB.metrics.filter(x=>!ids.includes(x.sourceDoc));DB.care=DB.care.filter(x=>!ids.includes(x.sourceDoc));DB.reports=DB.reports.filter(x=>!ids.includes(x.docId));
+ for(const i of ids)await delFile(i);
+ persist();cmp={a:null,b:null,all:false};scanState=null;close();render(false);
+}
+function importSummary(docId){
+ const rp=DB.reports.find(r=>r.docId===docId);if(!rp)return;
+ modal(`<div class="flex"><strong>✓ 已匯入</strong><button class="dialog-close close">關閉</button></div>
+ <div class="notice ok">${safe(pet().name)}　${safe(rp.date)}　共 <b>${rp.testCount}</b> 項已記錄${rp.weight!=null?'；體重 <b>'+rp.weight+' kg</b> 已記到「照護」':'；報告上沒有讀到體重'}。</div>
+ <p class="muted">AI 偶爾會讀錯。想對照原始照片檢查，點「核對／修改」；讀錯的整份可以刪除重傳。</p>
+ <div class="buttons" style="justify-content:flex-start"><button class="btn" data-action="gometrics">看指數與比較</button><button class="btn soft" data-action="recognize" data-id="${safe(docId)}">核對／修改</button><button class="btn outline" data-action="deldoc" data-id="${safe(docId)}">刪除這份報告</button></div>`);
 }
 function aiDialog(){const m=LabAI.mode();modal(`<div class="flex"><strong>AI 辨識設定</strong><button class="dialog-close close">關閉</button></div>
 <div class="notice">目前：${m==='key'?'使用你的 API 金鑰 '+safe(LabAI.keyTail()):m==='backend'?'沿用「貓咪健康紀錄」已連接的後端':'尚未設定（使用準確度較低的內建 OCR）'}</div>
@@ -239,6 +262,8 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(a==='newtest'){modal(`<div class="flex"><strong>新增任意檢驗項目</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>檢驗日期</label><input type="date" id="manual-date" value="${today}"></div><div class="field"><label>項目名稱</label><input id="manual-name" placeholder="例如：USG 或其他任何檢驗項目"></div><div class="cols"><div class="field"><label>數值</label><input id="manual-value" type="number" step="any"></div><div class="field"><label>單位</label><input id="manual-unit" placeholder="例如 mg/dL"></div></div><button class="btn" data-action="savemanual">確認新增</button>`);return}
  if(a==='savemanual'){const name=$('#manual-name').value.trim(),v=$('#manual-value').value,dt=$('#manual-date').value,unit=LabCore.unit($('#manual-unit').value);if(!name||!dt||v.trim()===''||!Number.isFinite(+v)){alert('請填寫名稱、日期與有效數值');return}const k=defs[LabCore.canonical(name)]&&LabCore.unit(defs[LabCore.canonical(name)].unit)===unit?LabCore.canonical(name):LabCore.identity(name,unit);DB.metrics.push({id:id(),cat:active,key:k,date:dt,value:Number(v),testName:name,unit,category:LabCore.category(name)});persist();close();labView='history';tab='metrics';render();return}
  if(a==='recognize'){recognizeDoc(b.dataset.id);return}
+ if(a==='gometrics'){close();tab='metrics';labView='current';render();return}
+ if(a==='deldoc'){const d=DB.docs.find(x=>x.id===b.dataset.id);if(!d)return;const rp=DB.reports.find(r=>r.docId===d.id);if(!confirm(rp?'確定刪除這份報告？它匯入的 '+rp.testCount+' 項數據和體重紀錄也會一起刪除，無法復原。':'確定刪除這份檔案？無法復原。'))return;await removeDoc(d.id);return}
  if(a==='cmpall'){cmp.all=!cmp.all;render(false);return}
  if(a==='aiset'){aiDialog();return}
  if(a==='aisave'){const v=$('#ai-key').value.trim();if(v&&!/^sk-ant-/.test(v)){alert('金鑰通常以 sk-ant- 開頭，請確認是否貼對');return}if(!LabAI.setKey(v)){alert('無法儲存設定');return}close();render(false);return}
