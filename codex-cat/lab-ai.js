@@ -6,7 +6,7 @@
 const KEY='miaotherapy-codex-ai-v1';
 const MODEL='claude-sonnet-5-5';
 const PROMPT=`你是獸醫檢驗報告的資料擷取器。這些圖片是「同一份」貓咪檢驗報告的各頁（血液、生化、甲狀腺等）。請讀出報告上「每一個」有數值的檢驗項目，只輸出 JSON，不要任何說明文字：
-{"date":"YYYY-MM-DD 或 null","weight_kg":數字或null,"clinic":"醫院名稱或null","items":[{"name":"報告上印的項目縮寫或名稱","value":數字,"cap":"" 或 ">" 或 "<","unit":"單位","lo":參考下限或null,"hi":參考上限或null,"flag":"H、L 或空字串"}]}
+{"date":"YYYY-MM-DD 或 null","weight_kg":數字或null,"age":"報告上印的貓咪年齡原文，例如 16Y 3M、16歲；沒有就填 null","clinic":"醫院名稱或null","items":[{"name":"報告上印的項目縮寫或名稱","value":數字,"cap":"" 或 ">" 或 "<","unit":"單位","lo":參考下限或null,"hi":參考上限或null,"flag":"H、L 或空字串"}]}
 規則：
 - 逐列讀取，不要漏列，也不要補報告上沒有的項目。
 - 結果印成「>20.0」或「<0.5」這種超出儀器範圍的，value 填 20.0 或 0.5，cap 填 ">" 或 "<"；其他情況 cap 填空字串。
@@ -50,7 +50,7 @@ function normalize(o){
   }
   const date=/^\d{4}-\d{2}-\d{2}$/.test(o.date||'')?o.date:null;
   const w=numOrNull(o.weight_kg??o.weight);
-  return{date,weight:w&&w>0&&w<35?w:null,clinic:o.clinic||'',rows};
+  return{date,weight:w&&w>0&&w<35?w:null,age:o.age?String(o.age).trim().slice(0,24):'',clinic:o.clinic||'',rows};
 }
 
 async function viaKey(files){
