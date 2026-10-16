@@ -73,8 +73,8 @@ function verdict(p,n,reg){
 }
 function compareCard(){
  const reps=DB.reports.filter(x=>x.cat===active).slice().sort((a,b)=>a.date.localeCompare(b.date)||String(a.id).localeCompare(String(b.id)));
- const head='<div class="card"><h3>兩次報告比較</h3>';
- if(reps.length<2)return head+`<p class="muted">${reps.length?'目前只有一份報告。再上傳一份，這裡就會自動和上次比較。':'還沒有報告。到「病歷」上傳報告照片，AI 會自動讀出所有項目。'}</p></div>`;
+ const head='<details class="card" id="cmp-details"'+(cmp.open?' open':'')+'><summary>兩次報告比較（點開看表格）</summary>';
+ if(reps.length<2)return head+`<p class="muted">${reps.length?'目前只有一份報告。再上傳一份，這裡就會自動和上次比較。':'還沒有報告。到「病歷」上傳報告照片，AI 會自動讀出所有項目。'}</p></details>`;
  let nw=reps.find(r=>r.id===cmp.b)||reps.at(-1);
  let old=reps.find(r=>r.id===cmp.a&&r.id!==nw.id)||reps[reps.indexOf(nw)-1]||reps.find(r=>r.id!==nw.id);
  if(old.date>nw.date)[old,nw]=[nw,old];
@@ -100,19 +100,19 @@ function compareCard(){
   +(both.length?`<div class="cmp-head"><div>項目</div><div>${md(old.date)}</div><div>${md(nw.date)}</div><div>變化</div></div>${both.map(row).join('')}`:'<p class="muted">這兩份報告沒有共同項目可以比對。</p>')
   +(fresh.length?`<div class="cmp-sub">這次才有的新項目：只看是否在參考範圍（在範圍內小貓開心，超出範圍小貓跪地哭，動畫在下方各項目卡片）</div>${fresh.map(freshRow).join('')}`:'')
   +(gone.length?`<div class="muted" style="margin-top:9px">上次有、這次沒驗的 ${gone.length} 項已先隱藏。<button class="linkish" data-action="cmpall">${cmp.all?'收起':'顯示'}</button></div>${cmp.all?gone.map(goneRow).join(''):''}`:'')
-  +'<div class="muted" style="margin-top:8px">判斷只看有沒有更靠近各報告上的參考範圍，不是診斷，請以獸醫說明為準。</div></div>';
+  +'<div class="muted" style="margin-top:8px">判斷只看有沒有更靠近各報告上的參考範圍，不是診斷，請以獸醫說明為準。</div></details>';
 }
 function metricsPage(){
  const r=latestReport(),all=registry(),used=new Set(r?DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>x.key):[]);
  const keys=labView==='current'?(r?[...used]:[]):Object.keys(all);
  keys.sort((a,b)=>{let x=all[a].category||LabCore.category(a),y=all[b].category||LabCore.category(b);return x.localeCompare(y,'zh-Hant')||a.localeCompare(b)});
  return `<div class="flex"><div><div class="page-title">${safe(pet().name)}的檢驗指數</div><div class="muted">每次只看當次檢驗，也能查看歷史所有項目</div></div><button class="btn soft small" data-action="newtest">＋ 新增檢驗項目</button></div>
- ${compareCard()}
  <div class="card"><div class="lab-modes"><button class="btn ${labView==='current'?'':'soft'}" data-action="labview" data-view="current">本次檢驗</button><button class="btn ${labView==='history'?'':'soft'}" data-action="labview" data-view="history">歷史全部項目</button></div><p class="muted">${labView==='current'?(r?'最近報告：'+safe(r.date)+'，僅列出這次有檢驗的項目':'還沒有已確認的報告；請先到「病歷」匯入並核對檢驗結果'):'包含所有歷史檢驗項目及未來可新增的項目；本次未檢驗不代表數值為 0。'}</p></div>
  ${keys.length?keys.map(k=>{const recent=!used.has(k)&&r?'<div class="muted" style="margin:0 4px 5px">本次未檢驗；歷史紀錄保留</div>':'';const rows=actualRows(k);if(labView==='history'&&!rows.length)return `<div class="card"><strong>${safe(all[k].name)} ${safe(k.split('@@')[0])}</strong><div class="muted">尚無真實檢驗紀錄，未來驗到會自動保留</div><button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 輸入數值</button></div>`;return recent+metricCard(k)}).join(''):'<div class="card empty">尚無本次檢驗數據。請先上傳報告並確認。</div>'}
+ ${compareCard()}
  <div class="notice">重要：沒有驗的項目不會刪除、不會補零。照片自動辨識可能漏讀，必須與原始報告逐項核對。</div>`;
 }
-function recordsPage(){const docs=DB.docs.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));const reports=DB.reports.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="flex"><div class="page-title">醫療病歷</div><button class="btn soft small" data-action="doctor">匯出醫師摘要</button></div><div class="muted">保存原始檔，辨識完整檢驗資料，確認後才寫入趨勢圖</div>
+function recordsPage(){const docs=DB.docs.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));const reports=DB.reports.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="flex"><div class="page-title">醫療病歷</div><button class="btn soft small" data-action="doctordlg">匯出醫師摘要</button></div><div class="muted">保存原始檔，辨識完整檢驗資料，確認後才寫入趨勢圖</div>
  <div class="card upload-hero"><h3>📷 上傳報告，自動辨識</h3><p class="muted">拍整張報告（不反光、字清楚）。同一份報告有好幾頁，可以一次選好幾張。選好後會自動讀出所有檢驗項目，核對後按儲存即可。</p><label class="btn big">選擇報告照片<input type="file" id="quick-file" multiple accept="image/*,application/pdf" hidden></label>${aiBadge()}</div>
  <details class="card"><summary>其他檔案（X 光、處方、超音波…）</summary><div class="cols"><div class="field"><label>報告日期（稍後可以修正）</label><input type="date" id="doc-date" value="${today}"></div><div class="field"><label>資料類型</label><select id="doc-type"><option>血檢</option><option>尿檢</option><option>X 光</option><option>超音波</option><option>處方</option><option>其他</option></select></div></div><div class="field"><label>備註</label><input id="doc-note" placeholder="醫院／檢查說明"></div><div class="field"><label>圖片或 PDF，每份不超過 12 MB</label><input type="file" id="doc-file" multiple accept="image/*,application/pdf"></div><button class="btn" data-action="addfiles">儲存原始檔</button><p class="muted">上傳後按每份報告的「辨識／輸入數據」。首次照片 OCR 需下載辨識程式；辨識在本機進行，不需要 OpenAI 金鑰。</p></details>
  <div class="card"><h3>已有 ${docs.length} 份原始檔</h3>${docs.length?docs.map(o=>{const rp=DB.reports.find(r=>r.docId===o.id);return `<div class="entry"><span style="font-size:22px">${o.mime==='application/pdf'?'📄':'🩻'}</span><div class="entry-body"><strong>${safe(o.date)} · ${safe(o.type)}</strong><div class="muted">${safe(o.name)}</div><div class="muted">${o.lead&&o.lead!==o.id?'同一份報告的其他頁':rp?'已確認 '+rp.testCount+' 項 · '+safe(rp.date):'尚未擷取檢驗數據'}</div></div><div class="lab-entry-buttons"><button class="btn soft small" data-action="viewfile" data-id="${safe(o.id)}">查看</button>${o.lead&&o.lead!==o.id?'':`<button class="btn small" data-action="recognize" data-id="${safe(o.id)}">${rp?'核對／修改':'辨識／輸入'}</button><button class="btn outline small" data-action="deldoc" data-id="${safe(o.id)}">刪除</button>`}</div></div>`}).join(''):'<div class="empty">還沒有上傳病歷</div>'}</div>
@@ -129,17 +129,34 @@ function close(){ $('#dialogRoot').innerHTML='' }
 const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const download=(name,blob)=>{const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000)};
 const asJSON=()=>JSON.stringify({meta:{format:'貓奴值班中本機試用資料',date:today,note:'不包含原始影像附件'},data:DB},null,2);
-function doctorHTML(){
-const c=pet(),d=DB.metrics.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
-const care=DB.care.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
-const docs=DB.docs.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date));
-const trs=d.map(r=>`<tr><td>${safe(r.date)}</td><td>${safe(r.testName||r.key)}</td><td>${safe(r.value)}</td><td>${safe(r.unit||'')}</td><td>${r.lo??'—'}–${r.hi??'—'}</td><td>${r.flag==='H'?'偏高':r.flag==='L'?'偏低':'—'}</td></tr>`).join('');
-return `<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>${safe(c.name)}｜貓奴值班中醫療摘要</title><style>body{font:14px/1.7 sans-serif;color:#333;max-width:900px;margin:25px auto;padding:0 20px}h1{font-size:25px}h2{border-bottom:2px solid #eee;padding-bottom:5px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px;text-align:left;font-size:12px}th{background:#f6f1ec}li{padding:3px 0}.note{font-size:12px;color:#555}@media print{body{margin:0;padding:0}tr{break-inside:avoid}}</style>
-<h1>${safe(c.name)}｜健康與檢驗病歷摘要</h1><p>匯出日期：${today}　｜　個別貓咪紀錄（僅供獸醫參考，請以原始醫療報告為準）</p>
-<h2>歷次檢驗結果</h2>${d.length?`<table><thead><tr><th>檢驗日期</th><th>檢驗項目</th><th>結果</th><th>單位</th><th>參考範圍</th><th>標記</th></tr></thead><tbody>${trs}</tbody></table>`:'<p>尚無檢驗數據</p>'}
-<h2>體重與日常照護</h2>${care.length?`<table><thead><tr><th>日期</th><th>體重 kg</th><th>皮下輸液 ml</th><th>照護備註</th></tr></thead><tbody>${care.map(x=>`<tr><td>${safe(x.date)}</td><td>${safe(x.weight||'—')}</td><td>${safe(x.fluid||'—')}</td><td>${safe(x.note||'')}</td></tr>`).join('')}</tbody></table>`:'<p>尚無照護紀錄</p>'}
+function doctorHTML(months){
+ const c=pet(),reg=registry();
+ const lim=new Date();if(months)lim.setMonth(lim.getMonth()-months);const cut=months?dateOf(lim):'0000-00-00';
+ const mine=DB.metrics.filter(x=>x.cat===active);
+ let dates=[...new Set(mine.filter(x=>x.date>=cut).map(x=>x.date))].sort();
+ if(dates.length<2)dates=[...new Set(mine.map(x=>x.date))].sort().slice(-2);
+ const used=mine.filter(x=>dates.includes(x.date)),by=new Map(used.map(x=>[x.key+'|'+x.date,x]));
+ const rank=k=>{const i=Object.keys(defs).indexOf(k);return i<0?99:i};
+ const keys=[...new Set(used.map(x=>x.key))].sort((x,y)=>rank(x)-rank(y)||(reg[x]?.category||LabCore.category(x)).localeCompare(reg[y]?.category||LabCore.category(y),'zh-Hant')||x.localeCompare(y));
+ const last=dates.at(-1),nm=k=>reg[k]?.name||k.split('@@')[0];
+ const zone=(r,k)=>{const lo=r.lo??reg[k]?.lo,hi=r.hi??reg[k]?.hi;if(lo==null||hi==null)return r.flag==='H'?'H':r.flag==='L'?'L':'';return r.value<lo?'L':r.value>hi?'H':''};
+ const cell=(k,d)=>{const r=by.get(k+'|'+d);if(!r)return '<td class="na">—</td>';const z=zone(r,k);return `<td class="${z?'out':''}${d===last?' latest':''}">${safe((r.cap||'')+r.value)}${z?' '+(z==='H'?'↑':'↓'):''}</td>`};
+ const refOf=k=>{const r=mine.filter(x=>x.key===k).sort(byDate).at(-1)||{},lo=r.lo??reg[k]?.lo,hi=r.hi??reg[k]?.hi;return lo==null||hi==null?'—':lo+'–'+hi};
+ const body=keys.map(k=>{const u=(by.get(k+'|'+last)||mine.filter(x=>x.key===k).sort(byDate).at(-1)||{}).unit||reg[k]?.unit||'';return `<tr><th>${safe(nm(k))}<small>${safe(k.split('@@')[0])}・${safe(u)}</small></th>${dates.map(d=>cell(k,d)).join('')}<td class="ref">${safe(refOf(k))}</td></tr>`}).join('');
+ const outNow=keys.filter(k=>{const r=by.get(k+'|'+last);return r&&zone(r,k)}).map(k=>{const r=by.get(k+'|'+last);return safe(nm(k)+' '+(r.cap||'')+r.value+(zone(r,k)==='H'?'↑':'↓'))});
+ const reps=DB.reports.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date)),age=(reps.find(x=>x.age)||{}).age||'';
+ const wts=DB.care.filter(x=>x.cat===active&&Number(x.weight)>0&&x.date>=cut).slice().sort(byDate);
+ const wRows=wts.map((x,i)=>{const d=i?Math.round((Number(x.weight)-Number(wts[i-1].weight))*100)/100:null;return `<tr><td>${safe(x.date)}</td><td>${safe(x.weight)}</td><td>${d==null?'—':(d>0?'+':'')+d}</td></tr>`}).join('');
+ const care=DB.care.filter(x=>x.cat===active&&x.date>=cut&&(x.fluid||(x.note&&!x.sourceDoc))).slice().sort((a,b)=>b.date.localeCompare(a.date));
+ const docs=DB.docs.filter(x=>x.cat===active&&x.date>=cut&&!(x.lead&&x.lead!==x.id)).slice().sort((a,b)=>b.date.localeCompare(a.date));
+ const label=months?'最近 '+months+' 個月':'全部紀錄';
+ return `<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${safe(c.name)}｜貓奴值班中醫療摘要</title><style>body{font:14px/1.7 sans-serif;color:#333;max-width:1000px;margin:25px auto;padding:0 16px}h1{font-size:23px;margin-bottom:4px}h2{border-bottom:2px solid #eee;padding-bottom:5px;margin-top:26px}.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px 7px;text-align:center;font-size:12px;white-space:nowrap}th{background:#f6f1ec}tbody th{text-align:left;white-space:normal}th small{display:block;font-weight:400;color:#777;font-size:10px}td.out{background:#fde9e3;color:#a4402f;font-weight:700}td.latest{border-left:2px solid #b9867a;border-right:2px solid #b9867a}th.latest{background:#ead9cf}td.na{color:#bbb}td.ref{color:#666;background:#faf7f4}.sum{background:#faf3ee;border-radius:8px;padding:10px 12px;margin:10px 0}li{padding:3px 0}.note{font-size:12px;color:#555}@page{size:A4 landscape;margin:12mm}@media print{body{margin:0;padding:0}tr{break-inside:avoid}}</style>
+<h1>${safe(c.name)}｜健康與檢驗病歷摘要</h1><p>匯出日期：${today}　｜　期間：${label}${age?'　｜　年齡：'+safe(age):''}${wts.length?'　｜　最近體重：'+safe(wts.at(-1).weight)+' kg（'+safe(wts.at(-1).date)+'）':''}</p>
+<h2>歷次檢驗結果（每列一個項目，每欄一次檢驗）</h2>${keys.length?`<div class="sum"><b>最近一次（${safe(last)}）</b>：${outNow.length?'超出參考範圍的項目：'+outNow.join('、'):'所有項目都在參考範圍內'}</div><div class="wrap"><table><thead><tr><th>項目</th>${dates.map(d=>`<th${d===last?' class="latest"':''}>${safe(d)}${d===last?'<small>最近一次</small>':''}</th>`).join('')}<th>參考範圍</th></tr></thead><tbody>${body}</tbody></table></div><p class="note">紅底＝超出該報告的參考範圍（↑偏高、↓偏低）；「—」＝該次沒有檢驗，不代表數值為 0。參考範圍取最近一次報告上的範圍。</p>`:'<p>尚無檢驗數據</p>'}
+<h2>體重變化</h2>${wRows?`<div class="wrap"><table><thead><tr><th>日期</th><th>體重 kg</th><th>與上次相差</th></tr></thead><tbody>${wRows}</tbody></table></div>`:'<p>此期間沒有體重紀錄</p>'}
+<h2>日常照護（皮下輸液、備註）</h2>${care.length?`<div class="wrap"><table><thead><tr><th>日期</th><th>皮下輸液 ml</th><th>照護備註</th></tr></thead><tbody>${care.map(x=>`<tr><td>${safe(x.date)}</td><td>${safe(x.fluid||'—')}</td><td style="text-align:left;white-space:normal">${safe(x.note||'')}</td></tr>`).join('')}</tbody></table></div>`:'<p>此期間沒有輸液或照護備註</p>'}
 <h2>相關原始附件清單</h2>${docs.length?`<ul>${docs.map(x=>`<li>${safe(x.date)} · ${safe(x.type)} · ${safe(x.name)}</li>`).join('')}</ul>`:'<p>尚無原始附件</p>'}
-<p class="note">此摘要不含附件原始檔，須另外從 App 的病歷清單下載。此文件可用瀏覽器「列印 → 儲存為 PDF」。所有數值均來自使用者確認或手動填寫，並非獸醫診斷。</p></html>`;
+<p class="note">此摘要不含附件原始檔，須另外從 App 的病歷清單下載。可用瀏覽器「列印 → 儲存為 PDF」。數值來自 AI 讀取或手動輸入，可能有誤，請以原始報告為準，並非獸醫診斷。</p></html>`;
 }
 function createICS(o){const t=(o.date.replaceAll('-','')+'T'+o.time.replace(':','')+'00'),later=(o.date.replaceAll('-','')+'T'+(o.time||'10:00').replace(':','')+'00');const clean=s=>String(s).replace(/[\\,;\n]/g,' ');download('貓奴值班中-'+o.date+'.ics',new Blob(['BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nUID:'+o.id+'@miaotherapy\r\nDTSTART:'+t+'\r\nDTEND:'+later+'\r\nSUMMARY:'+clean(o.title)+'\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n'],{type:'text/calendar;charset=utf-8'}))}
 let idbPromise;
@@ -270,7 +287,8 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(a==='aisave'){const v=$('#ai-key').value.trim();if(v&&!/^sk-ant-/.test(v)){alert('金鑰通常以 sk-ant- 開頭，請確認是否貼對');return}if(!LabAI.setKey(v)){alert('無法儲存設定');return}close();render(false);return}
  if(a==='aiclear'){LabAI.setKey('');close();render(false);return}
  if(a==='rereadai'){const d=DB.docs.find(x=>x.id===scanState?.docId);if(d)runRecognition(d.id,docGroup(d.id));return}
- if(a==='doctor'){download('貓奴值班中-'+pet().name+'-醫師摘要-'+today+'.html',new Blob([doctorHTML()],{type:'text/html;charset=utf-8'}));return}
+ if(a==='doctordlg'){modal(`<div class="flex"><strong>匯出醫師摘要</strong><button class="dialog-close close">關閉</button></div><p class="muted">選擇要給醫生看的期間。摘要會把每個檢驗項目排成一列、每次檢驗一欄，方便看出變化，並附上參考範圍、體重和照護紀錄。</p><div class="buttons" style="justify-content:flex-start"><button class="btn" data-action="doctor" data-months="3">最近 3 個月</button><button class="btn" data-action="doctor" data-months="6">最近 6 個月</button><button class="btn soft" data-action="doctor" data-months="0">全部紀錄</button></div>`);return}
+ if(a==='doctor'){download('貓奴值班中-'+pet().name+'-醫師摘要-'+today+'.html',new Blob([doctorHTML(Number(b.dataset.months)||0)],{type:'text/html;charset=utf-8'}));close();return}
  if(a==='addtest'){const wrap=$('#exam-rows');wrap.insertAdjacentHTML('beforeend',examCell());$('#exam-count').textContent=wrap.children.length;return}
  if(a==='deltest'){b.closest('.exam-row')?.remove();$('#exam-count').textContent=$('#exam-rows').children.length;return}
  if(a==='reparse'){const raw=$('#exam-raw').value,dt=$('#exam-date').value,w=$('#exam-weight').value,doc=DB.docs.find(x=>x.id===scanState?.docId);const parsed=LabCore.parse(raw,doc?.type);parsed.date=parsed.date||dt;parsed.weight=parsed.weight??(w?Number(w):null);reviewExam(doc.id,parsed);return}
@@ -288,6 +306,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(a==='ics'){const o=DB.events.find(x=>x.id===b.dataset.id);if(o)createICS(o);return}
  if(b.classList.contains('dialog-close')){close();return}
 });
+document.addEventListener('toggle',e=>{if(e.target.id==='cmp-details')cmp.open=e.target.open},true);
 document.addEventListener('change',e=>{
  if(e.target.id==='quick-file'){const fs=[...e.target.files];e.target.value='';quickUpload(fs);return}
  if(e.target.id==='cmp-a'||e.target.id==='cmp-b'){cmp.a=$('#cmp-a').value;cmp.b=$('#cmp-b').value;render(false)}
