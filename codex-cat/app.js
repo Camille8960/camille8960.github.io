@@ -13,7 +13,7 @@ const key='miaotherapy-codex-local-v1';
 function blank(){return {cats:[{id:'guai',name:'乖乖',note:'慢性病照護'},{id:'duo',name:'多多',note:'慢性病照護'}],metrics:[],care:[],events:[],docs:[],reports:[]}}
 let DB;try{DB=Object.assign(blank(),JSON.parse(localStorage.getItem(key)||'null')||{});}catch(e){DB=blank()}
 for(const prop of ['cats','metrics','care','events','docs','reports'])if(!Array.isArray(DB[prop]))DB[prop]=blank()[prop];
-let labView='current',scanState=null,active=DB.cats[0]?.id||'guai',tab='home',month=new Date().getMonth(),year=new Date().getFullYear(),selected=today,frames={},objectURLs=[];
+let labView='current',cmp={a:null,b:null,all:false},scanState=null,active=DB.cats[0]?.id||'guai',tab='home',month=new Date().getMonth(),year=new Date().getFullYear(),selected=today,frames={},objectURLs=[];
 const persist=()=>{try{localStorage.setItem(key,JSON.stringify(DB));return true}catch(e){alert('儲存失敗，請先匯出備份並檢查瀏覽器容量。');return false}};
 const pet=()=>DB.cats.find(x=>x.id===active)||DB.cats[0];
 const avatar=c=>c.photo?'<img alt="貓咪照片" src="'+safe(c.photo)+'">':'🐱';
@@ -27,7 +27,7 @@ function registry(){
 function actualRows(k){return DB.metrics.filter(x=>x.cat===active&&x.key===k).slice().sort(byDate)}
 function latestReport(){return DB.reports.filter(x=>x.cat===active).slice().sort((a,b)=>b.date.localeCompare(a.date))[0]}
 function measurements(k){return {data:actualRows(k),demo:false};}
-function mood(k,rows){if(rows.length<2)return 'neutral';const d=registry()[k];if(!d||!Number.isFinite(Number(d.lo))||!Number.isFinite(Number(d.hi))||d.lo===null||d.hi===null)return 'neutral';const dist=v=>v<d.lo?d.lo-v:v>d.hi?v-d.hi:0,was=dist(+rows.at(-2).value),is=dist(+rows.at(-1).value),t=Math.max((d.hi-d.lo)*.04,.03);return was-is>t?'better':is-was>t?'worse':'neutral'}
+function mood(k,rows){if(!rows.length)return 'neutral';const d=registry()[k];if(!d||!Number.isFinite(Number(d.lo))||!Number.isFinite(Number(d.hi))||d.lo===null||d.hi===null)return 'neutral';if(rows.length<2){const v=+rows.at(-1).value;return v<d.lo||v>d.hi?'worse':'better'}const dist=v=>v<d.lo?d.lo-v:v>d.hi?v-d.hi:0,was=dist(+rows.at(-2).value),is=dist(+rows.at(-1).value),t=Math.max((d.hi-d.lo)*.04,.03);return was-is>t?'better':is-was>t?'worse':'neutral'}
 function catSvg(){return `<svg viewBox="0 0 140 175" xmlns="http://www.w3.org/2000/svg" aria-label="Q版虎斑貓">
 <g class="whole">
 <g class="tail"><path d="M88 119 C111 133 122 111 112 91" stroke="#785842" stroke-width="13" stroke-linecap="round" fill="none"/><path d="M88 119 C111 133 122 111 112 91" stroke="#edb77f" stroke-width="8.5" stroke-linecap="round" fill="none"/><path d="M110 99 l8 3 M111 114 l8 0" stroke="#9d6b48" stroke-width="4"/></g>
@@ -55,26 +55,72 @@ function sprite(key,s){return `<div class="cat-sprite ${s}" data-key="${key}" da
 function metricCard(k){const m=registry()[k],o=measurements(k),rows=o.data,st=mood(k,rows),vals=rows.map(r=>Number(r.value));let coords=[];
  if(rows.length){let mn=Math.min(...vals,...(m.lo===null||m.lo===undefined?[]:[m.lo])),mx=Math.max(...vals,...(m.hi===null||m.hi===undefined?[]:[m.hi])),span=Math.max(1,mx-mn);coords=rows.map((r,i)=>({x:rows.length===1?210:51+i*320/(rows.length-1),y:166-(+r.value-mn)/(span)*58}));}
  let pts=coords.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="white" stroke="#a78277" stroke-width="2"/><text x="${p.x}" y="${Math.max(11,p.y-11)}" text-anchor="middle" font-size="12" font-weight="700" fill="#725f55">${safe(rows[i].value)}</text><text x="${p.x}" y="205" text-anchor="middle" font-size="11" fill="#a38f84">${safe(rows[i].date.slice(5).replace('-','/'))}</text>`).join('');let path=coords.map((p,i)=>(i?'L':'M')+p.x+' '+p.y).join(' ');
- return `<section class="card" data-chart="${safe(k)}" data-points="${coords.map(p=>p.x+','+p.y).join(';')}"><div class="flex"><div class="metric-name">${safe(m.name)} <span>${safe(k.split('@@')[0])}</span></div><span class="status ${st}">${st==='better'?'朝參考範圍改善':st==='worse'?'變化需留意':'持平／待觀察'}</span></div><div class="muted">參考範圍 ${m.lo??'—'}–${m.hi??'—'} ${safe(m.unit||'')}（以原始報告為準）</div><div class="flex"><div class="amount">${rows.length?safe(rows.at(-1).value):'—'} <small>${safe(m.unit||'')}</small></div><span class="muted">${rows.length?(rows.at(-1).sourceDoc?'已確認報告':'手動輸入'):'尚無檢驗數據'}</span></div><div class="chart-container"><svg class="plot-svg" viewBox="0 0 420 224" aria-label="${safe(m.name)}歷次趨勢"><rect x="25" y="118" width="370" height="48" rx="6" fill="#dfeee6"/><path d="M25 166H395" stroke="#d4e5df"/><path d="${path}" stroke="${st==='worse'?'#c98a79':'#89a48f'}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>${pts}</svg>${coords.length?sprite(k,st):''}</div><div class="card-controls"><span class="muted">${rows.length} 筆紀錄</span><div class="buttons"><button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 數值</button>${st==='worse'?`<button class="btn outline small" data-action="seat" data-key="${safe(k)}">看捂眼姿勢</button>`:''}<button class="btn small" data-action="replay" data-key="${safe(k)}">↻ 重播</button></div></div></section>`;
+ return `<section class="card" data-chart="${safe(k)}" data-points="${coords.map(p=>p.x+','+p.y).join(';')}"><div class="flex"><div class="metric-name">${safe(m.name)} <span>${safe(k.split('@@')[0])}</span></div><span class="status ${st}">${rows.length<2?(st==='better'?'在參考範圍內':st==='worse'?'超出參考範圍':'待觀察'):st==='better'?'朝參考範圍改善':st==='worse'?'變化需留意':'持平／待觀察'}</span></div><div class="muted">參考範圍 ${m.lo??'—'}–${m.hi??'—'} ${safe(m.unit||'')}（以原始報告為準）</div><div class="flex"><div class="amount">${rows.length?safe((rows.at(-1).cap||'')+rows.at(-1).value):'—'} <small>${safe(m.unit||'')}</small></div><span class="muted">${rows.length?(rows.at(-1).sourceDoc?'已確認報告':'手動輸入'):'尚無檢驗數據'}</span></div><div class="chart-container"><svg class="plot-svg" viewBox="0 0 420 224" aria-label="${safe(m.name)}歷次趨勢"><rect x="25" y="118" width="370" height="48" rx="6" fill="#dfeee6"/><path d="M25 166H395" stroke="#d4e5df"/><path d="${path}" stroke="${st==='worse'?'#c98a79':'#89a48f'}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>${pts}</svg>${coords.length?sprite(k,st):''}</div><div class="card-controls"><span class="muted">${rows.length} 筆紀錄</span><div class="buttons"><button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 數值</button>${st==='worse'?`<button class="btn outline small" data-action="seat" data-key="${safe(k)}">看捂眼姿勢</button>`:''}<button class="btn small" data-action="replay" data-key="${safe(k)}">↻ 重播</button></div></div></section>`;
 }
 function home(){const next=DB.events.filter(x=>x.cat===active&&x.date>=today).sort(byDate)[0];return `<div class="flex"><div><div class="page-title">${safe(pet().name)}的健康概況</div><div class="muted">檢驗數值、回診與照護提醒一目了然</div></div><button class="btn soft small" data-action="newcat">＋ 新增貓咪</button></div><div class="welcome"><span class="bubble">🐾</span><div><b>記錄每一次小小的變化</b><div class="muted">檢驗結果需由獸醫判讀，動畫只是可愛的視覺提示。</div></div></div><div class="card"><div class="flex"><b>下次回診</b><button class="btn soft small" data-goto="calendar">安排回診</button></div><p>${next?`${safe(next.date)} · ${safe(next.title)}`:'目前尚未安排回診'}</p></div><div class="flex"><h3 style="margin:12px 0 0">重點檢驗走勢</h3><button class="btn soft small" data-goto="metrics">查看所有指數 ›</button></div>${['CREA','BUN'].map(metricCard).join('')}<div class="notice">此版本為本機試用，沒有帳號與雲端備份。瀏覽器資料可能遺失，請勿將它作為唯一病歷保存位置。</div>`}
+function keyFor(name,unit){const code=LabCore.canonical(name),u=LabCore.unit(unit),built=defs[code];return built&&(!u||LabCore.unit(built.unit)===u)?code:LabCore.identity(name,u)}
+const parseVal=s=>{const m=String(s).trim().match(/^([<>]?)\s*(-?\d+(?:[.,]\d+)?)$/);return m?{cap:m[1],v:Number(m[2].replace(',','.'))}:null};
+function prevOf(key,date){return actualRows(key).filter(x=>x.date<date&&x.sourceDoc!==scanState?.docId).pop()}
+function docGroup(id){return DB.docs.filter(x=>x.id===id||x.lead===id)}
+function aiBadge(){const m=LabAI.mode();return m==='ocr'?`<div class="notice">⚠ 還沒設定 AI 辨識，現在用的是準確度較低的內建 OCR。<button class="linkish" data-action="aiset">設定 AI 辨識</button></div>`:`<p class="muted">✓ AI 辨識已啟用（${m==='key'?'API 金鑰':'沿用貓咪健康紀錄的後端'}）　<button class="linkish" data-action="aiset">設定</button></p>`}
+/* 兩次同項比較：只看「兩次都有驗、單位相同」的項目，看有沒有更靠近該項的參考範圍 */
+function verdict(p,n,reg){
+ const lo=n.lo??p.lo??reg?.lo,hi=n.hi??p.hi??reg?.hi;
+ if(p.cap||n.cap)return{t:'超出儀器上限，無法判斷',c:'neutral'};
+ if(lo==null||hi==null)return{t:'沒有參考範圍',c:'neutral'};
+ const dist=v=>v<lo?lo-v:v>hi?v-hi:0,was=dist(p.value),is=dist(n.value),t=Math.max((hi-lo)*.04,.03);
+ return was-is>t?{t:'更靠近參考範圍',c:'better'}:is-was>t?{t:'離參考範圍更遠',c:'worse'}:{t:is===0?'維持在範圍內':'差不多',c:'neutral'};
+}
+function compareCard(){
+ const reps=DB.reports.filter(x=>x.cat===active).slice().sort((a,b)=>a.date.localeCompare(b.date)||String(a.id).localeCompare(String(b.id)));
+ const head='<div class="card"><h3>兩次報告比較</h3>';
+ if(reps.length<2)return head+`<p class="muted">${reps.length?'目前只有一份報告。再上傳一份，這裡就會自動和上次比較。':'還沒有報告。到「病歷」上傳報告照片，AI 會自動讀出所有項目。'}</p></div>`;
+ let nw=reps.find(r=>r.id===cmp.b)||reps.at(-1);
+ let old=reps.find(r=>r.id===cmp.a&&r.id!==nw.id)||reps[reps.indexOf(nw)-1]||reps.find(r=>r.id!==nw.id);
+ if(old.date>nw.date)[old,nw]=[nw,old];
+ const rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[x.key,x]));
+ const A=rowsOf(old),B=rowsOf(nw),reg=registry();
+ const nameOf=k=>reg[k]?.name||k.split('@@')[0];
+ const rank=k=>{const i=Object.keys(defs).indexOf(k);return i<0?99:i};
+ const order=(x,y)=>rank(x)-rank(y)||(reg[x]?.category||LabCore.category(x)).localeCompare(reg[y]?.category||LabCore.category(y),'zh-Hant')||x.localeCompare(y);
+ const both=[...B.keys()].filter(k=>A.has(k)).sort(order);
+ const fresh=[...B.keys()].filter(k=>!A.has(k)).sort(order);          // 這次才有的新項目
+ const gone=[...A.keys()].filter(k=>!B.has(k)).sort(order);           // 上次有、這次沒驗
+ const fmt=r=>safe((r.cap||'')+r.value);
+ const md=d=>safe(d.slice(5).replace('-','/'));
+ const row=k=>{const p=A.get(k),n=B.get(k),v=verdict(p,n,reg[k]),d=n.value-p.value,dd=Math.abs(d)<1e-9?'':(d>0?'▲ ':'▼ ')+Math.abs(Math.round(d*1000)/1000);
+  return `<div class="cmp-row"><div class="cmp-name"><b>${safe(nameOf(k))}</b><small>${safe(k.split('@@')[0])}・${safe(n.unit||p.unit||'')}</small></div><div>${fmt(p)}</div><div><b>${fmt(n)}</b>${dd?`<small class="d ${v.c}">${dd}</small>`:''}</div><div><span class="status ${v.c}">${v.t}</span></div></div>`};
+ const freshRow=k=>{const n=B.get(k),lo=n.lo??reg[k]?.lo,hi=n.hi??reg[k]?.hi,has=lo!=null&&hi!=null,out=has&&(n.value<lo||n.value>hi);
+  const t=!has?'沒有參考範圍':out?'超出參考範圍':'在參考範圍內',c=!has?'neutral':out?'worse':'better';
+  return `<div class="cmp-row"><div class="cmp-name"><b>${safe(nameOf(k))}</b><small>${safe(k.split('@@')[0])}・${safe(n.unit||'')}</small></div><div class="muted">新項目</div><div><b>${fmt(n)}</b></div><div><span class="status ${c}">${t}</span></div></div>`};
+ const goneRow=k=>{const p=A.get(k),other=[...B.values()].find(x=>x.canonical===p.canonical&&x.key!==k);
+  return `<div class="cmp-row"><div class="cmp-name"><b>${safe(nameOf(k))}</b><small>${safe(k.split('@@')[0])}</small></div><div>${fmt(p)}</div><div class="muted">—</div><div class="muted">${other?'單位不同（'+safe(p.unit||'無')+' / '+safe(other.unit||'無')+'）':'這次沒驗'}</div></div>`};
+ const opt=x=>reps.map(r=>`<option value="${safe(r.id)}"${r.id===x.id?' selected':''}>${safe(r.date)}（${r.testCount||0}項）</option>`).join('');
+ return head+`<div class="cols"><div class="field"><label>較早</label><select id="cmp-a">${opt(old)}</select></div><div class="field"><label>較新</label><select id="cmp-b">${opt(nw)}</select></div></div>`
+  +(both.length?`<div class="cmp-head"><div>項目</div><div>${md(old.date)}</div><div>${md(nw.date)}</div><div>變化</div></div>${both.map(row).join('')}`:'<p class="muted">這兩份報告沒有共同項目可以比對。</p>')
+  +(fresh.length?`<div class="cmp-sub">這次才有的新項目：只看是否在參考範圍（在範圍內小貓開心，超出範圍小貓跪地哭，動畫在下方各項目卡片）</div>${fresh.map(freshRow).join('')}`:'')
+  +(gone.length?`<div class="muted" style="margin-top:9px">上次有、這次沒驗的 ${gone.length} 項已先隱藏。<button class="linkish" data-action="cmpall">${cmp.all?'收起':'顯示'}</button></div>${cmp.all?gone.map(goneRow).join(''):''}`:'')
+  +'<div class="muted" style="margin-top:8px">判斷只看有沒有更靠近各報告上的參考範圍，不是診斷，請以獸醫說明為準。</div></div>';
+}
 function metricsPage(){
  const r=latestReport(),all=registry(),used=new Set(r?DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>x.key):[]);
  const keys=labView==='current'?(r?[...used]:[]):Object.keys(all);
  keys.sort((a,b)=>{let x=all[a].category||LabCore.category(a),y=all[b].category||LabCore.category(b);return x.localeCompare(y,'zh-Hant')||a.localeCompare(b)});
  return `<div class="flex"><div><div class="page-title">${safe(pet().name)}的檢驗指數</div><div class="muted">每次只看當次檢驗，也能查看歷史所有項目</div></div><button class="btn soft small" data-action="newtest">＋ 新增檢驗項目</button></div>
+ ${compareCard()}
  <div class="card"><div class="lab-modes"><button class="btn ${labView==='current'?'':'soft'}" data-action="labview" data-view="current">本次檢驗</button><button class="btn ${labView==='history'?'':'soft'}" data-action="labview" data-view="history">歷史全部項目</button></div><p class="muted">${labView==='current'?(r?'最近報告：'+safe(r.date)+'，僅列出這次有檢驗的項目':'還沒有已確認的報告；請先到「病歷」匯入並核對檢驗結果'):'包含所有歷史檢驗項目及未來可新增的項目；本次未檢驗不代表數值為 0。'}</p></div>
  ${keys.length?keys.map(k=>{const recent=!used.has(k)&&r?'<div class="muted" style="margin:0 4px 5px">本次未檢驗；歷史紀錄保留</div>':'';const rows=actualRows(k);if(labView==='history'&&!rows.length)return `<div class="card"><strong>${safe(all[k].name)} ${safe(k.split('@@')[0])}</strong><div class="muted">尚無真實檢驗紀錄，未來驗到會自動保留</div><button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 輸入數值</button></div>`;return recent+metricCard(k)}).join(''):'<div class="card empty">尚無本次檢驗數據。請先上傳報告並確認。</div>'}
  <div class="notice">重要：沒有驗的項目不會刪除、不會補零。照片自動辨識可能漏讀，必須與原始報告逐項核對。</div>`;
 }
 function recordsPage(){const docs=DB.docs.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));const reports=DB.reports.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="flex"><div class="page-title">醫療病歷</div><button class="btn soft small" data-action="doctor">匯出醫師摘要</button></div><div class="muted">保存原始檔，辨識完整檢驗資料，確認後才寫入趨勢圖</div>
- <div class="card"><h3>① 上傳原始報告</h3><div class="cols"><div class="field"><label>報告日期（稍後可以修正）</label><input type="date" id="doc-date" value="${today}"></div><div class="field"><label>資料類型</label><select id="doc-type"><option>血檢</option><option>尿檢</option><option>X 光</option><option>超音波</option><option>處方</option><option>其他</option></select></div></div><div class="field"><label>備註</label><input id="doc-note" placeholder="醫院／檢查說明"></div><div class="field"><label>圖片或 PDF，每份不超過 12 MB</label><input type="file" id="doc-file" multiple accept="image/*,application/pdf"></div><button class="btn" data-action="addfiles">儲存原始檔</button><p class="muted">上傳後按每份報告的「辨識／輸入數據」。首次照片 OCR 需下載辨識程式；辨識在本機進行，不需要 OpenAI 金鑰。</p></div>
- <div class="card"><h3>② 已有 ${docs.length} 份原始檔</h3>${docs.length?docs.map(o=>{const rp=DB.reports.find(r=>r.docId===o.id);return `<div class="entry"><span style="font-size:22px">${o.mime==='application/pdf'?'📄':'🩻'}</span><div class="entry-body"><strong>${safe(o.date)} · ${safe(o.type)}</strong><div class="muted">${safe(o.name)}</div><div class="muted">${rp?'已確認 '+rp.testCount+' 項 · '+safe(rp.date):'尚未擷取檢驗數據'}</div></div><div class="lab-entry-buttons"><button class="btn soft small" data-action="viewfile" data-id="${safe(o.id)}">查看</button><button class="btn small" data-action="recognize" data-id="${safe(o.id)}">${rp?'重新核對':'辨識／輸入'}</button></div></div>`}).join(''):'<div class="empty">還沒有上傳病歷</div>'}</div>
+ <div class="card upload-hero"><h3>📷 上傳報告，自動辨識</h3><p class="muted">拍整張報告（不反光、字清楚）。同一份報告有好幾頁，可以一次選好幾張。選好後會自動讀出所有檢驗項目，核對後按儲存即可。</p><label class="btn big">選擇報告照片<input type="file" id="quick-file" multiple accept="image/*,application/pdf" hidden></label>${aiBadge()}</div>
+ <details class="card"><summary>其他檔案（X 光、處方、超音波…）</summary><div class="cols"><div class="field"><label>報告日期（稍後可以修正）</label><input type="date" id="doc-date" value="${today}"></div><div class="field"><label>資料類型</label><select id="doc-type"><option>血檢</option><option>尿檢</option><option>X 光</option><option>超音波</option><option>處方</option><option>其他</option></select></div></div><div class="field"><label>備註</label><input id="doc-note" placeholder="醫院／檢查說明"></div><div class="field"><label>圖片或 PDF，每份不超過 12 MB</label><input type="file" id="doc-file" multiple accept="image/*,application/pdf"></div><button class="btn" data-action="addfiles">儲存原始檔</button><p class="muted">上傳後按每份報告的「辨識／輸入數據」。首次照片 OCR 需下載辨識程式；辨識在本機進行，不需要 OpenAI 金鑰。</p></details>
+ <div class="card"><h3>已有 ${docs.length} 份原始檔</h3>${docs.length?docs.map(o=>{const rp=DB.reports.find(r=>r.docId===o.id);return `<div class="entry"><span style="font-size:22px">${o.mime==='application/pdf'?'📄':'🩻'}</span><div class="entry-body"><strong>${safe(o.date)} · ${safe(o.type)}</strong><div class="muted">${safe(o.name)}</div><div class="muted">${o.lead&&o.lead!==o.id?'同一份報告的其他頁':rp?'已確認 '+rp.testCount+' 項 · '+safe(rp.date):'尚未擷取檢驗數據'}</div></div><div class="lab-entry-buttons"><button class="btn soft small" data-action="viewfile" data-id="${safe(o.id)}">查看</button>${o.lead&&o.lead!==o.id?'':`<button class="btn small" data-action="recognize" data-id="${safe(o.id)}">${rp?'重新核對':'辨識／輸入'}</button>`}</div></div>`}).join(''):'<div class="empty">還沒有上傳病歷</div>'}</div>
  <div class="card"><h3>③ 已確認的檢驗紀錄</h3>${reports.length?reports.map(r=>`<div class="entry"><div class="entry-body"><strong>${safe(r.date)} · ${r.testCount||0} 項</strong><div class="muted">體重：${r.weight??'未提供'} kg · ${safe(r.kind||'檢驗')}</div></div><button class="btn soft small" data-action="labview" data-view="history">看歷史</button></div>`).join(''):'<div class="empty">尚未確認檢驗結果</div>'}</div>
  <div class="notice">本機測試版：照片／PDF 只存這台裝置的瀏覽器，不具備帳號同步或雲端備份。文字 PDF 可試讀；掃描 PDF 請改拍清晰照片。請勿刪除唯一一份原始報告。</div>`}
 function carePage(){let logs=DB.care.filter(x=>x.cat===active).sort((a,b)=>b.date.localeCompare(a.date));return `<div class="page-title">每日照護</div><div class="muted">記下體重、皮下輸液、食慾、飲水與用藥</div><div class="card"><div class="field"><label>日期</label><input type="date" id="care-date" value="${today}"></div><div class="cols"><div class="field"><label>體重 kg</label><input type="number" id="weight" step=".01" placeholder="例如 2.6"></div><div class="field"><label>皮下輸液 ml</label><input type="number" id="fluid" step="1"></div></div><div class="cols"><div class="field"><label>食慾</label><select id="appetite"><option>正常</option><option>很好</option><option>稍差</option><option>沒有進食</option></select></div><div class="field"><label>飲水</label><select id="water"><option>正常</option><option>增加</option><option>減少</option></select></div></div><div class="field"><label>藥物與照護備註</label><textarea id="care-note" placeholder="藥名、劑量、排尿、精神狀況等"></textarea></div><button class="btn" data-action="savecare">儲存今日紀錄</button></div><div class="card"><h3>最近紀錄</h3>${logs.length?logs.map(o=>`<div class="entry"><span>♡</span><div class="entry-body"><strong>${safe(o.date)}</strong><div class="muted">體重 ${safe(o.weight||'—')} kg · 輸液 ${safe(o.fluid||'—')} ml · 食慾${safe(o.appetite)} · 飲水${safe(o.water)}</div><div class="muted">${safe(o.note)}</div></div></div>`).join(''):'<div class="empty">尚無照護紀錄</div>'}</div>`}
 function calendarPage(){const count=new Date(year,month+1,0).getDate(),start=new Date(year,month,1).getDay();let grid=['日','一','二','三','四','五','六'].map(x=>`<div class="weekday">${x}</div>`).join('');for(let i=0;i<start;i++)grid+='<div></div>';for(let d=1;d<=count;d++){let date=year+'-'+pad(month+1)+'-'+pad(d);grid+=`<button class="day ${selected===date?'selected':''} ${DB.events.some(x=>x.cat===active&&x.date===date)?'has-event':''}" data-action="day" data-date="${date}">${d}</button>`};const events=DB.events.filter(x=>x.cat===active).sort(byDate);return `<div class="page-title">回診行事曆</div><div class="muted">看診、用藥及照護提醒</div><div class="card"><div class="flex" style="margin-bottom:13px"><button class="btn soft" data-action="month" data-shift="-1">‹</button><b>${year} 年 ${month+1} 月</b><button class="btn soft" data-action="month" data-shift="1">›</button></div><div class="calendar">${grid}</div></div><div class="card"><h3>新增提醒</h3><div class="cols"><div class="field"><label>日期</label><input type="date" id="event-date" value="${selected}"></div><div class="field"><label>時間</label><input type="time" id="event-time" value="10:00"></div></div><div class="field"><label>提醒事項</label><input id="event-title" placeholder="例如：腎功能抽血、餵藥"></div><button class="btn" data-action="saveevent">新增提醒</button></div><div class="card"><h3>已安排事項</h3>${events.length?events.map(o=>`<div class="entry"><span>📅</span><div class="entry-body"><strong>${safe(o.date)} ${safe(o.time)}</strong><div class="muted">${safe(o.title)}</div></div><button class="btn soft small" data-action="ics" data-id="${safe(o.id)}">加入手機日曆</button></div>`).join(''):'<div class="empty">尚無提醒</div>'}</div><div class="notice">目前不會主動發送通知，可將事件匯入手機日曆，再由手機日曆提醒。</div>`}
-function render(scroll=true){for(const f of Object.values(frames))cancelAnimationFrame(f);frames={};$('#petSwitch').innerHTML=DB.cats.map(c=>`<button class="pet-choice" data-pet="${safe(c.id)}" aria-pressed="${c.id===active}"><span class="avatar">${avatar(c)}</span><span><strong>${safe(c.name)}</strong><small>${safe(c.note||'個別健康追蹤')}</small></span></button>`).join('');$('#content').innerHTML=({home,metrics:metricsPage,records:recordsPage,care:carePage,calendar:calendarPage})[tab]();$$('#bottomNav button').forEach(b=>b.classList.toggle('selected',b.dataset.tab===tab));if(scroll)$('#content').scrollTop=0;if(tab==='home'||tab==='metrics')requestAnimationFrame(()=>{for(let k of ['BUN','CREA'])if($(`[data-chart="${k}"]`))play(k)})}
+function render(scroll=true){for(const f of Object.values(frames))cancelAnimationFrame(f);frames={};$('#petSwitch').innerHTML=DB.cats.map(c=>`<button class="pet-choice" data-pet="${safe(c.id)}" aria-pressed="${c.id===active}"><span class="avatar">${avatar(c)}</span><span><strong>${safe(c.name)}</strong><small>${safe(c.note||'個別健康追蹤')}</small></span></button>`).join('');$('#content').innerHTML=({home,metrics:metricsPage,records:recordsPage,care:carePage,calendar:calendarPage})[tab]();$$('#bottomNav button').forEach(b=>b.classList.toggle('selected',b.dataset.tab===tab));if(scroll)$('#content').scrollTop=0;if(tab==='home'||tab==='metrics')requestAnimationFrame(()=>{$$('[data-chart]').forEach(x=>play(x.dataset.chart))})}
 function prepare(k){const card=$(`[data-chart="${k}"]`);if(!card)return null;const sprite=card.querySelector('.cat-sprite');if(!sprite)return null;cancelAnimationFrame(frames[k]);const pts=card.dataset.points.split(';').map(x=>{let [a,b]=x.split(',').map(Number);return{x:a,y:b}});const move=p=>{sprite.style.left=p.x/420*100+'%';sprite.style.top=p.y/224*100+'%'};return {sprite,pts,move}}
 function play(k){const o=prepare(k);if(!o)return;const {sprite,pts,move}=o,s=sprite.dataset.mood;sprite.className='cat-sprite '+s+' walking';void sprite.offsetWidth;move(pts[0]);if(pts.length<2){end();return}let lengths=[0];for(let i=1;i<pts.length;i++)lengths.push(lengths.at(-1)+Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y));let start=0,L=lengths.at(-1);function frame(t){if(!sprite.isConnected)return;if(!start)start=t;let p=Math.min(1,(t-start)/3100),distance=L*p,i=0;while(i<lengths.length-2&&distance>lengths[i+1])i++;let a=pts[i],b=pts[i+1],v=(distance-lengths[i])/(lengths[i+1]-lengths[i]||1);move({x:a.x+(b.x-a.x)*v,y:a.y+(b.y-a.y)*v});if(p<1)frames[k]=requestAnimationFrame(frame);else end()}function end(){sprite.className='cat-sprite '+s+' '+(s==='better'?'celebrate':s==='worse'?'sitting':'rest')}frames[k]=requestAnimationFrame(frame)}
 function seat(k){const o=prepare(k);if(!o)return;o.move(o.pts.at(-1));o.sprite.className='cat-sprite worse sitting'}
@@ -101,16 +147,18 @@ function store(){if(!idbPromise){idbPromise=new Promise((resolve,reject)=>{const
 async function putFile(id,file){const db=await store();return new Promise((resolve,reject)=>{const tx=db.transaction('files','readwrite');tx.objectStore('files').put(file,id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
 async function getFile(id){const db=await store();return new Promise((resolve,reject)=>{const tx=db.transaction('files','readonly'),r=tx.objectStore('files').get(id);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 async function compressPhoto(f){return new Promise((res,rej)=>{const img=new Image(),u=URL.createObjectURL(f);img.onload=()=>{const s=Math.min(1,320/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.78))};img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('無法開啟此照片'))};img.src=u})}
-function examCell(row={}){
- const v=(x)=>safe(x===null||x===undefined?'':String(x));
+function examCell(row={},date){
+ const v=x=>safe(x===null||x===undefined?'':String(x));
+ let prev='';
+ if(row.name&&date){const p=prevOf(keyFor(row.name,row.unit),date);if(p)prev=`<div class="exam-prev">上次 ${safe((p.cap||'')+p.value)}（${safe(p.date.slice(5).replace('-','/'))}）</div>`}
  return `<div class="exam-row">
  <input class="exam-name" aria-label="檢驗項目" placeholder="項目名稱（例如 CRE）" value="${v(row.name)}">
- <input class="exam-value" aria-label="數值" type="number" step="any" placeholder="數值" value="${v(row.value)}">
+ <input class="exam-value" aria-label="數值" inputmode="decimal" placeholder="數值" value="${v((row.cap||'')+(row.value??''))}">
  <input class="exam-unit" aria-label="單位" placeholder="單位" value="${v(row.unit)}">
  <input class="exam-lo" aria-label="下限" type="number" step="any" placeholder="參考下限" value="${v(row.lo)}">
  <input class="exam-hi" aria-label="上限" type="number" step="any" placeholder="參考上限" value="${v(row.hi)}">
  <select class="exam-flag" aria-label="異常標示"><option value="" ${!row.flag?'selected':''}>未標示</option><option value="H" ${row.flag==='H'?'selected':''}>偏高</option><option value="L" ${row.flag==='L'?'selected':''}>偏低</option></select>
- <button class="btn soft small" data-action="deltest" type="button">移除此列</button>
+ <button class="btn soft small" data-action="deltest" type="button">移除此列</button>${prev}
  </div>`;
 }
 function reviewExam(docId,parsed={rows:[],date:null,weight:null,rawText:''}){
@@ -118,43 +166,84 @@ function reviewExam(docId,parsed={rows:[],date:null,weight:null,rawText:''}){
  scanState={docId};const old=DB.reports.find(x=>x.docId===docId);
  const oldRows=old?DB.metrics.filter(x=>x.sourceDoc===docId).map(x=>({...x,name:x.testName})):[];
  const rows=parsed.rows?.length?parsed.rows:oldRows;
- modal(`<div class="flex"><strong>${safe(d.name)}｜辨識核對</strong><button class="dialog-close close">關閉</button></div>
- <div class="notice">請對照原始照片逐項核對：OCR 可能漏掉項目、辨錯小數點或單位。<b>未經確認不會寫入。</b> 本機 OCR 不保證擷取全部資料。</div>
- <div class="cols"><div class="field"><label>檢驗日期</label><input id="exam-date" type="date" value="${safe(parsed.date||old?.date||d.date)}"></div><div class="field"><label>報告體重 (kg)，未提供可留白</label><input id="exam-weight" type="number" step="any" min="0" value="${parsed.weight??old?.weight??''}"></div></div>
- <div class="field"><label>辨識文字／手動貼上（可修改後重新解析）</label><textarea id="exam-raw" rows="3" placeholder="例如：CREA 2.8 mg/dL 0.8-2.4">${safe(parsed.rawText||'')}</textarea><button class="btn soft small" data-action="reparse" type="button">從文字重新整理項目</button></div>
+ const date=parsed.date||old?.date||d.date;
+ const msg=parsed.error?`<div class="notice">自動讀取沒有成功：${safe(parsed.error)}　你仍可以自己加入項目，或換更清楚的照片再試。</div>`
+  :parsed.ai?`<div class="notice ok">AI 讀到 <b>${rows.length}</b> 項。請對照原始照片逐項核對，有錯直接改；<b>按儲存才會寫入</b>。</div>`
+  :`<div class="notice">請對照原始照片逐項核對：OCR 可能漏掉項目、辨錯小數點或單位。<b>未經確認不會寫入。</b></div>`;
+ modal(`<div class="flex"><strong>${safe(d.name)}｜辨識核對</strong><button class="dialog-close close">關閉</button></div>${msg}
+ <div class="exam-thumbs" id="exam-thumbs"></div>
+ <div class="cols"><div class="field"><label>檢驗日期</label><input id="exam-date" type="date" value="${safe(date)}"></div><div class="field"><label>報告體重 (kg)，未提供可留白</label><input id="exam-weight" type="number" step="any" min="0" value="${parsed.weight??old?.weight??''}"></div></div>
+ ${parsed.ai?'':`<div class="field"><label>辨識文字／手動貼上（可修改後重新解析）</label><textarea id="exam-raw" rows="3" placeholder="例如：CREA 2.8 mg/dL 0.8-2.4">${safe(parsed.rawText||'')}</textarea><button class="btn soft small" data-action="reparse" type="button">從文字重新整理項目</button></div>`}
  <div class="flex"><strong>檢驗項目 <span id="exam-count">${rows.length}</span> 項</strong><button class="btn soft small" data-action="addtest" type="button">＋ 新增任意項目</button></div>
- <div class="exam-head">名稱　｜　數值　｜　單位　｜　參考下限／上限　｜　標示</div><div id="exam-rows">${rows.length?rows.map(examCell).join(''):examCell()}</div>
- <div class="notice">這次沒檢驗的項目不需要在此填寫，也不會從歷史資料移除。辨識不到的檢驗項目請按「新增任意項目」。</div>
- <button class="btn" data-action="saveexam" type="button">我已核對，儲存本次全部項目</button>`);
+ <div class="exam-head">名稱　｜　數值（可加 > 或 <）　｜　單位　｜　參考下限／上限　｜　標示</div><div id="exam-rows">${rows.length?rows.map(r=>examCell(r,date)).join(''):examCell({},date)}</div>
+ <div class="notice">這次沒檢驗的項目不需要填寫，也不會從歷史資料移除。辨識不到的項目請按「新增任意項目」。</div>
+ <button class="btn" data-action="saveexam" type="button">我已核對，儲存本次全部項目</button>${LabAI.mode()!=='ocr'&&old?' <button class="btn soft" data-action="rereadai" type="button">重新用 AI 讀取</button>':''}`);
+ (async()=>{const box=$('#exam-thumbs');if(!box)return;for(const x of docGroup(docId)){try{const f=await getFile(x.id);if(!f||!box.isConnected)continue;const u=URL.createObjectURL(f);objectURLs.push(u);box.insertAdjacentHTML('beforeend',f.type==='application/pdf'?`<a href="${u}" target="_blank" rel="noopener">📄 ${safe(x.name)}</a>`:`<a href="${u}" target="_blank" rel="noopener"><img alt="報告照片，點一下放大" src="${u}"></a>`)}catch(e){}}})();
 }
 function currentExamRows(){return [...document.querySelectorAll('#exam-rows .exam-row')].map(el=>{
  const s=q=>el.querySelector(q).value.trim();return {name:s('.exam-name'),value:s('.exam-value'),unit:s('.exam-unit'),lo:s('.exam-lo'),hi:s('.exam-hi'),flag:s('.exam-flag')}
 }).filter(x=>x.name||x.value)}
-async function recognizeDoc(docId){const doc=DB.docs.find(x=>x.id===docId);if(!doc)return;
- modal(`<div class="flex"><strong>正在讀取報告</strong><button class="dialog-close close">關閉</button></div><div class="notice">首次使用需要下載 OCR 程式；大型照片可能需要一些時間。病歷原始檔不會送到 OpenAI。</div>`);
- try{const file=await getFile(docId);if(!file)throw new Error('找不到這份附件；請重新上傳');const txt=await LabOCR.readFile(file);reviewExam(docId,LabCore.parse(txt,doc.type));}catch(err){reviewExam(docId);const el=document.querySelector('.dialog .notice');if(el)el.textContent='自動讀取未成功：'+err.message+'。你仍可以在下方貼上報告文字，或自行加入所有項目。';}
+const canonName=n=>{const c=LabCore.canonical(n);return LabCore.NAMES[c]?c:n};
+async function runRecognition(docId,docs){
+ const m=LabAI.mode(),doc=DB.docs.find(x=>x.id===docId);if(!doc)return;
+ modal(`<div class="flex"><strong>正在讀取報告</strong><button class="dialog-close close">關閉</button></div><div class="notice"><span class="spin"></span>${m==='ocr'?'用內建 OCR 讀取（首次需下載辨識程式，準確度較低）…':'AI 正在逐項讀取，約 20–60 秒，請不要離開這個畫面…'}</div>`);
+ let parsed;
+ try{
+  const files=[];for(const d of docs){const f=await getFile(d.id);if(!f)throw new Error('找不到這份附件，請重新上傳');files.push(f)}
+  if(m==='ocr'){let txt='';for(const f of files)txt+='\n'+await LabOCR.readFile(f);parsed=LabCore.parse(txt,doc.type);parsed.ai=false}
+  else{const r=await LabAI.read(files);parsed={date:r.date,weight:r.weight,rows:r.rows.map(x=>({name:canonName(x.name),value:x.value,cap:x.cap,unit:LabCore.unit(x.unit),lo:x.lo,hi:x.hi,flag:x.flag})).filter((x,i,a)=>a.findIndex(y=>keyFor(y.name,y.unit)===keyFor(x.name,x.unit))===i),rawText:'',ai:true}}
+ }catch(err){parsed={rows:[],date:null,weight:null,rawText:'',error:err.message}}
+ if(!$('.dialog'))return;
+ reviewExam(docId,parsed);
+}
+async function recognizeDoc(docId){const rp=DB.reports.find(r=>r.docId===docId);if(rp){reviewExam(docId);return}runRecognition(docId,docGroup(docId))}
+async function quickUpload(files){
+ files=files.filter(f=>f.type.startsWith('image/')||f.type==='application/pdf');
+ if(!files.length){alert('請選擇圖片或 PDF');return}
+ const ids=[];
+ for(const f of files){
+  if(f.size>12*1024*1024){alert(f.name+' 超過 12 MB，已略過');continue}
+  const i=id();try{await putFile(i,f);DB.docs.push({id:i,cat:active,date:today,type:'血檢',note:'',name:f.name||'報告照片',mime:f.type,lead:ids[0]||i});ids.push(i)}catch(err){alert('無法儲存 '+f.name+'：'+err.message)}
+ }
+ if(!ids.length)return;
+ persist();
+ await runRecognition(ids[0],docGroup(ids[0]));
 }
 function saveExam(){const d=DB.docs.find(x=>x.id===scanState?.docId);if(!d)return;
- const date=$('#exam-date').value,weight=$('#exam-weight').value.trim(),rawRows=currentExamRows();if(!date){alert('請確認檢驗日期');return}if(!rawRows.length){alert('請至少輸入一項檢驗結果');return}
- let inputs=[];const seen=new Set();for(const r of rawRows){if(!r.name||r.value===''||!Number.isFinite(Number(r.value))){alert('每一列必須有項目名稱及有效數值');return}if(r.lo!==''&&!Number.isFinite(Number(r.lo))||r.hi!==''&&!Number.isFinite(Number(r.hi))){alert('參考區間應為數字，或留白');return}
- const code=LabCore.canonical(r.name),unit=LabCore.unit(r.unit);const baseKey=LabCore.identity(r.name,unit);
- // Canonical built-ins keep original keys if same unit; different units use distinct history series.
- const built=defs[code];const k=built&&LabCore.unit(built.unit)===unit?code:baseKey;
- if(seen.has(k)){alert('同一次檢驗有重複項目 '+r.name+'，請合併或更正');return}seen.add(k);
- inputs.push({id:id(),cat:active,key:k,canonical:code,testName:r.name,date,value:Number(r.value),unit:unit||built?.unit||'',lo:r.lo===''?null:Number(r.lo),hi:r.hi===''?null:Number(r.hi),flag:r.flag,category:LabCore.category(r.name,d.type),sourceDoc:d.id});
+ const date=$('#exam-date').value,weight=$('#exam-weight').value.trim(),rawRows=currentExamRows();
+ if(!date){alert('請確認檢驗日期');return}if(!rawRows.length){alert('請至少輸入一項檢驗結果');return}
+ const inputs=[],seen=new Set();
+ for(const r of rawRows){
+  const pv=parseVal(r.value);
+  if(!r.name||!pv){alert('每一列必須有項目名稱及有效數值（可在數字前加 > 或 <）：'+(r.name||'（未命名）'));return}
+  if(r.lo!==''&&!Number.isFinite(Number(r.lo))||r.hi!==''&&!Number.isFinite(Number(r.hi))){alert('參考區間應為數字，或留白');return}
+  const code=LabCore.canonical(r.name),unit=LabCore.unit(r.unit),built=defs[code],k=keyFor(r.name,r.unit);
+  if(seen.has(k)){alert('同一次檢驗有重複項目 '+r.name+'，請合併或更正');return}seen.add(k);
+  inputs.push({id:id(),cat:active,key:k,canonical:code,testName:r.name,date,value:pv.v,cap:pv.cap,unit:unit||built?.unit||'',lo:r.lo===''?null:Number(r.lo),hi:r.hi===''?null:Number(r.hi),flag:r.flag,category:LabCore.category(r.name,d.type),sourceDoc:d.id});
  }
  if(weight!==''&&(!Number.isFinite(Number(weight))||Number(weight)<=0||Number(weight)>35)){alert('請檢查體重 kg');return}
  DB.metrics=DB.metrics.filter(x=>x.sourceDoc!==d.id);DB.metrics.push(...inputs);
  DB.care=DB.care.filter(x=>x.sourceDoc!==d.id);
  if(weight!=='')DB.care.push({id:id(),cat:active,sourceDoc:d.id,date,weight:Number(weight),fluid:'',appetite:'未紀錄',water:'未紀錄',note:'從 '+d.name+' 檢驗報告記錄的體重'});
  DB.reports=DB.reports.filter(x=>x.docId!==d.id);DB.reports.push({id:id(),docId:d.id,cat:active,date,weight:weight===''?null:Number(weight),testCount:inputs.length,kind:d.type});
- if(!persist())return;scanState=null;close();tab='metrics';labView='current';render();
+ docGroup(d.id).forEach(x=>x.date=date);
+ if(!persist())return;scanState=null;cmp={a:null,b:null,all:false};close();tab='metrics';labView='current';render();
 }
+function aiDialog(){const m=LabAI.mode();modal(`<div class="flex"><strong>AI 辨識設定</strong><button class="dialog-close close">關閉</button></div>
+<div class="notice">目前：${m==='key'?'使用你的 API 金鑰 '+safe(LabAI.keyTail()):m==='backend'?'沿用「貓咪健康紀錄」已連接的後端':'尚未設定（使用準確度較低的內建 OCR）'}</div>
+<div class="field"><label>Anthropic API 金鑰</label><input id="ai-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-ant-…"></div>
+<p class="muted">金鑰只存在這台裝置的瀏覽器，不會上傳到 GitHub；報告照片只會送到 Anthropic 讀取。建議到 Anthropic Console 另外建一把專用金鑰，並設定每月用量上限。換手機或清除瀏覽器資料後要重新貼一次。</p>
+<button class="btn" data-action="aisave">儲存</button>${LabAI.hasKey()?' <button class="btn soft" data-action="aiclear">移除金鑰</button>':''}`)}
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.pet){active=b.dataset.pet;labView='current';render();return}if(b.dataset.tab){tab=b.dataset.tab;render();return}if(b.dataset.goto){tab=b.dataset.goto;render();return}const a=b.dataset.action,k=b.dataset.key;
  if(a==='labview'){labView=b.dataset.view;tab='metrics';render();return}
  if(a==='newtest'){modal(`<div class="flex"><strong>新增任意檢驗項目</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>檢驗日期</label><input type="date" id="manual-date" value="${today}"></div><div class="field"><label>項目名稱</label><input id="manual-name" placeholder="例如：USG 或其他任何檢驗項目"></div><div class="cols"><div class="field"><label>數值</label><input id="manual-value" type="number" step="any"></div><div class="field"><label>單位</label><input id="manual-unit" placeholder="例如 mg/dL"></div></div><button class="btn" data-action="savemanual">確認新增</button>`);return}
  if(a==='savemanual'){const name=$('#manual-name').value.trim(),v=$('#manual-value').value,dt=$('#manual-date').value,unit=LabCore.unit($('#manual-unit').value);if(!name||!dt||v.trim()===''||!Number.isFinite(+v)){alert('請填寫名稱、日期與有效數值');return}const k=defs[LabCore.canonical(name)]&&LabCore.unit(defs[LabCore.canonical(name)].unit)===unit?LabCore.canonical(name):LabCore.identity(name,unit);DB.metrics.push({id:id(),cat:active,key:k,date:dt,value:Number(v),testName:name,unit,category:LabCore.category(name)});persist();close();labView='history';tab='metrics';render();return}
  if(a==='recognize'){recognizeDoc(b.dataset.id);return}
+ if(a==='cmpall'){cmp.all=!cmp.all;render(false);return}
+ if(a==='aiset'){aiDialog();return}
+ if(a==='aisave'){const v=$('#ai-key').value.trim();if(v&&!/^sk-ant-/.test(v)){alert('金鑰通常以 sk-ant- 開頭，請確認是否貼對');return}if(!LabAI.setKey(v)){alert('無法儲存設定');return}close();render(false);return}
+ if(a==='aiclear'){LabAI.setKey('');close();render(false);return}
+ if(a==='rereadai'){const d=DB.docs.find(x=>x.id===scanState?.docId);if(d)runRecognition(d.id,docGroup(d.id));return}
  if(a==='doctor'){download('貓奴值班中-'+pet().name+'-醫師摘要-'+today+'.html',new Blob([doctorHTML()],{type:'text/html;charset=utf-8'}));return}
  if(a==='addtest'){const wrap=$('#exam-rows');wrap.insertAdjacentHTML('beforeend',examCell());$('#exam-count').textContent=wrap.children.length;return}
  if(a==='deltest'){b.closest('.exam-row')?.remove();$('#exam-count').textContent=$('#exam-rows').children.length;return}
@@ -173,8 +262,12 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(a==='ics'){const o=DB.events.find(x=>x.id===b.dataset.id);if(o)createICS(o);return}
  if(b.classList.contains('dialog-close')){close();return}
 });
+document.addEventListener('change',e=>{
+ if(e.target.id==='quick-file'){const fs=[...e.target.files];e.target.value='';quickUpload(fs);return}
+ if(e.target.id==='cmp-a'||e.target.id==='cmp-b'){cmp.a=$('#cmp-a').value;cmp.b=$('#cmp-b').value;render(false)}
+});
 document.addEventListener('change',async e=>{if(!e.target.matches('#pet-photo'))return;const f=e.target.files?.[0];if(!f||!f.type.startsWith('image/'))return;try{pet().photo=await compressPhoto(f);persist();render(false)}catch(err){alert(err.message)}});
-$('#backupButton').addEventListener('click',()=>modal(`<div class="flex"><strong>資料備份及照片管理</strong><button class="dialog-close close">關閉</button></div><div class="notice">本機測試資料可匯出 JSON；<b>目前匯出不包含醫療附件原始檔，包含已確認的檢驗項目與歷史數值</b>。正式雲端備份與帳號同步尚未完成。</div><button class="btn" data-action="export">匯出紀錄 JSON</button><button class="btn soft" data-action="photo">${safe(pet().name)}的照片</button><div class="field"><label>匯入先前的 JSON 紀錄</label><input type="file" id="import-file" accept="application/json"></div>`));
+$('#backupButton').addEventListener('click',()=>modal(`<div class="flex"><strong>資料備份及照片管理</strong><button class="dialog-close close">關閉</button></div><div class="notice">本機測試資料可匯出 JSON；<b>目前匯出不包含醫療附件原始檔，包含已確認的檢驗項目與歷史數值</b>。正式雲端備份與帳號同步尚未完成。</div><button class="btn" data-action="export">匯出紀錄 JSON</button><button class="btn soft" data-action="aiset">AI 辨識設定</button><button class="btn soft" data-action="photo">${safe(pet().name)}的照片</button><div class="field"><label>匯入先前的 JSON 紀錄</label><input type="file" id="import-file" accept="application/json"></div>`));
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.action==='export')download('貓奴值班中-本機紀錄-'+today+'.json',new Blob([asJSON()],{type:'application/json;charset=utf-8'}));if(b.dataset.action==='photo')modal(`<div class="flex"><strong>${safe(pet().name)}的照片</strong><button class="dialog-close close">關閉</button></div><div class="field"><label>選擇貓咪照片（只在這台裝置顯示）</label><input type="file" id="pet-photo" accept="image/*"></div>`)});
 document.addEventListener('change',async e=>{if(e.target.id!=='import-file')return;try{const obj=JSON.parse(await e.target.files[0].text()),v=obj.data;if(!v||!Array.isArray(v.cats)||!Array.isArray(v.metrics)||!Array.isArray(v.care)||!Array.isArray(v.events)||!Array.isArray(v.docs))throw new Error('檔案格式不正確');if(!confirm('這會取代這台裝置目前的本機紀錄，確定匯入嗎？'))return;DB=v;DB.reports=Array.isArray(DB.reports)?DB.reports:[];active=DB.cats[0]?.id||'guai';persist();close();render()}catch(err){alert('匯入失敗：'+err.message)}});
 window.addEventListener('keydown',e=>{if(e.key==='Escape')close()});

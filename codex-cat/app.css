@@ -16,3 +16,14 @@
 
 /* 檢驗核對表，手機與桌面自適應 */
 .lab-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px}.lab-entry-buttons{display:flex;flex-direction:column;gap:5px;align-items:flex-end}.exam-row{display:grid;grid-template-columns:minmax(80px,1.5fr) minmax(60px,1fr) minmax(65px,1fr) minmax(50px,1fr) minmax(50px,1fr);gap:5px;align-items:center;padding:9px 0;border-bottom:1px solid #f0e3dc}.exam-row input,.exam-row select{min-width:0;width:100%;box-sizing:border-box;padding:8px 4px;font-size:12px;border:1px solid #dfcfc6;background:white;border-radius:6px}.exam-row select{grid-column:1/4}.exam-row .btn{grid-column:4/6}.exam-head{font-size:11px;color:#92776e;margin-top:10px}.dialog textarea{width:100%;font-size:12px;min-height:90px;border:1px solid #dfcfc6;border-radius:8px;padding:9px}.dialog .notice b{font-weight:850}
+/* 一步上傳、兩次比較、AI 核對 */
+label.btn{display:block;text-align:center;cursor:pointer}.btn.big{font-size:15px;padding:15px 12px;margin:10px 0}
+.upload-hero{background:#fff6f1;border-color:#e8c9bc}.notice.ok{background:#e5f3ea;color:#4c7a5f}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid #d8b9ad;border-top-color:#b9867a;border-radius:50%;margin-right:7px;vertical-align:-2px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+details.card summary{font-size:13px;font-weight:750;color:#956d60;cursor:pointer}details.card[open] summary{margin-bottom:8px}
+.cmp-head,.cmp-row{display:grid;grid-template-columns:minmax(86px,1.6fr) 1fr 1.1fr 1.3fr;gap:6px;align-items:center;font-size:12px}
+.cmp-head{font-size:10px;color:#a28e84;padding:6px 0;border-bottom:1px solid #ecded7}.cmp-row{padding:9px 0;border-bottom:1px solid #f2e8e2}.cmp-row:last-child{border:0}
+.cmp-name b{display:block;font-size:12px}.cmp-name small,.cmp-row small.d{display:block;font-size:10px;color:#a28e84}
+.cmp-row small.d.better{color:#4c8264}.cmp-row small.d.worse{color:#bb7366}.cmp-row .status{display:inline-block;white-space:normal;line-height:1.4}
+.cmp-sub{font-size:11px;color:#92776e;background:#f9efe9;border-radius:9px;padding:8px 10px;margin:12px 0 2px;line-height:1.6}
+.exam-prev{grid-column:1/-1;font-size:11px;color:#8a9a8f}.exam-thumbs{display:flex;gap:7px;overflow-x:auto;margin:6px 0}.exam-thumbs img{height:84px;width:auto;border-radius:8px;border:1px solid #e5d8d0}.exam-thumbs a{flex:none;font-size:12px;color:#956d60}
