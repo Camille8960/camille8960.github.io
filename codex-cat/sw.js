@@ -1,4 +1,4 @@
-const CACHE='miaotherapy-codex-v12-name',FILES=['./','./index.html','./app.js','./app.css','./lab-core.js','./lab-ocr.js','./lab-ai.js','./icon.svg','./manifest.webmanifest'];
+const CACHE='miaotherapy-codex-v13-hide',FILES=['./','./index.html','./app.js','./app.css','./lab-core.js','./lab-ocr.js','./lab-ai.js','./icon.svg','./manifest.webmanifest'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('miaotherapy-codex-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{const req=event.request;if(req.method==='GET'&&new URL(req.url).origin===self.location.origin)event.respondWith(fetch(req).then(res=>{if(res.ok){const c=res.clone();caches.open(CACHE).then(cache=>cache.put(req,c)).catch(()=>{})}return res}).catch(()=>caches.match(req)))});
