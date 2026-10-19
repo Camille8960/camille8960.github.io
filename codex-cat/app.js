@@ -20,7 +20,7 @@ const avatar=c=>c.photo?'<img alt="貓咪照片" src="'+safe(c.photo)+'">':'🐱
 const byDate=(a,b)=>a.date.localeCompare(b.date);
 function registry(){
  const d={...defs};for(const x of DB.metrics.filter(x=>x.cat===active).slice().sort(byDate)){
-  const k=x.key;if(!d[k])d[k]={name:x.testName||x.canonical||k.split('@@')[0],unit:x.unit||'',lo:x.lo??null,hi:x.hi??null,category:x.category||LabCore.category(x.testName||k)};
+  const k=x.key;if(!d[k])d[k]={name:LabCore.zhName(x.testName||x.canonical||k.split('@@')[0]),unit:x.unit||'',lo:x.lo??null,hi:x.hi??null,category:x.category||LabCore.category(x.testName||k)};
   else {d[k]={...d[k]};if(x.lo!==null&&x.lo!==undefined)d[k].lo=x.lo;if(x.hi!==null&&x.hi!==undefined)d[k].hi=x.hi;if(x.unit)d[k].unit=x.unit;}
  }return d;
 }
@@ -57,7 +57,7 @@ function sprite(key,s){return `<div class="cat-sprite ${s}" data-key="${key}" da
 function metricCard(k,rowsOv){const m=registry()[k],o=measurements(k),rows=rowsOv||o.data,st=mood(k,rows),rg=rangeState(k,rows),sm=(st==='better'&&rg&&rg.s!=='ok')?'neutral':st,vals=rows.map(r=>Number(r.value));let coords=[];
  if(rows.length){let mn=Math.min(...vals,...(m.lo===null||m.lo===undefined?[]:[m.lo])),mx=Math.max(...vals,...(m.hi===null||m.hi===undefined?[]:[m.hi])),span=Math.max(1,mx-mn);coords=rows.map((r,i)=>({x:rows.length===1?210:51+i*320/(rows.length-1),y:166-(+r.value-mn)/(span)*58}));}
  let pts=coords.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="white" stroke="#a78277" stroke-width="2"/><text x="${p.x}" y="${Math.max(11,p.y-11)}" text-anchor="middle" font-size="12" font-weight="700" fill="#725f55">${safe(rows[i].value)}</text><text x="${p.x}" y="205" text-anchor="middle" font-size="11" fill="#a38f84">${safe(rows[i].date.slice(5).replace('-','/'))}</text>`).join('');let path=coords.map((p,i)=>(i?'L':'M')+p.x+' '+p.y).join(' ');
- return `<section class="card" data-chart="${safe(k)}" data-points="${coords.map(p=>p.x+','+p.y).join(';')}"><div class="flex"><div class="metric-name">${safe(m.name)} <span>${safe(k.split('@@')[0])}</span></div><span class="status ${st}">${rows.length<2?(st==='better'?'在參考範圍內':st==='worse'?'超出參考範圍':'待觀察'):st==='better'?'朝參考範圍改善':st==='worse'?'變化需留意':'持平／待觀察'}</span></div><div class="muted">參考範圍 ${m.lo??'—'}–${m.hi??'—'} ${safe(m.unit||'')}（以原始報告為準）</div><div class="flex"><div class="amount${rg&&rg.s!=='ok'?' bad':''}">${rows.length?safe((rows.at(-1).cap||'')+rows.at(-1).value):'—'} <small>${safe(m.unit||'')}</small></div><div class="amount-side"><span class="muted">${rows.length?(rows.at(-1).sourceDoc?'已確認報告':'手動輸入'):'尚無檢驗數據'}</span></div></div><div class="chart-container"><svg class="plot-svg" viewBox="0 0 420 224" aria-label="${safe(m.name)}歷次趨勢"><rect x="25" y="118" width="370" height="48" rx="6" fill="#dfeee6"/><path d="M25 166H395" stroke="#d4e5df"/><path d="${path}" stroke="${st==='worse'?'#c98a79':'#89a48f'}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>${pts}</svg>${rows.length>=2?sprite(k,sm):''}</div><div class="card-controls"><span class="muted">${rows.length} 筆紀錄</span><div class="buttons">${rowsOv?'':`<button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 數值</button>`}${st==='worse'&&rows.length>=2?`<button class="btn outline small" data-action="seat" data-key="${safe(k)}">看捂眼姿勢</button>`:''}${rows.length>=2?`<button class="btn small" data-action="replay" data-key="${safe(k)}">↻ 重播</button>`:''}</div></div></section>`;
+ return `<section class="card" data-chart="${safe(k)}" data-points="${coords.map(p=>p.x+','+p.y).join(';')}"><div class="flex"><div class="metric-name">${safe(LabCore.zhName(m.name))} <span>${safe(k.split('@@')[0])}</span></div><span class="status ${st}">${rows.length<2?(st==='better'?'在參考範圍內':st==='worse'?'超出參考範圍':'待觀察'):st==='better'?'朝參考範圍改善':st==='worse'?'變化需留意':'持平／待觀察'}</span></div><div class="muted">參考範圍 ${m.lo??'—'}–${m.hi??'—'} ${safe(m.unit||'')}（以原始報告為準）</div><div class="flex"><div class="amount${rg&&rg.s!=='ok'?' bad':''}">${rows.length?safe((rows.at(-1).cap||'')+rows.at(-1).value):'—'} <small>${safe(m.unit||'')}</small></div><div class="amount-side"><span class="muted">${rows.length?(rows.at(-1).sourceDoc?'已確認報告':'手動輸入'):'尚無檢驗數據'}</span></div></div><div class="chart-container"><svg class="plot-svg" viewBox="0 0 420 224" aria-label="${safe(m.name)}歷次趨勢"><rect x="25" y="118" width="370" height="48" rx="6" fill="#dfeee6"/><path d="M25 166H395" stroke="#d4e5df"/><path d="${path}" stroke="${st==='worse'?'#c98a79':'#89a48f'}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>${pts}</svg>${rows.length>=2?sprite(k,sm):''}</div><div class="card-controls"><span class="muted">${rows.length} 筆紀錄</span><div class="buttons">${rowsOv?'':`<button class="btn soft small" data-action="newmetric" data-key="${safe(k)}">＋ 數值</button>`}${st==='worse'&&rows.length>=2?`<button class="btn outline small" data-action="seat" data-key="${safe(k)}">看捂眼姿勢</button>`:''}${rows.length>=2?`<button class="btn small" data-action="replay" data-key="${safe(k)}">↻ 重播</button>`:''}</div></div></section>`;
 }
 function reportsOf(c){return DB.reports.filter(x=>x.cat===c).slice().sort((a,b)=>b.date.localeCompare(a.date)||String(b.id).localeCompare(String(a.id)))}
 function wInfo(cid){const rs=reportsOf(cid),r=rs.find(x=>x.id===viewRep&&x.cat===cid)||rs[0];if(!r)return{};const hasW=x=>x.weight!=null&&x.weight!==''&&isFinite(+x.weight);const prev=rs.find(x=>x!==r&&x.date<r.date&&hasW(x));return{r,cur:hasW(r)?{d:r.date,w:+r.weight}:null,prev:prev?{d:prev.date,w:+prev.weight}:null}}
@@ -85,7 +85,7 @@ function reportView(){
  if(!reps.length)return `<div class="card upload-hero"><h3>📷 還沒有報告</h3><p class="muted">拍下醫院的檢驗報告上傳，會自動讀出檢驗日期、體重、年齡與所有項目。</p><button class="btn big" data-goto="records">去上傳報告</button></div>`;
  const r=reps.find(x=>x.id===viewRep)||reps[0],reg=registry();
  const items=DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>({x,j:judge(x,reg)}));
- const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0];
+ const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>LabCore.zhName(reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0]);
  items.sort((a,b)=>catOf(a).localeCompare(catOf(b),'zh-Hant')||nameOf(a).localeCompare(nameOf(b),'zh-Hant'));
  const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'&&!i.j.g),gen=items.filter(i=>i.j.g&&i.j.s),na=items.filter(i=>!i.j.s);
  const irow=it=>{const {x,j}=it,m=reg[x.key]||{},b=isBad(j);return `<div class="rrow"><div class="rtop"><div class="rname"><b>${safe(nameOf(it))}</b><small>${safe(x.key.split('@@')[0])}・${safe(catOf(it))}</small></div><div class="rval${b?' bad':''}">${safe((x.cap||'')+x.value)} <small>${safe(x.unit||m.unit||'')}</small>${b?`<span class="arrow">${j.s==='high'?'↑':'↓'}</span>`:j.g?(j.s==='ok'?'':`<span class="arrow gray">${j.s==='high'?'↑':'↓'}</span>`):j.s==='ok'?' <span class="thumb">👍</span>':''}</div></div>${rangeBar(num(x.value),j)}<div class="rref">${j.lo!==null||j.hi!==null?(j.g?'通用參考 ':'參考範圍 ')+(j.lo??'—')+'–'+(j.hi??'—')+(j.g?'（報告沒印，非本報告範圍）':''):'這項報告沒有參考範圍'}</div></div>`};
@@ -103,7 +103,7 @@ function compareSection(){
  let old=reps.find(r=>r.id===cmp.a&&r.id!==nw.id)||reps[reps.indexOf(nw)-1]||reps.find(r=>r.id!==nw.id);
  if(old.date>nw.date)[old,nw]=[nw,old];
  const reg=registry(),nk=x=>LabCore.canonical(x.testName||x.key.split('@@')[0])+'|'+String(LabCore.unit(x.unit)||'').toLowerCase(),rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[nk(x),x]));
- const A=rowsOf(old),B=rowsOf(nw),nameOf=k=>reg[k]?.name||k.split('@@')[0];
+ const A=rowsOf(old),B=rowsOf(nw),nameOf=k=>LabCore.zhName(reg[k]?.name||k.split('@@')[0]);
  const list=[...B.keys()].filter(q=>A.has(q)).map(q=>{const p=A.get(q),n=B.get(q);return{k:n.key,p,n,jp:judge(p,reg),jn:judge(n,reg)}});
  list.sort((a,b)=>(isBad(b.jn)-isBad(a.jn))||(isBad(b.jp)-isBad(a.jp))||nameOf(a.k).localeCompare(nameOf(b.k),'zh-Hant'));
  const md=d=>safe(d.slice(5).replace('-','/')),fmt=r=>safe((r.cap||'')+r.value);
@@ -133,7 +133,7 @@ function pdfFrom(cvs){const enc=new TextEncoder(),parts=[],offs=[];let len=0;con
 function pdfReport(){
  const c=pet(),reps=reportsOf(active);if(!reps.length)return null;
  const r=reps.find(x=>x.id===viewRep)||reps[0],reg=registry();
- const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0];
+ const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>LabCore.zhName(reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0]);
  const items=DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>({x,j:judge(x,reg)}));
  items.sort((a,b)=>catOf(a).localeCompare(catOf(b),'zh-Hant')||nameOf(a).localeCompare(nameOf(b),'zh-Hant'));
  const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'&&!i.j.g),oth=items.filter(i=>!isBad(i.j)&&!(i.j.s==='ok'&&!i.j.g));
@@ -177,7 +177,7 @@ function pdfReport(){
   sec(`與上次比較：${old.date} → ${nw.date}（共同 ${list.length} 項）`,'#0d47a1','#e8f1fb');
   if(list.length){need(50);T('項目',M+4,y+24,20,'#777',true);T(old.date.slice(5),M+470,y+24,20,'#777',true);T(nw.date.slice(5),M+640,y+24,20,'#777',true);T('變化',M+830,y+24,20,'#777',true);y+=38;
    list.forEach(({p,n,jp,jn})=>{need(58);const v=verdict(p,n,reg[n.key]),d=n.value-p.value,dd=Math.abs(d)<1e-9?'':(d>0?'▲':'▼')+Math.abs(Math.round(d*1000)/1000),col=v.c==='better'?'#2e7d32':v.c==='worse'?'#d32f2f':'#777';
-    T(reg[n.key]?.name||n.testName||n.key.split('@@')[0],M+4,y+26,24,'#222',true,'left',420);T(n.unit||p.unit||'',M+4,y+48,16,'#999',false,'left',420);
+    T(LabCore.zhName(reg[n.key]?.name||n.testName||n.key.split('@@')[0]),M+4,y+26,24,'#222',true,'left',420);T(n.unit||p.unit||'',M+4,y+48,16,'#999',false,'left',420);
     T((p.cap||'')+p.value,M+470,y+32,26,isBad(jp)?'#d32f2f':'#222',isBad(jp));T((n.cap||'')+n.value,M+640,y+32,26,isBad(jn)?'#d32f2f':'#222',true);
     T((dd?dd+' ':'')+v.t,M+830,y+32,21,col,true,'left',CW-830+M-4);g.fillStyle='#eee';g.fillRect(M,y+56,CW,2);y+=58})}
   else{need(60);T('這兩份報告沒有共同項目可以比對',M+10,y+30,22,'#777');y+=56}}

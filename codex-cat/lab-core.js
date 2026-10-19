@@ -49,6 +49,8 @@ output.push({name:label,canonical:canonical(label),key,value,unit:u,lo,hi,flag,c
 }
 return {date,weight,rows:output,rawText:String(text||'')};
 }
-const api={NAMES,canonical,unit,identity,category,parse,textDate};root.LabCore=api;
+const ZH={CREA:'肌酸酐',BUN:'血中尿素氮',SDMA:'對稱二甲基精胺酸',PHOS:'磷',T4:'甲狀腺素',FT4:'游離甲狀腺素',TSH:'促甲狀腺素',HCT:'血比容',BP:'收縮壓',RBC:'紅血球',WBC:'白血球',HGB:'血紅素',PLT:'血小板',ALT:'丙胺酸轉胺酶（肝）',AST:'天門冬胺酸轉胺酶（肝）',ALP:'鹼性磷酸酶',GGT:'麩胺醯轉移酶',ALB:'白蛋白',TP:'總蛋白',GLOB:'球蛋白',GLU:'血糖',CHOL:'膽固醇',CA:'鈣',K:'鉀',NA:'鈉',CL:'氯',UPC:'尿蛋白肌酸酐比',USG:'尿比重',AMYL:'澱粉酶',LIPA:'脂肪酶',MCH:'平均紅血球血紅素量',MCV:'平均紅血球體積',MCHC:'平均紅血球血紅素濃度',RDW:'紅血球分布寬度',RETIC:'網織紅血球',NEU:'嗜中性球',LYM:'淋巴球',MONO:'單核球',EOS:'嗜酸性球',BASO:'嗜鹼性球','RETIC-HGB':'網織球血紅素',MPV:'平均血小板體積',PCT:'血小板容積比',PDW:'血小板分布寬度',TBIL:'總膽紅素','BUN/CREA':'尿素氮／肌酸酐比','NA/K':'鈉鉀比',HB:'血紅素'};
+function zhName(raw){const s=String(raw||'').trim();if(!s||/[\u4e00-\u9fff]/.test(s))return s;const c=canonical(s);let z=ZH[c];if(!z&&/^%/.test(c)&&ZH[c.slice(1)])z=ZH[c.slice(1)]+'百分比';return z?z+'（'+s+'）':s}
+const api={zhName,NAMES,canonical,unit,identity,category,parse,textDate};root.LabCore=api;
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
