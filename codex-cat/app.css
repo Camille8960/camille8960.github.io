@@ -28,7 +28,7 @@ details.card summary{font-size:13px;font-weight:750;color:#956d60;cursor:pointer
 .cmp-sub{font-size:11px;color:#92776e;background:#f9efe9;border-radius:9px;padding:8px 10px;margin:12px 0 2px;line-height:1.6}
 .exam-prev{grid-column:1/-1;font-size:11px;color:#8a9a8f}.exam-thumbs{display:flex;gap:7px;overflow-x:auto;margin:6px 0}.exam-thumbs img{height:84px;width:auto;border-radius:8px;border:1px solid #e5d8d0}.exam-thumbs a{flex:none;font-size:12px;color:#956d60}
 
-/* 貓手：單次數據只顯示貓手，不做動畫 */
-.paw{display:inline-flex;align-items:center;gap:4px}.paw svg{width:30px;height:36px;overflow:visible}.paw em{font-style:normal;font-size:11px;font-weight:700}.paw.ok em{color:#4c8264}.paw.ask em{color:#a78277}
-.amount-side{display:flex;align-items:center;gap:8px}
-.sum-row{display:grid;grid-template-columns:1.2fr .9fr 1.1fr 36px;align-items:center;gap:6px;padding:9px 0;border-top:1px solid #efe3dc}.sum-row:first-of-type{margin-top:8px}.sum-name small,.sum-val small{display:block;color:var(--muted);font-size:10px}.sum-val{font-weight:800;color:#685149}.sum-state{font-size:11px;color:var(--muted)}.sum-state.ok{color:#4c8264}.sum-state.ask{color:#a0705f}.sum-paw{text-align:right}.sum-paw .paw svg{width:26px;height:31px}
+/* 總表：異常用紅色，正常加 👍；有兩次以上紀錄的項目才有動畫 */
+.amount-side{display:flex;align-items:center;gap:8px}.bad{color:#d32f2f!important}.amount.bad small{color:#d32f2f}
+.sec-title{margin:16px 2px 8px;font-size:15px;color:#685149}
+.sum-row{display:grid;grid-template-columns:1.2fr .9fr .9fr 28px;align-items:center;gap:6px;padding:9px 0;border-top:1px solid #efe3dc}.sum-head{font-size:11px;color:var(--muted);margin-top:8px;border-top:0;padding:4px 0}.sum-name small,.sum-val small{display:block;color:var(--muted);font-size:10px}.sum-val{font-weight:800;color:#685149}.sum-val.bad small{color:#d32f2f}.sum-state{font-size:12px;color:var(--muted)}.sum-state.ok{color:#4c8264}.sum-state.bad{font-weight:700}.sum-mark{text-align:right;font-size:18px}
