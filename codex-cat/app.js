@@ -452,6 +452,8 @@ async function syncNow(manual){if(!syncCfg()||syncBusy)return;syncBusy=true;setS
   const d=new Date();setSyncMsg('✓ 已同步 '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'));
   if(changed&&!document.querySelector('.dialog'))render(false)
  }catch(e){setSyncMsg('同步失敗：'+e.message)}finally{syncBusy=false}}
+/* 設定連結：打開 …/codex-cat/#sync=<編碼> 就自動填好同步設定（編碼放在 # 後面，不會送到伺服器） */
+(function(){try{const m=location.hash.match(/[#&]sync=([^&]+)/);if(!m)return;const c=JSON.parse(decodeURIComponent(escape(atob(m[1]))));if(c&&/^https:\/\/script\.google\.com\/.+\/exec/.test(c.url)&&c.token){localStorage.setItem(SYNC_KEY,JSON.stringify({url:c.url,token:c.token}));localStorage.removeItem(SYNC_TS)}history.replaceState(null,'',location.pathname+location.search)}catch(e){}})();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncNow()});window.addEventListener('online',()=>syncNow());
 window.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
