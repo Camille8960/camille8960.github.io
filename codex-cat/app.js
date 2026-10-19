@@ -61,14 +61,22 @@ function metricCard(k,rowsOv){const m=registry()[k],o=measurements(k),rows=rowsO
 }
 function reportsOf(c){return DB.reports.filter(x=>x.cat===c).slice().sort((a,b)=>b.date.localeCompare(a.date)||String(b.id).localeCompare(String(a.id)))}
 function petLine(c){const r=reportsOf(c.id)[0],cw=DB.care.filter(x=>x.cat===c.id&&x.weight!=null).sort(byDate).at(-1);let age=r?.age?String(r.age).trim():'';if(/^\d+(\.\d+)?$/.test(age))age+=' 歲';const w=cw?.weight??r?.weight,p=[];if(age)p.push(age);if(w!=null)p.push(w+' kg');return p.length?p.join(' · '):(c.note||'個別健康追蹤')}
-function judge(x,reg){const d=reg[x.key]||{},cd=defs[LabCore.canonical(x.testName||'')],ok=cd&&(!x.unit||LabCore.unit(x.unit)===LabCore.unit(cd.unit)),lo=num(x.lo)??num(d.lo)??(ok?num(cd.lo):null),hi=num(x.hi)??num(d.hi)??(ok?num(cd.hi):null),v=num(x.value);if(v===null||(lo===null&&hi===null))return{s:null,lo,hi};if(x.cap==='>')return{s:hi!==null&&v>=hi?'high':null,lo,hi};if(x.cap==='<')return{s:lo!==null&&v<=lo?'low':null,lo,hi};return{s:lo!==null&&v<lo?'low':hi!==null&&v>hi?'high':'ok',lo,hi}}
-const isBad=j=>j.s==='low'||j.s==='high';
+/* 通用貓咪參考值：只在報告沒印範圍、也沒有內建範圍時才用，一律灰色標示，不當作異常。
+   來源：康乃爾大學獸醫檢驗室（Cobas 501 血清），各醫院儀器不同，僅供參考。 */
+const GENERIC={NA:{lo:149,hi:158,u:['mmol/L','mEq/L']},K:{lo:3.8,hi:5.5,u:['mmol/L','mEq/L']},CL:{lo:111,hi:124,u:['mmol/L','mEq/L']},CA:{lo:9.0,hi:11.3,u:['mg/dL']},TP:{lo:6.6,hi:8.4,u:['g/dL']},ALB:{lo:3.2,hi:4.3,u:['g/dL']},GLOB:{lo:2.9,hi:4.7,u:['g/dL']},GLU:{lo:71,hi:182,u:['mg/dL']},CHOL:{lo:101,hi:323,u:['mg/dL']},ALT:{lo:28,hi:109,u:['U/L','IU/L']},AST:{lo:17,hi:48,u:['U/L','IU/L']},ALP:{lo:11,hi:49,u:['U/L','IU/L']},GGT:{lo:0,hi:2,u:['U/L','IU/L']}};
+function judge(x,reg){const d=reg[x.key]||{},code=LabCore.canonical(x.testName||x.key.split('@@')[0]),cd=defs[code],ok=cd&&(!x.unit||LabCore.unit(x.unit)===LabCore.unit(cd.unit));
+ let lo=num(x.lo)??num(d.lo)??(ok?num(cd.lo):null),hi=num(x.hi)??num(d.hi)??(ok?num(cd.hi):null),g=false;const v=num(x.value);
+ if(lo===null&&hi===null){const ge=GENERIC[code];if(ge&&(!x.unit||ge.u.includes(LabCore.unit(x.unit)))){lo=ge.lo;hi=ge.hi;g=true}}
+ if(v===null||(lo===null&&hi===null))return{s:null,lo,hi,g};
+ if(x.cap==='>')return{s:hi!==null&&v>=hi?'high':null,lo,hi,g};if(x.cap==='<')return{s:lo!==null&&v<=lo?'low':null,lo,hi,g};
+ return{s:lo!==null&&v<lo?'low':hi!==null&&v>hi?'high':'ok',lo,hi,g}}
+const isBad=j=>!j.g&&(j.s==='low'||j.s==='high');
 function rangeBar(v,j){const {lo,hi}=j;if(!Number.isFinite(v)||(lo===null&&hi===null))return '';const l=lo??0,h=hi??Math.max(l*2,v*1.2,1),span=Math.max(h-l,1e-9);
  let mn=lo===null?Math.min(0,v):l-span*.8,mx=hi===null?Math.max(h,v)+span*.2:h+span*.8;mn=Math.max(Math.min(mn,v-span*.1),l-span*2.5);mx=Math.min(Math.max(mx,v+span*.1),h+span*2.5);if(l>=0&&v>=0)mn=Math.max(mn,0);
  const pct=x=>Math.min(100,Math.max(0,(x-mn)/((mx-mn)||1)*100)),zl=lo===null?0:pct(l),zr=hi===null?100:pct(h);
  const bad=isBad(j),pad=bad?'#e57373':'#eba6a6',glove=bad?'#ffe6e2':'#fff3e4',stroke=bad?'#c2564f':'#805a43';
  const paw=`<svg class="armpaw" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="${glove}" stroke="${stroke}" stroke-width="2.4"/><ellipse cx="10.5" cy="14" rx="4.6" ry="5.2" fill="${pad}"/><circle cx="19" cy="8.6" r="2.3" fill="${pad}"/><circle cx="21.6" cy="14" r="2.3" fill="${pad}"/><circle cx="19" cy="19.4" r="2.3" fill="${pad}"/></svg>`;
- return `<div class="abar" aria-hidden="true"><i class="zone" style="left:${zl}%;width:${Math.max(zr-zl,1)}%"></i><div class="arm${bad?' bad':''}" style="width:${Math.max(pct(v),4)}%">${paw}</div>${lo!==null?`<em class="tick" style="left:${zl}%">${lo}</em>`:''}${hi!==null?`<em class="tick" style="left:${zr}%">${hi}</em>`:''}</div>`}
+ return `<div class="abar${j.g?' gen':''}" aria-hidden="true"><i class="zone" style="left:${zl}%;width:${Math.max(zr-zl,1)}%"></i><div class="arm${bad?' bad':''}" style="width:${Math.max(pct(v),4)}%">${paw}</div>${lo!==null?`<em class="tick" style="left:${zl}%">${lo}</em>`:''}${hi!==null?`<em class="tick" style="left:${zr}%">${hi}</em>`:''}</div>`}
 function reportView(){
  const reps=reportsOf(active);
  if(!reps.length)return `<div class="card upload-hero"><h3>📷 還沒有報告</h3><p class="muted">拍下醫院的檢驗報告上傳，會自動讀出檢驗日期、體重、年齡與所有項目。</p><button class="btn big" data-goto="records">去上傳報告</button></div>`;
@@ -76,14 +84,14 @@ function reportView(){
  const items=DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>({x,j:judge(x,reg)}));
  const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0];
  items.sort((a,b)=>catOf(a).localeCompare(catOf(b),'zh-Hant')||nameOf(a).localeCompare(nameOf(b),'zh-Hant'));
- const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'),na=items.filter(i=>!i.j.s);
- const irow=it=>{const {x,j}=it,m=reg[x.key]||{},b=isBad(j);return `<div class="rrow"><div class="rtop"><div class="rname"><b>${safe(nameOf(it))}</b><small>${safe(x.key.split('@@')[0])}・${safe(catOf(it))}</small></div><div class="rval${b?' bad':''}">${safe((x.cap||'')+x.value)} <small>${safe(x.unit||m.unit||'')}</small>${b?`<span class="arrow">${j.s==='high'?'↑':'↓'}</span>`:j.s==='ok'?' <span class="thumb">👍</span>':''}</div></div>${rangeBar(num(x.value),j)}<div class="rref">${j.lo!==null||j.hi!==null?'參考範圍 '+(j.lo??'—')+'–'+(j.hi??'—'):'這項報告沒有參考範圍'}</div></div>`};
+ const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'&&!i.j.g),gen=items.filter(i=>i.j.g&&i.j.s),na=items.filter(i=>!i.j.s);
+ const irow=it=>{const {x,j}=it,m=reg[x.key]||{},b=isBad(j);return `<div class="rrow"><div class="rtop"><div class="rname"><b>${safe(nameOf(it))}</b><small>${safe(x.key.split('@@')[0])}・${safe(catOf(it))}</small></div><div class="rval${b?' bad':''}">${safe((x.cap||'')+x.value)} <small>${safe(x.unit||m.unit||'')}</small>${b?`<span class="arrow">${j.s==='high'?'↑':'↓'}</span>`:j.g?(j.s==='ok'?'':`<span class="arrow gray">${j.s==='high'?'↑':'↓'}</span>`):j.s==='ok'?' <span class="thumb">👍</span>':''}</div></div>${rangeBar(num(x.value),j)}<div class="rref">${j.lo!==null||j.hi!==null?(j.g?'通用參考 ':'參考範圍 ')+(j.lo??'—')+'–'+(j.hi??'—')+(j.g?'（報告沒印，非本報告範圍）':''):'這項報告沒有參考範圍'}</div></div>`};
  const sec=(t,list,open,cls)=>list.length?`<details class="card rsec ${cls}"${open?' open':''}><summary>${t}（${list.length} 項）</summary>${list.map(irow).join('')}</details>`:'';
  const chips=reps.map(x=>`<button class="chip${x.id===r.id?' on':''}" data-action="pickrep" data-id="${safe(x.id)}">${safe(x.date)}</button>`).join('');
  return `<div class="card rep-head"><div class="flex"><b>選擇檢驗日期</b><button class="btn soft small" data-goto="records">＋ 上傳新報告</button></div><div class="rep-chips">${chips}</div>
  <div class="rep-sum"><div><b>${items.length}</b><small>檢驗項目</small></div><div class="${bad.length?'bad':'ok'}"><b>${bad.length}</b><small>超出範圍</small></div><div><b>${ok.length}</b><small>正常</small></div></div>
  <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。綠色＝正常範圍，粉紅色＝超出範圍。貓手伸進綠色區就是正常。</div></div>`
- +(items.length?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok')+sec('沒有參考範圍',na,false,'na'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
+ +(items.length?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok')+(gen.length?`<div class="muted" style="margin:2px 4px">以下 ${gen.length} 項報告沒印正常範圍，改用康乃爾大學獸醫檢驗室的貓咪通用值對照。各醫院儀器不同，只供參考，灰色不代表異常。</div>`+sec('📋 通用參考對照',gen,false,'gen'):'')+sec('沒有參考範圍（只列數值）',na,false,'na'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
 }
 function compareSection(){
  const reps=reportsOf(active).slice().reverse();
@@ -91,9 +99,9 @@ function compareSection(){
  let nw=reps.find(r=>r.id===cmp.b)||reps.at(-1);
  let old=reps.find(r=>r.id===cmp.a&&r.id!==nw.id)||reps[reps.indexOf(nw)-1]||reps.find(r=>r.id!==nw.id);
  if(old.date>nw.date)[old,nw]=[nw,old];
- const reg=registry(),rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[x.key,x]));
+ const reg=registry(),nk=x=>LabCore.canonical(x.testName||x.key.split('@@')[0])+'|'+String(LabCore.unit(x.unit)||'').toLowerCase(),rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[nk(x),x]));
  const A=rowsOf(old),B=rowsOf(nw),nameOf=k=>reg[k]?.name||k.split('@@')[0];
- const list=[...B.keys()].filter(k=>A.has(k)).map(k=>({k,p:A.get(k),n:B.get(k),jp:judge(A.get(k),reg),jn:judge(B.get(k),reg)}));
+ const list=[...B.keys()].filter(q=>A.has(q)).map(q=>{const p=A.get(q),n=B.get(q);return{k:n.key,p,n,jp:judge(p,reg),jn:judge(n,reg)}});
  list.sort((a,b)=>(isBad(b.jn)-isBad(a.jn))||(isBad(b.jp)-isBad(a.jp))||nameOf(a.k).localeCompare(nameOf(b.k),'zh-Hant'));
  const md=d=>safe(d.slice(5).replace('-','/')),fmt=r=>safe((r.cap||'')+r.value);
  const row=({k,p,n,jp,jn})=>{const v=verdict(p,n,reg[k]),d=n.value-p.value,dd=Math.abs(d)<1e-9?'':(d>0?'▲ ':'▼ ')+Math.abs(Math.round(d*1000)/1000);

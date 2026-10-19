@@ -54,3 +54,7 @@ details.card summary{font-size:13px;font-weight:750;color:#956d60;cursor:pointer
 .abar .tick{position:absolute;top:32px;transform:translateX(-50%);font-style:normal;font-size:10px;font-weight:700;color:#3f7a58}
 @keyframes armgrow{from{width:4%}}
 @media(prefers-reduced-motion:reduce){.abar .arm{animation:none}}
+
+/* 通用參考（報告沒印範圍）：灰色，不當異常 */
+.abar.gen::before{background:#f0ebe7}.abar.gen .zone{background:#dcd8d4;box-shadow:inset 0 0 0 2px #b5aea8}.abar.gen .tick{color:#8a817b}
+.rval .arrow.gray{color:#8a817b}.rsec.gen summary{color:#7a706a}
