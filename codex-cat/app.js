@@ -76,14 +76,14 @@ function reportView(){
  const items=DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>({x,j:judge(x,reg)}));
  const catOf=it=>reg[it.x.key]?.category||LabCore.category(it.x.testName||it.x.key),nameOf=it=>reg[it.x.key]?.name||it.x.testName||it.x.key.split('@@')[0];
  items.sort((a,b)=>catOf(a).localeCompare(catOf(b),'zh-Hant')||nameOf(a).localeCompare(nameOf(b),'zh-Hant'));
- const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'),na=items.filter(i=>!i.j.s),shown=bad.length+ok.length;
+ const bad=items.filter(i=>isBad(i.j)),ok=items.filter(i=>i.j.s==='ok'),na=items.filter(i=>!i.j.s);
  const irow=it=>{const {x,j}=it,m=reg[x.key]||{},b=isBad(j);return `<div class="rrow"><div class="rtop"><div class="rname"><b>${safe(nameOf(it))}</b><small>${safe(x.key.split('@@')[0])}・${safe(catOf(it))}</small></div><div class="rval${b?' bad':''}">${safe((x.cap||'')+x.value)} <small>${safe(x.unit||m.unit||'')}</small>${b?`<span class="arrow">${j.s==='high'?'↑':'↓'}</span>`:j.s==='ok'?' <span class="thumb">👍</span>':''}</div></div>${rangeBar(num(x.value),j)}<div class="rref">${j.lo!==null||j.hi!==null?'參考範圍 '+(j.lo??'—')+'–'+(j.hi??'—'):'這項報告沒有參考範圍'}</div></div>`};
  const sec=(t,list,open,cls)=>list.length?`<details class="card rsec ${cls}"${open?' open':''}><summary>${t}（${list.length} 項）</summary>${list.map(irow).join('')}</details>`:'';
  const chips=reps.map(x=>`<button class="chip${x.id===r.id?' on':''}" data-action="pickrep" data-id="${safe(x.id)}">${safe(x.date)}</button>`).join('');
  return `<div class="card rep-head"><div class="flex"><b>選擇檢驗日期</b><button class="btn soft small" data-goto="records">＋ 上傳新報告</button></div><div class="rep-chips">${chips}</div>
- <div class="rep-sum"><div><b>${shown}</b><small>檢驗項目</small></div><div class="${bad.length?'bad':'ok'}"><b>${bad.length}</b><small>超出範圍</small></div><div><b>${ok.length}</b><small>正常</small></div></div>
- <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${na.length?'（另有 '+na.length+' 項報告沒印參考範圍，不列出）':''}${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。綠色＝正常範圍，粉紅色＝超出範圍。貓手伸進綠色區就是正常。</div></div>`
- +(shown?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
+ <div class="rep-sum"><div><b>${items.length}</b><small>檢驗項目</small></div><div class="${bad.length?'bad':'ok'}"><b>${bad.length}</b><small>超出範圍</small></div><div><b>${ok.length}</b><small>正常</small></div></div>
+ <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。綠色＝正常範圍，粉紅色＝超出範圍。貓手伸進綠色區就是正常。</div></div>`
+ +(items.length?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok')+sec('沒有參考範圍',na,false,'na'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
 }
 function compareSection(){
  const reps=reportsOf(active).slice().reverse();
@@ -93,7 +93,7 @@ function compareSection(){
  if(old.date>nw.date)[old,nw]=[nw,old];
  const reg=registry(),rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[x.key,x]));
  const A=rowsOf(old),B=rowsOf(nw),nameOf=k=>reg[k]?.name||k.split('@@')[0];
- const list=[...B.keys()].filter(k=>A.has(k)).map(k=>({k,p:A.get(k),n:B.get(k),jp:judge(A.get(k),reg),jn:judge(B.get(k),reg)})).filter(x=>x.jp.s||x.jn.s);
+ const list=[...B.keys()].filter(k=>A.has(k)).map(k=>({k,p:A.get(k),n:B.get(k),jp:judge(A.get(k),reg),jn:judge(B.get(k),reg)}));
  list.sort((a,b)=>(isBad(b.jn)-isBad(a.jn))||(isBad(b.jp)-isBad(a.jp))||nameOf(a.k).localeCompare(nameOf(b.k),'zh-Hant'));
  const md=d=>safe(d.slice(5).replace('-','/')),fmt=r=>safe((r.cap||'')+r.value);
  const row=({k,p,n,jp,jn})=>{const v=verdict(p,n,reg[k]),d=n.value-p.value,dd=Math.abs(d)<1e-9?'':(d>0?'▲ ':'▼ ')+Math.abs(Math.round(d*1000)/1000);
