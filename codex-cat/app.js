@@ -66,7 +66,9 @@ const isBad=j=>j.s==='low'||j.s==='high';
 function rangeBar(v,j){const {lo,hi}=j;if(!Number.isFinite(v)||(lo===null&&hi===null))return '';const l=lo??0,h=hi??Math.max(l*2,v*1.2,1),span=Math.max(h-l,1e-9);
  let mn=lo===null?Math.min(0,v):l-span*.8,mx=hi===null?Math.max(h,v)+span*.2:h+span*.8;mn=Math.max(Math.min(mn,v-span*.1),l-span*2.5);mx=Math.min(Math.max(mx,v+span*.1),h+span*2.5);if(l>=0&&v>=0)mn=Math.max(mn,0);
  const pct=x=>Math.min(100,Math.max(0,(x-mn)/((mx-mn)||1)*100)),zl=lo===null?0:pct(l),zr=hi===null?100:pct(h);
- return `<div class="rbar" aria-hidden="true"><i class="zone" style="left:${zl}%;width:${Math.max(zr-zl,1)}%"></i><b class="dot ${j.s==='ok'?'ok':isBad(j)?'bad':''}" style="left:${pct(v)}%"></b></div>`}
+ const bad=isBad(j),pad=bad?'#e57373':'#eba6a6',glove=bad?'#ffe6e2':'#fff3e4',stroke=bad?'#c2564f':'#805a43';
+ const paw=`<svg class="armpaw" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="${glove}" stroke="${stroke}" stroke-width="2.4"/><ellipse cx="10.5" cy="14" rx="4.6" ry="5.2" fill="${pad}"/><circle cx="19" cy="8.6" r="2.3" fill="${pad}"/><circle cx="21.6" cy="14" r="2.3" fill="${pad}"/><circle cx="19" cy="19.4" r="2.3" fill="${pad}"/></svg>`;
+ return `<div class="abar" aria-hidden="true"><i class="zone" style="left:${zl}%;width:${Math.max(zr-zl,1)}%"></i><div class="arm${bad?' bad':''}" style="width:${Math.max(pct(v),4)}%">${paw}</div></div>`}
 function reportView(){
  const reps=reportsOf(active);
  if(!reps.length)return `<div class="card upload-hero"><h3>📷 還沒有報告</h3><p class="muted">拍下醫院的檢驗報告上傳，會自動讀出檢驗日期、體重、年齡與所有項目。</p><button class="btn big" data-goto="records">去上傳報告</button></div>`;
@@ -80,7 +82,7 @@ function reportView(){
  const chips=reps.map(x=>`<button class="chip${x.id===r.id?' on':''}" data-action="pickrep" data-id="${safe(x.id)}">${safe(x.date)}</button>`).join('');
  return `<div class="card rep-head"><div class="flex"><b>選擇檢驗日期</b><button class="btn soft small" data-goto="records">＋ 上傳新報告</button></div><div class="rep-chips">${chips}</div>
  <div class="rep-sum"><div><b>${items.length}</b><small>檢驗項目</small></div><div class="${bad.length?'bad':'ok'}"><b>${bad.length}</b><small>超出範圍</small></div><div><b>${ok.length}</b><small>正常</small></div></div>
- <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。條狀圖的綠色區是參考範圍，圓點是這次的數值。</div></div>`
+ <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。綠色區是參考範圍，貓手伸進綠色區就是正常，伸過頭或不夠長就是超出範圍。</div></div>`
  +(items.length?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok')+sec('沒有參考範圍',na,false,'na'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
 }
 function compareSection(){
