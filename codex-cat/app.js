@@ -96,12 +96,15 @@ function reportView(){
  <div class="muted">下面全部是 ${safe(r.date)} 這一份報告的數據${r.weight!=null?'・體重 '+r.weight+' kg':''}${r.age?'・年齡 '+safe(r.age):''}。綠色＝正常範圍，粉紅色＝超出範圍。貓手伸進綠色區就是正常。</div></div>`
  +(items.length?sec('⚠ 超出參考範圍',bad,true,'sbad')+sec('👍 在參考範圍內',ok,!bad.length,'ok')+(gen.length?`<div class="muted" style="margin:2px 4px">以下 ${gen.length} 項報告沒印正常範圍，改用康乃爾大學獸醫檢驗室的貓咪通用值對照。各醫院儀器不同，只供參考，灰色不代表異常。</div>`+sec('📋 通用參考對照',gen,false,'gen'):'')+sec('沒有參考範圍（只列數值）',na,false,'na'):'<div class="card muted">這份報告沒有匯入任何項目。</div>');
 }
+/* 預設比較：選最新日期 vs 前一個「不同日期」；同一天有多份時取項目最多的那份。使用者手動選了就照選的 */
+function pickPair(asc){const best=ds=>ds.slice().sort((x,y)=>(y.testCount||0)-(x.testCount||0))[0],dates=[...new Set(asc.map(r=>r.date))].sort(),cnt=r=>DB.metrics.filter(m=>m.sourceDoc===r.docId).length,pick=d=>asc.filter(r=>r.date===d).sort((x,y)=>cnt(y)-cnt(x))[0];
+ let nw=asc.find(r=>r.id===cmp.b)||pick(dates.at(-1));let old=asc.find(r=>r.id===cmp.a&&r.id!==nw.id);
+ if(!old){const prevDates=dates.filter(d=>d<nw.date);old=prevDates.length?pick(prevDates.at(-1)):asc.find(r=>r.id!==nw.id)}
+ if(old.date>nw.date)[old,nw]=[nw,old];return[old,nw]}
 function compareSection(){
  const reps=reportsOf(active).slice().reverse();
  if(reps.length<2)return reps.length?'<div class="card"><b>比較兩份報告</b><p class="muted">目前只有一份報告。再上傳另一天的報告，就能選兩個日期來比較。</p></div>':'';
- let nw=reps.find(r=>r.id===cmp.b)||reps.at(-1);
- let old=reps.find(r=>r.id===cmp.a&&r.id!==nw.id)||reps[reps.indexOf(nw)-1]||reps.find(r=>r.id!==nw.id);
- if(old.date>nw.date)[old,nw]=[nw,old];
+ let [old,nw]=pickPair(reps);
  const reg=registry(),nk=x=>LabCore.canonical(x.testName||x.key.split('@@')[0])+'|'+String(LabCore.unit(x.unit)||'').toLowerCase(),rowsOf=r=>new Map(DB.metrics.filter(x=>x.cat===active&&x.sourceDoc===r.docId).map(x=>[nk(x),x]));
  const A=rowsOf(old),B=rowsOf(nw),nameOf=k=>LabCore.zhName(reg[k]?.name||k.split('@@')[0]);
  const list=[...B.keys()].filter(q=>A.has(q)).map(q=>{const p=A.get(q),n=B.get(q);return{k:n.key,p,n,jp:judge(p,reg),jn:judge(n,reg)}});
@@ -170,7 +173,7 @@ function pdfReport(){
  sec(bad.length?`超出參考範圍（${bad.length} 項）`:'超出參考範圍','#b71c1c','#fdeceb');
  if(bad.length)bad.forEach(row);else{need(60);T('這份報告沒有超出範圍的項目',M+10,y+30,24,'#2e7d32',true);y+=56}
  // 比較
- if(reps.length>1){const asc=reps.slice().reverse();let nw=asc.find(q=>q.id===cmp.b)||asc.at(-1),old=asc.find(q=>q.id===cmp.a&&q.id!==nw.id)||asc[asc.indexOf(nw)-1]||asc.find(q=>q.id!==nw.id);if(old.date>nw.date)[old,nw]=[nw,old];
+ if(reps.length>1){const asc=reps.slice().reverse();let [old,nw]=pickPair(asc);
   const nk=q=>LabCore.canonical(q.testName||q.key.split('@@')[0])+'|'+String(LabCore.unit(q.unit)||'').toLowerCase(),rowsOf=q=>new Map(DB.metrics.filter(m=>m.cat===active&&m.sourceDoc===q.docId).map(m=>[nk(m),m]));
   const A=rowsOf(old),B=rowsOf(nw);const list=[...B.keys()].filter(k=>A.has(k)).map(k=>({p:A.get(k),n:B.get(k)}));list.forEach(o=>{o.jp=judge(o.p,reg);o.jn=judge(o.n,reg)});
   list.sort((a,b)=>(isBad(b.jn)-isBad(a.jn))||(isBad(b.jp)-isBad(a.jp)));
