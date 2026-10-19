@@ -23,7 +23,9 @@ const groups={
 其他:['GLU','CHOL','AMYL','LIPA','BP']
 };
 const norm=s=>String(s||'').trim().replace(/\s+/g,' ').toUpperCase().replace(/[：:]/g,'');
-function canonical(s){let x=norm(s).replace(/\./g,'');for(let [k,a] of Object.entries(NAMES)){if(a.map(norm).includes(x))return k}return x}
+function canonical(s){let x=norm(s).replace(/\./g,'');const hit=n=>{for(const [k,a] of Object.entries(NAMES)){if(a.map(norm).includes(n))return k}return null};let h=hit(x);if(h)return h;
+ /* 報告常印成「血中尿素氮 (BUN)」：括號裡的縮寫或括號外的中文名都試試看；BUN/CREA 這種比值不會被誤認成 BUN */
+ const m=x.match(/[（(]([^()（）]+)[)）]/);if(m){h=hit(m[1].trim());if(h)return h;h=hit(x.replace(m[0],'').trim());if(h)return h}return x}
 function unit(s){let x=String(s||'').trim().replace(/μ/g,'µ').replace(/\s+/g,'');return units[norm(x)]||x}
 function identity(name,u){return canonical(name)+'@@'+norm(unit(u)).replace(/\s/g,'')}
 function category(name,kind){const k=canonical(name);if(kind==='尿檢'&&['WBC','RBC','TP','GLU','PHOS'].includes(k))return '尿液';return Object.entries(groups).find(([g,ks])=>ks.includes(k))?.[0]||'其他'}
