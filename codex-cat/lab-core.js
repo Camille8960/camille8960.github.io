@@ -11,7 +11,7 @@ GLOB:['GLOB','GLOBULIN','球蛋白'],GLU:['GLU','GLUCOSE','血糖'],CHOL:['CHOL'
 CA:['CA','CALCIUM','鈣'],K:['K','POTASSIUM','鉀'],NA:['NA','SODIUM','鈉'],CL:['CL','CHLORIDE','氯'],
 UPC:['UPC','UP/C','尿蛋白肌酸酐比'],USG:['USG','SPECIFIC GRAVITY','尿比重'],
 AMYL:['AMYL','AMYLASE'],LIPA:['LIPA','LIPASE'],TSH:['TSH'],FT4:['FT4','FREE T4'],
-MCH:['MCH'],MCV:['MCV'],MCHC:['MCHC'],RDW:['RDW'],RETIC:['RETIC','RETICULOCYTES'],NEU:['NEU','NEUTROPHILS'],LYM:['LYM','LYMPHOCYTES'],MONO:['MONO','MONOCYTES'],EOS:['EOS','EOSINOPHILS'],BASO:['BASO','BASOPHILS']
+MCH:['MCH'],MCV:['MCV'],MCHC:['MCHC'],RDW:['RDW'],RETIC:['RETIC','RETICULOCYTES'],NEU:['NEU','NEUTROPHILS'],LYM:['LYM','LYMPHOCYTES'],MONO:['MONO','MONOCYTES'],EOS:['EOS','EOSINOPHILS'],BASO:['BASO','BASOPHILS'],'RETIC-HGB':['RETIC-HGB','RETIC HGB','RET-HE','RET HE','網織球血紅素']
 };
 const units={'UG/DL':'µg/dL','ΜG/DL':'µg/dL','MG/DL':'mg/dL','MMOL/L':'mmol/L','G/DL':'g/dL','G/L':'g/L','IU/L':'IU/L','U/L':'U/L','NG/ML':'ng/mL','FL':'fL','PG':'pg','%':'%','10^3/UL':'10³/µL','K/UL':'10³/µL','KG':'kg','MMHG':'mmHg'};
 const groups={
@@ -25,7 +25,7 @@ const groups={
 const norm=s=>String(s||'').trim().replace(/\s+/g,' ').toUpperCase().replace(/[：:]/g,'');
 function canonical(s){let x=norm(s).replace(/\./g,'');const hit=n=>{for(const [k,a] of Object.entries(NAMES)){if(a.map(norm).includes(n))return k}return null};let h=hit(x);if(h)return h;
  /* 報告常印成「血中尿素氮 (BUN)」：括號裡的縮寫或括號外的中文名都試試看；BUN/CREA 這種比值不會被誤認成 BUN */
- const m=x.match(/[（(]([^()（）]+)[)）]/);if(m){h=hit(m[1].trim());if(h)return h;h=hit(x.replace(m[0],'').trim());if(h)return h}return x}
+ const m=x.match(/[（(]([^()（）]+)[)）]/);if(m){h=hit(m[1].trim());if(h)return h;h=hit(x.replace(m[0],'').trim());if(h)return h;if(/^[%A-Z0-9\/\-+ ]+$/.test(m[1].trim()))return m[1].trim()}return x}
 function unit(s){let x=String(s||'').trim().replace(/μ/g,'µ').replace(/\s+/g,'');return units[norm(x)]||x}
 function identity(name,u){return canonical(name)+'@@'+norm(unit(u)).replace(/\s/g,'')}
 function category(name,kind){const k=canonical(name);if(kind==='尿檢'&&['WBC','RBC','TP','GLU','PHOS'].includes(k))return '尿液';return Object.entries(groups).find(([g,ks])=>ks.includes(k))?.[0]||'其他'}
