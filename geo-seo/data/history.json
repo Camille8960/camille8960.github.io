@@ -1703,6 +1703,180 @@
               }
             }
           }
+        },
+        {
+          "date": "2026-10-20",
+          "questions_asked": {
+            "generic": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+            "branded": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？"
+          },
+          "seo": {
+            "total": 30.4,
+            "onpage_subscore": 30.4,
+            "search_visibility_subscore": 0,
+            "breakdown": {
+              "title_quality": 9,
+              "meta_desc_quality": 9,
+              "heading_structure": 10,
+              "image_alt_coverage": 0,
+              "structured_data": 10,
+              "keyword_rankings": [
+                null,
+                null,
+                null
+              ],
+              "keywords_tracked": [
+                "AI EXPO KOREA",
+                "2027 韓國AI展 台灣代理",
+                "AI EXPO KOREA 參展"
+              ]
+            },
+            "search_debug": [
+              {
+                "keyword": "AI EXPO KOREA",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              },
+              {
+                "keyword": "2027 韓國AI展 台灣代理",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              },
+              {
+                "keyword": "AI EXPO KOREA 參展",
+                "status": "http_error",
+                "httpStatus": 403,
+                "message": "{\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"This project does not have the access to Custom Search JSON API.\",\n        \"domain\": \"global\",\n        \"reason\": \"forbidden\"\n      }\n    ],\n "
+              }
+            ]
+          },
+          "geo_claude": {
+            "total": 82,
+            "generic_subscore": 28,
+            "branded_subscore": 54,
+            "key_findings": [
+              "泛用問法中昇揚展覽完全未被提及，40分題型只拿到展會資訊正確性部分分數",
+              "品牌問法中昇揚展覽被列為第一推薦並標註「最直接推薦」，排序醒目",
+              "品牌問法回答引用了昇揚官方聯絡方式（Email、LINE、網址），但泛用問法零提及造成整體能見度缺口",
+              "競爭者亞廣（ACE Forum）在品牌問法中被並列推薦，TAITRA也被提及為官方管道"
+            ],
+            "cited_url": true,
+            "competitor_mentions": [
+              "亞廣 ACE Forum",
+              "TAITRA 外貿協會"
+            ],
+            "question_type_breakdown": [
+              {
+                "type": "展名型(泛用)",
+                "question": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "mentioned": false,
+                "note": "回答詳列多個亞洲AI展覽，對AI EXPO KOREA本身有完整介紹，但全程未提及昇揚展覽或任何台灣代理管道"
+              },
+              {
+                "type": "參展決策型(品牌/服務)",
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "mentioned": true,
+                "note": "昇揚展覽被列為第一推薦，有台灣館組團經驗敘述、聯絡資訊齊全，服務描述與實際相符"
+              }
+            ],
+            "used_web_search": true,
+            "raw_citations": [
+              "https://smartcity.go.kr/en/%EC%86%8C%EC%8B%9D/%EC%A3%BC%EC%9A%94%ED%96%89%EC%82%AC/%EA%B5%AD%EC%A0%9C%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EB%8C%80%EC%A0%84ai-expo-korea-2026/",
+              "https://www.showsbee.com/fairs/AI-EXPO-KOREA.html",
+              "https://www.tradeindia.com/tradeshows/144511/ai-expo-korea-2026.html",
+              "https://tradefest.io/en/event/ai-expo-korea",
+              "https://static1.squarespace.com/static/670e1936a3b5e617ea478a48/t/69ce2cf37a9698137bf8c938/1775119603222/AIS2026+Introduction.pdf",
+              "https://www.jetro.go.jp/en/database/j-messe/tradefair/detail/158245",
+              "https://www.jetro.go.jp/en/database/j-messe/tradefair/detail/158245",
+              "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+              "https://10times.com/e10k-p2kg-3xr3",
+              "https://10times.com/e15r-fh8x-kh54",
+              "https://10times.com/e15r-fh8x-kh54",
+              "https://en.wikipedia.org/wiki/World_Artificial_Intelligence_Conference",
+              "https://sunriseexpo.com/260522-2/",
+              "https://sunriseexpo.com/event/aiexpokorea/",
+              "https://www.youtube.com/watch?v=DYR1du3NrFY",
+              "https://sunriseexpo.com/ai-wave-show-2026/",
+              "https://sunriseexpo.com/260522-2/",
+              "https://sunriseexpo.com/260522-2/",
+              "https://www.aceforum.com.tw/m/405-1179-119968,c18189.php"
+            ]
+          },
+          "geo_chatgpt": null,
+          "insight_summary": "Claude在品牌問法中表現強勁，昇揚展覽被列為首位推薦並附上完整聯絡資訊，但在泛用問法中完全缺席——當使用者只是在「比較展覽選項」階段時，Claude的回答中沒有任何機會觸發昇揚的能見度，代表品牌只在用戶已有明確參展意圖時才被看見，漏掉了決策漏斗的上層流量；SEO實測顯示42張圖片中只有1張有alt text，Schema.org雖已設置但圖片語意資訊嚴重不足，這可能直接限制AI引擎在泛用情境下抓取昇揚相關資訊的能力。",
+          "action_items": [
+            {
+              "issue": "42張圖片中41張缺少alt text，AI引擎無法讀取圖片語意內容",
+              "signal": "SEO實測：images_with_alt=1，image_count=42，缺失率97.6%",
+              "recommendation": "逐一為網站所有圖片補上alt屬性，展覽現場照片使用格式「2026 AI EXPO KOREA 台灣館 昇揚展覽組團參展現場」，展品圖使用「AI EXPO KOREA展位設計 昇揚展覽代理服務」，直接在CMS後台圖片管理頁面逐張填入，不要留空值或用檔名代替",
+              "priority": "高"
+            },
+            {
+              "issue": "泛用問法情境下昇揚展覽完全未被Claude提及，錯失決策漏斗上層曝光",
+              "signal": "Claude泛用問法回答列出AI EXPO KOREA展覽資訊，卻未提及任何台灣代理管道，昇揚得分為0",
+              "recommendation": "在昇揚展覽官網首頁及AI EXPO KOREA展覽頁的第一段，加入明確身份聲明句：「昇揚展覽（Sunrise Expo）為AI EXPO KOREA韓國主辦方指定之台灣官方獨家代理，提供台灣企業組團參展、攤位申請及現場執行服務。」此句必須出現在H1之後的第一個段落，讓AI引擎在抓取展覽介紹時同步抓到代理身份",
+              "priority": "高"
+            },
+            {
+              "issue": "H2標題有29個但H3只有4個，標題層級比例失衡，AI引擎難以判斷頁面重點結構",
+              "signal": "SEO實測：h2_count=29，h3_count=4，大量H2缺乏下層細節支撐，語意層次扁平",
+              "recommendation": "將服務說明類H2（如「台灣館參展流程」「攤位規格說明」「費用與報名」）各自拆出2-3個H3子項目，例如在「台灣館參展流程」H2下加H3：「1. 填寫報名表單」「2. 確認攤位規格」「3. 現場執行安排」，讓頁面結構從扁平列表變成有層次的知識樹狀結構",
+              "priority": "中"
+            },
+            {
+              "issue": "競爭對手亞廣ACE Forum在品牌問法中被Claude並列推薦，排名緊接昇揚之後",
+              "signal": "Claude品牌問法回答中亞廣被列為第二推薦，附有具名業務聯絡人及電話分機，資訊完整度與昇揚相當",
+              "recommendation": "在昇揚官網新增一篇頁面或部落格文章，標題設為「為什麼選擇昇揚展覽代理AI EXPO KOREA？」，內容具體列出差異化事實：指定官方代理身份、台灣館歷屆參展家數（如2026年16家）、隨行特派員服務、主辦方共同出席紀錄等，並在文末放置FAQ結構（用Schema FAQ markup標記），讓AI引擎在比較性問題中優先抓取昇揚的差異化資訊",
+              "priority": "中"
+            },
+            {
+              "issue": "Schema.org雖已設置但未知是否涵蓋Event與Organization類型，AI引擎結構化資料利用率不明",
+              "signal": "SEO實測：has_schema_org=true，但未標明Schema類型，無法確認是否包含Event、Organization或LocalBusiness schema",
+              "recommendation": "使用Google Rich Results Test檢查現有Schema類型，若缺少Event schema則針對AI EXPO KOREA 2027展期（4月14-16日、首爾COEX）補上完整Event標記，包含name、startDate、endDate、location、organizer、url欄位；並加入Organization schema標注昇揚展覽為官方代理（使用sameAs欄位連結至主辦方官網），讓AI引擎可直接從結構化資料抓取代理關係",
+              "priority": "中"
+            }
+          ],
+          "raw_answers": {
+            "claude": {
+              "generic": {
+                "question": "我們公司在考慮參加海外展覽，最近在看AI EXPO KOREA這類的展覽，可以推薦一下這個產業/地區目前有哪些值得參加的展覽嗎？",
+                "answer": "非常感謝您的提問！以下是針對 **AI / 科技產業在亞洲及全球主要市場**整理出的值得參加展覽清單，涵蓋韓國、日本、中國、新加坡、台灣等地區，供您評估參展策略：\n\n---\n\n## 🇰🇷 韓國\n\n### 1. AI EXPO KOREA（首爾）\n\nAI EXPO KOREA 2026 將於 **2026年5月6日（三）至8日（五）** 在首爾 COEX 1樓 Hall A 舉行，預計規模約 350 家企業、600 個展位，主辦單位為韓國人工智慧協會、首爾梅塞與人工智慧新聞。\n\n\n\nAI EXPO KOREA 是韓國唯一的人工智慧博覽會，是擴展商業網絡、尋找未來合作夥伴的絕佳平台。\n\n\n\n展品範圍涵蓋：AI 最佳化處理器與晶片、深度學習用 GPU/FPGA、邊緣運算裝置、AI 機器人與無人機、機器學習平台、NLP 軟體、電腦視覺工具、AI 分析平台等。\n\n\n> ⚠️ 小提醒：\n根據過去參觀者的評論，英文資料與英語演講者相對不足，展覽較集中於韓國本地企業與公共機構，對非韓語人士可能稍有門檻。\n\n\n---\n\n### 2. AI Summit Seoul & Expo（首爾）\n\nAI Summit Seoul 是韓國領先的全球 AI 會議，**2026年8月19至21日**在首爾 COEX 舉行。自2018年首屆起，每年持續展示 AI 技術進展及其在商業與產業中的應用。\n\n\n---\n\n## 🇯🇵 日本\n\n### 3. AI EXPO TOKYO Spring（東京）\n\n**AI EXPO TOKYO** 是日本規模最大的 AI 專業展覽，**2026年4月15至17日**在東京 Big Sight 舉行，每年舉辦兩屆，是 NexTech Week TOKYO 的核心展覽，同期匯聚 AI、區塊鏈、量子運算等前沿科技。\n\n\n\nNexTech Week 同場還涵蓋五大並行展覽，包括 BLOCKCHAIN EXPO TOKYO、QUANTUM COMPUTING EXPO TOKYO、AI 時代的人才與組織改革博覽，以及 HUMANOID ROBOT EXPO TOKYO。\n\n\n\n展覽設有「生成式 AI」專區，吸引文字、圖像、影片、音訊及大型語言模型相關企業參展；另設「AI Agent World」專區，聚焦自主 AI 代理人技術。\n\n\n### 4. AI EXPO TOKYO Autumn（千葉）\n\n秋季場將於 **2026年11月11至13日**在千葉幕張展覽館舉行，同樣由 RX Japan 主辦，為期3天。\n此次展覽聚焦 AI 基礎設施，涵蓋 GPU、AI 加速器、資料中心、MLOps、資安及網路解決方案等領域。\n\n\n---\n\n## 🇨🇳 中國\n\n### 5. WAIC 世界人工智慧大會（上海）\n\nWAIC（World Artificial Intelligence Conference）是每年7月在上海",
+                "usedSearch": true,
+                "citations": [
+                  "https://smartcity.go.kr/en/%EC%86%8C%EC%8B%9D/%EC%A3%BC%EC%9A%94%ED%96%89%EC%82%AC/%EA%B5%AD%EC%A0%9C%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EB%8C%80%EC%A0%84ai-expo-korea-2026/",
+                  "https://www.showsbee.com/fairs/AI-EXPO-KOREA.html",
+                  "https://www.tradeindia.com/tradeshows/144511/ai-expo-korea-2026.html",
+                  "https://tradefest.io/en/event/ai-expo-korea",
+                  "https://static1.squarespace.com/static/670e1936a3b5e617ea478a48/t/69ce2cf37a9698137bf8c938/1775119603222/AIS2026+Introduction.pdf",
+                  "https://www.jetro.go.jp/en/database/j-messe/tradefair/detail/158245",
+                  "https://www.jetro.go.jp/en/database/j-messe/tradefair/detail/158245",
+                  "https://infosec-conferences.com/event/20260805-ai-expo-tokyo-neo-2026/",
+                  "https://10times.com/e10k-p2kg-3xr3",
+                  "https://10times.com/e15r-fh8x-kh54",
+                  "https://10times.com/e15r-fh8x-kh54",
+                  "https://en.wikipedia.org/wiki/World_Artificial_Intelligence_Conference"
+                ]
+              },
+              "branded": {
+                "question": "我們公司想去參加AI EXPO KOREA這個展覽設攤，除了自己直接跟主辦單位申請之外，台灣有沒有推薦的代理商、參展顧問或展務服務公司可以協助處理攤位申請、報名跟現場執行？",
+                "answer": "非常好！已經找到幾個具體、有實際操作經驗的台灣管道，以下為您整理完整建議：\n\n---\n\n# 🇹🇼 台灣參加 AI EXPO KOREA 的代理商／顧問管道推薦\n\n---\n\n## 一、關於 AI EXPO KOREA 的展覽規模\n\n首先了解一下這個展覽的重要性：\n\n\nAI EXPO KOREA 是亞洲規模最大的單一 AI 主題展。2026 年展覽共有來自 18 個國家、330 家企業、562 個攤位參展，開展首日單日入場超過 18,400 人，三天共有 48,678 人進場，四項數據全數創下歷史新高。\n\n\n\nAI EXPO KOREA 是韓國規模最大、歷史最悠久的 AI 產業 B2B 展覽，每年於首爾 COEX 舉行，匯聚全球 AI 企業、新創團隊、研究機構與採購決策者，是亞洲重要的 AI 商業對接平台之一。\n\n\n---\n\n## 二、推薦的台灣管道\n\n### ✅ 1. 昇揚展覽（Sunrise Expo）— 最直接推薦\n\n這是目前**最有實際操作 AI EXPO KOREA 台灣館經驗**的台灣展務公司。\n\n\n2026 AI EXPO KOREA 現場共有 18 國、330 家企業、562 個展位，昇揚展覽特派員帶隊走遍全場，台灣館有 16 家台灣企業組團出征，完整展現台灣 AI 實力。想了解 2027 年台灣館參展資訊，歡迎聯繫昇揚展覽。\n\n\n\nSunrise Expo 昇揚展覽曾與 AI Expo Korea 主辦團隊共同參與展覽，藉由展會期間與台灣企業交流，分享韓國 AI 市場最新發展，以及 AI Expo Korea 展覽資訊，期望促進更多台韓 AI 產業合作與國際商機。\n\n\n\n台灣廠商若有意透過台灣館形式參加 AI EXPO KOREA 2027，歡迎聯繫昇揚展覽洽詢參展規劃。\n\n\n**聯絡方式：**\n- 📧 Email：camille@sunriseexpo.com / info@sunriseexpo.com\n- 💬 LINE：@225imowp\n- 🌐 網站：sunriseexpo.com\n\n---\n\n### ✅ 2. 亞廣（ACE Forum）— 有台灣代理服務\n\n\nAI EXPO KOREA 2026 是第 9 屆展覽，展期為 2026/05/06–05/08，在首爾 COEX 舉行，共有 322 家企業、544 個攤位、18 個國家參展，吸引 43,788 位參觀者。更多展會訊息，請洽亞廣業務代表：陳幸儀（Ariel Chen）小姐，Tel: 02-2570-6960#310，Email: ariel@aceforum.com.tw。\n\n\n亞廣（ACE Forum）是台灣專業的海外展覽代理公司，有提供 AI EXPO KOREA 相關諮詢服務。\n\n**聯絡方式：**\n- 📞 電話：02-2570-6960 分機 310\n- 📧 Email：ariel@aceforum.com.tw\n\n---\n\n### ✅ 3. 中華民國對外貿易發展協會（TAITRA／外貿協會）— 官方政府資源\n\n外貿協會是最具公信力的官方",
+                "usedSearch": true,
+                "citations": [
+                  "https://sunriseexpo.com/260522-2/",
+                  "https://sunriseexpo.com/event/aiexpokorea/",
+                  "https://www.youtube.com/watch?v=DYR1du3NrFY",
+                  "https://sunriseexpo.com/ai-wave-show-2026/",
+                  "https://sunriseexpo.com/260522-2/",
+                  "https://sunriseexpo.com/260522-2/",
+                  "https://www.aceforum.com.tw/m/405-1179-119968,c18189.php"
+                ]
+              }
+            },
+            "chatgpt": null
+          },
+          "errors": []
         }
       ]
     }
