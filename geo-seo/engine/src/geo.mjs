@@ -132,25 +132,11 @@ function buildAnalysisPrompt({ exhibition, company, seoFacts, claudeAnswers, cha
 【網頁 on-page SEO 技術面實測】
 ${JSON.stringify(seoFacts.raw, null, 2)}
 
-【Claude 的回答】
-問題1(泛用問法)：${claudeAnswers.generic.question}
-回答：${claudeAnswers.generic.answer}
-(是否有使用網路搜尋：${claudeAnswers.generic.usedSearch ? "是" : "否"})
+${claudeAnswers ? answerSection('Claude', claudeAnswers) : '【Claude 的回答】\n(這次呼叫失敗，沒有資料，geo_claude 請填 null)'}
 
-問題2(品牌/服務問法)：${claudeAnswers.branded.question}
-回答：${claudeAnswers.branded.answer}
-(是否有使用網路搜尋：${claudeAnswers.branded.usedSearch ? "是" : "否"})
+${chatgptAnswers ? answerSection('ChatGPT', chatgptAnswers) : '【ChatGPT 的回答】\n(這次呼叫失敗，沒有資料，geo_chatgpt 請填 null)'}
 
-【ChatGPT 的回答】
-問題1(泛用問法)：${chatgptAnswers.generic.question}
-回答：${chatgptAnswers.generic.answer}
-(是否有使用網路搜尋：${chatgptAnswers.generic.usedSearch ? "是" : "否"})
-
-問題2(品牌/服務問法)：${chatgptAnswers.branded.question}
-回答：${chatgptAnswers.branded.answer}
-(是否有使用網路搜尋：${chatgptAnswers.branded.usedSearch ? "是" : "否"})
-
-請針對Claude跟ChatGPT「各自」分析，套用以下計分規則(0-100)：
+請針對有資料的引擎「各自」分析，套用以下計分規則(0-100)：
 - 泛用問法(40分) = 有沒有提到${company.name}/${company.name_en}(有=20分,沒有=0) + 醒目程度(0-10) + 展會資訊正確性(0-10)
 - 品牌問法(60分) = 有沒有提到${company.name}(有=25分,沒有=0) + 醒目程度/排序(0-20) + 服務描述正確性(0-15)
 
@@ -177,6 +163,17 @@ ${JSON.stringify(seoFacts.raw, null, 2)}
 key_findings的規則：每一條就是「一個事實」，用最短的話講完，不要在一條裡塞兩三件事，不要寫成完整段落。例如寫「品牌問法中被具名推薦，但排在TAITRA官方組團之後」，不要寫「在品牌問法情境下，雖然...但是...同時...」這種長句。
 action_items的recommendation規則：要像在下工作指令一樣具體，例如「在展會頁面第一段加入這句話：『昇揚展覽為OO展台灣官方代理』」，而不是「加強公司在頁面上的曝光」這種空話。
 action_items請列3-5條，依重要性排序(最重要的排最前面)，一定要具體、有根據、可執行，不要空泛。`;
+}
+
+function answerSection(name, answers) {
+  return `【${name} 的回答】
+問題1(泛用問法)：${answers.generic.question}
+回答：${answers.generic.answer}
+(是否有使用網路搜尋：${answers.generic.usedSearch ? "是" : "否"})
+
+問題2(品牌/服務問法)：${answers.branded.question}
+回答：${answers.branded.answer}
+(是否有使用網路搜尋：${answers.branded.usedSearch ? "是" : "否"})`;
 }
 
 function extractJson(raw) {

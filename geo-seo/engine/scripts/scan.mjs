@@ -48,7 +48,11 @@ async function main() {
       }
       history.exhibitions[exhibition.key].entries.push(entry);
       results.push({ key: exhibition.key, name: exhibition.name, entry });
-      console.log(`[完成] ${exhibition.name}：SEO ${entry.seo.total} / Claude ${entry.geo_claude.total} / ChatGPT ${entry.geo_chatgpt.total}`);
+      console.log(`[完成] ${exhibition.name}：SEO ${entry.seo.total} / Claude ${entry.geo_claude ? entry.geo_claude.total : '失敗'} / ChatGPT ${entry.geo_chatgpt ? entry.geo_chatgpt.total : '失敗'}`);
+      if (entry.errors && entry.errors.length) {
+        console.error(`[部分失敗] ${exhibition.name}：${entry.errors.join(' | ')}`);
+        results[results.length - 1].partial_errors = entry.errors;
+      }
     } catch (err) {
       console.error(`[失敗] ${exhibition.name}：${err.message}`);
       results.push({ key: exhibition.key, name: exhibition.name, error: err.message });
@@ -68,9 +72,10 @@ async function main() {
     JSON.stringify({ ranAt: new Date().toISOString(), results }, null, 2) + "\n",
   );
 
-  const failed = results.filter((r) => r.error);
+  const failed = results.filter((r) => r.error || (r.partial_errors && r.partial_errors.length));
   if (failed.length > 0) {
-    console.error(`本次有 ${failed.length} 個展會失敗，但已完成部分結果的寫入。`);
+    console.error(`本次有 ${failed.length} 個展會失敗或部分失敗，已保留成功的部分並寫入。`);
+    process.exitCode = 1; // 讓 GitHub Actions 標記為失敗，會寄通知信
   }
 }
 
@@ -84,29 +89,49 @@ async function scanOneExhibition(company, exhibition, today) {
 
   const questions = buildQuestions(exhibition);
 
-  const [claudeGeneric, claudeBranded, chatgptGeneric, chatgptBranded] = await Promise.all([
+  // 四個請求各自獨立：某一個失敗不影響其他的結果（花了錢的結果一定要保留）
+  const settled = await Promise.allSettled([
     askClaude(questions.generic),
     askClaude(questions.branded),
     askChatGPT(questions.generic),
     askChatGPT(questions.branded),
   ]);
+  const [cG, cB, oG, oB] = settled;
+  const errors = [];
+  const reasonOf = (r) => (r.reason && r.reason.message) || String(r.reason);
+  if (cG.status === "rejected") errors.push(`Claude(泛用問法)：${reasonOf(cG)}`);
+  if (cB.status === "rejected") errors.push(`Claude(品牌問法)：${reasonOf(cB)}`);
+  if (oG.status === "rejected") errors.push(`ChatGPT(泛用問法)：${reasonOf(oG)}`);
+  if (oB.status === "rejected") errors.push(`ChatGPT(品牌問法)：${reasonOf(oB)}`);
 
-  const claudeAnswers = {
-    generic: { question: questions.generic, ...claudeGeneric },
-    branded: { question: questions.branded, ...claudeBranded },
-  };
-  const chatgptAnswers = {
-    generic: { question: questions.generic, ...chatgptGeneric },
-    branded: { question: questions.branded, ...chatgptBranded },
-  };
+  // 一個引擎的兩題都成功才算該引擎有資料
+  const claudeOk = cG.status === "fulfilled" && cB.status === "fulfilled";
+  const chatgptOk = oG.status === "fulfilled" && oB.status === "fulfilled";
+  if (!claudeOk && !chatgptOk) {
+    throw new Error("Claude 與 ChatGPT 都沒有取得回答：" + errors.join(" | "));
+  }
 
-  const analysis = await analyzeResults({
-    exhibition,
-    company,
-    seoFacts,
-    claudeAnswers,
-    chatgptAnswers,
-  });
+  const claudeAnswers = claudeOk
+    ? {
+        generic: { question: questions.generic, ...cG.value },
+        branded: { question: questions.branded, ...cB.value },
+      }
+    : null;
+  const chatgptAnswers = chatgptOk
+    ? {
+        generic: { question: questions.generic, ...oG.value },
+        branded: { question: questions.branded, ...oB.value },
+      }
+    : null;
+
+  // 評分失敗也不要丟掉已經拿到的原始回答
+  let analysis;
+  try {
+    analysis = await analyzeResults({ exhibition, company, seoFacts, claudeAnswers, chatgptAnswers });
+  } catch (err) {
+    errors.push(`評分分析：${err.message}`);
+    analysis = { geo_claude: null, geo_chatgpt: null, insight_summary: "", action_items: [] };
+  }
 
   return {
     date: today,
@@ -122,22 +147,27 @@ async function scanOneExhibition(company, exhibition, today) {
       },
       search_debug: searchVisibility.debug || null,
     },
-    geo_claude: {
-      ...analysis.geo_claude,
-      used_web_search: claudeAnswers.generic.usedSearch || claudeAnswers.branded.usedSearch,
-      raw_citations: [...claudeAnswers.generic.citations, ...claudeAnswers.branded.citations],
-    },
-    geo_chatgpt: {
-      ...analysis.geo_chatgpt,
-      used_web_search: chatgptAnswers.generic.usedSearch || chatgptAnswers.branded.usedSearch,
-      raw_citations: [...chatgptAnswers.generic.citations, ...chatgptAnswers.branded.citations],
-    },
+    geo_claude: claudeAnswers && analysis.geo_claude
+      ? {
+          ...analysis.geo_claude,
+          used_web_search: claudeAnswers.generic.usedSearch || claudeAnswers.branded.usedSearch,
+          raw_citations: [...claudeAnswers.generic.citations, ...claudeAnswers.branded.citations],
+        }
+      : null,
+    geo_chatgpt: chatgptAnswers && analysis.geo_chatgpt
+      ? {
+          ...analysis.geo_chatgpt,
+          used_web_search: chatgptAnswers.generic.usedSearch || chatgptAnswers.branded.usedSearch,
+          raw_citations: [...chatgptAnswers.generic.citations, ...chatgptAnswers.branded.citations],
+        }
+      : null,
     insight_summary: analysis.insight_summary,
     action_items: analysis.action_items,
     raw_answers: {
       claude: claudeAnswers,
       chatgpt: chatgptAnswers,
     },
+    errors,
   };
 }
 
