@@ -10,6 +10,9 @@ const engineRoot = dirname(scriptDir);
 const geoSeoRoot = dirname(engineRoot);
 
 const forceMode = process.argv.includes("--force");
+// --engines=claude 只掃 Claude；預設 claude,chatgpt 兩邊都掃
+const enginesArg = process.argv.find((a) => a.startsWith("--engines="))?.split("=")[1] || "claude,chatgpt";
+const engines = new Set(enginesArg.split(",").map((e) => e.trim().toLowerCase()));
 const onlyKey = process.argv.find((a) => a.startsWith("--only="))?.split("=")[1];
 
 const FREQUENCY_DAYS = { weekly: 7, biweekly: 14, monthly: 30 };
@@ -48,7 +51,7 @@ async function main() {
       }
       history.exhibitions[exhibition.key].entries.push(entry);
       results.push({ key: exhibition.key, name: exhibition.name, entry });
-      console.log(`[完成] ${exhibition.name}：SEO ${entry.seo.total} / Claude ${entry.geo_claude ? entry.geo_claude.total : '失敗'} / ChatGPT ${entry.geo_chatgpt ? entry.geo_chatgpt.total : '失敗'}`);
+      console.log(`[完成] ${exhibition.name}：SEO ${entry.seo.total} / Claude ${entry.geo_claude ? entry.geo_claude.total : '失敗'} / ChatGPT ${entry.geo_chatgpt ? entry.geo_chatgpt.total : (engines.has('chatgpt') ? '失敗' : '略過')}`);
       if (entry.errors && entry.errors.length) {
         console.error(`[部分失敗] ${exhibition.name}：${entry.errors.join(' | ')}`);
         results[results.length - 1].partial_errors = entry.errors;
@@ -93,8 +96,8 @@ async function scanOneExhibition(company, exhibition, today) {
   const settled = await Promise.allSettled([
     askClaude(questions.generic),
     askClaude(questions.branded),
-    askChatGPT(questions.generic),
-    askChatGPT(questions.branded),
+    engines.has("chatgpt") ? askChatGPT(questions.generic) : Promise.resolve(null),
+    engines.has("chatgpt") ? askChatGPT(questions.branded) : Promise.resolve(null),
   ]);
   const [cG, cB, oG, oB] = settled;
   const errors = [];
@@ -105,10 +108,10 @@ async function scanOneExhibition(company, exhibition, today) {
   if (oB.status === "rejected") errors.push(`ChatGPT(品牌問法)：${reasonOf(oB)}`);
 
   // 一個引擎的兩題都成功才算該引擎有資料
-  const claudeOk = cG.status === "fulfilled" && cB.status === "fulfilled";
-  const chatgptOk = oG.status === "fulfilled" && oB.status === "fulfilled";
+  const claudeOk = engines.has("claude") && cG.status === "fulfilled" && cB.status === "fulfilled";
+  const chatgptOk = engines.has("chatgpt") && oG.status === "fulfilled" && oB.status === "fulfilled";
   if (!claudeOk && !chatgptOk) {
-    throw new Error("Claude 與 ChatGPT 都沒有取得回答：" + errors.join(" | "));
+    throw new Error("沒有任何引擎取得回答：" + errors.join(" | "));
   }
 
   const claudeAnswers = claudeOk

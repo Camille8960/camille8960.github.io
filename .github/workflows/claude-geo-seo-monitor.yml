@@ -7,6 +7,10 @@ on:
         description: "忽略到期判斷，強制重新掃描所有啟用中的展會"
         required: false
         default: "false"
+      engines:
+        description: "要掃哪些 AI：claude、chatgpt，或 claude,chatgpt（預設兩個都掃）"
+        required: false
+        default: "claude,chatgpt"
   schedule:
     - cron: "0 1 * * 0"
 
@@ -33,10 +37,11 @@ jobs:
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: |
+          ENGINES="${{ github.event.inputs.engines || 'claude,chatgpt' }}"
           if [ "${{ github.event.inputs.force }}" = "true" ]; then
-            node scripts/scan.mjs --force
+            node scripts/scan.mjs --force --engines="$ENGINES"
           else
-            node scripts/scan.mjs
+            node scripts/scan.mjs --engines="$ENGINES"
           fi
 
       - name: Commit updated report
